@@ -125,6 +125,10 @@ AC_CONFIG_FILES([
     ui/libs/bootstrap-select/dist/Makefile
     ui/libs/bootstrap-select/dist/js/Makefile
     ui/libs/bootstrap-select/dist/css/Makefile
+    ui/libs/jquery-bootgrid/Makefile
+    ui/libs/jquery-bootgrid/dist/Makefile
+    ui/libs/jquery-bootgrid/dist/js/Makefile
+    ui/libs/jquery-bootgrid/dist/css/Makefile
     ui/libs/es5-shim/Makefile
     ui/libs/jquery/Makefile
     ui/libs/jquery-i18n/Makefile

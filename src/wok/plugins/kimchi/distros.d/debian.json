@@ -1,9 +1,0 @@
-[
-    {
-        "name": "debian-Wheezy",
-        "os_distro": "debian",
-        "os_arch": "x86_64",
-        "os_version": "7.7.0",
-        "path": "http://caesar.acc.umu.se/debian-cd/7.7.0/amd64/iso-cd/debian-7.7.0-amd64-netinst.iso"
-    }
-]

@@ -47,12 +47,14 @@ def _create_proxy_config(options):
     # User that will run the worker process of the proxy. Fedora,
     # RHEL and Suse creates an user called 'nginx' when installing
     # the proxy. Ubuntu creates an user 'www-data' for it.
-    user_proxy = 'nginx'
-    try:
-        pwd.getpwnam(user_proxy)
-    except KeyError:
-        user_proxy = 'www-data'
-
+    user_proxy = None
+    user_list = ('nginx', 'www-data', 'http')
+    sys_users = [p.pw_name for p in pwd.getpwall()]
+    common_users = list(set(user_list) & set(sys_users))
+    if len(common_users) == 0:
+        raise Exception("No common user found")
+    else:
+        user_proxy = common_users[0]
     config_dir = paths.conf_dir
     nginx_config_dir = paths.nginx_conf_dir
     cert = options.ssl_cert

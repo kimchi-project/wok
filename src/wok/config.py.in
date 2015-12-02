@@ -46,12 +46,14 @@ FONTS_PATH = {
     'fontawesome': [
         '/usr/share/fonts/fontawesome',
         '/usr/share/fonts/truetype/font-awesome',
-        '/usr/share/fonts/truetype'
+        '/usr/share/fonts/truetype',
+        '/usr/share/fonts/TTF'
     ],
     'opensans': [
         '/usr/share/fonts/open-sans',
         '/usr/share/fonts/truetype/',
-        '/usr/share/texlive/texmf-dist/fonts/truetype/public/opensans'
+        '/usr/share/texlive/texmf-dist/fonts/truetype/public/opensans',
+        '/usr/share/fonts/TTF'
     ]
 }
 

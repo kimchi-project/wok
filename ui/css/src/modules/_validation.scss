@@ -1,0 +1,11 @@
+
+// Form validation
+.has-success {
+  @include form-control-validation(darken($state-success-border,10%), darken($state-success-border,10%), $state-success-bg);
+}
+.has-warning {
+  @include form-control-validation(darken($state-warning-border,10%), darken($state-warning-border,10%), $state-warning-bg);
+}
+.has-error {
+  @include form-control-validation(darken($state-danger-border,10%), darken($state-danger-border,10%), $state-danger-bg);
+}

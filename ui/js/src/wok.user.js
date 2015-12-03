@@ -30,11 +30,11 @@ wok.user = (function() {
         if (toShow) {
             var userName = getUserName();
             userName && $('#user-name').text(userName);
-            $('#user').removeClass('not-logged-in');
+            $('#user-login').removeClass('not-logged-in');
             return;
         }
 
-        $('#user').addClass('not-logged-in');
+        $('#user-login').addClass('not-logged-in');
     };
 
     return {

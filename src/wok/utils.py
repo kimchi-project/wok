@@ -48,6 +48,11 @@ def get_next_task_id():
     return task_id
 
 
+def get_task_id():
+    global task_id
+    return task_id
+
+
 def add_task(target_uri, fn, objstore, opaque=None):
     id = get_next_task_id()
     AsyncTask(id, target_uri, fn, objstore, opaque)

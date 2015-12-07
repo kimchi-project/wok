@@ -106,14 +106,6 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 
-
-%if 0%{?with_systemd}
-%{_unitdir}/kimchid.service
-%else
-%{_initrddir}/kimchid
-%endif
-
-
 %changelog
 * Fri Jun 19 2015 Lucio Correia <luciojhc@linux.vnet.ibm.com> 2.0
 - Rename to wokd

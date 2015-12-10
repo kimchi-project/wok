@@ -27,6 +27,7 @@ wok.main = function() {
     var genTabs = function(tabs) {
         var tabsHtml = [];
         $(tabs).each(function(i, tab) {
+            var functionality = tab['functionality'];
             var title = tab['title'];
             var path = tab['path'];
             var mode = tab['mode'];
@@ -34,10 +35,11 @@ wok.main = function() {
                 var helpPath = wok.checkHelpFile(path);
                 var disableHelp = (helpPath.length == 0 ? "disableHelp" : helpPath);
                 tabsHtml.push(
-                    '<li>',
-                        '<a class="item ', disableHelp,' ','" href="', path, '">',
+                    '<li class="', functionality.toLowerCase() + 'Tab', '">',
+                        '<a class="item ', disableHelp, '" href="', path, '">',
                             title,
                         '</a>',
+                        '<input id="funcTab" name="funcTab" class="sr-only" value="' + functionality.toLowerCase() + '" type="hidden"/>',
                         '<input id="helpPathId" name="helpPath" class="sr-only" value="' + helpPath + '" type="hidden"/>',
                     '</li>'
                 );
@@ -45,20 +47,19 @@ wok.main = function() {
         });
         return tabsHtml.join('');
     };
-    var genFunctTabs  = function(tabs){
+
+    var genFuncTabs  = function(tabs){
         var functionalTabHtml = [];
-        var functionalTabs = Object.keys(tabs);
-        var css ="";
-        $(functionalTabs).each(function(i, tab) {
+        $(tabs).each(function(i, tab) {
             functionalTabHtml.push(
-                     '<li>',
-                         '<a class="item',' ',tab.toLowerCase(),'Tab','" href="#">',
-                         tab,
-                         '</a>',
-                     '</li>'
+                '<li>',
+                    '<a class="item',' ',tab.toLowerCase(),'Tab','" href="#">',
+                        tab,
+                    '</a>',
+                '</li>'
             );
         });
-    return functionalTabHtml.join('');
+        return functionalTabHtml.join('');
     };
 
     var parseTabs = function(xmlData) {
@@ -69,7 +70,6 @@ wok.main = function() {
             var $tab = $(this);
             var titleKey = $tab.find('title').text();
             var title = i18n[titleKey] ? i18n[titleKey] : titleKey;
-            var css = $tab.find('class').text();
             var path = $tab.find('path').text();
             var roles = wok.cookie.get('roles');
             if (roles) {
@@ -77,29 +77,21 @@ wok.main = function() {
                 var mode = $tab.find('[role="' + role + '"]').attr('mode');
                 wok.tabMode[titleKey.toLowerCase()] = mode;
                 tabs.push({
+                    functionality: functionality,
                     title: title,
                     path: path,
-                    css: css,
                     mode: mode
                 });
             } else {
                 document.location.href = 'login.html';
             }
         });
-        var tabsDetails = JSON.parse(wok.cookie.get('tabs'));
 
-        var isExisting = tabsDetails[functionality] && (tabsDetails[functionality].length)>0;
-
-        if(isExisting){
-           tabs.push.apply(tabs,tabsDetails[functionality]);
-        }
-        functionalTabs[functionality] = tabs;
-
-        return functionalTabs;
+        return tabs;
     };
 
     var retrieveTabs = function(url) {
-        var tabs;
+        var tabs = [];
         $.ajax({
             url : url,
             async : false,
@@ -114,8 +106,8 @@ wok.main = function() {
     var pluginI18nUrl = 'plugins/{plugin}/i18n.json';
     var DEFAULT_HASH;
     var buildTabs = function(callback) {
-        var tabs = {};
-        wok.cookie.set('tabs',JSON.stringify(tabs));
+        var tabs = [];
+        var functionalTabs = [];
         wok.listPlugins(function(plugins) {
             $(plugins).each(function(i, p) {
                 var url = wok.substitute(pluginConfigUrl, {
@@ -125,38 +117,30 @@ wok.main = function() {
                     plugin: p
                 });
                 wok.getI18n(function(i18nObj){ $.extend(i18n, i18nObj)},
-                               function(i18nObj){ //i18n is not define by plugin
-                               }, i18nUrl, true);
-                tabs =  $.extend({},tabs, retrieveTabs(url));
-                wok.cookie.set('tabs',JSON.stringify(tabs));
+                            function(i18nObj){ //i18n is not define by plugin
+                            }, i18nUrl, true);
+                var pluginTabs = retrieveTabs(url);
+                var func = pluginTabs[0].functionality
+                if (functionalTabs.indexOf(func) == -1) {
+                    functionalTabs.push(pluginTabs[0].functionality)
+                }
+                tabs.push.apply(tabs, pluginTabs);
             });
-
-            var orderedtabs ={};
-            Object.keys(tabs).sort().forEach(function(key){
-                orderedtabs[key]=tabs[key];
-            });
-
-            //defaulting the first tab in second level
-            var defaultFunctionalTab = Object.keys(orderedtabs)[0];
-
-            var defaultTab = tabs[defaultFunctionalTab][0];
-
-            var defaultTabPath = defaultTab && defaultTab['path']
 
             //redirect to empty page when no plugin installed
             if(tabs.length===0){
-             DEFAULT_HASH = 'wok-empty';
-            }else{
+                DEFAULT_HASH = 'wok-empty';
+            } else {
+                var defaultTab = tabs[0]
+                var defaultTabPath = defaultTab && defaultTab['path']
+
                 // Remove file extension from 'defaultTabPath'
                 DEFAULT_HASH = defaultTabPath &&
                     defaultTabPath.substring(0, defaultTabPath.lastIndexOf('.'))
                 }
-                $('#nav-menu ul.navbar-nav li.hostname').after(genFunctTabs(orderedtabs));
-                $('#nav-menu ul.navbar-nav li a.item').first().parent().addClass('active').focus();
-                $('#tabPanel').addClass(defaultFunctionalTab.toLowerCase()+'Tab');
-                $(genTabs(tabs[defaultFunctionalTab])).appendTo('#tabPanel ul');
-                $('#tabPanel ul li a.item').first().addClass(defaultFunctionalTab.toLowerCase()+'Selected').focus();
 
+                $('#functionalTabPanel ul').append(genFuncTabs(functionalTabs));
+                $('#tabPanel ul').append(genTabs(tabs));
                 wok.getHostname();
 
                 callback && callback();
@@ -186,21 +170,35 @@ wok.main = function() {
          * point to the tab. If nothing found, inform user the URL is invalid
          * and clear location.hash to jump to home page.
          */
-        var tab = $('#tabPanel ul.navbar-nav li a[href="' + url + '"]');
-        if (tab.length === 0 && url!='wok-empty.html'){
-            location.hash = '';
+        var tab = $('#tabPanel a[href="' + url + '"]');
+        if (tab.length === 0 && url != 'wok-empty.html') {
+            location.hash = '#';
             return;
         }
         //Remove the tab arrow indicator for no plugin
-        if(url=='wok-empty.html') {
-          $('#main').html('No plugins installed currently.You can download the available plugins <a href="https://github.com/kimchi-project/kimchi">Kimchi</a> and <a href="https://github.com/kimchi-project/ginger">Ginger</a> from Github').addClass('noPluginMessage');
+        if (url == 'wok-empty.html') {
+            $('#main').html('No plugins installed currently.You can download the available plugins <a href="https://github.com/kimchi-project/kimchi">Kimchi</a> and <a href="https://github.com/kimchi-project/ginger">Ginger</a> from Github').addClass('noPluginMessage');
         } else {
-            var tab = $('#tabPanel ul.navbar-nav li a[href="' + url + '"]');
-            var plugin = $('#nav-menu ul li.active a').text();
-            // Update the visual style of tabs; focus the selected one.
+            var plugin = $(tab).parent().find("input[name='funcTab']").val();
+
+            $('#tabPanel').removeClass(function(i, css) {
+                return (css.match(/\S+Tab/g) || []).join(' ');
+            });
+            $('#tabPanel').addClass(plugin + 'Tab');
             $('#tabPanel ul li').removeClass('active');
+            $.each($('#tabPanel li'), function(i, t) {
+                if ($(t).hasClass(plugin + 'Tab')) {
+                    $(t).css('display', 'block');
+                } else {
+                    $(t).css('display', 'none');
+                }
+            });
+
             $(tab).parent().addClass('active');
-            $(tab).addClass(plugin.toLowerCase()+'Selected').focus();
+            $(tab).addClass(plugin + 'Selected').focus();
+
+            $('#functionalTabPanel ul li').removeClass('active');
+            $('#functionalTabPanel ul .' + plugin + 'Tab').parent().addClass('active').focus();
 
             // Disable Help button according to selected tab
             if ($(tab).hasClass("disableHelp")) {
@@ -225,7 +223,7 @@ wok.main = function() {
         url && $('#main').load(url, function(responseText, textStatus, jqXHR) {
             if (jqXHR['status'] === 401 || jqXHR['status'] === 303) {
                 var isSessionTimeout = jqXHR['responseText'].indexOf("sessionTimeout")!=-1;
-                document.location.href= isSessionTimeout ? 'login.html?error=sessionTimeout' : 'login.html';
+                document.location.href = isSessionTimeout ? 'login.html?error=sessionTimeout' : 'login.html';
                 return;
             }
         });
@@ -241,6 +239,7 @@ wok.main = function() {
     var updatePage = function() {
         // Parse hash string.
         var hashString = (location.hash && location.hash.substr(1));
+
         /*
          * If hash string is empty, then apply the default one;
          * or else, publish an "redirect" event to load the page.
@@ -298,25 +297,31 @@ wok.main = function() {
          * Register click listener of second level tabs. Replace the default reloading page
          * behavior of <a> with Ajax loading.
          */
-         $('#nav-menu ul li').on('click', 'a.item', function(event) {
-             var functionalTab = $(this).text();
-             var previousSelection = $('#nav-menu ul li.active a').text();
-             $('#tabPanel').removeClass(previousSelection.toLowerCase()+'Tab');
+         $('#functionalTabPanel ul li').on('click', 'a.item', function(event) {
+            var plugin = $(this).text().toLowerCase();
+            var previousPlugin = $('#functionalTabPanel ul li.active a').text().toLowerCase();
 
-             $('#nav-menu ul li').removeClass('active');
-             $(this).parent().addClass('active').focus();
+            $('#tabPanel').switchClass(previousPlugin + 'Tab', plugin + 'Tab');
+            $('#tabPanel ul li').removeClass('active');
+            $.each($('#tabPanel li'), function(i, t) {
+                if ($(t).hasClass(plugin + 'Tab')) {
+                    $(t).css('display', 'block');
+                } else {
+                    $(t).css('display', 'none');
+                }
+            });
 
-             $('#tabPanel').addClass(functionalTab.toLowerCase()+'Tab');
-             var tabs = JSON.parse(wok.cookie.get('tabs'));
-             $('#tabPanel ul').empty();
-             $(genTabs(tabs[functionalTab])).appendTo('#tabPanel ul');
-             var firstTab = $('#tabPanel ul.navbar-nav li').first();
-             $(firstTab).addClass('active');
-             $('a.item',firstTab).addClass(functionalTab.toLowerCase()+'Selected');
-             var href= $('a.item',firstTab).attr('href');
-             location.hash = href.substring(0,href.lastIndexOf('.'));
-             event.preventDefault();
-         });
+            $('#functionalTabPanel ul li').removeClass('active');
+            $(this).parent().addClass('active').focus();
+
+            var firstTab = $('#tabPanel ul.navbar-nav li.' + plugin + 'Tab').first();
+            $(firstTab).addClass('active');
+            $('a.item', firstTab).addClass(plugin + 'Selected');
+
+            var href = $('a.item', firstTab).attr('href');
+            location.hash = href.substring(0,href.lastIndexOf('.'));
+            event.preventDefault();
+        });
 
         // Perform logging out via Ajax request.
         $('#btn-logout').on('click', function() {
@@ -420,10 +425,11 @@ wok.main = function() {
         function(i18nStrings){ //success
             i18n = i18nStrings;
             buildTabs(initUI);
-            },
+        },
         function(data){ //error
             wok.message.error(data.responseJSON.reason);
-            });
+        }
+    );
 };
 
 

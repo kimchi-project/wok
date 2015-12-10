@@ -27,7 +27,7 @@ from distutils.version import LooseVersion
 from wok import auth
 from wok import template
 from wok.i18n import messages
-from wok.config import paths
+from wok.config import paths as wok_paths
 from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request
@@ -103,13 +103,16 @@ class Root(Resource):
         # In order to load the Guests tab, we also use Cheetah in the tab
         # template to save the delay of the extra get to the guest page
         # For that, the tab template needs to know the correct path to ui files
+        paths = cherrypy.request.app.root.paths
+        script_name = cherrypy.request.app.script_name
+        last_page = script_name.lstrip("/") + "/tabs/" + page[:-5]
+
         data = {}
         data['ui_dir'] = paths.ui_dir
 
         if page.endswith('.html'):
-            context = template.render('tabs/' + page, data)
-            cherrypy.response.cookie[
-                "lastPage"] = "/#tabs/" + page[:-5]
+            context = template.render('/tabs/' + page, data)
+            cherrypy.response.cookie["lastPage"] = "/#" + last_page
             cherrypy.response.cookie['lastPage']['path'] = '/'
             return context
         raise cherrypy.HTTPError(404)
@@ -121,9 +124,9 @@ class WokRoot(Root):
         self.default_page = 'wok-ui.html'
         for ident, node in sub_nodes.items():
             setattr(self, ident, node(model))
-        with open(os.path.join(paths.src_dir, 'API.json')) as f:
+        with open(os.path.join(wok_paths.src_dir, 'API.json')) as f:
             self.api_schema = json.load(f)
-        self.paths = paths
+        self.paths = wok_paths
         self.domain = 'wok'
         self.messages = messages
 

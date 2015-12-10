@@ -435,12 +435,7 @@ wok.main = function() {
 
 wok.checkHelpFile = function(path) {
     var lang = wok.lang.get();
-    var url = ""
-    // Find help page path according to tab name
-    if (/^tabs/.test(path))
-        url = path.replace("tabs", "help/" + lang);
-    else if (/^plugins/.test(path))
-        url = path.slice(0, path.lastIndexOf('/')) + "/help/" + lang + path.slice(path.lastIndexOf('/'));
+    var url = path.replace("tabs", "help/" + lang);
     // Checking if help page exist.
     $.ajax({
         url: url,
@@ -458,8 +453,8 @@ wok.getHostname = function(e) {
 }
 
 wok.openHelp = function(e) {
-    var tab = $('#nav-menu a.current');
-    var url = $(tab).parent().find("input[name='helpPath']").val();
+    var tab = $('#tabPanel ul li.active');
+    var url = $(tab).find("input[name='helpPath']").val();
     window.open(url, "Wok Help");
     e.preventDefault();
 };

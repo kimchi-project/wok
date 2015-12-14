@@ -29,6 +29,7 @@
     form {
         margin: 15px 0 0;
         .header,
+        .task,
         .body {
             .column-actions {
                 text-align: right;
@@ -111,6 +112,9 @@
             overflow-y: auto;
             overflow-x: hidden;
             height: 471px;
+        }
+        .body,
+        .task {
             .item {
                 border-top: 1px solid $table-border-color;
                 height: 53px;
@@ -336,6 +340,7 @@
 #form-guest-edit-permission .ldap .checked.hide {
     display: none;
 }
+
 
 /*
  * Project Kimchi

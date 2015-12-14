@@ -68,6 +68,8 @@
 @import "modules/datagrid";
 // Wok Loaders
 @import "modules/loaders";
+// Wok Forms
+@import "modules/wok-forms";
 // Wok Confirm Dialog
 @import "modules/wok-confirm";
 // Form validation classes
@@ -106,38 +108,6 @@
     background-size: 100%;
     display: inline-block;
     margin-right: 5px;
-}
-
-// Custom check-boxes and radios
-input[type=checkbox].wok-checkbox,
-input[type=radio].wok-radio {
-    display: none;
-}
-
-input[type=checkbox].wok-checkbox + label:before,
-input[type=radio].wok-radio + label:before {
-    font-family: FontAwesome;
-    display: inline-block;
-}
-
-input[type=checkbox].wok-checkbox + label:before {
-    content: "\f096";
-    letter-spacing: 10px;
-}
-
-input[type=checkbox].wok-checkbox:checked + label:before {
-    content: "\f14a";
-    letter-spacing: 8px;
-}
-
-input[type=radio].wok-radio + label:before {
-    content: "\f10c";
-    letter-spacing: 5px;
-}
-
-input[type=radio].wok-radio:checked + label:before {
-    content: "\f192";
-    letter-spacing: 5px;
 }
 
 // Animation

@@ -74,21 +74,21 @@
 @import "modules/wok-confirm";
 // Form validation classes
 @import "modules/validation";
-// Wok jQuery-UI Accordion
-@import "modules/jqueryui";
-// Wok ISO / VM / Template list
+
 @import "modules/iso-list";
-// To do - Group into Kimchi
-// Templates - To do: move to Kimchi
+
+@import "modules/about";
+
 @import "modules/guests";
-// Templates - To do: move to Kimchi
+
 @import "modules/edit-guests";
-// Templates - To do: move to Kimchi
+
 @import "modules/templates";
-// Networks - To do: move to Kimchi
+
 @import "modules/network";
-// Networks - To do: move to Kimchi
+
 @import "modules/storage";
+
 // Utils
 .absolute-middle {
     margin: auto;

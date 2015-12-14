@@ -120,7 +120,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-question-circle"></i><span class="topbar-text">$_("Help")</span><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a id="btn-help" href="javascript: void(0);">$_("Help")</a></li>
-                        <li><a id="btn-about" href="javascript:void(0);">$_("About")</a></li>
+                        <li><a id="btn-about" href="#" data-toggle="modal" data-target="#aboutModal">$_("About")</a></li>
                     </ul>
                 </li>
             </ul>
@@ -159,27 +159,25 @@
         </div>
     </div>
 
-<script id="about-tmpl" type="wok/template">
-    <div class="window about-window">
-        <header>
-            <h1 class="title"><img alt="Kimchi logo" src="images/logo.ico"/> $_("About")</h1>
-            <div class="close">X</div>
-        </header>
-        <div class="content" align="center">
-            <center>
-                <div>
-                    <br/>
-                    <br/>
-                    <img src="images/theme-default/logo-plain.gif"/>
-                    <br/>
-                    <br/>
-                    <h2>Kimchi</h2>
-                    <p>$_("Version:") $get_version()</p>
-                </div>
-            </center>
-        </div>
+    <div class="modal fade host-modal" id="aboutModal" tabindex="-1" role="dialog" labelledby="aboutModalLabel" aria-hidden="true">
     </div>
-</script>
 
+    <script id="about-tmpl" type="wok/template">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">$_("About")</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content">
+                                <img src="images/theme-default/logo-flat.svg" />
+                                <h2>Kimchi</h2>
+                                <p>$_("Version:") $get_version()</p>
+                    </div>
+                 </div>
+            </div>
+         </div>
+    </script>
 </body>
 </html>

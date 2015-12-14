@@ -38,6 +38,11 @@ wok.window = (function() {
         _listeners[windowID] = settings['close'];
         var windowNode = $('<div id="' + windowID + '" class="modal-dialog"></div>');
 
+        $('#' + target).modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
         $('#' + target).modal('show');
 
         $('#' + target).on('hidden.bs.modal', function() {

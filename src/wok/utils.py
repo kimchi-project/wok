@@ -26,6 +26,7 @@ import os
 import psutil
 import pwd
 import re
+import sqlite3
 import subprocess
 import traceback
 import xml.etree.ElementTree as ET
@@ -504,3 +505,47 @@ def convert_data_size(value, from_unit, to_unit='B'):
                     break
 
     return ret
+
+
+def get_objectstore_fields(objstore=None):
+    """
+        Return a list with all fields from the objectstore.
+    """
+    if objstore is None:
+        wok_log.error("No objectstore set up.")
+        return None
+    conn = sqlite3.connect(objstore, timeout=10)
+    cursor = conn.cursor()
+    schema_fields = []
+    sql = "PRAGMA table_info('objects')"
+    cursor.execute(sql)
+    for row in cursor.fetchall():
+        schema_fields.append(row[1])
+    return schema_fields
+
+
+def upgrade_objectstore_schema(objstore=None, field=None):
+    """
+        Add a new column (of type TEXT) in the objectstore schema.
+    """
+    if (field or objstore) is None:
+        wok_log.error("Cannot upgrade objectstore schema.")
+        return False
+
+    if field in get_objectstore_fields(objstore):
+        # field already exists in objectstore schema. Nothing to do.
+        return False
+    try:
+        conn = sqlite3.connect(objstore, timeout=10)
+        cursor = conn.cursor()
+        sql = "ALTER TABLE objects ADD COLUMN %s TEXT" % field
+        cursor.execute(sql)
+        wok_log.info("Objectstore schema sucessfully upgraded: %s" % objstore)
+        conn.close()
+    except sqlite3.Error, e:
+        if conn:
+            conn.rollback()
+            conn.close()
+        wok_log.error("Cannot upgrade objectstore schema: %s" % e.args[0])
+        return False
+    return True

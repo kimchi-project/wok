@@ -34,14 +34,14 @@
         margin-left: 0;
     }
     .navbar-right.tools > li > a {
-        font-family: $font-family-alternate;
+        font-family: $font-family-base;
         display: inline-block;
         color: $highlights-color;
         text-decoration: none;
         font-size: 13pt;
         vertical-align: middle;
-        padding: 6px 0 !important;
-        margin-left: 50px !important;
+        padding: 6px 0;
+        margin-left: 20px;
         font-weight: 600;
         width: auto;
         min-width: auto;
@@ -74,4 +74,23 @@ $bgcolor in $colors {
     #tabPanel.#{$tab} {
         background-color: map-get($colors, $tab) !important;
     }
+}
+
+
+
+@media (min-width: $screen-sm-max) and (max-width: $screen-md-min) {
+
+    .host-dashboard .container {
+        padding-right: 10px;
+        padding-left:  10px;
+    }
+
+}
+
+@media (min-width: $screen-md-max) and (max-width: $screen-lg) {
+
+    .navbar-default.toolbar .navbar-right.tools > li > a {
+        margin-left: 50px;
+    }
+
 }

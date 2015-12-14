@@ -26,35 +26,6 @@
 .container {
     margin-right: auto;
     margin-left: auto;
-    padding-left: 80px !important;
-    padding-right: 60px !important;
-}
-
-#navigation-bar {
-    padding-left: 0 !important;
-    padding-right:0 !important;
-    width:100%;
-}
-
-// Override alert
-.alert {
-    border-width: $alert-border-width;
-    margin-bottom: 10px;
-}
-
-.alert-fields {
-    margin-top: -20px;
-    padding-bottom: 10px;
-}
-
-.alert-dismissable .close,
-.alert-dismissible .close {
-    right: 15px !important;
-    top: 0 !important;
-}
-
-.close {
-    opacity: 1 !important;
 }
 
 .hide-content {
@@ -76,8 +47,6 @@
 }
 
 // Override forms
-
-
 .form-control.invalid-field {
     border-color: $brand-danger;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(217, 83, 79, 0.6);
@@ -176,15 +145,45 @@ pre {
     margin-top: 20px;
 }
 
-// Media queries
-@media screen and (min-width: 768px) {
-    .container {
-        width: 1540px;
-    }
-}
+// @media screen and (max-width: 63.75em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
 
-@media screen and (min-width: 1680px) {
-    .container {
-        width: 1680px;
-    }
-}
+// @media screen and (max-width: 76.25em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+
+// @media screen and (max-width: 84.375em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+
+// @media screen and (max-width: 89em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+
+// @media screen and (max-width: 99em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+
+// @media screen and (max-width: 104em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+
+// @media screen (min-width: 104em)  and (max-width: 120em) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+

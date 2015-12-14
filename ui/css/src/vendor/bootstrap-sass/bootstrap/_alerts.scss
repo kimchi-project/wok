@@ -6,11 +6,19 @@
 // Base styles
 // -------------------------
 
+#alert-fields {
+    @media (min-width: $screen-lg-min) {
+    padding-top: 10px;
+  }
+}
+
 .alert {
   padding: $alert-padding;
-  margin-bottom: $line-height-computed;
+  margin-bottom: ($line-height-computed / 2);
   border: 1px solid transparent;
   border-radius: $alert-border-radius;
+  border-width: $alert-border-width;
+  position: relative;
 
   // Headings for larger alerts
   h4 {
@@ -45,9 +53,10 @@
 
   // Adjust close link position
   .close {
-    position: relative;
-    top: -2px;
-    right: -21px;
+    opacity: 1;
+    position: absolute;
+    top: 6px;
+    right: 15px;
     color: inherit;
   }
 }

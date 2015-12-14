@@ -95,6 +95,7 @@
     .wok-guest-list {
         display: block;
         width: 100%;
+        padding: 0;
         list-style-type: none;
         > li:nth-child(even) {
             background-color: $table-bg-accent;
@@ -114,15 +115,19 @@
                 display: inline-block;
                 vertical-align: middle;
                 font-family: $font-family-sans-serif;
-                font-weight: 400;
+                font-weight: 300;
                 font-size: 12.5pt;
                 line-height: 1.42857;
                 border-bottom: none;
                 border-top: 0;
-            }
-            > span.column-state {
-                width: 2.9272%;
-                text-align: center;
+                overflow: hidden;
+                > span {
+                    width: 100%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: block;
+                }
             }
         }
         .wok-guest-list-body {
@@ -134,7 +139,7 @@
                 font-family: $font-family-sans-serif;
                 font-size: 12.5pt;
                 line-height: 2.42857;
-                font-weight: bold;
+                font-weight: 400;
             }
             .progress {
                 display: inline-block;
@@ -177,7 +182,7 @@
     .wok-guest-list .wok-guest-list-header,
     .wok-guest-list .wok-guest-list-body {
         > span.column-state {
-            width: 2.9272%;
+            width: 40px;
             text-align: center;
             > span.guest-state {
                 font-size: 22px;
@@ -236,16 +241,29 @@
             }
         }
         > span.column-name {
-            width: 13.6867%;
+            width: 13.7%;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            @media (min-width: $screen-lg + 130) {
+                width: 9.7%;
+            }
+            @media (min-width: $screen-xlg) {
+                width: 14.15%;
+            }
         }
         > span.column-type {
-            width: 9.9683%;
+            width: 11.74%;
+            background-position: 0 50%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            @media (min-width: $screen-lg + 130) {
+                width: 10.74%;
+            }
         }
         > span.column-vnc {
-            width: 11.8670%;
+            display: none;
             > a {
                 font-weight: normal;
                 color: $vnc-blue !important;
@@ -259,33 +277,39 @@
                 font-size: 22px;
                 color: $vnc-blue !important;
             }
+            @media (min-width: $screen-lg + 130) {
+                width: 10.84%;
+                display: inline-block;
+            }
+        }
+        > span.column-processors,
+        > span.column-memory,
+        > span.column-storage,
+        > span.column-network {
+            width: 12.5%;
         }
         > span.column-processors {
-            width: 12.1838%;
             > div > div.progress-bar.cpu-progress-bar {
                 background-color: map-get($colors, administration);
             }
         }
         > span.column-memory {
-            width: 12.1838%;
             > div > div.progress-bar.memory-progress-bar {
                 background-color: map-get($colors, host);
             }
         }
         > span.column-storage {
-            width: 12.9746%;
             > div > div.progress-bar.storage-progress-bar {
                 background-color: $state-warning-border;
             }
         }
         > span.column-network {
-            width: 12.9746%;
             > div > div.progress-bar.network-progress-bar {
                 background-color: map-get($colors, network);
             }
         }
         > span.column-action {
-            width: 10.9968%;
+            width: 165px;
         }
         > span.item-hidden {
             display: none !important;
@@ -300,7 +324,7 @@
     .wok-guest-list .distro-icon.inactive {
         -webkit-filter: grayscale(100%) contrast(0.8) brightness(110%);
         -moz-filter: grayscale(100%) contrast(0.8) brightness(110%);
-        filter: grayscale(100%) contrast(0.8) brightness(110%); 
+        filter: grayscale(100%) contrast(0.8) brightness(110%);
     }
     .wok-guest-list .distro-icon.icon-centos {
         background-image: url('#{$wok-icon-path}/icon-centos.png');
@@ -327,3 +351,14 @@
         color: $disabled-color !important;
     }
 }
+
+// #guests-root-container .container {
+//   @media (min-width: $screen-lg-min) {
+//     padding-left: 0;
+//     padding-right: 0;
+//   }
+//   @media (min-width: 1600px) {
+//     padding-left: 80px;
+//     padding-right: 60px;
+//   }
+// }

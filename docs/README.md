@@ -168,19 +168,19 @@ new plugins. Also, by default, Wok is linked to Kimchi (Virtualization
 To clone Kimchi source code, execute:
 
     $ cd src/wok/plugins/kimchi
-    $ git submodule init
-    $ git submodule update
+    $ git submodule update --init --remote
 
 To clone Ginger source code, execute:
 
     $ cd src/wok/plugins/ginger
-    $ git submodule init
-    $ git submodule update
+    $ git submodule update --init --remote
 
 To automatically clone all plugins linked with Wok, use the following git
 command when cloning Wok project:
 
     $ git clone --recursive https://github.com/kimchi-project/wok.git
+    $ cd wok
+    $ git submodule update --remote
 
 
 Participating

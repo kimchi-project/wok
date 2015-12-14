@@ -37,19 +37,19 @@ wok.message = function(msg, level, node) {
     $message.fadeIn(100);
 
     var timeout = setTimeout(function() {
-        $message.delay(2000).fadeOut(100, function() {            
+        $message.delay(4000).fadeOut(100, function() {
             $message.alert('close');
             $(this).remove();
             if ($(container).children().length < 1) {
                 $(container).hide();
             }
         });
-    }, 4000);
+    }, 10000);
 };
 
 wok.message.warn = function(msg, node) {
     "use strict";
-    wok.message(msg, 'alert-warning', node); 
+    wok.message(msg, 'alert-warning', node);
 };
 wok.message.error = function(msg, node) {
     "use strict";

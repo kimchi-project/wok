@@ -18,11 +18,11 @@
     .grid-control {
         padding: 5px;
     }
-    
+
     .grid-control input[type="text"] {
         width: 514px;
     }
-    
+
     .wok-datagrid {
         background: $table-bg;
         .wok-datagrid-header,
@@ -37,7 +37,7 @@
         }
         > .wok-datagrid-header > span {
             font-family: $font-family-light;
-            font-weight: 400;
+            font-weight: 300;
             font-size: 12.5pt;
             vertical-align: bottom;
             border-bottom: none;
@@ -48,12 +48,13 @@
 
         > .wok-datagrid-body > .wok-datagrid-row{
             border-top: 1px solid $table-border-color;
-            
+
             > span {
               font-family: $font-family-sans-serif;
               line-height: (1 + $line-height-base);
               vertical-align: top;
               font-size: 12.5pt;
+              font-weight: 400;
             }
 
         }

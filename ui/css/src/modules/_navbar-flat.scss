@@ -71,8 +71,8 @@
   overflow-x: visible;
   padding-right: $navbar-padding-horizontal;
   padding-left:  $navbar-padding-horizontal;
-  border-top: 1px solid transparent;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+  border-top: 0;
+  box-shadow: none;
   @include clearfix;
   -webkit-overflow-scrolling: touch;
 
@@ -182,12 +182,11 @@
 
 .navbar-brand {
   display: block;
-  margin: 0 0 0 -80px;
-  padding: 0 0 0 80px;
+  padding: 0 0 0 60px;
   height: 55px;
-  background: transparent url($kimchi-logo) no-repeat 24px 3px;
+  background: transparent url($kimchi-logo) no-repeat 5px 3px;
   color: $highlights-color;
-  font-family: $font-family-bold; 
+  font-family: $font-family-bold;
   font-weight: 700;
   font-size: 1.571em;
   line-height: 55px;
@@ -203,12 +202,6 @@
     display: block;
   }
 
-  @media (min-width: $grid-float-breakpoint) {
-    .navbar > .container &,
-    .navbar > .container-fluid & {
-      margin-left: -80px;
-    }
-  }
 }
 
 
@@ -259,17 +252,8 @@
 .navbar-nav {
   margin: ($navbar-padding-vertical / 2) (-$navbar-padding-horizontal);
 
-      > li > a {
-          padding-left: 40px;
-          padding-right: 40px;
-          line-height: $line-height-computed;
-          font-family: $font-family-alternate;
-          font-size: 13pt;
-
-          > .fa {
+      > li > a > .fa {
             font-size: 26px;
-          }  
-
       }
 
       > li > a.dropdown-toggle {
@@ -422,7 +406,7 @@
   background-clip: padding-box;
   height: auto;
   max-height: 400px;
-  overflow-x: hidden;  
+  overflow-x: hidden;
   margin-right: 22px;
 
   > li {
@@ -438,7 +422,7 @@
     font-family: $font-family-sans-serif;
     font-size: 13pt;
     font-weight: normal;
-    line-height: 24px;    
+    line-height: 24px;
     padding: 7px 30px;
     height: 40px;
     border-top: 1px solid $menu-flat-dropdown-border;
@@ -471,11 +455,11 @@
   .navbar-nav > li > .dropdown-menu::-webkit-scrollbar {
     width: 12px;
   }
-   
+
   .navbar-nav > li > .dropdown-menu::-webkit-scrollbar-track {
       @include box-shadow(inset 0 0 6px rgba(0,0,0,0.3));
   }
-   
+
   .navbar-nav > li > .dropdown-menu::-webkit-scrollbar-thumb {
       border-radius: 4px;
       background: #797979;
@@ -541,7 +525,7 @@
   }
   .navbar-right {
     float: right !important;
-  margin-right: -$navbar-padding-horizontal;
+    margin-right: $navbar-right-padding-horizontal;
 
     ~ .navbar-right {
       margin-right: 0;
@@ -567,44 +551,57 @@
     }
   }
 
+  .container {
+    @include container-fixed;
+
+    @media (min-width: $screen-sm-min) {
+      width: $container-sm;
+    }
+    @media (min-width: $screen-md-min) {
+      width: $container-md;
+    }
+    @media (min-width: $screen-lg-min) {
+      width: $container-lg;
+      padding-left: 80px;
+      padding-right: 60px;
+
+      #tabPanel {
+        margin-left: -80px;
+        margin-right: -60px;
+        padding-left: 80px;
+        padding-right: 60px;
+      }
+
+    }
+  }
+
   .navbar-text {
     color: $navbar-default-color;
   }
 
   .navbar-nav {
     > li > a {
-      margin: 0 !important;
-      font-size: 13pt;
-      font-family: $font-family-bold;
+      padding-left: 10px;
+      padding-right: 10px;
+      margin: 0;
+      font-size: 12pt;
+      font-family: $font-family-base;
       font-weight: 700;
       color: $navbar-default-link-color;
       text-decoration: none;
       outline: none;
-      min-width: 210px;
+      min-width: 156px;
       text-align: center;
       height: $navbar-height;
-
+      @media (min-width: $screen-lg-min) {
+        min-width: 190px;
+        font-size: 13pt;
+      }
       &:hover,
       &:focus {
         color: $navbar-default-link-hover-color;
         background-color: $navbar-default-link-hover-bg;
       }
-
-      .digit-container {
-            display: inline-block;
-            margin-left: 10px;
-            margin-top: -2px;
-            border-radius: 16px;
-            height: 20px;
-            line-height: 16px;
-            background: #555;
-            border: 2px solid #555;
-            color: #fff;
-            font-family: $font-family-base;
-            font-size: 14px;
-            padding: 0 8px;
-      }
-
     }
     > .active > a {
       &,
@@ -613,12 +610,6 @@
         color: $navbar-default-link-active-color;
         background-color: $navbar-default-link-active-bg;
       }
-
-      .digit-container {
-        border-color: #fff;
-        background: transparent;
-      }
-
     }
     > .disabled > a {
       &,
@@ -627,10 +618,6 @@
         cursor: default;
         color: $navbar-default-link-disabled-color;
         background-color: $navbar-default-link-disabled-bg;
-      }
-
-      .digit-container {
-        display: none;
       }
 
     }
@@ -652,23 +639,32 @@
 
     > .hostname {
       margin: 0;
-      padding: 8px 0;
+      padding: 8px 10px;
       vertical-align: top;
-      width:210px;
-      padding-right: 24px;
-      @include box-sizing(border-box);
+      width:156px;
+      padding-left: 60px;
+      height: 40px;
+      @media (min-width: $screen-lg-min) {
+        width: 190px;
+      }
 
       .host-location {
-        display: block;
-        font-family: $font-family-alternate;
+        display: inline-block;
+        font-family: $font-family-base;
         color: $highlights-color;
-        font-size: 13pt;
-        font-weight: 400;
+        font-size: 8.5pt;
+        font-weight: 300;
         width: 100%;
         overflow: hidden;
         white-space: nowrap;
-        text-overflow: ellipsis;
-        margin-left:80px;
+        text-align: left;
+        @media (min-width: $screen-sm-min) {
+          margin-top: 8px;
+        }
+        @media (min-width: $screen-md-min) {
+          margin-top: 4px;
+          font-size: 11pt;
+        }
       }
 
     }

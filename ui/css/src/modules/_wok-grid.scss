@@ -36,37 +36,6 @@
     top: 37px !important;
 }
 
-.wok-grid-mask, .wok-list-mask {
-    @extend .absolute-middle;
-    background: rgba(255,255,255,.7);
-}
-
-.wok-grid-loading, .wok-list-loading {
-    width: 100%;
-    white-space: nowrap;
-    @extend .absolute-middle;
-}
-
-.wok-grid-loader-container, .wok-list-loader-container {
-    width: 120px;
-    height: 40px;
-    @extend .absolute-middle;
-}
-
-.wok-grid-loading-icon, .wok-list-loading-icon{
-    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%; 
-    @include animation(spin 2s infinite linear);
-    height: 20px;
-    width: 20px;
-    @extend .absolute-middle;
-}
-
-.wok-grid-loading-text, .wok-list-loading-text {
-    color: $gray;
-    padding-top: 40px;
-    text-shadow: 0px 0px 10px #fff;
-}
-
 .wok-list-cell {
     position: relative;
     padding-left: 45px;

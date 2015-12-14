@@ -66,6 +66,8 @@
 @import "modules/wok-grid";
 // Wok Datagrid
 @import "modules/datagrid";
+// Wok Loaders
+@import "modules/loaders";
 // Wok Confirm Dialog
 @import "modules/wok-confirm";
 // Form validation classes
@@ -140,50 +142,8 @@ input[type=radio].wok-radio:checked + label:before {
 
 // Animation
 @import "modules/animation";
+
 // Documentation
 pre {
     margin-top: 20px;
 }
-
-// @media screen and (max-width: 63.75em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-
-// @media screen and (max-width: 76.25em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-
-// @media screen and (max-width: 84.375em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-
-// @media screen and (max-width: 89em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-
-// @media screen and (max-width: 99em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-
-// @media screen and (max-width: 104em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-
-// @media screen (min-width: 104em)  and (max-width: 120em) {
-//     .container {
-//         width: 100%;
-//     }
-// }
-

@@ -41,9 +41,6 @@
 }
 
 #template-edit-window {
-    .tab-content {
-        overflow: hidden;
-    }
     .tab-content .tab-pane {
         position: relative;
     }
@@ -83,10 +80,10 @@
             font-family: $font-family-light;
             font-weight: 400;
             font-size: 12.5pt;
-            vertical-align: bottom;
+            vertical-align: baseline;
             border-bottom: none;
             border-top: 0;
-            line-height: $line-height-base;
+            line-height: 42px;
             height: 42px;
         }
     }
@@ -107,11 +104,9 @@
                 padding: $table-cell-padding;
                 display: inline-block;
                 vertical-align: middle;
-
                 input[type="text"].form-control {
                     height: 40px;
                 }
-
             }
         }
     }
@@ -203,7 +198,6 @@
     }
 }
 
-
 /* VM List View classes*/
 
 #templates-root-container {
@@ -211,22 +205,18 @@
         display: block;
         width: 100%;
         list-style-type: none;
+        margin: 0;
+        padding-left: 0;
         background: $table-bg;
-        > li:nth-child(2n+2) {
-            background-color: $table-bg-accent;
-        }
-        > li:nth-child(2n+3) {
-            background-color: $table-bg;
-        }
         .wok-vm-header {
-            border-top: 0 none;
+            border-bottom: 1px solid $table-first-row-border-color;
             > span {
                 padding: $table-cell-padding;
                 display: inline-block;
                 vertical-align: bottom;
                 height: 36px;
                 font-family: $font-family-light;
-                font-weight: 400;
+                font-weight: 300;
                 font-size: 12.5pt;
                 line-height: $line-height-base;
                 border-bottom: none;
@@ -238,7 +228,7 @@
             clear: both;
             border-top: 1px solid $table-border-color;
             &:first-child {
-                border-color: $table-first-row-border-color;
+                border-top: 0;
             }
             > span {
                 padding: $table-cell-padding;
@@ -247,10 +237,25 @@
                 font-family: $font-family-sans-serif;
                 font-size: 12.5pt;
                 line-height: (1 + $line-height-base);
+                font-weight: 400;
             }
             .column-type {
                 padding-left: 40px !important;
             }
+        }
+        .ul-body {
+            display:  block;
+            width: 100%;
+            clear: both;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+                    > li:nth-child(even) {
+                        background-color: $table-bg-accent;
+                    }
+                    > li:nth-child(odd) {
+                        background-color: $table-bg;
+                    }
         }
         .column-name {
             width: 17.4900%;

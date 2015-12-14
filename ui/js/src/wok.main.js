@@ -335,9 +335,10 @@ wok.main = function() {
 
         // Set handler for about button
         $('#btn-about').on('click', function(event) {
-            wok.window.open({"content": $('#about-tmpl').html()});
             event.preventDefault();
-            });
+        });
+
+        $("#aboutModal").append($("#about-tmpl").html());
 
         // Set handler for help button
         $('#btn-help').on('click', wok.openHelp);

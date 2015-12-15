@@ -49,7 +49,7 @@ Install Dependencies
 
 **For Fedora and RHEL:**
 
-     $ sudo yum install gcc make autoconf automake gettext git \
+     $ sudo yum install gcc make autoconf automake gettext-devel git \
                         python-cherrypy python-cheetah python-imaging\
                         PyPAM m2crypto python-jsonschema rpm-build \
                         python-psutil python-ldap python-lxml \

@@ -16,6 +16,16 @@
 // limitations under the License.
 //
 
+.wok-loading-icon {
+    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
+    @include animation(spin 3s infinite linear);
+    height: 16px;
+    width: 16px;
+    background-size: 100%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
 .wok-mask, .wok-grid-mask, .wok-list-mask {
     @extend .absolute-middle;
     background: rgba(255,255,255,.7);

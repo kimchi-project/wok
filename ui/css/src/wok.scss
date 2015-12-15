@@ -60,8 +60,6 @@
 @import "modules/buttons";
 // Dropdown Button - Flat
 @import "modules/menu-flat";
-// Line Charts
-@import "modules/line-chart";
 // Wok Grid & Wok List
 @import "modules/wok-grid";
 // Wok Datagrid
@@ -74,46 +72,9 @@
 @import "modules/wok-confirm";
 // Form validation classes
 @import "modules/validation";
-
-@import "modules/iso-list";
-
+// Wok About
 @import "modules/about";
-
-@import "modules/guests";
-
-@import "modules/edit-guests";
-
-@import "modules/templates";
-
-@import "modules/network";
-
-@import "modules/storage";
-
 // Utils
-.absolute-middle {
-    margin: auto;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    text-align: center;
-}
-
-.wok-loading-icon {
-    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
-    @include animation(spin 3s infinite linear);
-    height: 16px;
-    width: 16px;
-    background-size: 100%;
-    display: inline-block;
-    margin-right: 5px;
-}
-
+@import "modules/utils";
 // Animation
 @import "modules/animation";
-
-// Documentation
-pre {
-    margin-top: 20px;
-}

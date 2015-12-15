@@ -16,6 +16,7 @@ Depends: python-cherrypy3 (>= 3.2.0),
          fonts-font-awesome,
          texlive-fonts-extra
 Build-Depends: xsltproc,
+               gettext,
                openssl,
                python-lxml,
                pkg-config,

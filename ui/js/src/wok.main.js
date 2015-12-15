@@ -97,6 +97,11 @@ wok.main = function() {
             async : false,
             success : function(xmlData) {
                 tabs = parseTabs(xmlData);
+            },
+            statusCode : {
+                404: function() {
+                    return tabs;
+                }
             }
         });
         return tabs;

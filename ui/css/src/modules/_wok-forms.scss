@@ -16,6 +16,18 @@
 // limitations under the License.
 //
 
+// Overriding Bootstrap styles
+
+.form-group {
+    font-size: 1em;
+}
+
+label {
+    font-size: 1.143em;
+    font-weight: 400;
+    font-family: $font-family-base;
+}
+
 // Custom check-boxes and radios
 input[type=checkbox].wok-checkbox,
 input[type=radio].wok-radio {

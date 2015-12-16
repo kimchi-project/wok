@@ -46,12 +46,6 @@
     font-size: 21.5pt;
 }
 
-// Override forms
-.form-control.invalid-field {
-    border-color: $brand-danger;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(217, 83, 79, 0.6);
-}
-
 // Login
 @import "modules/login";
 // Topbar and navigation

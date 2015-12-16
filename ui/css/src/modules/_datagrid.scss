@@ -25,6 +25,17 @@
 
     .wok-datagrid {
         background: $table-bg;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        .wok-datagrid-header,
+        .wok-datagrid-body {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         .wok-datagrid-header,
         .wok-datagrid-body > .wok-datagrid-row {
             display: block;
@@ -61,13 +72,19 @@
         .wok-datagrid-hybrid > .wok-datagrid-body > .wok-datagrid-row:first-child {
             border-color: $table-first-row-border-color;
         }
-        .wok-datagrid-row.odd {
+        .wok-datagrid-row.odd,
+        .wok-datagrid-row:nth-child(odd)  {
             background-color: $table-bg-accent;
         }
-        .wok-datagrid-row.even {
+        .wok-datagrid-row.even,
+        .wok-datagrid-row:nth-child(even) {
             background-color: $table-bg;
         }
         .wok-datagrid-body.wok-datagrid-row {
             border-top: 1px solid $table-bg-accent;
+        }
+        .wok-datagrid-body.no-border > .wok-datagrid-row {
+            background-color: $table-bg !important;
+            border: 0 !important;
         }
     }

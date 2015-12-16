@@ -18,14 +18,14 @@
  * limitations under the License.
  */
 
-wok.message = function(msg, level, node) {
+wok.message = function(msg, level, node, closeable) {
     "use strict";
     var container = node || $('#alert-fields');
     if ($(container).size() < 1) {
         container = $('<div id="alert-fields"/>').appendTo($('#alert-container'));
     }
     var message = '<div role="alert" class="alert ' + (level || '') + ' alert-dismissible fade in" style="display: none;">';
-    if(!node) {
+    if(!node || closeable) {
         message += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>';
     }
     message += msg;
@@ -47,20 +47,20 @@ wok.message = function(msg, level, node) {
     }, 10000);
 };
 
-wok.message.warn = function(msg, node) {
+wok.message.warn = function(msg, node, closeable) {
     "use strict";
-    wok.message(msg, 'alert-warning', node);
+    wok.message(msg, 'alert-warning', node, closeable);
 };
-wok.message.error = function(msg, node) {
+wok.message.error = function(msg, node, closeable) {
     "use strict";
-    wok.message(msg, 'alert-danger', node);
+    wok.message(msg, 'alert-danger', node, closeable);
 };
 wok.message.error.code = function(code) {
     "use strict";
     var msg = code + ": " + i18n[code];
     wok.message(msg, 'alert-danger');
 };
-wok.message.success = function(msg, node) {
+wok.message.success = function(msg, node, closeable) {
     "use strict";
-    wok.message(msg, 'alert-success', node);
+    wok.message(msg, 'alert-success', node, closeable);
 };

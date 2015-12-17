@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-01 16:40-0300\n"
+"POT-Creation-Date: 2015-12-17 17:28-0200\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
 "Generated-By: pygettext.py 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -49,6 +49,10 @@ msgid "Unable to start task due error: %(err)s"
 msgstr "由於下列錯誤，無法開始工作：%(err)s"
 
 #, python-format
+msgid "Timeout of %(seconds)s seconds expired while running task '%(task)s."
+msgstr ""
+
+#, python-format
 msgid "Authentication failed for user '%(username)s'. [Error code: %(code)s]"
 msgstr "使用者 '%(username)s' 的鑑別失敗。[錯誤碼：%(code)s]"
 
@@ -66,6 +70,10 @@ msgstr ""
 #, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "在資料儲存庫中找不到 %(item)s"
+
+#, python-format
+msgid "Unable to reach %(url)s. Make sure it is accessible and try again."
+msgstr ""
 
 #, python-format
 msgid "Timeout while running command '%(cmd)s' after %(seconds)s seconds"
@@ -91,42 +99,6 @@ msgstr "堆疊"
 msgid "Go to Homepage"
 msgstr "跳至首頁"
 
-msgid "The username or password you entered is incorrect. Please try again."
-msgstr "您輸入的使用者名稱或密碼不正確。請重試。"
-
-msgid "This field is required."
-msgstr "此欄位是必要的。"
-
-msgid "Log in"
-msgstr "登入"
-
-msgid "Logging in..."
-msgstr "正在登入..."
-
-msgid "Host"
-msgstr "主機"
-
-msgid "Guests"
-msgstr "客體"
-
-msgid "Templates"
-msgstr "範本"
-
-msgid "Storage"
-msgstr "儲存體"
-
-msgid "Network"
-msgstr "網路"
-
-msgid "Failed to get application configuration"
-msgstr "無法取得應用程式配置"
-
-msgid "This is not a valid Linux path"
-msgstr "這是無效的 Linux 路徑"
-
-msgid "This is not a valid URL."
-msgstr "這是無效的 URL。"
-
 msgid "No such data available."
 msgstr "沒有此類可用資料。"
 
@@ -137,38 +109,11 @@ msgstr ""
 "無法連接至主機系統。請驗證主機系統是否已啟動，以及您是否具有與它的連線。HTTP "
 "要求回應為 %1。"
 
-msgid "Unable to read file."
-msgstr ""
-
-msgid "Error while uploading file."
-msgstr ""
-
-msgid "Delete Confirmation"
-msgstr "刪除確認"
-
-msgid "OK"
-msgstr "確定"
-
 msgid "Cancel"
 msgstr "取消 "
 
 msgid "Confirm"
 msgstr "確認"
-
-msgid "Create"
-msgstr "建立"
-
-msgid "Warning"
-msgstr "警告"
-
-msgid "Save"
-msgstr "儲存"
-
-msgid "Creating..."
-msgstr ""
-
-msgid "Cloning..."
-msgstr ""
 
 msgid "Loading..."
 msgstr "正在載入..."
@@ -182,352 +127,11 @@ msgstr "重試"
 msgid "Detailed message:"
 msgstr "詳細的訊息："
 
-msgid "No ISO found"
-msgstr ""
-
-msgid "This is not a valid ISO file."
-msgstr "這是無效的 ISO 檔案。"
-
-msgid "This may take a long time. Do you want to continue?"
-msgstr "它將需要很長時間。要繼續嗎？"
-
-msgid "This will permanently delete the template. Would you like to continue?"
-msgstr "此動作將永久地刪除範本。要繼續嗎？"
-
-msgid "Unable to shut down system as there are some virtual machines running!"
-msgstr "無法關閉系統，因為有幾個虛擬機器正在執行中！"
-
 msgid "Max:"
 msgstr "上限："
 
-msgid "Utilization"
-msgstr "使用率"
-
-msgid "Available"
-msgstr "可用"
-
-msgid "Read Rate"
-msgstr "讀取速率"
-
-msgid "Write Rate"
-msgstr "寫入速率"
-
-msgid "Received"
-msgstr "已接收"
-
-msgid "Sent"
-msgstr "已傳送"
-
-msgid ""
-"Shutting down or restarting host will cause unsaved work lost. Continue to "
-"shut down/restarting?"
-msgstr "關閉或重新啟動主機將導致未儲存的工作遺失。要繼續關閉/重新啟動嗎？"
-
-msgid ""
-"Repository will be removed permanently and can't be recovered. Do you want "
-"to continue?"
-msgstr "將會永久地移除儲存庫並且無法回復。要繼續嗎？"
-
-msgid "Repositories"
-msgstr "儲存庫"
-
-msgid "ID"
-msgstr "ID"
-
-msgid "Name"
-msgstr "名稱"
-
-msgid "Base URL"
-msgstr "基本 URL"
-
-msgid "Is Mirror"
-msgstr "是鏡映"
-
-msgid "URL Args"
-msgstr "URL 引數"
-
-msgid "Enabled"
-msgstr "已啟用"
-
-msgid "GPG Check"
-msgstr "GPG 檢查"
-
-msgid "GPG Key"
-msgstr "GPG 金鑰"
-
-msgid "Add"
-msgstr "新增"
-
-msgid "Edit"
-msgstr "編輯"
-
-msgid "Remove"
-msgstr "移除"
-
-msgid "Enable"
-msgstr "啟用"
-
-msgid "Disable"
-msgstr "停用"
-
-msgid "Software Updates"
-msgstr "軟體更新"
-
-msgid "Package Name"
-msgstr "套件名稱"
-
-msgid "Version"
-msgstr "版本"
-
-msgid "Architecture"
-msgstr "架構"
-
-msgid "Repository"
-msgstr "儲存庫"
-
-msgid "Update All"
-msgstr "全部更新"
-
-msgid "Updating..."
-msgstr "正在更新..."
-
-msgid "Failed to retrieve packages update information."
-msgstr ""
-
-msgid "Failed to update package(s)."
-msgstr "無法更新套件。"
-
-msgid ""
-"Debug report will be removed permanently and can't be recovered. Do you want "
-"to continue?"
-msgstr "將會永久地移除除錯報告並且無法回復。要繼續嗎？"
-
-msgid "Debug Reports"
-msgstr "除錯報告"
-
-msgid "Generated Time"
-msgstr "產生時間"
-
-msgid "Generate"
-msgstr "產生"
-
-msgid "Generating..."
-msgstr "正在產生..."
-
-msgid "Rename"
-msgstr "重新命名"
-
-msgid "Download"
-msgstr "下載"
-
-msgid ""
-"Report name should contain only letters, digits, underscore ('_') and/or "
-"hyphen ('-')."
-msgstr "報告名稱只應該包含字母、數字及/或連字號 ('-')。"
-
-msgid "Pending..."
-msgstr "正在載入..."
-
-msgid "Report name is the same as the original one."
-msgstr ""
-
-msgid ""
-"This will delete the virtual machine and its virtual disks. This operation "
-"cannot be undone. Would you like to continue?"
-msgstr "此動作將會刪除虛擬機器及其虛擬磁碟。此作業無法復原。要繼續嗎？"
-
-msgid "Power off Confirmation"
-msgstr "刪除確認"
-
-msgid ""
-"This action may produce undesirable results, for example unflushed disk "
-"cache in the guest. Would you like to continue?"
-msgstr ""
-
-msgid "Reset Confirmation"
-msgstr "刪除確認"
-
-msgid ""
-"There is a risk of data loss caused by reset without the guest OS shutdown. "
-"Would you like to continue?"
-msgstr ""
-
-msgid "Shut Down Confirmation"
-msgstr "刪除確認"
-
-msgid "Note the guest OS may ignore this request. Would you like to continue?"
-msgstr "此動作將永久地刪除範本。要繼續嗎？"
-
-msgid "Virtual Machine delete Confirmation"
-msgstr ""
-
-msgid ""
-"This virtual machine is not persistent. Power Off will delete it. Continue?"
-msgstr ""
-
-msgid ""
-"When the target guest has SCSI or iSCSI volumes, they will be cloned on "
-"default storage pool. The same will happen when the target pool does not "
-"have enough space to clone the volumes. Do you want to continue?"
-msgstr ""
-
-msgid ""
-"This CDROM will be detached permanently and you can re-attach it. Continue "
-"to detach it?"
-msgstr ""
-"將會永久地分離此 CDROM，但是您可以將其重新連接。要繼續分離此 CDROM 嗎？"
-
-msgid "Attach"
-msgstr "連接"
-
-msgid "Attaching..."
-msgstr "正在連接..."
-
-msgid "Replace"
-msgstr "取代"
-
-msgid "Replacing..."
-msgstr "正在取代..."
-
-msgid "Successfully attached!"
-msgstr "已順利連接！"
-
-msgid "Successfully replaced!"
-msgstr "已順利取代！"
-
-msgid "Successfully detached!"
-msgstr "已順利分離！"
-
-msgid ""
-"This disk will be detached permanently and you can re-attach it. Continue to "
-"detach it?"
-msgstr ""
-
-msgid "interface:"
-msgstr ""
-
-msgid "address:"
-msgstr ""
-
-msgid "link_type:"
-msgstr ""
-
-msgid "block:"
-msgstr ""
-
-msgid "drive_type:"
-msgstr ""
-
-msgid "model:"
-msgstr ""
-
-msgid "Affected devices:"
-msgstr ""
-
-msgid "The VLAN id must be between 1 and 4094."
-msgstr "VLAN ID 必須介於 1 和 4094 之間。"
-
-msgid "unavailable"
-msgstr "無法使用"
-
-msgid ""
-"This action will interrupt network connectivity for any virtual machine that "
-"depend on this network."
-msgstr "此動作將會岔斷依賴於此網路之所有虛擬機器的網路連線功能。"
-
-msgid "Create a network"
-msgstr "建立網路"
-
-msgid ""
-"This network is not persistent. Instead of stop, this action will "
-"permanently delete it. Would you like to continue?"
-msgstr ""
-"此儲存區不是持續性的。此動作不是會將其取消啟動，而是會將其永久地刪除。要繼續"
-"嗎？"
-
-msgid ""
-"The bridged VLAN tag may not work well with NetworkManager enabled. You "
-"should consider disabling it."
-msgstr ""
-
-msgid ""
-"This will permanently delete the storage pool. Would you like to continue?"
-msgstr "此動作將永久地刪除儲存區。要繼續嗎？"
-
-msgid "This storage pool is empty."
-msgstr "此儲存區是空的。"
-
-msgid ""
-"It will format your disk and you will loose any data in there, are you sure "
-"to continue? "
-msgstr "此動作會格式化您的磁碟，而您將會遺失磁碟中的所有資料。確定要繼續嗎？"
-
-msgid "SCSI Fibre Channel"
-msgstr "SCSI 光纖通道"
-
-msgid "No SCSI adapters found."
-msgstr "找不到 SCSI 配接卡。"
-
-msgid "Loading iSCSI targets..."
-msgstr ""
-
-msgid "No iSCSI found. Please input one."
-msgstr ""
-
-msgid "Failed to load iSCSI targets."
-msgstr ""
-
-msgid "The storage pool name can not be blank."
-msgstr "儲存區名稱不能空白。"
-
-msgid "The storage pool path can not be blank."
-msgstr "儲存區路徑不能空白。"
-
-msgid "NFS server mount path can not be blank."
-msgstr "NFS 伺服器裝載路徑不能空白。"
-
-msgid "Invalid NFS mount path."
-msgstr "NFS 裝載路徑無效。"
-
-msgid "No logical device selected."
-msgstr "未選取邏輯裝置。"
-
-msgid "The iSCSI target can not be blank."
-msgstr "iSCSI 目標不能空白。"
-
-msgid "Server name can not be blank."
-msgstr "伺服器名稱不能空白。"
-
-msgid "This is not a valid Server Name or IP. Please, modify it."
-msgstr ""
-
-msgid "Looking for available partitions ..."
-msgstr "正在尋找可用的分割區 ..."
-
-msgid "No available partitions found."
-msgstr "找不到可用的分割區。"
-
-msgid ""
-"This storage pool is not persistent. Instead of deactivate, this action will "
-"permanently delete it. Would you like to continue?"
-msgstr ""
-"此儲存區不是持續性的。此動作不是會將其取消啟動，而是會將其永久地刪除。要繼續"
-"嗎？"
-
-msgid "Unable to retrieve partitions information."
-msgstr "無法擷取儲存庫資訊。詳細資料：'%(err)s'"
-
-msgid "In progress..."
-msgstr ""
-
-msgid "Failed!"
-msgstr ""
-
-msgid "CDROM path needs to be a valid local/remote path and cannot be blank."
-msgstr ""
-
-msgid "Disk pool or volume cannot be blank."
-msgstr "儲存區名稱不能空白。"
+msgid "The username or password you entered is incorrect. Please try again."
+msgstr "您輸入的使用者名稱或密碼不正確。請重試。"
 
 msgid "Session timeout, please re-login."
 msgstr ""
@@ -535,8 +139,22 @@ msgstr ""
 msgid "User Name"
 msgstr "使用者名稱"
 
+#, fuzzy
+msgid " User Name "
+msgstr "使用者名稱"
+
 msgid "Password"
 msgstr "密碼"
+
+#, fuzzy
+msgid " Password "
+msgstr "密碼"
+
+msgid "Log in"
+msgstr "登入"
+
+msgid "Logging in..."
+msgstr "正在登入..."
 
 msgid "Peers"
 msgstr ""
@@ -549,17 +167,326 @@ msgstr "警告"
 msgid "No peers found."
 msgstr "找不到客體。"
 
+msgid "Log out"
+msgstr "登出"
+
 msgid "Help"
 msgstr "說明"
 
 msgid "About"
 msgstr "相關"
 
-msgid "Log out"
-msgstr "登出"
+msgid "Toggle navigation"
+msgstr ""
 
 msgid "Version:"
 msgstr "版本："
+
+#~ msgid "This field is required."
+#~ msgstr "此欄位是必要的。"
+
+#~ msgid "Host"
+#~ msgstr "主機"
+
+#~ msgid "Guests"
+#~ msgstr "客體"
+
+#~ msgid "Templates"
+#~ msgstr "範本"
+
+#~ msgid "Storage"
+#~ msgstr "儲存體"
+
+#~ msgid "Network"
+#~ msgstr "網路"
+
+#~ msgid "Failed to get application configuration"
+#~ msgstr "無法取得應用程式配置"
+
+#~ msgid "This is not a valid Linux path"
+#~ msgstr "這是無效的 Linux 路徑"
+
+#~ msgid "This is not a valid URL."
+#~ msgstr "這是無效的 URL。"
+
+#~ msgid "Delete Confirmation"
+#~ msgstr "刪除確認"
+
+#~ msgid "OK"
+#~ msgstr "確定"
+
+#~ msgid "Create"
+#~ msgstr "建立"
+
+#~ msgid "Warning"
+#~ msgstr "警告"
+
+#~ msgid "Save"
+#~ msgstr "儲存"
+
+#~ msgid "This is not a valid ISO file."
+#~ msgstr "這是無效的 ISO 檔案。"
+
+#~ msgid "This may take a long time. Do you want to continue?"
+#~ msgstr "它將需要很長時間。要繼續嗎？"
+
+#~ msgid ""
+#~ "This will permanently delete the template. Would you like to continue?"
+#~ msgstr "此動作將永久地刪除範本。要繼續嗎？"
+
+#~ msgid ""
+#~ "Unable to shut down system as there are some virtual machines running!"
+#~ msgstr "無法關閉系統，因為有幾個虛擬機器正在執行中！"
+
+#~ msgid "Utilization"
+#~ msgstr "使用率"
+
+#~ msgid "Available"
+#~ msgstr "可用"
+
+#~ msgid "Read Rate"
+#~ msgstr "讀取速率"
+
+#~ msgid "Write Rate"
+#~ msgstr "寫入速率"
+
+#~ msgid "Received"
+#~ msgstr "已接收"
+
+#~ msgid "Sent"
+#~ msgstr "已傳送"
+
+#~ msgid ""
+#~ "Shutting down or restarting host will cause unsaved work lost. Continue "
+#~ "to shut down/restarting?"
+#~ msgstr "關閉或重新啟動主機將導致未儲存的工作遺失。要繼續關閉/重新啟動嗎？"
+
+#~ msgid ""
+#~ "Repository will be removed permanently and can't be recovered. Do you "
+#~ "want to continue?"
+#~ msgstr "將會永久地移除儲存庫並且無法回復。要繼續嗎？"
+
+#~ msgid "Repositories"
+#~ msgstr "儲存庫"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Name"
+#~ msgstr "名稱"
+
+#~ msgid "Base URL"
+#~ msgstr "基本 URL"
+
+#~ msgid "Is Mirror"
+#~ msgstr "是鏡映"
+
+#~ msgid "URL Args"
+#~ msgstr "URL 引數"
+
+#~ msgid "Enabled"
+#~ msgstr "已啟用"
+
+#~ msgid "GPG Check"
+#~ msgstr "GPG 檢查"
+
+#~ msgid "GPG Key"
+#~ msgstr "GPG 金鑰"
+
+#~ msgid "Add"
+#~ msgstr "新增"
+
+#~ msgid "Edit"
+#~ msgstr "編輯"
+
+#~ msgid "Remove"
+#~ msgstr "移除"
+
+#~ msgid "Enable"
+#~ msgstr "啟用"
+
+#~ msgid "Disable"
+#~ msgstr "停用"
+
+#~ msgid "Software Updates"
+#~ msgstr "軟體更新"
+
+#~ msgid "Package Name"
+#~ msgstr "套件名稱"
+
+#~ msgid "Version"
+#~ msgstr "版本"
+
+#~ msgid "Architecture"
+#~ msgstr "架構"
+
+#~ msgid "Repository"
+#~ msgstr "儲存庫"
+
+#~ msgid "Update All"
+#~ msgstr "全部更新"
+
+#~ msgid "Updating..."
+#~ msgstr "正在更新..."
+
+#~ msgid "Failed to update package(s)."
+#~ msgstr "無法更新套件。"
+
+#~ msgid ""
+#~ "Debug report will be removed permanently and can't be recovered. Do you "
+#~ "want to continue?"
+#~ msgstr "將會永久地移除除錯報告並且無法回復。要繼續嗎？"
+
+#~ msgid "Debug Reports"
+#~ msgstr "除錯報告"
+
+#~ msgid "Generated Time"
+#~ msgstr "產生時間"
+
+#~ msgid "Generate"
+#~ msgstr "產生"
+
+#~ msgid "Generating..."
+#~ msgstr "正在產生..."
+
+#~ msgid "Rename"
+#~ msgstr "重新命名"
+
+#~ msgid "Download"
+#~ msgstr "下載"
+
+#~ msgid ""
+#~ "Report name should contain only letters, digits, underscore ('_') and/or "
+#~ "hyphen ('-')."
+#~ msgstr "報告名稱只應該包含字母、數字及/或連字號 ('-')。"
+
+#~ msgid "Pending..."
+#~ msgstr "正在載入..."
+
+#~ msgid ""
+#~ "This will delete the virtual machine and its virtual disks. This "
+#~ "operation cannot be undone. Would you like to continue?"
+#~ msgstr "此動作將會刪除虛擬機器及其虛擬磁碟。此作業無法復原。要繼續嗎？"
+
+#~ msgid "Power off Confirmation"
+#~ msgstr "刪除確認"
+
+#~ msgid "Reset Confirmation"
+#~ msgstr "刪除確認"
+
+#~ msgid "Shut Down Confirmation"
+#~ msgstr "刪除確認"
+
+#~ msgid ""
+#~ "Note the guest OS may ignore this request. Would you like to continue?"
+#~ msgstr "此動作將永久地刪除範本。要繼續嗎？"
+
+#~ msgid ""
+#~ "This CDROM will be detached permanently and you can re-attach it. "
+#~ "Continue to detach it?"
+#~ msgstr ""
+#~ "將會永久地分離此 CDROM，但是您可以將其重新連接。要繼續分離此 CDROM 嗎？"
+
+#~ msgid "Attach"
+#~ msgstr "連接"
+
+#~ msgid "Attaching..."
+#~ msgstr "正在連接..."
+
+#~ msgid "Replace"
+#~ msgstr "取代"
+
+#~ msgid "Replacing..."
+#~ msgstr "正在取代..."
+
+#~ msgid "Successfully attached!"
+#~ msgstr "已順利連接！"
+
+#~ msgid "Successfully replaced!"
+#~ msgstr "已順利取代！"
+
+#~ msgid "Successfully detached!"
+#~ msgstr "已順利分離！"
+
+#~ msgid "The VLAN id must be between 1 and 4094."
+#~ msgstr "VLAN ID 必須介於 1 和 4094 之間。"
+
+#~ msgid "unavailable"
+#~ msgstr "無法使用"
+
+#~ msgid ""
+#~ "This action will interrupt network connectivity for any virtual machine "
+#~ "that depend on this network."
+#~ msgstr "此動作將會岔斷依賴於此網路之所有虛擬機器的網路連線功能。"
+
+#~ msgid "Create a network"
+#~ msgstr "建立網路"
+
+#~ msgid ""
+#~ "This network is not persistent. Instead of stop, this action will "
+#~ "permanently delete it. Would you like to continue?"
+#~ msgstr ""
+#~ "此儲存區不是持續性的。此動作不是會將其取消啟動，而是會將其永久地刪除。要繼"
+#~ "續嗎？"
+
+#~ msgid ""
+#~ "This will permanently delete the storage pool. Would you like to continue?"
+#~ msgstr "此動作將永久地刪除儲存區。要繼續嗎？"
+
+#~ msgid "This storage pool is empty."
+#~ msgstr "此儲存區是空的。"
+
+#~ msgid ""
+#~ "It will format your disk and you will loose any data in there, are you "
+#~ "sure to continue? "
+#~ msgstr ""
+#~ "此動作會格式化您的磁碟，而您將會遺失磁碟中的所有資料。確定要繼續嗎？"
+
+#~ msgid "SCSI Fibre Channel"
+#~ msgstr "SCSI 光纖通道"
+
+#~ msgid "No SCSI adapters found."
+#~ msgstr "找不到 SCSI 配接卡。"
+
+#~ msgid "The storage pool name can not be blank."
+#~ msgstr "儲存區名稱不能空白。"
+
+#~ msgid "The storage pool path can not be blank."
+#~ msgstr "儲存區路徑不能空白。"
+
+#~ msgid "NFS server mount path can not be blank."
+#~ msgstr "NFS 伺服器裝載路徑不能空白。"
+
+#~ msgid "Invalid NFS mount path."
+#~ msgstr "NFS 裝載路徑無效。"
+
+#~ msgid "No logical device selected."
+#~ msgstr "未選取邏輯裝置。"
+
+#~ msgid "The iSCSI target can not be blank."
+#~ msgstr "iSCSI 目標不能空白。"
+
+#~ msgid "Server name can not be blank."
+#~ msgstr "伺服器名稱不能空白。"
+
+#~ msgid "Looking for available partitions ..."
+#~ msgstr "正在尋找可用的分割區 ..."
+
+#~ msgid "No available partitions found."
+#~ msgstr "找不到可用的分割區。"
+
+#~ msgid ""
+#~ "This storage pool is not persistent. Instead of deactivate, this action "
+#~ "will permanently delete it. Would you like to continue?"
+#~ msgstr ""
+#~ "此儲存區不是持續性的。此動作不是會將其取消啟動，而是會將其永久地刪除。要繼"
+#~ "續嗎？"
+
+#~ msgid "Unable to retrieve partitions information."
+#~ msgstr "無法擷取儲存庫資訊。詳細資料：'%(err)s'"
+
+#~ msgid "Disk pool or volume cannot be blank."
+#~ msgstr "儲存區名稱不能空白。"
 
 #~ msgid "Error while getting block devices. Details: %(err)s"
 #~ msgstr "取得區塊裝置時發生錯誤。詳細資料：%(err)s"
@@ -666,8 +593,8 @@ msgstr "版本："
 #~ msgstr "無法停止虛擬機器 %(name)s。詳細資料：%(err)s"
 
 #~ msgid ""
-#~ "Unable to get access metadata of virtual machine %(name)s. Details: %(err)"
-#~ "s"
+#~ "Unable to get access metadata of virtual machine %(name)s. Details: "
+#~ "%(err)s"
 #~ msgstr "無法啟動虛擬機器 %(name)s。詳細資料：%(err)s"
 
 #~ msgid "Interface %(iface)s does not exist in virtual machine %(name)s"
@@ -812,8 +739,8 @@ msgstr "版本："
 #~ msgstr "指定名稱和類型以建立儲存區"
 
 #~ msgid ""
-#~ "%(disk)s is not a valid disk/partition. Could not add it to the pool %"
-#~ "(pool)s."
+#~ "%(disk)s is not a valid disk/partition. Could not add it to the pool "
+#~ "%(pool)s."
 #~ msgstr "%(disk)s 不是有效的磁碟/分割區。無法將它新增至儲存區%(pool)s。"
 
 #~ msgid "The parameter disks only can be updated for logical storage pool."
@@ -897,8 +824,8 @@ msgstr "版本："
 #~ msgstr "儲存磁區需要磁區名稱"
 
 #~ msgid ""
-#~ "Unable to update database with storage volume information due error: %"
-#~ "(err)s"
+#~ "Unable to update database with storage volume information due error: "
+#~ "%(err)s"
 #~ msgstr "由於下列錯誤，無法使用儲存磁區資訊來更新資料庫：%(err)s"
 
 #~ msgid "Interface %(name)s does not exist"

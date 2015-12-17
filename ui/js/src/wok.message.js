@@ -36,15 +36,17 @@ wok.message = function(msg, level, node, closeable) {
     $message.alert();
     $message.fadeIn(100);
 
-    var timeout = setTimeout(function() {
-        $message.delay(4000).fadeOut(100, function() {
-            $message.alert('close');
-            $(this).remove();
-            if ($(container).children().length < 1) {
-                $(container).hide();
-            }
-        });
-    }, 10000);
+    if(!closeable){
+        var timeout = setTimeout(function() {
+            $message.delay(4000).fadeOut(100, function() {
+                $message.alert('close');
+                $(this).remove();
+                if ($(container).children().length < 1) {
+                    $(container).hide();
+                }
+            });
+        }, 10000);
+    }
 };
 
 wok.message.warn = function(msg, node, closeable) {

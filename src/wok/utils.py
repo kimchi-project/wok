@@ -109,7 +109,11 @@ def get_all_tabs():
 
     tabs = []
     for f in files:
-        root = ET.parse(f)
+        try:
+            root = ET.parse(f)
+        except (IOError):
+            wok_log.debug("Unable to load %s", f)
+            continue
         tabs.extend([t.text.lower() for t in root.getiterator('title')])
 
     return tabs

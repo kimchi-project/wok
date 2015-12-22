@@ -133,6 +133,10 @@ AC_CONFIG_FILES([
     ui/libs/bootstrap-switch/dist/Makefile
     ui/libs/bootstrap-switch/dist/js/Makefile
     ui/libs/bootstrap-switch/dist/css/Makefile
+    ui/libs/bootstrap-editable/Makefile
+    ui/libs/bootstrap-editable/dist/Makefile
+    ui/libs/bootstrap-editable/dist/js/Makefile
+    ui/libs/bootstrap-editable/dist/css/Makefile
     ui/libs/es5-shim/Makefile
     ui/libs/jquery/Makefile
     ui/libs/jquery-i18n/Makefile

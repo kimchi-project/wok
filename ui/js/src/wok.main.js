@@ -125,11 +125,13 @@ wok.main = function() {
                             function(i18nObj){ //i18n is not define by plugin
                             }, i18nUrl, true);
                 var pluginTabs = retrieveTabs(url);
-                var func = pluginTabs[0].functionality
-                if (functionalTabs.indexOf(func) == -1) {
-                    functionalTabs.push(pluginTabs[0].functionality)
+                if(pluginTabs.length > 0){
+                    var func = pluginTabs[0].functionality
+                    if (functionalTabs.indexOf(func) == -1) {
+                        functionalTabs.push(pluginTabs[0].functionality)
+                    }
+                    tabs.push.apply(tabs, pluginTabs);
                 }
-                tabs.push.apply(tabs, pluginTabs);
             });
 
             //redirect to empty page when no plugin installed

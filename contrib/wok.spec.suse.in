@@ -24,8 +24,6 @@ BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
 BuildRequires:	openssl
 BuildRequires:	python-lxml
-BuildRequires:	python-devel
-BuildRequires:	python-pip
 
 %if 0%{?suse_version} == 1100
 Requires:       python-ordereddict

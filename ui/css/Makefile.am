@@ -22,13 +22,23 @@ SUBDIRS = fontawesome opensans
 EXTRA_DIST = theme-default
 
 cssdir = $(datadir)/wok/ui/css
-dist_css_DATA = theme-default.min.css jquery-ui.custom.css wok.css  bootstrap.custom.css bootstrap-select.custom.css
+dist_css_DATA = theme-default.min.css jquery-ui.custom.css wok.css bootstrap.custom.css bootstrap-select.custom.css
 
-%.css: src/%.scss
+wok: src/wok.scss src/modules/*.scss
 	echo "Compiling .scss file $<"
-	sassc -s expanded $< $(@:.scss=.css)
+	sassc -s expanded $< wok.css
+
+bootstrap: src/bootstrap.custom.scss
+	echo "Compiling .scss file $<"
+	sassc -s expanded $< bootstrap.custom.css
+
+bootstrap-select: src/bootstrap-select.custom.scss
+	echo "Compiling .scss file $<"
+	sassc -s expanded $< bootstrap-select.custom.css
+
+css: wok bootstrap bootstrap-select
 
 theme-default.min.css: theme-default/*.css
 	cat $^ > $@
 
-CLEANFILES = theme-default.min.css wok.css bootstrap.custom.css bootstrap-select.custom.css
+CLEANFILES = theme-default.min.css

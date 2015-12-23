@@ -23,8 +23,6 @@ BuildRequires:	gettext-devel
 BuildRequires:	libxslt
 BuildRequires:	openssl
 BuildRequires:	python-lxml
-BuildRequires:	python-devel
-BuildRequires:	python-pip
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %global with_systemd 1

@@ -19,8 +19,6 @@ Build-Depends: xsltproc,
                gettext,
                openssl,
                python-lxml,
-               pkg-config,
-               python-dev,
-               python-pip
+               pkg-config
 Maintainer: Aline Manera <alinefm@br.ibm.com>
 Description: Wok - Webserver Originated from Kimchi

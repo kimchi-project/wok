@@ -53,20 +53,21 @@ Install Dependencies
                         python-cherrypy python-cheetah python-imaging\
                         PyPAM m2crypto python-jsonschema rpm-build \
                         python-psutil python-ldap python-lxml \
-                        libxslt nginx openssl python-devel python-pip \
-                        gcc-c++ open-sans-fonts fontawesome-fonts
+                        libxslt nginx openssl gcc-c++ open-sans-fonts \
+                        fontawesome-fonts
 
-     $ sudo pip install cython libsass
-
-
-     # If using RHEL, install the following additional packages:
-     $ sudo yum install python-unittest2 python-ordereddict
+    # If using RHEL, install the following additional packages:
+    $ sudo yum install python-unittest2 python-ordereddict
 
     Packages version requirement:
         python-psutil >= 0.6.0
 
     # These dependencies are only required if you want to run the tests:
     $ sudo yum install pyflakes python-pep8 python-requests
+
+    # For UI development
+    $ sudo yum install gcc-c++ python-devel python pip
+    $ sudo pip install cython libsass
 
 *Note for RHEL users*: Some of the above packages are located in the Red Hat
 EPEL repositories.  See
@@ -82,10 +83,8 @@ channel at RHN Classic or Red Hat Satellite.
                            python-cherrypy3 python-cheetah python-imaging \
                            python-pam python-m2crypto python-jsonschema \
                            python-psutil python-ldap python-lxml nginx \
-                           xsltproc openssl python-dev python-pip \
-                           g++ fonts-font-awesome texlive-fonts-extra
-
-    $ sudo pip install cython libsass
+                           xsltproc openssl fonts-font-awesome \
+                           texlive-fonts-extra
 
     Packages version requirement:
         python-jsonschema >= 1.3.0
@@ -94,17 +93,18 @@ channel at RHN Classic or Red Hat Satellite.
     # These dependencies are only required if you want to run the tests:
     $ sudo apt-get install pep8 pyflakes python-requests
 
+    # For UI development
+    $ sudo apt-get install g++ python-dev python pip
+    $ sudo pip install cython libsass
+
 **For openSUSE:**
 
     $ sudo zypper install gcc make autoconf automake gettext-tools git \
                           python-CherryPy python-Cheetah python-pam \
                           python-imaging python-M2Crypto python-jsonschema \
                           rpm-build python-psutil python-ldap python-lxml \
-                          libxslt-tools python-xml nginx openssl python-devel \
-                          python-pip gcc-c++ google-opensans-fonts \
-                          fontawesome-fonts
-
-    $ sudo pip install cython libsass
+                          libxslt-tools python-xml nginx openssl \
+                          google-opensans-fonts fontawesome-fonts
 
     Packages version requirement:
         python-psutil >= 0.6.0
@@ -112,6 +112,9 @@ channel at RHN Classic or Red Hat Satellite.
     # These dependencies are only required if you want to run the tests:
     $ sudo zypper install python-pyflakes python-pep8 python-requests
 
+    # For UI development
+    $ sudo zypper install gcc-c++ python-devel python pip
+    $ sudo pip install cython libsass
 
 Build and Install
 -----------------
@@ -156,6 +159,13 @@ Wok uses by default the ports 8000, 8001 and 64667. To allow incoming connection
 Allow httpd_t context for Wok web server:
 
         $ sudo semanage permissive -a httpd_t
+
+
+UI Development
+----
+Make sure to update the CSS files when modifying the SCSS files by running:
+
+    $ sudo make -C ui/css css
 
 
 Wok Plugins

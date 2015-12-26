@@ -19,6 +19,8 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
+import cherrypy
+
 from wok.utils import get_enabled_plugins
 
 
@@ -27,4 +29,7 @@ class PluginsModel(object):
         pass
 
     def get_list(self):
-        return [plugin for (plugin, config) in get_enabled_plugins()]
+        # Will only return plugins that were loaded correctly by WOK and are
+        # properly configured in cherrypy
+        return [plugin for (plugin, config) in get_enabled_plugins()
+                if config.get('wok').get('uri') in cherrypy.tree.apps.keys()]

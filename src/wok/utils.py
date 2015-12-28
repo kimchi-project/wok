@@ -28,6 +28,7 @@ import pwd
 import re
 import sqlite3
 import subprocess
+import sys
 import traceback
 import xml.etree.ElementTree as ET
 from cherrypy.lib.reprconf import Parser
@@ -135,13 +136,15 @@ def import_module(module_name, class_name=''):
     return __import__(module_name, globals(), locals(), [class_name])
 
 
-def run_command(cmd, timeout=None, silent=False):
+def run_command(cmd, timeout=None, silent=False, tee=None):
     """
     cmd is a sequence of command arguments.
     timeout is a float number in seconds.
     timeout default value is None, means command run without timeout.
     silent is bool, it will log errors using debug handler not error.
     silent default value is False.
+    tee is a file path to store the output of the command, like 'tee' command.
+    tee default value is None, means output will not be logged.
     """
     # subprocess.kill() can leave descendants running
     # and halting the execution. Using psutil to
@@ -159,6 +162,24 @@ def run_command(cmd, timeout=None, silent=False):
         else:
             timeout_flag[0] = True
 
+    # function to append the given msg into the log_file
+    def tee_log(msg=None, log_file=None):
+        if (msg is None) or (log_file is None):
+            return
+
+        try:
+            f = open(log_file, 'a')
+        except IOError as e:
+            msg = "Failed to open file %s: " % log_file
+            wok_log.error("%s %s", msg, e)
+            return
+        msg += '\n'
+        try:
+            f.write(msg)
+        except TypeError:
+            f.write(msg.encode('utf_8'))
+        f.close()
+
     proc = None
     timer = None
     timeout_flag = [False]
@@ -171,8 +192,33 @@ def run_command(cmd, timeout=None, silent=False):
             timer.setDaemon(True)
             timer.start()
 
-        out, error = proc.communicate()
         wok_log.debug("Run command: '%s'", " ".join(cmd))
+        if tee is not None:
+            if os.path.exists(tee):
+                os.remove(tee)
+            output = []
+            while True:
+                line = ""
+                try:
+                    line = proc.stdout.readline()
+                    line = line.decode('utf_8')
+                except Exception:
+                    type, e, tb = sys.exc_info()
+                    wok_log.error(e)
+                    wok_log.error("The output of the command could not be "
+                                  "decoded as %s\ncmd: %s\n line ignored: %s" %
+                                  ('utf_8', cmd, repr(line)))
+                    pass
+
+                output.append(line)
+                if not line:
+                    break
+                line = line.rstrip('\n\r')
+                tee_log(line, tee)
+            out = ''.join(output)
+            error = proc.stderr.read()
+        else:
+            out, error = proc.communicate()
 
         if out:
             wok_log.debug("out:\n%s", out)

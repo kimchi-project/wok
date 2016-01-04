@@ -57,6 +57,34 @@
   border-left-color: #8c8c8c;
 }
 
+.bootstrap-select.btn-group > [disabled],
+.bootstrap-select.btn-group > [disabled]:hover,
+.bootstrap-select.btn-group > [disabled]:focus,
+.bootstrap-select.btn-group > [readonly],
+.bootstrap-select.btn-group > [readonly]:hover,
+.bootstrap-select.btn-group > [readonly]:focus,
+.bootstrap-select.btn-group > .disabled,
+.bootstrap-select.btn-group > .disabled:hover,
+.bootstrap-select.btn-group > .disabled:focus {
+  opacity: 1;
+  border-color: #ccc;
+  background-color: #eee;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.bootstrap-select.btn-group > [disabled] .caret,
+.bootstrap-select.btn-group > [disabled]:hover .caret,
+.bootstrap-select.btn-group > [disabled]:focus .caret,
+.bootstrap-select.btn-group > [readonly] .caret,
+.bootstrap-select.btn-group > [readonly]:hover .caret,
+.bootstrap-select.btn-group > [readonly]:focus .caret,
+.bootstrap-select.btn-group > .disabled .caret,
+.bootstrap-select.btn-group > .disabled:hover .caret,
+.bootstrap-select.btn-group > .disabled:focus .caret {
+  border-color: #ccc;
+}
+
 .bootstrap-select.btn-group .dropdown-menu {
   z-index: 2035;
 }

@@ -66,7 +66,7 @@ Install Dependencies
     $ sudo yum install pyflakes python-pep8 python-requests
 
     # For UI development
-    $ sudo yum install gcc-c++ python-devel python pip
+    $ sudo yum install gcc-c++ python-devel python-pip
     $ sudo pip install cython libsass
 
 *Note for RHEL users*: Some of the above packages are located in the Red Hat
@@ -94,7 +94,7 @@ channel at RHN Classic or Red Hat Satellite.
     $ sudo apt-get install pep8 pyflakes python-requests
 
     # For UI development
-    $ sudo apt-get install g++ python-dev python pip
+    $ sudo apt-get install g++ python-dev python-pip
     $ sudo pip install cython libsass
 
 **For openSUSE:**
@@ -113,7 +113,7 @@ channel at RHN Classic or Red Hat Satellite.
     $ sudo zypper install python-pyflakes python-pep8 python-requests
 
     # For UI development
-    $ sudo zypper install gcc-c++ python-devel python pip
+    $ sudo zypper install gcc-c++ python-devel python-pip
     $ sudo pip install cython libsass
 
 Build and Install

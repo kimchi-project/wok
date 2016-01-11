@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2013-2015
+# Copyright IBM, Corp. 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -136,7 +136,8 @@ def import_module(module_name, class_name=''):
     return __import__(module_name, globals(), locals(), [class_name])
 
 
-def run_command(cmd, timeout=None, silent=False, tee=None):
+def run_command(cmd, timeout=None, silent=False, tee=None,
+                env_vars=None):
     """
     cmd is a sequence of command arguments.
     timeout is a float number in seconds.
@@ -184,9 +185,15 @@ def run_command(cmd, timeout=None, silent=False, tee=None):
     timer = None
     timeout_flag = [False]
 
+    if env_vars is None:
+        env_vars = os.environ.copy()
+        env_vars['LC_ALL'] = 'C'
+    elif env_vars.get('LC_ALL') is None:
+        env_vars['LC_ALL'] = 'C'
+
     try:
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
+                                stderr=subprocess.PIPE, env=env_vars)
         if timeout is not None:
             timer = Timer(timeout, kill_proc, [proc, timeout_flag])
             timer.setDaemon(True)

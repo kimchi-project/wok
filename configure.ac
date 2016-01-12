@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2015
+# Copyright IBM Corp, 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -138,6 +138,7 @@ AC_CONFIG_FILES([
     ui/libs/jquery-ui/themes/base/Makefile
     ui/libs/jquery-ui/themes/base/images/Makefile
     ui/libs/list-js/Makefile
+    ui/libs/typeahead/Makefile
     ui/pages/Makefile
     ui/pages/websockify/Makefile
     contrib/Makefile

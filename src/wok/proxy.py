@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2014-2015
+# Copyright IBM, Corp. 2014-2016
 #
 # Code derived from Project Kimchi
 #
@@ -82,8 +82,9 @@ def _create_proxy_config(options):
     data = Template(data)
     data = data.safe_substitute(user=user_proxy,
                                 proxy_port=options.port,
-                                wokd_port=options.cherrypy_port,
                                 proxy_ssl_port=options.ssl_port,
+                                cherrypy_port=options.cherrypy_port,
+                                websockets_port=options.websockets_port,
                                 cert_pem=cert, cert_key=key,
                                 max_body_size=eval(options.max_body_size),
                                 dhparams_pem=dhparams_pem)

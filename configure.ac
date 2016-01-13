@@ -90,6 +90,7 @@ AC_CONFIG_FILES([
     Makefile
     docs/Makefile
     docs/wokd.8
+    docs/API/Makefile
     src/Makefile
     src/nginx/Makefile
     src/wok/Makefile

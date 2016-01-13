@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2015
+# Copyright IBM Corp, 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -23,9 +23,6 @@ SUBDIRS = API
 
 docdir = $(datadir)/wok/doc
 
-dist_doc_DATA = \
-	README.md \
-	wokd.8 \
-	$(NULL)
+dist_doc_DATA = $(wildcard *.md) wokd.8 $(NULL)
 
 CLEANFILES = wokd.8

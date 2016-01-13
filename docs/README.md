@@ -1,14 +1,27 @@
-Wok (Webserver Originated from Kimchi)
+* [What is Wok?](#what-is-wok)
+* [Browser Support](#browser-support)
+    * [Desktop Browser Support](#desktop-browser-support)
+    * [Mobile Browser Support](#mobile-browser-support)
+* [Linux Support](#linux-support)
+* [Getting started](#getting-started)
+    * [Install Dependencies](#install-dependencies)
+    * [Build and Install](#build-and-install)
+    * [Starting up Wok](#starting-up-wok)
+    * [Troubleshooting](/docs/troubleshooting.md)
+* [Contributing to Wok Project](#contributing-to-wok-project)
+
+What is Wok?
 ======================================
 
-Wok is a cherrypy-based web framework with HTML5 support that is extended by
-plugins which expose functionality through REST APIs.
+Wok is a cherrypy-based web framework with HTML5 support originated from Kimchi.
+It can be extended by plugins which expose functionality through REST APIs.
 
-Examples of such plugins are Kimchi (Virtualization Management) and Ginger
-(System Administration). Wok comes with a sample plugin for education purposes.
+Examples of such plugins are [Kimchi](https://github.com/kimchi-project/kimchi/)
+(Virtualization Management); [Ginger Base](https://github.com/kimchi-project/gingerbase/)
+(Basic host management) and; [Ginger](https://github.com/kimchi-project/ginger/)
+(System Administration).
 
 Wok runs through wokd daemon.
-
 
 Browser Support
 ===============
@@ -31,171 +44,50 @@ Mobile Browser Support:
 * **Safari iOS:** Current version
 * **Android Browser** Current version
 
-
-Hypervisor Distro Support
+Linux Support
 =========================
 
 Wok might run on any GNU/Linux distribution that meets the conditions
 described on the 'Getting Started' section below.
 
 The Kimchi community (responsible for Wok project) makes an effort to
-test it with the latest versions of Fedora, RHEL, OpenSUSE, and Ubuntu.
+test it with the latest versions of Fedora, RHEL, openSUSE, and Ubuntu.
 
 Getting Started
 ===============
 
 Install Dependencies
 --------------------
+In order to have Wok running as expected in your system, please make sure to have
+all the dependencies installed before building Wok or starting up the wokd service.
 
-**For Fedora and RHEL:**
-
-     $ sudo yum install gcc make autoconf automake gettext-devel git \
-                        python-cherrypy python-cheetah python-imaging\
-                        PyPAM m2crypto python-jsonschema rpm-build \
-                        python-psutil python-ldap python-lxml \
-                        libxslt nginx openssl gcc-c++ open-sans-fonts \
-                        fontawesome-fonts
-
-    # If using RHEL, install the following additional packages:
-    $ sudo yum install python-unittest2 python-ordereddict
-
-    Packages version requirement:
-        python-psutil >= 0.6.0
-
-    # These dependencies are only required if you want to run the tests:
-    $ sudo yum install pyflakes python-pep8 python-requests
-
-    # For UI development
-    $ sudo yum install gcc-c++ python-devel python-pip
-    $ sudo pip install cython libsass
-
-*Note for RHEL users*: Some of the above packages are located in the Red Hat
-EPEL repositories.  See
-[this FAQ](http://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F)
-for more information on how to configure your system to access this repository.
-
-And for RHEL7 systems, you also need to subscribe to the "RHEL Server Optional"
-channel at RHN Classic or Red Hat Satellite.
-
-**For Ubuntu (Debian-based):**
-
-    $ sudo apt-get install gcc make autoconf automake gettext git pkgconf \
-                           python-cherrypy3 python-cheetah python-imaging \
-                           python-pam python-m2crypto python-jsonschema \
-                           python-psutil python-ldap python-lxml nginx \
-                           xsltproc openssl fonts-font-awesome \
-                           texlive-fonts-extra
-
-    Packages version requirement:
-        python-jsonschema >= 1.3.0
-        python-psutil >= 0.6.0
-
-    # These dependencies are only required if you want to run the tests:
-    $ sudo apt-get install pep8 pyflakes python-requests
-
-    # For UI development
-    $ sudo apt-get install g++ python-dev python-pip
-    $ sudo pip install cython libsass
-
-**For openSUSE:**
-
-    $ sudo zypper install gcc make autoconf automake gettext-tools git \
-                          python-CherryPy python-Cheetah python-pam \
-                          python-imaging python-M2Crypto python-jsonschema \
-                          rpm-build python-psutil python-ldap python-lxml \
-                          libxslt-tools python-xml nginx openssl \
-                          google-opensans-fonts fontawesome-fonts
-
-    Packages version requirement:
-        python-psutil >= 0.6.0
-
-    # These dependencies are only required if you want to run the tests:
-    $ sudo zypper install python-pyflakes python-pep8 python-requests
-
-    # For UI development
-    $ sudo zypper install gcc-c++ python-devel python-pip
-    $ sudo pip install cython libsass
+* [RHEL/Fedora systems](/docs/fedora-deps.md)
+* [Debian/Ubuntu systems](/docs/ubuntu-deps.md)
+* [openSUSE systems](/docs/opensuse-deps.md)
 
 Build and Install
 -----------------
 
     $ ./autogen.sh --system
     $ make
-    $ sudo make install   # Optional if running from the source tree
 
+    # Optional if running from the source tree
+    $ sudo make install
 
-Run
----
+Starting up Wok
+---------------
 
-    $ sudo wokd --host=0.0.0.0
+    $ sudo python src/wokd
 
-If you cannot access Wok, take a look at these 2 points:
+To access Wok, please, connect your browser to https://localhost:8001.
 
-1. Firewall:
-Wok uses by default the ports 8000 and 8001. To allow incoming connections:
+Contributing to Wok Project
+===========================
 
-    For system using firewalld, do:
+There are a lof of ways to contribute to the Wok Project:
 
-        $ sudo firewall-cmd --add-port=8000/tcp --permanent
-        $ sudo firewall-cmd --add-port=8001/tcp --permanent
-        $ sudo firewall-cmd --reload
+* Issues can be reported at [Github](https://github.com/kimchi-project/wok/issues)
+* Patches are always welcome! Please, follow [these instructions](https://github.com/kimchi-project/wok/wiki/How-to-Contribute)
+ on how to send patches to the mailing list (kimchi-devel@ovirt.org).
 
-    For openSUSE systems, do:
-
-        $ sudo /sbin/SuSEfirewall2 open EXT TCP 8000
-        $ sudo /sbin/SuSEfirewall2 open EXT TCP 8001
-
-    For system using iptables, do:
-
-        $ sudo iptables -A INPUT -p tcp --dport 8000 -j ACCEPT
-        $ sudo iptables -A INPUT -p tcp --dport 8001 -j ACCEPT
-
-    Don't forget to correctly save the rules.
-
-2. SELinux:
-Allow httpd_t context for Wok web server:
-
-        $ sudo semanage permissive -a httpd_t
-
-
-UI Development
-----
-Make sure to update the CSS files when modifying the SCSS files by running:
-
-    $ sudo make -C ui/css css
-
-
-Wok Plugins
------------
-
-Wok provides a Sample plugin to education purposes that can be used to create
-new plugins. Also, by default, Wok is linked to Kimchi (Virtualization
- Management) and Ginger (System Administration) repositories as git submodules.
-
-To clone Kimchi source code, execute:
-
-    $ cd src/wok/plugins/kimchi
-    $ git submodule update --init --remote
-
-To clone Ginger source code, execute:
-
-    $ cd src/wok/plugins/ginger
-    $ git submodule update --init --remote
-
-To automatically clone all plugins linked with Wok, use the following git
-command when cloning Wok project:
-
-    $ git clone --recursive https://github.com/kimchi-project/wok.git
-    $ cd wok
-    $ git submodule update --remote
-
-
-Participating
--------------
-
-All patches are sent through our mailing list hosted by oVirt.  More
-information can be found at:
-
-https://github.com/kimchi-project/kimchi/wiki/Communications
-
-Patches should be sent using git-send-email to kimchi-devel@ovirt.org.
+Find more information about Wok Project at https://github.com/kimchi-project/wok/wiki

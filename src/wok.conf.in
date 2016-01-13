@@ -15,6 +15,9 @@
 # Cherrypy server port
 #cherrypy_port = 8010
 
+# Port for websocket proxy to listen on
+#websockets_port = 64667
+
 # The full path to an SSL Certificate in PEM format.  If left unspecified,
 # Wok will generate a self-signed certificate automatically.
 #ssl_cert =
@@ -42,10 +45,6 @@
 
 # Logging level: debug, info, warning, error or critical
 #log_level = debug
-
-[display]
-# Port for websocket proxy to listen on
-#display_proxy_port = 64667
 
 [authentication]
 # Authentication method, available option: pam, ldap.

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2013-2015
+# Copyright IBM, Corp. 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -232,6 +232,7 @@ def _get_config():
     config.set("server", "port", "8000")
     config.set("server", "ssl_port", "8001")
     config.set("server", "cherrypy_port", "8010")
+    config.set("server", "websockets_port", "64667")
     config.set("server", "ssl_cert", "")
     config.set("server", "ssl_key", "")
     config.set("server", "environment", "production")
@@ -247,8 +248,6 @@ def _get_config():
     config.add_section("logging")
     config.set("logging", "log_dir", paths.log_dir)
     config.set("logging", "log_level", DEFAULT_LOG_LEVEL)
-    config.add_section("display")
-    config.set("display", "display_proxy_port", "64667")
 
     config_file = os.path.join(paths.conf_dir, 'wok.conf')
     if os.path.exists(config_file):

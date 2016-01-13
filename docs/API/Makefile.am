@@ -1,9 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2015
-#
-# Code derived from Project Kimchi
+# Copyright IBM Corp, 2016
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -19,13 +17,6 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-SUBDIRS = API
+apidocdir = $(datadir)/wok/doc/API
 
-docdir = $(datadir)/wok/doc
-
-dist_doc_DATA = \
-	README.md \
-	wokd.8 \
-	$(NULL)
-
-CLEANFILES = wokd.8
+dist_apidoc_DATA = $(wildcard *.md) $(NULL)

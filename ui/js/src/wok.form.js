@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2013-2015
+ * Copyright IBM, Corp. 2013-2016
  *
  * Code derived from Project Kimchi
  *
@@ -34,6 +34,7 @@
         $(this).find("input").each(function(){
             switch($(this).attr('type')) {
                 case 'text':
+                case 'number':
                     $(this).val(obj.getDeepValue($(this).attr("name")));
                     break;
                 case 'radio':

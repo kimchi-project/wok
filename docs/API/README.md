@@ -1,7 +1,7 @@
 ## Wok REST API Specification
 
 The API provides functionality to the application and may be used directly by
-external tools. 
+external tools.
 
 In order to use the API effectively, please use the following general
 conventions:

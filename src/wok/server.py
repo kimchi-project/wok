@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2013-2015
+# Copyright IBM, Corp. 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -146,9 +146,7 @@ class Server(object):
             try:
                 plugin_class = ('plugins.%s.%s' %
                                 (plugin_name,
-                                 plugin_config['wok']['plugin_class']))
-                extra_auth = plugin_config['wok'].get('extra_auth_api_class',
-                                                      None)
+                                 plugin_name[0].upper() + plugin_name[1:]))
                 script_name = plugin_config['wok']['uri']
                 del plugin_config['wok']
 
@@ -171,22 +169,21 @@ class Server(object):
                 plugin_config.update(get_custom_conf())
 
             # dynamically add tools.wokauth.on = True to extra plugin APIs
-            if extra_auth:
-                try:
-                    authed_apis = import_class(('plugins.%s.%s' %
-                                                (plugin_name, extra_auth)))
-                except ImportError, e:
-                    cherrypy.log.error_log.error(
-                        "Failed to import subnodes for plugin %s, "
-                        "error: %s" % (plugin_class, e.message)
-                    )
-                    continue
+            try:
+                sub_nodes = import_class('plugins.%s.control.sub_nodes' %
+                                         plugin_name)
+            except ImportError, e:
+                cherrypy.log.error_log.error(
+                    "Failed to import subnodes for plugin %s, "
+                    "error: %s" % (plugin_class, e.message)
+                )
+                continue
 
-                urlSubNodes = {}
-                for ident, node in authed_apis.items():
-                    if node.url_auth:
-                        ident = "/%s" % ident
-                        urlSubNodes[ident] = {'tools.wokauth.on': True}
+            urlSubNodes = {}
+            for ident, node in sub_nodes.items():
+                if node.url_auth:
+                    ident = "/%s" % ident
+                    urlSubNodes[ident] = {'tools.wokauth.on': True}
 
                 plugin_config.update(urlSubNodes)
 

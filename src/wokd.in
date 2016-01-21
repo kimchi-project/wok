@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2013-2015
+# Copyright IBM, Corp. 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -49,8 +49,6 @@ def main(options):
     cherrypy_port = config.config.get("server", "cherrypy_port")
     websockets_port = config.config.get("server", "websockets_port")
     runningEnv = config.config.get("server", "environment")
-    federation = config.config.get("server", "federation")
-    isopool = config.config.get("server", "create_iso_pool")
     logDir = config.config.get("logging", "log_dir")
     logLevel = config.config.get("logging", "log_level")
 
@@ -76,12 +74,6 @@ def main(options):
                       help="Error log file")
     parser.add_option('--environment', default=runningEnv,
                       help="Running environment of wok server")
-    parser.add_option('--federation', default=federation,
-                      help="Register and discover Kimchi peers in the same "
-                           "network using openSLP. Check README-federation for"
-                           " more details.")
-    parser.add_option('--create_iso_pool', default=isopool,
-                      help="Automatically create ISO pool on server start up.")
     parser.add_option('--test', action='store_true',
                       help="Run server in mock model")
     (options, args) = parser.parse_args()

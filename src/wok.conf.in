@@ -29,15 +29,8 @@
 # Running environment of the server
 #environment = production
 
-# Federation feature: register Wok server on openSLP and discover peers
-# in the same network. Check README-federation for more details.
-#federation = off
-
 # Max request body size in KB, default value is 4GB
 #max_body_size = 4 * 1024 * 1024
-
-# Automatically create ISO pool on server start up
-#create_iso_pool = true
 
 [logging]
 # Log directory

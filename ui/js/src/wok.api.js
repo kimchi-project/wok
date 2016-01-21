@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2013-2015
+ * Copyright IBM, Corp. 2013-2016
  *
  * Code derived from Project Kimchi
  *
@@ -89,5 +89,18 @@ var wok = {
             success : suc,
             error : err
         });
-     },
+    },
+
+    getConfig: function(suc, err, sync) {
+        wok.requestJSON({
+            url : 'config',
+            type : 'GET',
+            contentType : 'application/json',
+            dataType : 'json',
+            resend: true,
+            async : !sync,
+            success : suc,
+            error : err
+        });
+    },
 };

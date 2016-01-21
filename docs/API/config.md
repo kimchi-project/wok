@@ -11,6 +11,7 @@ Contains information about the application environment and configuration.
 * **GET**: Retrieve configuration information
     * ssl_port: SSL port to list on
     * websockets_port: Port for websocket proxy to listen on
+    * auth: Authentication method used to log in to Wok
     * version: Wok version
 * **POST**: *See Task Actions*
 

@@ -7,7 +7,6 @@ Kimchi \- HTML5 based management tool for KVM
 [\fB--ssl-port\fP \fIssl_port\fP] [\fB--cherrypy_port\fP \fIcherrypy_port\fP]
 [\fB--log-level\fP \fIlog_level\fP] [\fB--access-log\fP \fIaccess_log\fP]
 [\fB--error-log\fP \fIerror_log\fP] [\fB--environment\fP \fIenvironment\fP]
-[\fB--federation\fP \fIfederation\fP] [\fB--test\fP]
 .SH DESCRIPTION
 \fBKimchi\fP is an HTML5 based management tool for KVM. It is designed to make
 it as easy as possible to get started with KVM and create your first guest.
@@ -41,67 +40,11 @@ Specify the access log location where kimchi should create the access log file.
 \fB\-\-environment\fP [\fIdevelopment\fP | \fIproduction\fP]
 Specify the running environment of kimchi server. Check cherrypy documentation for more details (default \fIproduction\fP).
 .TP
-\fB\-\-federation\fP [\fIon\fP | \fIoff\fP]
 Register and discover Kimchi peers in the same network using OpenSLP. Check
 below the \fBFEDERATION\fP section for more details (default \fIoff\fP).
 .TP
 \fB\-\-test\fP
 Run kimchi on a mock version that does not affect the system. For testing proposals.
-.SH FEDERATION
-Federation feature is a mechanism to discover Kimchi peers in the same network.
-It uses OpenSLP tool (http://www.openslp.org/) to register and find the Kimchi
-servers.
-
-By default this feature is disabled on Kimchi as it is not critical for KVM
-virtualization and requires additional software installation.
-
-To enable it, do the following:
-
-1. Install OpenSLP server package
-
-2. OpenSLP uses port 427 (UDP) and port 427 (TCP) so make sure to open those
-   ports in your firewall configuration
-
-   For system using firewalld, do:
-   sudo firewall-cmd \-\-permanent \-\-add-port=427/udp
-   sudo firewall-cmd \-\-permanent \-\-add-port=427/tcp
-   sudo firewall-cmd \-\-reload
-
-   For openSUSE systems, do:
-   sudo /sbin/SuSEfirewall2 open EXT TCP 427
-   sudo /sbin/SuSEfirewall2 open EXT UDP 427
-
-   For system using iptables, do:
-   sudo iptables \-A INPUT \-p tcp \-\-dport 427 \-j ACCEPT
-   sudo iptables \-A INPUT \-p udp \-\-dport 427 \-j ACCEPT
-
-3. In addition to the OpenSLP ports, you also need to allow multicast in the
-   firewall configuration
-
-   For system using firewalld, do:
-   sudo firewall-cmd \-\-direct \-\-add-rule ipv4 filter INPUT 0 \-s <subnet> \-j ACCEPT
-
-   For openSUSE systems, do:
-   Add the subnet to the trusted networks listed on FW_TRUSTED_NETS in
-   /etc/sysconfig/SuSEfirewall2 file.
-   Make sure to restart /sbin/SuSEfirewall2 after modifying /etc/sysconfig/SuSEfirewall2
-
-   For system using iptables, do:
-   sudo iptables \-A INPUT \-s <subnet> \-j ACCEPT
-
-4. Start slpd service and make sure it is up while running Kimchi
-   sudo service slpd start
-
-5. Enable federation on Kimchi by editing the /etc/kimchi/kimchi.conf file:
-
-   federation = on
-
-6. Then start Kimchi service
-   sudo service kimchid start
-
-The Kimchi server will be registered on OpenSLP on server starting up and will
-be found by other Kimchi peers (with federation feature enabled) in the same
-network.
 .SH LICENCE
 .br
 Kimchi is distributed pursuant to the terms of two different licenses.

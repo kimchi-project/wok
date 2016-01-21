@@ -17,8 +17,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
-from wok.config import config as kconfig
-from wok.config import get_version
+from wok.config import config, get_version
 
 
 class ConfigModel(object):
@@ -26,9 +25,7 @@ class ConfigModel(object):
         pass
 
     def lookup(self, name):
-        ssl_port = kconfig.get('server', 'ssl_port')
-        websockets_port = kconfig.get('server', 'websockets_port')
-
-        return {'ssl_port': ssl_port,
-                'websockets_port': websockets_port,
+        return {'ssl_port': config.get('server', 'ssl_port'),
+                'websockets_port': config.get('server', 'websockets_port'),
+                'auth': config.get('authentication', 'method'),
                 'version': get_version()}

@@ -53,5 +53,5 @@ class APITests(unittest.TestCase):
     def test_config(self):
         resp = self.request('/config').read()
         conf = json.loads(resp)
-        keys = ["ssl_port", "websockets_port", "version"]
+        keys = ["auth", "ssl_port", "websockets_port", "version"]
         self.assertEquals(sorted(keys), sorted(conf.keys()))

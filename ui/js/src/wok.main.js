@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2013-2015
+ * Copyright IBM, Corp. 2013-2016
  *
  * Code derived from Project Kimchi
  *
@@ -19,6 +19,13 @@
  */
  
 wok.tabMode = {};
+
+wok.config = undefined;
+wok.getConfig(function(result) {
+    wok.config = result;
+}, function() {
+    wok.config = {};
+});
 
 wok.main = function() {
     wok.isLoggingOut = false;

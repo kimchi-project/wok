@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2015
+# Copyright IBM Corp, 2013-2016
 #
 # Code derived from Project Kimchi
 #
@@ -29,6 +29,7 @@ EXTRA_DIST = \
 	wokd-upstart.conf.debian \
 	wokd-upstart.conf.fedora \
 	make-deb.sh.in \
+	wokd.logrotate.in \
 	$(NULL)
 
 make-deb.sh: make-deb.sh.in $(top_builddir)/config.status

@@ -10,7 +10,7 @@ Build Dependencies
 --------------------
 
     $ sudo apt-get install gcc make autoconf automake gettext git pkgconf \
-                           xsltproc
+                           xsltproc logrotate
 
 Runtime Dependencies
 --------------------

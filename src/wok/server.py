@@ -172,19 +172,20 @@ class Server(object):
             try:
                 sub_nodes = import_class('plugins.%s.control.sub_nodes' %
                                          plugin_name)
+
+                urlSubNodes = {}
+                for ident, node in sub_nodes.items():
+                    if node.url_auth:
+                        ident = "/%s" % ident
+                        urlSubNodes[ident] = {'tools.wokauth.on': True}
+
+                    plugin_config.update(urlSubNodes)
+
             except ImportError, e:
                 cherrypy.log.error_log.error(
                     "Failed to import subnodes for plugin %s, "
                     "error: %s" % (plugin_class, e.message)
                 )
-
-            urlSubNodes = {}
-            for ident, node in sub_nodes.items():
-                if node.url_auth:
-                    ident = "/%s" % ident
-                    urlSubNodes[ident] = {'tools.wokauth.on': True}
-
-                plugin_config.update(urlSubNodes)
 
             cherrypy.tree.mount(plugin_app, script_name, plugin_config)
 

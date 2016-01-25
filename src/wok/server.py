@@ -177,7 +177,6 @@ class Server(object):
                     "Failed to import subnodes for plugin %s, "
                     "error: %s" % (plugin_class, e.message)
                 )
-                continue
 
             urlSubNodes = {}
             for ident, node in sub_nodes.items():

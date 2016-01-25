@@ -20,6 +20,7 @@ Requires:	nginx
 Requires:	python-psutil >= 0.6.0
 Requires:	fontawesome-fonts
 Requires:	google-opensans-fonts
+Requires:	logrotate
 BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
 BuildRequires:	openssl
@@ -94,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/wok/
 %{_sysconfdir}/nginx/conf.d/wok.conf.in
 %{_sysconfdir}/nginx/conf.d/wok.conf
+%{_sysconfdir}/logrotate.d/wokd.in
+%{_sysconfdir}/logrotate.d/wokd
 %{_var}/lib/wok/
 %{_localstatedir}/log/wok/*
 %{_localstatedir}/log/wok/

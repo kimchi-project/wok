@@ -83,6 +83,7 @@ class Paths(object):
             self.src_dir = '@wokdir@'
             self.plugins_dir = '@wokdir@/plugins'
             self.mo_dir = '@prefix@/share/locale'
+            self.logrotate_dir = "@sysconfdir@/logrotate.d/"
         else:
             self.nginx_conf_dir = self.add_prefix('src/nginx')
             self.state_dir = self.add_prefix('data')

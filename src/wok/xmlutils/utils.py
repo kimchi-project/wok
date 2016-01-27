@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2014-2015
+# Copyright IBM, Corp. 2014-2016
 #
 # Code derived from Project Kimchi
 #
@@ -43,6 +43,17 @@ def xml_item_update(xml, xpath, value, attr=None):
         item.text = value
     else:
         item.set(attr, value)
+    return ET.tostring(root, encoding="utf-8")
+
+
+def xml_item_remove(xml, xpath):
+    root = ET.fromstring(xml)
+
+    element = root.find(xpath)
+    parent = root.find(xpath + "/..")
+    if parent:
+        parent.remove(element)
+
     return ET.tostring(root, encoding="utf-8")
 
 

@@ -70,8 +70,8 @@ class User(object):
                     if not klass.authenticate(**auth_args):
                         debug("cannot verify user with the given password")
                         return None
-                except OperationFailed:
-                    raise
+                except OperationFailed, e:
+                    raise cherrypy.HTTPError(401, e.message)
                 return klass(auth_args['username'])
 
 

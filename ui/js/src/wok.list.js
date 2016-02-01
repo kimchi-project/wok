@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2013-2015
+ * Copyright IBM, Corp. 2013-2016
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,8 +159,8 @@ wok.widget.List.prototype = (function() {
                     var btnNode = $(btnHTML).appendTo($('.dropdown-menu', rowNode));
                     button.onClick && btnNode.on('click', button.onClick);
                 });
-            });        
-        } 
+            });
+        }
     };
 
     var stylingRow = function(row, className, add) {

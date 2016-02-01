@@ -1,7 +1,7 @@
 //
 // Project Wok
 //
-// Copyright IBM, Corp. 2015
+// Copyright IBM, Corp. 2015-2016
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -464,7 +464,7 @@
       border-radius: 4px;
       background: #797979;
       border-left: 1px solid #B3B3B3;
-      @include box-shadow(inset 6px 1px 6px #9e9e9e); 
+      @include box-shadow(inset 6px 1px 6px #9e9e9e);
   }
 
   .navbar-nav > li > .dropdown-menu::-webkit-scrollbar-thumb:window-inactive {

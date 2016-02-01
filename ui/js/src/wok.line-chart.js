@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2013-2015
+ * Copyright IBM, Corp. 2013-2016
  *
  * Code derived from Project Kimchi
  *
@@ -25,8 +25,8 @@
  *   type: 'value'
  * });
  */
- 
- 
+
+
 wok.widget.LineChart = function(params) {
     var container = $('#' + params['node']);
     container.addClass('chart-container');
@@ -84,7 +84,7 @@ wok.widget.LineChart = function(params) {
                 }
             });
         }
-        
+
         var defs = [
             '<defs>',
                 '<pattern id="patternbg" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">',
@@ -204,7 +204,7 @@ wok.widget.LineChart = function(params) {
                     formatSettings
                 );
             }
-            else {           
+            else {
                  latestValue = { v: latestValue, s: '%' };
             }
             $('<div class="latest-value"><span class="number">' + latestValue.v + '</span></div>').appendTo(wrapper);

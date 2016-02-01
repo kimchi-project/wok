@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2014-2015
+ * Copyright IBM, Corp. 2014-2016
  *
  * Code derived from Project Kimchi
  *
@@ -21,8 +21,8 @@ wok.login_main = function() {
     "use strict";
     var selectedLanguage = wok.lang.get();
     $('#userLang').val(selectedLanguage);
-    $('#userLang option[value="'+selectedLanguage+'"]').attr("selected", "selected"); 
-    $('#userLang').next().find('.selectpicker').attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());    
+    $('#userLang option[value="'+selectedLanguage+'"]').attr("selected", "selected");
+    $('#userLang').next().find('.selectpicker').attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
     $('#userLang').next().children().find('.filter-option').text($('#userLang option[value="'+selectedLanguage+'"]').text());
 
     $('#userLang').on('change', function() {

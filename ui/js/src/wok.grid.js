@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM, Corp. 2013-2015
+ * Copyright IBM, Corp. 2013-2016
  *
  * Code derived from Project Kimchi
  *
@@ -261,7 +261,7 @@ wok.widget.Grid.prototype = (function() {
                     var btnNode = $(btnHTML).appendTo(toolbarNode);
                     button['onClick'] &&
                         btnNode.on('click', button['onClick']);
-                });      
+                });
             }
 
         }

@@ -1,7 +1,7 @@
 //
 // Project Wok
 //
-// Copyright IBM, Corp. 2015
+// Copyright IBM, Corp. 2015-2016
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@
   border: 6px solid $modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
   border: 6px solid $modal-content-border-color;
   border-radius: 5px;
-  background-clip: padding-box;  
+  background-clip: padding-box;
 }
 
 // Actual modal
@@ -74,7 +74,7 @@
   position: relative;
   background-color: $modal-content-bg;
   border-radius: 0;
-  border: 3px solid #999;   
+  border: 3px solid #999;
   background-clip: padding-box;
   box-shadow: none !important;
   border-radius: 0;
@@ -185,7 +185,7 @@
   text-align: center;
 }
 
-@media screen and (min-width: 768px) { 
+@media screen and (min-width: 768px) {
   .modal:before {
     display: inline-block;
     vertical-align: middle;

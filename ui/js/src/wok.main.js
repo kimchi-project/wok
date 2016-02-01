@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 wok.tabMode = {};
 
 wok.config = undefined;
@@ -411,7 +411,7 @@ wok.main = function() {
         wok.user.showUser(true);
         initListeners();
         updatePage();
-        
+
         // Overriding Bootstrap Modal windows to allow a stack of modal windows and backdrops
         $(document).on({
             'show.bs.modal': function () {
@@ -430,7 +430,7 @@ wok.main = function() {
                     }, 0);
                 }
             }
-        }, '.modal'); 
+        }, '.modal');
 
 
     };

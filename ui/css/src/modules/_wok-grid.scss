@@ -1,7 +1,7 @@
 //
 // Project Wok
 //
-// Copyright IBM, Corp. 2015
+// Copyright IBM, Corp. 2015-2016
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ span.wok-repository-status.disabled {
 }
 
 .generating .wok-list-loading-icon-inline {
-    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%; 
+    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
     @include animation(spin 3s infinite linear);
     height: 16px;
     width: 16px;

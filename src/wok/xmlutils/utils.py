@@ -36,6 +36,15 @@ def xpath_get_text(xml, expr):
     return res
 
 
+def xml_item_insert(xml, xpath, item_xml):
+    root = ET.fromstring(xml)
+
+    element = root.find(xpath)
+    element.insert(0, ET.fromstring(item_xml))
+
+    return ET.tostring(root, encoding="utf-8")
+
+
 def xml_item_update(xml, xpath, value, attr=None):
     root = ET.fromstring(xml)
     item = root.find(xpath)
@@ -51,7 +60,7 @@ def xml_item_remove(xml, xpath):
 
     element = root.find(xpath)
     parent = root.find(xpath + "/..")
-    if parent:
+    if parent is not None:
         parent.remove(element)
 
     return ET.tostring(root, encoding="utf-8")

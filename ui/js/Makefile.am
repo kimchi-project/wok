@@ -17,13 +17,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-EXTRA_DIST = src widgets
+EXTRA_DIST = src
 
 jsdir = $(datadir)/wok/ui/js
 
 dist_js_DATA = wok.min.js $(filter-out wok.min.js, $(wildcard *.js))
 
-wok.min.js: widgets/*.js src/*.js
+wok.min.js: src/*.js
 	cat $(sort $^) > $@
 
 CLEANFILES = wok.min.js

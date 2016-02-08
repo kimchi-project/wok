@@ -1,4 +1,4 @@
-# i18n portable object for kimchi.
+# Portuguese (pt_BR) translations for Wok package.
 # Copyright IBM Corp, 2013-2016
 # ShaoHe Feng <shaohef@linux.vnet.ibm.com>, 2013-04-18.
 #

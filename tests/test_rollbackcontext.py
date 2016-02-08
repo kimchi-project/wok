@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2014-2015
+# Copyright IBM Corp, 2014-2016
 #
 # Code delivered from Project Kimchi
 #

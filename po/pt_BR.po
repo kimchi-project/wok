@@ -1,5 +1,5 @@
 # i18n portable object for kimchi.
-# Copyright (C) IBM, Corp. 2013-2014
+# Copyright IBM Corp, 2013-2016
 # ShaoHe Feng <shaohef@linux.vnet.ibm.com>, 2013-04-18.
 #
 # This library is free software; you can redistribute it and/or

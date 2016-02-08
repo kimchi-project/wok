@@ -48,24 +48,26 @@ I18N_FILES = src/wok/plugins/*/i18n.py \
 
 check-local:
 	PYTHONPATH=src contrib/check_i18n.py $(I18N_FILES)
-	@if [ -d '.git' ]; then                                        \
-		find . -path './.git' -prune -o                        \
-			-name '*.py' -o -name '*.py.in'  |             \
-			xargs $(PYFLAKES) |                            \
-			while read LINE; do echo "$$LINE"; false; done \
-	else                                                           \
-		find . -name '*.py' -o -name '*.py.in'  |              \
-			xargs $(PYFLAKES) |                            \
-			while read LINE; do echo "$$LINE"; false; done \
+	@if [ -d '.git' ]; then                                        	\
+		find . -path './.git' -prune -o                        	   	\
+			-name '*.py' -o -name '*.py.in'  |             			\
+			xargs $(PYFLAKES) |                            			\
+			while read LINE; do echo "$$LINE"; false; done 			\
+	else                                                           	\
+		find . -name '*.py' -o -name '*.py.in'  |              		\
+			xargs $(PYFLAKES) |                            			\
+			while read LINE; do echo "$$LINE"; false; done 			\
 	fi
 	$(PEP8) --version
 	$(PEP8) --filename '*.py,*.py.in' --exclude="$(PEP8_BLACKLIST)" .
 	/bin/bash check_ui_code_errors.sh
-	@if $(GIT) rev-parse &> /dev/null ; then                             \
-		echo "Whitespace verification ...";                          \
-		git grep --cached -Il '' |                                   \
-			grep -v '^ui/css/src/vendor/' | xargs egrep '.* +$$' \
-			&& echo "ERROR: Whitespaces found" || echo "Ok";     \
+	@if $(GIT) rev-parse &> /dev/null ; then                        \
+		echo "Whitespace verification ...";                         \
+		git grep --cached -Il '' |                                  \
+			grep -v '^ui/css/src/vendor/' | xargs egrep '.* +$$' 	\
+			&& echo "ERROR: Whitespaces found" || echo "Ok";     	\
+		echo "Check IBM license header and copyright date ..." ;    \
+		/bin/bash check-IBM-license-header.sh ;						\
 	fi
 
 # Link built mo files in the source tree to enable use of translations from

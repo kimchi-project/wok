@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM, Corp. 2013-2015
+# Copyright IBM Corp, 2015-2016
 # Copyright (C) 2004-2005 OSAF. All Rights Reserved.
 #
 # Code derived from Project Kimchi

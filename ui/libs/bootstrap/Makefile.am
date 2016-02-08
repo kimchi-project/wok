@@ -1,7 +1,7 @@
 #
 # Project Wol
 #
-# Copyright IBM, Corp. 2013-2015
+# Copyright IBM Corp, 2015-2016
 #
 # Code derived from Project Kimchi
 #

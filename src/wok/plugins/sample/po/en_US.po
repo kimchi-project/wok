@@ -1,6 +1,6 @@
-# English translations for kimchi package.
-# Copyright (C) 2014 THE kimchi'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the kimchi package.
+# English translations for Wok package.
+# Copyright IBM Corp, 2015-2016
+# This file is distributed under the same license as the Wok package.
 # shhfeng <shaohef@linux.vnet.ibm.com>, 2014.
 #
 msgid ""

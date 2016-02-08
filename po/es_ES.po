@@ -1,5 +1,5 @@
-# English translations for kimchi package.
-# Copyright (C) 2013 ORGANIZATION
+# Spanish translations for Wok package.
+# Copyright IBM Corp, 2014-2016
 #
 msgid ""
 msgstr ""

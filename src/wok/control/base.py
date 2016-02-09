@@ -60,18 +60,20 @@ class Resource(object):
         self.admin_methods = []
 
     def _redirect(self, action_result, code=303):
+        uri_params = []
         if isinstance(action_result, list):
-            uri_params = []
             for arg in action_result:
                 if arg is None:
                     arg = ''
                 uri_params.append(urllib2.quote(arg.encode('utf-8'), safe=""))
-            raise cherrypy.HTTPRedirect(self.uri_fmt % tuple(uri_params), code)
         elif action_result is not None and action_result != self.ident:
             uri_params = list(self.model_args[:-1])
             uri_params += [urllib2.quote(action_result.encode('utf-8'),
                            safe="")]
-            raise cherrypy.HTTPRedirect(self.uri_fmt % tuple(uri_params), code)
+
+        if uri_params:
+            base_uri = cherrypy.request.app.script_name + self.uri_fmt
+            raise cherrypy.HTTPRedirect(base_uri % tuple(uri_params), code)
 
     def generate_action_handler(self, action_name, action_args=None,
                                 destructive=False):

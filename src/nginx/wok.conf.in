@@ -59,7 +59,7 @@ http {
     }
 
     server {
-        listen ${proxy_ssl_port} ssl;
+        listen ${host_addr}:${proxy_ssl_port} ssl;
 
         ssl_certificate ${cert_pem};
         ssl_certificate_key ${cert_key};
@@ -90,7 +90,7 @@ http {
     }
 
     server {
-        listen ${proxy_port};
+        listen ${host_addr}:${proxy_port};
         rewrite ^/(.*)$ https://$host:${proxy_ssl_port}/$1 redirect;
     }
 }

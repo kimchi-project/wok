@@ -81,7 +81,6 @@ def _create_proxy_config(options):
         data = template.read()
     data = Template(data)
     data = data.safe_substitute(user=user_proxy,
-                                host=options.host,
                                 proxy_port=options.port,
                                 proxy_ssl_port=options.ssl_port,
                                 cherrypy_port=options.cherrypy_port,

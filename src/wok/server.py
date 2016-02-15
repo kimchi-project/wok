@@ -101,6 +101,17 @@ class Server(object):
         if dev_env:
             cherrypy.log.screen = True
 
+        # close standard file handlers because we are going to use a
+        # watchedfiled handler, otherwise we will have two file handlers
+        # pointing to the same file, duplicating log enries
+        for handler in cherrypy.log.access_log.handlers[:]:
+            if isinstance(handler, logging.FileHandler):
+                cherrypy.log.access_log.removeHandler(handler)
+
+        for handler in cherrypy.log.error_log.handlers[:]:
+            if isinstance(handler, logging.FileHandler):
+                cherrypy.log.error_log.removeHandler(handler)
+
         # Create handler to access log file
         h = logging.handlers.WatchedFileHandler(options.access_log, 'a',
                                                 delay=1)

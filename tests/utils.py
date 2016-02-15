@@ -115,11 +115,11 @@ def run_server(host, port, ssl_port, test_mode, cherrypy_port=None,
 
     args = type('_', (object,),
                 {'host': host, 'port': port, 'ssl_port': ssl_port,
-                 'cherrypy_port': cherrypy_port, 'max_body_size': '4*1024',
-                 'websockets_port': 64667, 'ssl_cert': '',
-                 'ssl_key': '', 'test': test_mode, 'access_log': '/dev/null',
-                 'error_log': '/dev/null', 'environment': environment,
-                 'log_level': 'debug'})()
+                 'https_only': 'false', 'cherrypy_port': cherrypy_port,
+                 'websockets_port': 64667, 'ssl_cert': '', 'ssl_key': '',
+                 'max_body_size': '4*1024', 'test': test_mode,
+                 'access_log': '/dev/null', 'error_log': '/dev/null',
+                 'environment': environment, 'log_level': 'debug'})()
     if model is not None:
         setattr(args, 'model', model)
 

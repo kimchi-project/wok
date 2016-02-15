@@ -46,6 +46,7 @@ def main(options):
     host = config.config.get("server", "host")
     port = config.config.get("server", "port")
     ssl_port = config.config.get("server", "ssl_port")
+    https_only = config.config.get("server", "https_only")
     cherrypy_port = config.config.get("server", "cherrypy_port")
     websockets_port = config.config.get("server", "websockets_port")
     runningEnv = config.config.get("server", "environment")
@@ -59,6 +60,9 @@ def main(options):
                       help="Port to listen on (default %s)" % port)
     parser.add_option('--ssl-port', type="int", default=ssl_port,
                       help="Port to enable SSL (default %s)" % ssl_port)
+    parser.add_option('--https_only', type="choice", default=https_only,
+                      choices=['false', 'true'],
+                      help="Disable HTTP port (default %s)" % ssl_port)
     parser.add_option('--cherrypy_port', type="int", default=cherrypy_port,
                       help="Cherrypy server port (default %s)" % cherrypy_port)
     parser.add_option('--websockets_port', type="int", default=websockets_port,

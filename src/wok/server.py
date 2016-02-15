@@ -35,6 +35,7 @@ from wok.control import sub_nodes
 from wok.model import model
 from wok.proxy import start_proxy, terminate_proxy
 from wok.root import WokRoot
+from wok.safewatchedfilehandler import SafeWatchedFileHandler
 from wok.utils import get_enabled_plugins, import_class
 
 LOGGING_LEVEL = {"debug": logging.DEBUG,
@@ -122,8 +123,7 @@ class Server(object):
         cherrypy.log.access_log.addHandler(h)
 
         # Create handler to error log file
-        h = logging.handlers.WatchedFileHandler(options.error_log, 'a',
-                                                delay=1)
+        h = SafeWatchedFileHandler(options.error_log, 'a', delay=1)
         h.setLevel(logLevel)
         h.setFormatter(cherrypy._cplogging.logfmt)
 

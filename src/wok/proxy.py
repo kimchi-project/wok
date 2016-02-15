@@ -33,6 +33,14 @@ from wok import sslcert
 from wok.config import paths
 
 
+HTTP_CONFIG = """
+server {
+    listen %(host_addr)s:%(proxy_port)s;
+    rewrite ^/(.*)$ https://$host:%(proxy_ssl_port)s/$1 redirect;
+}
+"""
+
+
 def _create_proxy_config(options):
     """Create nginx configuration file based on current ports config
 
@@ -75,6 +83,12 @@ def _create_proxy_config(options):
     # Setting up Diffie-Hellman group with 2048-bit file
     dhparams_pem = os.path.join(config_dir, "dhparams.pem")
 
+    http_config = ''
+    if options.https_only == 'false':
+        http_config = HTTP_CONFIG % {'host_addr': options.host,
+                                     'proxy_port': options.port,
+                                     'proxy_ssl_port': options.ssl_port}
+
     # Read template file and create a new config file
     # with the specified parameters.
     with open(os.path.join(nginx_config_dir, "wok.conf.in")) as template:
@@ -82,8 +96,8 @@ def _create_proxy_config(options):
     data = Template(data)
     data = data.safe_substitute(user=user_proxy,
                                 host_addr=options.host,
-                                proxy_port=options.port,
                                 proxy_ssl_port=options.ssl_port,
+                                http_config=http_config,
                                 cherrypy_port=options.cherrypy_port,
                                 websockets_port=options.websockets_port,
                                 cert_pem=cert, cert_key=key,

@@ -232,6 +232,7 @@ def _get_config():
     config.set("server", "host", "0.0.0.0")
     config.set("server", "port", "8000")
     config.set("server", "ssl_port", "8001")
+    config.set("server", "https_only", "false")
     config.set("server", "cherrypy_port", "8010")
     config.set("server", "websockets_port", "64667")
     config.set("server", "ssl_cert", "")

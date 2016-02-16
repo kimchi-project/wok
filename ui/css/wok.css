@@ -221,7 +221,8 @@
   border-color: #008abf;
 }
 
-.btn-login:focus, .btn-login.focus {
+.btn-login:focus,
+.btn-login.focus {
   color: #fff;
   background-color: #00658c;
   border-color: #002e40;
@@ -233,14 +234,20 @@
   border-color: #005e82;
 }
 
-.btn-login:active, .btn-login.active,
+.btn-login:active,
+.btn-login.active,
 .open > .btn-login.dropdown-toggle {
   color: #fff;
   background-color: #00658c;
   border-color: #005e82;
 }
 
-.btn-login:active:hover, .btn-login:active:focus, .btn-login:active.focus, .btn-login.active:hover, .btn-login.active:focus, .btn-login.active.focus,
+.btn-login:active:hover,
+.btn-login:active:focus,
+.btn-login:active.focus,
+.btn-login.active:hover,
+.btn-login.active:focus,
+.btn-login.active.focus,
 .open > .btn-login.dropdown-toggle:hover,
 .open > .btn-login.dropdown-toggle:focus,
 .open > .btn-login.dropdown-toggle.focus {
@@ -249,12 +256,24 @@
   border-color: #002e40;
 }
 
-.btn-login:active, .btn-login.active,
+.btn-login:active,
+.btn-login.active,
 .open > .btn-login.dropdown-toggle {
   background-image: none;
 }
 
-.btn-login.disabled, .btn-login.disabled:hover, .btn-login.disabled:focus, .btn-login.disabled.focus, .btn-login.disabled:active, .btn-login.disabled.active, .btn-login[disabled], .btn-login[disabled]:hover, .btn-login[disabled]:focus, .btn-login[disabled].focus, .btn-login[disabled]:active, .btn-login[disabled].active,
+.btn-login.disabled,
+.btn-login.disabled:hover,
+.btn-login.disabled:focus,
+.btn-login.disabled.focus,
+.btn-login.disabled:active,
+.btn-login.disabled.active,
+.btn-login[disabled],
+.btn-login[disabled]:hover,
+.btn-login[disabled]:focus,
+.btn-login[disabled].focus,
+.btn-login[disabled]:active,
+.btn-login[disabled].active,
 fieldset[disabled] .btn-login,
 fieldset[disabled] .btn-login:hover,
 fieldset[disabled] .btn-login:focus,
@@ -340,7 +359,8 @@ fieldset[disabled] .btn-login.active {
   line-height: 2em;
 }
 
-.menu-flat.dropup, .menu-flat.dropdown {
+.menu-flat.dropup,
+.menu-flat.dropdown {
   position: relative;
 }
 
@@ -421,13 +441,16 @@ fieldset[disabled] .btn-login.active {
   display: inline-block;
 }
 
-.menu-flat .dropdown-menu > li > a:hover, .menu-flat .dropdown-menu > li > a:focus {
+.menu-flat .dropdown-menu > li > a:hover,
+.menu-flat .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #fff;
   background-color: #3a393b;
 }
 
-.menu-flat .dropdown-menu > .active > a, .menu-flat .dropdown-menu > .active > a:hover, .menu-flat .dropdown-menu > .active > a:focus {
+.menu-flat .dropdown-menu > .active > a,
+.menu-flat .dropdown-menu > .active > a:hover,
+.menu-flat .dropdown-menu > .active > a:focus {
   color: #fff;
   text-decoration: none;
   outline: 0;
@@ -444,11 +467,14 @@ fieldset[disabled] .btn-login.active {
   background-color: #3a393b;
 }
 
-.menu-flat .dropdown-menu > .disabled > a, .menu-flat .dropdown-menu > .disabled > a:hover, .menu-flat .dropdown-menu > .disabled > a:focus {
+.menu-flat .dropdown-menu > .disabled > a,
+.menu-flat .dropdown-menu > .disabled > a:hover,
+.menu-flat .dropdown-menu > .disabled > a:focus {
   color: #999;
 }
 
-.menu-flat .dropdown-menu > .disabled > a:hover, .menu-flat .dropdown-menu > .disabled > a:focus {
+.menu-flat .dropdown-menu > .disabled > a:hover,
+.menu-flat .dropdown-menu > .disabled > a:focus {
   text-decoration: none;
   background-color: transparent;
   background-image: none;
@@ -781,7 +807,9 @@ label {
 
 input[type=checkbox].wok-checkbox,
 input[type=radio].wok-radio {
-  display: none;
+  opacity: 0;
+  position: absolute;
+  top: 0;
 }
 
 input[type=checkbox].wok-checkbox + label:before,
@@ -810,7 +838,12 @@ input[type=radio].wok-radio:checked + label:before {
   letter-spacing: 5px;
 }
 
-input[type=radio].wok-checkbox + label,
+input[type=radio].wok-radio:focus + label:before,
+input[type=checkbox].wok-checkbox:focus + label:before {
+  text-shadow: 0px 0px 5px #66afe9;
+}
+
+input[type=checkbox].wok-checkbox + label,
 input[type=radio].wok-radio + label {
   cursor: pointer;
   margin-right: 10px;

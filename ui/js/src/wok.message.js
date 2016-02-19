@@ -57,10 +57,10 @@ wok.message.error = function(msg, node, closeable) {
     "use strict";
     wok.message(msg, 'alert-danger', node, closeable);
 };
-wok.message.error.code = function(code) {
+wok.message.error.code = function(code, node, closeable) {
     "use strict";
     var msg = code + ": " + i18n[code];
-    wok.message(msg, 'alert-danger');
+    wok.message(msg, 'alert-danger', node, closeable);
 };
 wok.message.success = function(msg, node, closeable) {
     "use strict";

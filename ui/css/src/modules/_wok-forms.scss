@@ -28,6 +28,31 @@ label {
     font-family: $font-family-base;
 }
 
+// Form feedback classes
+
+.form-control-feedback {
+    width: 16px;
+    height: 16px;
+}
+
+.has-feedback label ~ .form-control-feedback {
+    top: 43px;
+    margin-right: 10px;
+}
+
+.has-feedback .form-control-feedback {
+  display: none;
+}
+
+.has-loading .form-control-feedback.wok-loading-icon {
+    display:  block;
+    margin-right: 10px;
+    top: 41px;
+    height: 19px;
+    width: 19px;
+    margin-right: 10px;
+}
+
 // Custom check-boxes and radios
 input[type=checkbox].wok-checkbox,
 input[type=radio].wok-radio {

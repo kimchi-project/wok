@@ -79,6 +79,8 @@ wok.main = function() {
             var title = i18n[titleKey] ? i18n[titleKey] : titleKey;
             var path = $tab.find('path').text();
             var roles = wok.cookie.get('roles');
+            var order = $tab.find('order').text();
+
             if (roles) {
                 var role = JSON.parse(roles)[titleKey.toLowerCase()];
                 var mode = $tab.find('[role="' + role + '"]').attr('mode');
@@ -87,7 +89,8 @@ wok.main = function() {
                     functionality: functionality,
                     title: title,
                     path: path,
-                    mode: mode
+                    mode: mode,
+                    order: order
                 });
             } else {
                 document.location.href = 'login.html';
@@ -141,11 +144,19 @@ wok.main = function() {
                 }
             });
 
+            //ordering of first level tab
+            functionalTabs.sort();
+
+            //sort second level tab based on their ordering number
+            var orderedTabs = tabs.slice(0);
+            orderedTabs.sort(function(a, b) {
+                return a.order - b.order;
+            });
             //redirect to empty page when no plugin installed
             if(tabs.length===0){
                 DEFAULT_HASH = 'wok-empty';
             } else {
-                var defaultTab = tabs[0]
+                var defaultTab = orderedTabs[0]
                 var defaultTabPath = defaultTab && defaultTab['path']
 
                 // Remove file extension from 'defaultTabPath'
@@ -154,7 +165,7 @@ wok.main = function() {
                 }
 
                 $('#functionalTabPanel ul').append(genFuncTabs(functionalTabs));
-                $('#tabPanel ul').append(genTabs(tabs));
+                $('#tabPanel ul').append(genTabs(orderedTabs));
                 wok.getHostname();
 
                 callback && callback();

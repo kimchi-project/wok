@@ -37,11 +37,13 @@ messages = {
     "WOKASYNC0002E": _("Unable to start task due error: %(err)s"),
     "WOKASYNC0003E": _("Timeout of %(seconds)s seconds expired while running task '%(task)s."),
 
-
     "WOKAUTH0001E": _("Authentication failed for user '%(username)s'. [Error code: %(code)s]"),
     "WOKAUTH0002E": _("You are not authorized to access Kimchi"),
     "WOKAUTH0003E": _("Specify %(item)s to login into Kimchi"),
     "WOKAUTH0005E": _("Invalid LDAP configuration: %(item)s : %(value)s"),
+
+    "WOKLOG0001E": _("Invalid filter parameter. Filter parameters allowed: %(filters)s"),
+    "WOKLOG0002E": _("Creation of log file failed: %(err)s"),
 
     "WOKOBJST0001E": _("Unable to find %(item)s in datastore"),
 

@@ -60,6 +60,10 @@ FONTS_PATH = {
 SESSIONSTIMEOUT = 10    # session time out is 10 minutes
 
 
+def get_log_download_path():
+    return os.path.join(paths.state_dir, 'logs')
+
+
 def get_object_store():
     return os.path.join(paths.state_dir, 'objectstore')
 
@@ -187,6 +191,12 @@ class WokConfig(dict):
             'tools.sessions.storage_type': 'ram',
             'tools.sessions.timeout': SESSIONSTIMEOUT,
             'tools.wokauth.on': False
+        },
+        '/data/logs': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': '%s/logs' % paths.state_dir,
+            'tools.nocache.on': False,
+            'tools.wokauth.on': True,
         },
         '/base64/jquery.base64.js': {
             'tools.staticfile.on': True,

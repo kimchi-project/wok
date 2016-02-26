@@ -83,6 +83,12 @@ class ConfigTests(unittest.TestCase):
                 'tools.sessions.timeout': SESSIONSTIMEOUT,
                 'tools.wokauth.on': False
             },
+            '/data/logs': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': '%s/logs' % paths.state_dir,
+                'tools.nocache.on': False,
+                'tools.wokauth.on': True,
+            },
             '/base64/jquery.base64.js': {
                 'tools.staticfile.on': True,
                 'tools.staticfile.filename': '%s/base64/jquery.base64.js' %

@@ -123,6 +123,18 @@ def get_all_tabs():
     return tabs
 
 
+def get_plugin_from_request():
+    """
+    Returns name of plugin being requested. If no plugin, returns 'wok'.
+    """
+    script_name = cherrypy.request.script_name
+    split = script_name.split('/')
+    if len(split) > 2 and split[1] == 'plugins':
+        return split[2]
+
+    return 'wok'
+
+
 def import_class(class_path):
     module_name, class_name = class_path.rsplit('.', 1)
     try:

@@ -32,6 +32,16 @@ from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request
 from wok.exception import MissingParameter, OperationFailed
+from wok.reqlogger import RequestRecord
+from wok.utils import get_plugin_from_request
+
+
+ROOT_REQUESTS = {
+    'POST': {
+        'login': "User '%(username)s' login",
+        'logout': "User '%(username)s' logout",
+    },
+}
 
 
 class Root(Resource):
@@ -129,6 +139,7 @@ class WokRoot(Root):
         self.paths = wok_paths
         self.domain = 'wok'
         self.messages = messages
+        self.log_map = ROOT_REQUESTS
 
     @cherrypy.expose
     def login(self, *args):
@@ -144,10 +155,27 @@ class WokRoot(Root):
             user_info = auth.login(username, password)
         except OperationFailed:
             raise cherrypy.HTTPError(401)
+        finally:
+            method = 'POST'
+            RequestRecord(
+                self.getRequestMessage(method, 'login') % params,
+                app=get_plugin_from_request(),
+                req=method,
+                user=cherrypy.session.get(auth.USER_NAME, 'N/A')
+            ).log()
 
         return json.dumps(user_info)
 
     @cherrypy.expose
     def logout(self):
+        method = 'POST'
+        params = {'username': cherrypy.session.get(auth.USER_NAME, 'N/A')}
+        RequestRecord(
+            self.getRequestMessage(method, 'logout') % params,
+            app=get_plugin_from_request(),
+            req=method,
+            user=params['username']
+        ).log()
+
         auth.logout()
         return '{}'

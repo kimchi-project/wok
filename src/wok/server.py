@@ -34,9 +34,11 @@ from wok.config import paths, PluginConfig, WokConfig
 from wok.control import sub_nodes
 from wok.model import model
 from wok.proxy import start_proxy, terminate_proxy
+from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
 from wok.safewatchedfilehandler import SafeWatchedFileHandler
 from wok.utils import get_enabled_plugins, import_class
+
 
 LOGGING_LEVEL = {"debug": logging.DEBUG,
                  "info": logging.INFO,
@@ -65,6 +67,7 @@ class Server(object):
         start_proxy(options)
 
         make_dirs = [
+            os.path.abspath(config.get_log_download_path()),
             os.path.dirname(os.path.abspath(options.access_log)),
             os.path.dirname(os.path.abspath(options.error_log)),
             os.path.dirname(os.path.abspath(config.get_object_store()))
@@ -129,6 +132,9 @@ class Server(object):
 
         # Add error log file to cherrypy configuration
         cherrypy.log.error_log.addHandler(h)
+
+        # start request logger
+        self.reqLogger = RequestLogger()
 
         # only add logrotate if wok is installed
         if paths.installed:

@@ -32,6 +32,15 @@ from wok.control.utils import validate_params
 from wok.exception import InvalidOperation, InvalidParameter
 from wok.exception import MissingParameter, NotFoundError
 from wok.exception import OperationFailed, UnauthorizedError, WokException
+from wok.reqlogger import RequestRecord
+from wok.utils import get_plugin_from_request
+
+
+LOG_DISABLED_METHODS = ['GET']
+
+# Default request log messages
+COLLECTION_DEFAULT_LOG = "request on collection"
+RESOURCE_DEFAULT_LOG = "request on resource"
 
 
 class Resource(object):
@@ -58,6 +67,7 @@ class Resource(object):
         self.model_args = (ident,)
         self.role_key = None
         self.admin_methods = []
+        self.log_map = {}
 
     def _redirect(self, action_result, code=303):
         uri_params = []
@@ -102,7 +112,8 @@ class Resource(object):
     def _generate_action_handler_base(self, action_name, render_fn,
                                       destructive=False, action_args=None):
         def wrapper(*args, **kwargs):
-            validate_method(('POST'), self.role_key, self.admin_methods)
+            method = 'POST'
+            validate_method((method), self.role_key, self.admin_methods)
             try:
                 self.lookup()
                 if not self.is_authorized():
@@ -137,6 +148,17 @@ class Resource(object):
                 raise cherrypy.HTTPError(500, e.message)
             except WokException, e:
                 raise cherrypy.HTTPError(500, e.message)
+            finally:
+                params = {}
+                if model_args:
+                    params = {'ident': str(model_args[0])}
+
+                RequestRecord(
+                    self.getRequestMessage(method, action_name) % params,
+                    app=get_plugin_from_request(),
+                    req=method,
+                    user=cherrypy.session.get(USER_NAME, 'N/A')
+                ).log()
 
         wrapper.__name__ = action_name
         wrapper.exposed = True
@@ -162,6 +184,18 @@ class Resource(object):
             raise cherrypy.HTTPError(500, e.message)
         except InvalidOperation, e:
             raise cherrypy.HTTPError(400, e.message)
+        finally:
+            method = 'DELETE'
+            params = {}
+            if self.model_args:
+                params = {'ident': str(self.model_args[0])}
+
+            RequestRecord(
+                self.getRequestMessage(method, 'default') % params,
+                app=get_plugin_from_request(),
+                req=method,
+                user=cherrypy.session.get(USER_NAME, 'N/A')
+            ).log()
 
     @cherrypy.expose
     def index(self, *args, **kargs):
@@ -203,14 +237,23 @@ class Resource(object):
         return user_name in users or len(set(user_groups) & set(groups)) > 0
 
     def update(self, *args, **kargs):
+        params = parse_request()
+
         try:
             update = getattr(self.model, model_fn(self, 'update'))
         except AttributeError:
             e = InvalidOperation('WOKAPI0003E', {'resource':
                                                  get_class_name(self)})
             raise cherrypy.HTTPError(405, e.message)
+        finally:
+            method = 'PUT'
+            RequestRecord(
+                self.getRequestMessage(method) % params,
+                app=get_plugin_from_request(),
+                req=method,
+                user=cherrypy.session.get(USER_NAME, 'N/A')
+            ).log()
 
-        params = parse_request()
         validate_params(params, self, 'update')
 
         args = list(self.model_args) + [params]
@@ -221,6 +264,13 @@ class Resource(object):
 
     def get(self):
         return wok.template.render(get_class_name(self), self.data)
+
+    def getRequestMessage(self, method, action='default'):
+        """
+        Provide customized user activity log message in inherited classes
+        through log_map attribute.
+        """
+        return self.log_map.get(method, {}).get(action, RESOURCE_DEFAULT_LOG)
 
     @property
     def data(self):
@@ -273,6 +323,7 @@ class Collection(object):
         self.model_args = []
         self.role_key = None
         self.admin_methods = []
+        self.log_map = {}
 
     def create(self, params, *args):
         try:
@@ -341,18 +392,28 @@ class Collection(object):
         data = self.filter_data(resources, fields_filter)
         return wok.template.render(get_class_name(self), data)
 
+    def getRequestMessage(self, method):
+        """
+        Provide customized user activity log message in inherited classes
+        through log_map attribute.
+        """
+        return self.log_map.get(method, {}).get('default',
+                                                COLLECTION_DEFAULT_LOG)
+
     @cherrypy.expose
     def index(self, *args, **kwargs):
+        params = {}
         method = validate_method(('GET', 'POST'),
                                  self.role_key, self.admin_methods)
 
         try:
             if method == 'GET':
-                filter_params = cherrypy.request.params
-                validate_params(filter_params, self, 'get_list')
-                return self.get(filter_params)
+                params = cherrypy.request.params
+                validate_params(params, self, 'get_list')
+                return self.get(params)
             elif method == 'POST':
-                return self.create(parse_request(), *args)
+                params = parse_request()
+                return self.create(params, *args)
         except InvalidOperation, e:
             raise cherrypy.HTTPError(400, e.message)
         except InvalidParameter, e:
@@ -365,6 +426,14 @@ class Collection(object):
             raise cherrypy.HTTPError(500, e.message)
         except WokException, e:
             raise cherrypy.HTTPError(500, e.message)
+        finally:
+            if method not in LOG_DISABLED_METHODS:
+                RequestRecord(
+                    self.getRequestMessage(method) % params,
+                    app=get_plugin_from_request(),
+                    req=method,
+                    user=cherrypy.session.get(USER_NAME, 'N/A')
+                ).log()
 
 
 class AsyncCollection(Collection):

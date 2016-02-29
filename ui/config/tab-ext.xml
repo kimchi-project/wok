@@ -5,6 +5,7 @@
         <access role="admin" mode="admin"/>
         <access role="user" mode="none"/>
         <title>Settings</title>
+        <order>-1</order>
         <path>tabs/settings.html</path>
     </tab>
 </tabs-ext>

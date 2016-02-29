@@ -153,10 +153,6 @@
   background-color: #8cc63f !important;
 }
 
-#administration-root-container .navbar-default.toolbar {
-  background-color: #008abf !important;
-}
-
 #tabPanel.hostSelected {
   background-color: #008abf !important;
 }
@@ -181,7 +177,7 @@
   background-color: #7f1c7d !important;
 }
 
-#tabPanel.administration {
+#tabPanel.wok {
   background-color: #d9182d !important;
 }
 
@@ -195,6 +191,14 @@
 
 #tabPanel.virtualizationSelected {
   background-color: #8cc63f !important;
+}
+
+#tabPanel.wokTab {
+  background-color: #930c0c !important;
+}
+
+#tabPanel.wokSelected {
+  background-color: #d9182d !important;
 }
 
 @media (min-width: 991px) and (max-width: 992px) {

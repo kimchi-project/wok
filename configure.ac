@@ -142,6 +142,8 @@ AC_CONFIG_FILES([
     ui/libs/list-js/Makefile
     ui/libs/typeahead/Makefile
     ui/pages/Makefile
+    ui/pages/tabs/Makefile
+    ui/config/Makefile
     contrib/Makefile
     contrib/DEBIAN/Makefile
     contrib/DEBIAN/control

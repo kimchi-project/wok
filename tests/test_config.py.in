@@ -89,6 +89,12 @@ class ConfigTests(unittest.TestCase):
                 'tools.nocache.on': False,
                 'tools.wokauth.on': True,
             },
+            '/ui/config/tab-ext.xml': {
+                'tools.staticfile.on': True,
+                'tools.staticfile.filename': '%s/config/tab-ext.xml' %
+                                             paths.ui_dir,
+                'tools.nocache.on': True
+            },
             '/base64/jquery.base64.js': {
                 'tools.staticfile.on': True,
                 'tools.staticfile.filename': '%s/base64/jquery.base64.js' %

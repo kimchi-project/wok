@@ -4564,9 +4564,9 @@ tbody.collapse.in {
   background-color: #7f1c7d !important;
 }
 
-.navbar-default .navbar-nav > .active > a.administration,
-.navbar-default .navbar-nav > .active > a.administration:hover,
-.navbar-default .navbar-nav > .active > a.administration:focus {
+.navbar-default .navbar-nav > .active > a.wok,
+.navbar-default .navbar-nav > .active > a.wok:hover,
+.navbar-default .navbar-nav > .active > a.wok:focus {
   height: 41px;
   background-color: #d9182d !important;
 }
@@ -4590,6 +4590,20 @@ tbody.collapse.in {
 .navbar-default .navbar-nav > .active > a.virtualizationSelected:focus {
   height: 41px;
   background-color: #8cc63f !important;
+}
+
+.navbar-default .navbar-nav > .active > a.wokTab,
+.navbar-default .navbar-nav > .active > a.wokTab:hover,
+.navbar-default .navbar-nav > .active > a.wokTab:focus {
+  height: 41px;
+  background-color: #930c0c !important;
+}
+
+.navbar-default .navbar-nav > .active > a.wokSelected,
+.navbar-default .navbar-nav > .active > a.wokSelected:hover,
+.navbar-default .navbar-nav > .active > a.wokSelected:focus {
+  height: 41px;
+  background-color: #d9182d !important;
 }
 
 .navbar-default .navbar-nav > .hostname {

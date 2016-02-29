@@ -117,12 +117,14 @@ wok.main = function() {
         return tabs;
     };
 
+    var wokConfigUrl = 'ui/config/tab-ext.xml';
     var pluginConfigUrl = 'plugins/{plugin}/ui/config/tab-ext.xml';
     var pluginI18nUrl = 'plugins/{plugin}/i18n.json';
     var DEFAULT_HASH;
     var buildTabs = function(callback) {
         var tabs = [];
         var functionalTabs = [];
+        var wokTabs = retrieveTabs(wokConfigUrl);
         wok.listPlugins(function(plugins) {
             $(plugins).each(function(i, p) {
                 var url = wok.substitute(pluginConfigUrl, {
@@ -146,6 +148,12 @@ wok.main = function() {
 
             //ordering of first level tab
             functionalTabs.sort();
+            if(wokTabs.length > 0){
+                //Adds wok to first index in list
+                functionalTabs.unshift(wokTabs[0].functionality);
+                //Adds Wok tabs to the list
+                tabs.unshift.apply(tabs, wokTabs);
+            }
 
             //sort second level tab based on their ordering number
             var orderedTabs = tabs.slice(0);

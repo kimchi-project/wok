@@ -68,6 +68,7 @@ class Server(object):
 
         make_dirs = [
             os.path.abspath(config.get_log_download_path()),
+            os.path.abspath(configParser.get("logging", "log_dir")),
             os.path.dirname(os.path.abspath(options.access_log)),
             os.path.dirname(os.path.abspath(options.error_log)),
             os.path.dirname(os.path.abspath(config.get_object_store()))

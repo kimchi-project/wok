@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+Copyright IBM Corp, 2016
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+#unicode UTF-8
+#import gettext
+#from wok.cachebust import href
+#silent t = gettext.translation($lang.domain, $lang.localedir, languages=$lang.lang, fallback=True)
+#silent _ = t.gettext
+#silent _t = t.gettext
+<!DOCTYPE html>
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">$_("Advanced Search")</h4>
+  </div>
+  <div class="modal-body">
+    <span id='alert-modal-container'></span>
+    <form id="form-advanced-search" autocomplete="off">
+        <div class="form-group">
+            <p>$_("Search results by:")</p>
+            <label for="user-log-app-textbox">$_("Application")</label>
+            <input type="text" class="form-control typeahead" id="application-name" name="app" />
+        </div>
+        <div class="form-group">
+            <label for="user-log-user-textbox">$_("User")</label>
+            <input type="text" class="form-control" id="username" name="user" />
+        </div>
+        <div class="form-group">
+            <label for="user-log-name-textbox">$_("Request")</label>
+            <select class="form-control selectpicker" id="request-type"  title="$_('Request Type')" name="req">
+              <option value="">All Requests</option>
+              <option value="POST">POST</option>
+              <option value="GET">GET</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+        </div>
+        <div class="row clearfix">
+          <div class="col-sm-12">
+            <div class="form-group col-sm-6">
+                <label for="user-log-name-textbox">$_("Date")</label>
+                <input type="text" placeholder="YYYY-MM-DD" class="form-control" id="date" name="date" />
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="user-log-time-textbox">$_("Time")</label>
+                <input type="text" placeholder="HH:MM:SS" class="form-control" id="time" name="time" />
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" id="button-search" class="btn btn-default">$_("Search")</button>
+    <button type="button" id="button-cancel" class="btn btn-default" data-dismiss="modal">$_("Cancel")</button>
+  </div>
+</div>
+<script>
+wok.initUserLogWindow();
+</script>

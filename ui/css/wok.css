@@ -153,6 +153,10 @@
   background-color: #8cc63f !important;
 }
 
+#wok-root-container .navbar-default.toolbar {
+  background-color: #d9182d !important;
+}
+
 #tabPanel.hostSelected {
   background-color: #008abf !important;
 }
@@ -225,8 +229,7 @@
   border-color: #008abf;
 }
 
-.btn-login:focus,
-.btn-login.focus {
+.btn-login:focus, .btn-login.focus {
   color: #fff;
   background-color: #00658c;
   border-color: #002e40;
@@ -238,20 +241,14 @@
   border-color: #005e82;
 }
 
-.btn-login:active,
-.btn-login.active,
+.btn-login:active, .btn-login.active,
 .open > .btn-login.dropdown-toggle {
   color: #fff;
   background-color: #00658c;
   border-color: #005e82;
 }
 
-.btn-login:active:hover,
-.btn-login:active:focus,
-.btn-login:active.focus,
-.btn-login.active:hover,
-.btn-login.active:focus,
-.btn-login.active.focus,
+.btn-login:active:hover, .btn-login:active:focus, .btn-login:active.focus, .btn-login.active:hover, .btn-login.active:focus, .btn-login.active.focus,
 .open > .btn-login.dropdown-toggle:hover,
 .open > .btn-login.dropdown-toggle:focus,
 .open > .btn-login.dropdown-toggle.focus {
@@ -260,24 +257,12 @@
   border-color: #002e40;
 }
 
-.btn-login:active,
-.btn-login.active,
+.btn-login:active, .btn-login.active,
 .open > .btn-login.dropdown-toggle {
   background-image: none;
 }
 
-.btn-login.disabled,
-.btn-login.disabled:hover,
-.btn-login.disabled:focus,
-.btn-login.disabled.focus,
-.btn-login.disabled:active,
-.btn-login.disabled.active,
-.btn-login[disabled],
-.btn-login[disabled]:hover,
-.btn-login[disabled]:focus,
-.btn-login[disabled].focus,
-.btn-login[disabled]:active,
-.btn-login[disabled].active,
+.btn-login.disabled, .btn-login.disabled:hover, .btn-login.disabled:focus, .btn-login.disabled.focus, .btn-login.disabled:active, .btn-login.disabled.active, .btn-login[disabled], .btn-login[disabled]:hover, .btn-login[disabled]:focus, .btn-login[disabled].focus, .btn-login[disabled]:active, .btn-login[disabled].active,
 fieldset[disabled] .btn-login,
 fieldset[disabled] .btn-login:hover,
 fieldset[disabled] .btn-login:focus,
@@ -363,8 +348,7 @@ fieldset[disabled] .btn-login.active {
   line-height: 2em;
 }
 
-.menu-flat.dropup,
-.menu-flat.dropdown {
+.menu-flat.dropup, .menu-flat.dropdown {
   position: relative;
 }
 
@@ -445,16 +429,13 @@ fieldset[disabled] .btn-login.active {
   display: inline-block;
 }
 
-.menu-flat .dropdown-menu > li > a:hover,
-.menu-flat .dropdown-menu > li > a:focus {
+.menu-flat .dropdown-menu > li > a:hover, .menu-flat .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #fff;
   background-color: #3a393b;
 }
 
-.menu-flat .dropdown-menu > .active > a,
-.menu-flat .dropdown-menu > .active > a:hover,
-.menu-flat .dropdown-menu > .active > a:focus {
+.menu-flat .dropdown-menu > .active > a, .menu-flat .dropdown-menu > .active > a:hover, .menu-flat .dropdown-menu > .active > a:focus {
   color: #fff;
   text-decoration: none;
   outline: 0;
@@ -471,14 +452,11 @@ fieldset[disabled] .btn-login.active {
   background-color: #3a393b;
 }
 
-.menu-flat .dropdown-menu > .disabled > a,
-.menu-flat .dropdown-menu > .disabled > a:hover,
-.menu-flat .dropdown-menu > .disabled > a:focus {
+.menu-flat .dropdown-menu > .disabled > a, .menu-flat .dropdown-menu > .disabled > a:hover, .menu-flat .dropdown-menu > .disabled > a:focus {
   color: #999;
 }
 
-.menu-flat .dropdown-menu > .disabled > a:hover,
-.menu-flat .dropdown-menu > .disabled > a:focus {
+.menu-flat .dropdown-menu > .disabled > a:hover, .menu-flat .dropdown-menu > .disabled > a:focus {
   text-decoration: none;
   background-color: transparent;
   background-image: none;
@@ -1005,6 +983,300 @@ input[type=radio].wok-radio + label {
 .form-control.invalid-field {
   border-color: #ab1323;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(217, 83, 79, 0.6);
+}
+
+/*
+* Project Wok
+*
+* Copyright IBM Corp, 2015-2016
+*
+* Code derived from Project Kimchi
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+span.twitter-typeahead .tt-menu,
+span.twitter-typeahead .tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 100%;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+}
+
+span.twitter-typeahead .tt-suggestion {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+
+span.twitter-typeahead .tt-suggestion.tt-cursor,
+span.twitter-typeahead .tt-suggestion:hover,
+span.twitter-typeahead .tt-suggestion:focus {
+  color: #151515;
+  text-decoration: none;
+  outline: 0;
+  background-color: #f5f5f5;
+}
+
+.input-group.input-group-lg span.twitter-typeahead .form-control {
+  height: 46px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead .form-control {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+span.twitter-typeahead {
+  width: 100%;
+}
+
+.input-group span.twitter-typeahead {
+  display: block !important;
+  height: 34px;
+}
+
+.input-group span.twitter-typeahead .tt-menu,
+.input-group span.twitter-typeahead .tt-dropdown-menu {
+  top: 32px !important;
+}
+
+.input-group span.twitter-typeahead:not(:first-child):not(:last-child) .form-control {
+  border-radius: 0;
+}
+
+.input-group span.twitter-typeahead:first-child .form-control {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group span.twitter-typeahead:last-child .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead {
+  height: 30px;
+}
+
+.input-group.input-group-sm span.twitter-typeahead .tt-menu,
+.input-group.input-group-sm span.twitter-typeahead .tt-dropdown-menu {
+  top: 30px !important;
+}
+
+.input-group.input-group-lg span.twitter-typeahead {
+  height: 46px;
+}
+
+.input-group.input-group-lg span.twitter-typeahead .tt-menu,
+.input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
+  top: 46px !important;
+}
+
+.form-control.tt-input {
+  font-weight: 600;
+  color: #000 !important;
+}
+
+.form-control.tt-hint {
+  font-weight: 600;
+  color: #999 !important;
+}
+
+.form-control.tt-hint[disabled=disabled] {
+  background: #eee !important;
+}
+
+.ui-datepicker {
+  background: #fff;
+  border: 1px solid #66afe9;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+  display: none;
+  margin-top: 4px;
+  padding: 10px;
+  width: 363px;
+}
+
+.ui-datepicker .ui-state-hover {
+  background: none !important;
+  border: none !important;
+}
+
+.ui-datepicker a,
+.ui-datepicker a:hover {
+  text-decoration: none;
+}
+
+.ui-datepicker a:hover,
+.ui-datepicker td:hover a {
+  color: #fff;
+  -webkit-transition: color 0.1s ease-in-out;
+  -moz-transition: color 0.1s ease-in-out;
+  -o-transition: color 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out;
+}
+
+.ui-datepicker .ui-datepicker-header {
+  background: none !important;
+  border: none !important;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.ui-datepicker .ui-datepicker-title {
+  font-weight: 700;
+  color: #000;
+}
+
+.ui-datepicker .ui-datepicker-next,
+.ui-datepicker .ui-datepicker-prev {
+  top: 4px !important;
+  height: 26px;
+  min-width: 32px;
+  max-width: 32px;
+  text-align: center !important;
+  cursor: pointer;
+  color: transparent;
+  line-height: 26px;
+  box-sizing: content-box;
+}
+
+.ui-datepicker .ui-datepicker-next .ui-icon,
+.ui-datepicker .ui-datepicker-prev .ui-icon {
+  color: transparent;
+  visibility: hidden;
+}
+
+.ui-datepicker .ui-datepicker-next:before,
+.ui-datepicker .ui-datepicker-prev:before {
+  display: inline;
+  font-family: 'Font Awesome', FontAwesome;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  content: "\f060";
+  color: #000 !important;
+}
+
+.ui-datepicker .ui-datepicker-next:before {
+  content: "\f061";
+}
+
+.ui-datepicker .ui-datepicker-prev {
+  float: left;
+}
+
+.ui-datepicker .ui-datepicker-prev-hover {
+  left: 2px !important;
+}
+
+.ui-datepicker .ui-datepicker-next {
+  float: right;
+}
+
+.ui-datepicker .ui-datepicker-next-hover {
+  right: 2px !important;
+}
+
+.ui-datepicker .ui-datepicker-calendar {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ui-datepicker td,
+.ui-datepicker th {
+  border-radius: 0 !important;
+}
+
+.ui-datepicker .ui-datepicker-calendar td {
+  padding: 0;
+  border-radius: 0;
+}
+
+.ui-datepicker td > a,
+.ui-datepicker td > span {
+  border: 0 !important;
+  margin: 0 auto;
+  padding: 9px 0;
+  display: block;
+  text-align: center;
+  height: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  background: none !important;
+  color: #222 !important;
+  font-size: 13px;
+  font-weight: 400 !important;
+  text-decoration: none;
+  box-sizing: border-box;
+  -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -o-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+
+.ui-datepicker .ui-datepicker-calendar td:hover {
+  background: transparent;
+  cursor: pointer;
+}
+
+.ui-datepicker td > a:hover {
+  background-color: #eee !important;
+}
+
+.ui-datepicker .ui-datepicker-today {
+  background: none !important;
+}
+
+.ui-datepicker .ui-datepicker-today a {
+  background: #eee;
+  color: #000;
+  font-weight: 600 !important;
+}
+
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable:hover {
+  background-color: #fff;
+  cursor: default;
 }
 
 #aboutModal .modal-body > .content {

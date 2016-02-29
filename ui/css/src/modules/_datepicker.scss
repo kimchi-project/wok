@@ -1,0 +1,147 @@
+//
+// Project Wok
+//
+// Copyright IBM Corp, 2016
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+.ui-datepicker {
+    background: $body-bg;
+    border: 1px solid $input-border-focus;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(102,175,233,.6);
+    display: none;
+    margin-top: 4px;
+    padding: 10px;
+    width: 363px;
+}
+
+.ui-datepicker .ui-state-hover {
+    background: none !important;
+    border: none !important;
+}
+.ui-datepicker a,
+.ui-datepicker a:hover {
+    text-decoration: none;
+}
+.ui-datepicker a:hover,
+.ui-datepicker td:hover a {
+    color: $highlights-color;
+    -webkit-transition: color 0.1s ease-in-out;
+       -moz-transition: color 0.1s ease-in-out;
+         -o-transition: color 0.1s ease-in-out;
+            transition: color 0.1s ease-in-out;
+}
+.ui-datepicker .ui-datepicker-header {
+    background: none !important;
+    border: none !important;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.ui-datepicker .ui-datepicker-title {
+    font-weight: 700;
+    color: $gray-base;
+}
+
+.ui-datepicker .ui-datepicker-next,
+.ui-datepicker .ui-datepicker-prev {
+    top: 4px !important;
+    height: 26px;
+    min-width: 32px;
+    max-width: 32px;
+    text-align: center !important;
+    cursor: pointer;
+    color: transparent;
+    line-height: 26px;
+    box-sizing: content-box;
+}
+.ui-datepicker .ui-datepicker-next .ui-icon,
+.ui-datepicker .ui-datepicker-prev .ui-icon {
+    color: transparent;
+    visibility: hidden;
+}
+.ui-datepicker .ui-datepicker-next:before,
+.ui-datepicker .ui-datepicker-prev:before {
+    display: inline;
+    font-family: 'Font Awesome', FontAwesome;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    content: "\f060";
+    color: $gray-base !important;
+}
+.ui-datepicker .ui-datepicker-next:before {
+    content: "\f061";
+}
+.ui-datepicker .ui-datepicker-prev {
+    float: left;
+}
+.ui-datepicker .ui-datepicker-prev-hover{
+    left: 2px !important;
+}
+.ui-datepicker .ui-datepicker-next {
+    float: right;
+}
+.ui-datepicker .ui-datepicker-next-hover{
+    right: 2px !important;
+}
+.ui-datepicker .ui-datepicker-calendar {
+  table-layout: fixed;
+    width: 100%;
+}
+.ui-datepicker td,
+.ui-datepicker th {
+    border-radius: 0!important;
+}
+.ui-datepicker .ui-datepicker-calendar td {
+    padding: 0;
+    border-radius: 0;
+}
+.ui-datepicker td>a,
+.ui-datepicker td>span {
+    border: 0 !important;
+    margin: 0 auto;
+    padding: 9px 0;
+    display: block;
+    text-align: center;
+    height: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    background: none !important;
+    color: $gray-darker !important;
+    font-size: 13px;
+    font-weight: 400 !important;
+    text-decoration: none;
+    box-sizing: border-box;
+    @include transition(background-color 0.1s ease-in-out, color 0.1s ease-in-out);
+}
+.ui-datepicker .ui-datepicker-calendar td:hover {
+    background: transparent;
+    cursor: pointer;
+}
+.ui-datepicker td>a:hover {
+    background-color: $table-border-color !important;
+}
+.ui-datepicker .ui-datepicker-today {
+    background: none !important;
+}
+.ui-datepicker .ui-datepicker-today a {
+    background: $table-border-color;
+    color: $gray-base;
+    font-weight: 600 !important;
+}
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable:hover {
+    background-color: #fff;
+    cursor: default;
+}

@@ -175,6 +175,8 @@ wok.main = function() {
                 $('#functionalTabPanel ul').append(genFuncTabs(functionalTabs));
                 $('#tabPanel ul').append(genTabs(orderedTabs));
                 wok.getHostname();
+                wok.logos('ul#plugins',true);
+                wok.logos('ul#wok-about',false);
 
                 callback && callback();
             }, function(data) {

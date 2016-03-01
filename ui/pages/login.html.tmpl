@@ -29,28 +29,36 @@
 <html lang="$lang.lang[0]">
 <head>
     <meta charset="UTF-8">
-    <title>Kimchi</title>
+    <title>Wok</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Wok">
-    <link href="images/apple-touch-icon-152.png" sizes="152x152" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-144.png" sizes="144x144" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-76.png" sizes="76x76" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-72.png" sizes="72x72" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-180x180.png" sizes="120x120" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-114x114.png" sizes="114x114" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-57x57.png" sizes="57x57" rel="apple-touch-icon-precomposed">
-    <link rel="icon" type="image/png" href="images/android-chrome-192x192.png" sizes="192x192">
-    <!--[if IE  lte 9]><link rel="shortcut icon" href="images/favicon.ico"><![endif]-->
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link href="$href('images/apple-touch-icon-57x57.png')" sizes="57x57" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-72x72.png')" sizes="72x72" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-76x76.png')" sizes="76x76" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-114x114.png')" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-144x144.png')" sizes="144x144" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-152x152.png')" sizes="152x152" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-180x180.png')" sizes="120x120" rel="apple-touch-icon-precomposed">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-36x36.png')" sizes="36x36">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-48x48.png')" sizes="48x48">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-72x72.png')" sizes="72x72">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-96x96.png')" sizes="96x96">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-144x144.png')" sizes="144x144">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-192x192.png')" sizes="192x192">
+    <link rel="icon" type="image/png" href="$href('images/favicon-16x16.png')" sizes="16x16">
+    <link rel="icon" type="image/png" href="$href('images/favicon-32x32.png')" sizes="32x32">
+    <link rel="icon" type="image/png" href="$href('images/favicon-96x96.png')" sizes="96x96">
+    <link rel="icon" type="image/png" href="$href('images/favicon-194x194.png')" sizes="194x194">
+    <link rel="mask-icon" href="$href('images/safari-pinned-tab.svg')" color="#5bbad5">
     <meta name="application-name" content="Wok">
     <meta name="msapplication-config" content="none" />
-    <meta name="msapplication-TileColor" content="#4f4f4f" />
-    <meta name="msapplication-square70x70logo" content="images/tiny.png" />
-    <meta name="msapplication-square150x150logo" content="images/square.png" />
-    <meta name="msapplication-wide310x150logo" content="images/wide.png" />
-    <meta name="msapplication-square310x310logo" content="images/large.png" />
+    <meta name="msapplication-TileColor" content="#f73434" />
+    <meta name="msapplication-square70x70logo" content="$href('images/mstile-70x70.png')" />
+    <meta name="msapplication-square150x150logo" content="$href('images/mstile-150x150.png')" />
+    <meta name="msapplication-wide310x150logo" content="$href('images/mstile-310x310.png')" />
+    <meta name="msapplication-square310x310logo" content="$href('images/mstile-310x150.png')" />
     <link rel="stylesheet" href="$href('libs/jquery-ui/themes/base/jquery-ui.min.css')">
     <link rel="stylesheet" href="$href('css/jquery-ui.custom.css')">
     <link rel="stylesheet" href="$href('css/bootstrap.custom.css')">
@@ -68,12 +76,12 @@
     <script src="$href('libs/bootstrap-select/dist/js/bootstrap-select.min.js')"></script>
     <script src="$href('js/wok.min.js')"></script>
 </head>
-<body onload="wok.login_main()">
+<body class="login" onload="wok.login_main()">
     <div class="topbar">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Kimchi</a>
+                    <a class="navbar-brand" href="#">Wok</a>
                 </div>
             </div>
         </nav>
@@ -88,42 +96,50 @@
         </nav>
     </div>
     <div class="content">
-        <div id="login-window" class="login-area">
-            <div class="err-area">
-                <div id="messUserPass" class="alert alert-danger" style="display: none;">$_("The username or password you entered is incorrect. Please try again.")</div>
-                <div id="messSession" class="alert alert-danger" style="display: none;">$_("Session timeout, please re-login.")</div>
+        <div class="container">
+            <div id="login-window" class="login-area row">
+                <div class="err-area">
+                    <div id="messUserPass" class="alert alert-danger" style="display: none;">$_("The username or password you entered is incorrect. Please try again.")</div>
+                    <div id="messSession" class="alert alert-danger" style="display: none;">$_("Session timeout, please re-login.")</div>
+                </div>
+                <form id="form-login" class="form-horizontal" method="post">
+                    <div class="form-group">
+                        <label for="username" class="sr-only">$_("User Name")</label>
+                        <input type="text" class="form-control" id="username" name="username" required="required" placeholder="$_(" User Name ")" autofocus autocomplete="off" />
+                        <div id="username-msg" class="msg-required"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="sr-only">$_("Password")</label>
+                        <input type="password" class="form-control" id="password" name="password" required="required" placeholder="$_(" Password ")"  autocomplete="off" />
+                        <div id="password-msg" class="msg-required"></div>
+                    </div>
+                    <div class="form-group">
+                        <button id="btn-login" class="btn btn-login col-md-12 col-lg-12">
+                            <span id="login">$_("Log in")</span>
+                            <span id="logging" style="display: none;">$_("Logging in...")</span>
+                        </button>
+                    </div>
+                    <select id="userLang" class="selectpicker col-md-12 col-lg-12">
+                        <option value="en_US">English (US)</option>
+                        <option value="zh_CN">中文（简体）</option>
+                        <option value="pt_BR">Português (Brasil)</option>
+                        <option value="de_DE">Deutsch (Deutschland)</option>
+                        <option value="es_ES">Español (España)</option>
+                        <option value="fr_FR">Français (France)</option>
+                        <option value="it_IT">Italiano (Italia)</option>
+                        <option value="ja_JP">日本語 (日本)</option>
+                        <option value="ko_KR">한국어 (대한민국)</option>
+                        <option value="ru_RU">Русский (Россия)</option>
+                        <option value="zh_TW">中文（繁體）</option>
+                    </select>
+                </form>
             </div>
-            <form id="form-login" class="form-horizontal" method="post">
-                <div class="form-group">
-                    <label for="username" class="sr-only">$_("User Name")</label>
-                    <input type="text" class="form-control" id="username" name="username" required="required" placeholder="$_(" User Name ")" autofocus autocomplete="off" />
-                    <div id="username-msg" class="msg-required"></div>
+            <div class="row">
+                <div class="col-lg-4 delayed-fadein">
+                    <p class="text-muted powered hidden">Powered by:</p>
+                    <ul id="wok-logos" class="list-inline"></ul>
                 </div>
-                <div class="form-group">
-                    <label for="password" class="sr-only">$_("Password")</label>
-                    <input type="password" class="form-control" id="password" name="password" required="required" placeholder="$_(" Password ")"  autocomplete="off" />
-                    <div id="password-msg" class="msg-required"></div>
-                </div>
-                <div class="form-group">
-                    <button id="btn-login" class="btn btn-login col-md-12 col-lg-12">
-                        <span id="login">$_("Log in")</span>
-                        <span id="logging" style="display: none;">$_("Logging in...")</span>
-                    </button>
-                </div>
-                <select id="userLang" class="selectpicker col-md-12 col-lg-12">
-                    <option value="en_US">English (US)</option>
-                    <option value="zh_CN">中文（简体）</option>
-                    <option value="pt_BR">Português (Brasil)</option>
-                    <option value="de_DE">Deutsch (Deutschland)</option>
-                    <option value="es_ES">Español (España)</option>
-                    <option value="fr_FR">Français (France)</option>
-                    <option value="it_IT">Italiano (Italia)</option>
-                    <option value="ja_JP">日本語 (日本)</option>
-                    <option value="ko_KR">한국어 (대한민국)</option>
-                    <option value="ru_RU">Русский (Россия)</option>
-                    <option value="zh_TW">中文（繁體）</option>
-                </select>
-            </form>
+            </div>
         </div>
     </div>
 </body>

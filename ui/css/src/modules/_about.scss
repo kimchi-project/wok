@@ -20,13 +20,44 @@
     text-align: center;
     margin: 0 auto;
 
-    > img {
-        width: 225px;
-    }
-
-    h2 {
-        border-top: 1px solid $gray-light;
+    p {
+        color: $gray-base;
         padding-top: 15px;
+        margin-top: 15px;
     }
 
+    .col-md-10 {
+        text-align: center;
+        float: none;
+        margin: 0 auto 55px auto;
+    }
+
+    ul#wok-about li > img {
+        width: 134px;
+        display: block;
+    }
+
+    ul#wok-about > li {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+        text-align: center;
+
+        span.plugin-title,
+        span.plugin-version {
+            display: block;
+        }
+
+        span.plugin-title {
+            color: $gray-darker;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        span.plugin-version {
+            color: $gray-med;
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
 }

@@ -29,3 +29,19 @@
     @include transform(rotate(359deg));
   }
 }
+
+.delayed-fadein {
+  @include animation(fadein 2s);
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

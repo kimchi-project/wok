@@ -29,6 +29,68 @@
  * A partial implementation of the Ruby display functions from Compass:
  * https://github.com/Compass/compass/blob/stable/core/lib/compass/core/sass_extensions/functions/display.rb
  */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #3a393b;
+}
+
+.footer .container {
+  text-align: center;
+}
+
+.footer .container .text-muted {
+  color: #999;
+  margin: 20px 0;
+  display: inline-block;
+}
+
+.footer span.wok-version {
+  color: #999;
+  position: absolute;
+  right: 10px;
+  margin: 20px 0;
+}
+
+.footer ul#plugins {
+  list-style: none;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.footer ul#plugins li {
+  display: inline-block;
+  margin: 0 5px 5px 10px;
+  padding: 0;
+  color: #999;
+}
+
+.footer ul#plugins li:last-child {
+  margin-right: 0;
+}
+
+.footer ul#plugins li span {
+  display: none;
+}
+
+.footer ul#plugins li img {
+  width: 48px;
+  height: 48px;
+}
+
 .container {
   margin-right: auto;
   margin-left: auto;
@@ -49,6 +111,54 @@
 
 .panel-title {
   font-size: 21.5pt;
+}
+
+.login .content .container {
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.login .content .container .col-lg-4 {
+  width: 45.714em;
+  width: 64rem;
+  text-align: center;
+  float: none;
+  margin: 90px auto 0 auto;
+}
+
+.login .content .container .row p {
+  margin: 10px 0;
+  color: #000;
+}
+
+.login .content .container ul#wok-logos li > img {
+  width: 120px;
+  display: block;
+}
+
+.login .content .container ul#wok-logos > li {
+  display: inline-block;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-align: center;
+}
+
+.login .content .container ul#wok-logos > li span.plugin-title,
+.login .content .container ul#wok-logos > li span.plugin-version {
+  display: block;
+}
+
+.login .content .container ul#wok-logos > li span.plugin-title {
+  color: #222;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.login .content .container ul#wok-logos > li span.plugin-version {
+  color: #777;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .login-area {
@@ -1284,13 +1394,45 @@ span.twitter-typeahead {
   margin: 0 auto;
 }
 
-#aboutModal .modal-body > .content > img {
-  width: 225px;
+#aboutModal .modal-body > .content p {
+  color: #000;
+  padding-top: 15px;
+  margin-top: 15px;
 }
 
-#aboutModal .modal-body > .content h2 {
-  border-top: 1px solid #999;
-  padding-top: 15px;
+#aboutModal .modal-body > .content .col-md-10 {
+  text-align: center;
+  float: none;
+  margin: 0 auto 55px auto;
+}
+
+#aboutModal .modal-body > .content ul#wok-about li > img {
+  width: 134px;
+  display: block;
+}
+
+#aboutModal .modal-body > .content ul#wok-about > li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: center;
+}
+
+#aboutModal .modal-body > .content ul#wok-about > li span.plugin-title,
+#aboutModal .modal-body > .content ul#wok-about > li span.plugin-version {
+  display: block;
+}
+
+#aboutModal .modal-body > .content ul#wok-about > li span.plugin-title {
+  color: #222;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#aboutModal .modal-body > .content ul#wok-about > li span.plugin-version {
+  color: #777;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .absolute-middle, .wok-mask, .wok-grid-mask, .wok-list-mask, .wok-mask-loading, .wok-grid-loading, .wok-list-loading, .wok-mask-loader-container, .wok-grid-loader-container, .wok-list-loader-container, .wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon {
@@ -1324,5 +1466,23 @@ span.twitter-typeahead {
     -ms-transform: rotate(359deg);
     -o-transform: rotate(359deg);
     transform: rotate(359deg);
+  }
+}
+
+.delayed-fadein {
+  -webkit-animation: fadein 2s;
+  -o-animation: fadein 2s;
+  animation: fadein 2s;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -22,6 +22,71 @@
 @import "modules/wok-variables";
 // Compass Mixins
 @import "vendor/compass-mixins/lib/compass";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: $brand-primary;
+
+  .container {
+    text-align: center;
+  }
+
+  .container .text-muted {
+      color: $gray-light;
+      margin: 20px 0;
+      display: inline-block;
+  }
+
+  span.wok-version {
+    color: $gray-light;
+    position: absolute;
+    right: 10px;
+    margin: 20px 0;
+  }
+
+  ul#plugins {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+
+    li {
+    display: inline-block;
+    margin: 0 5px 5px 10px;
+    padding: 0;
+    color: $gray-light;
+
+        &:last-child {
+        margin-right: 0;
+        }
+
+        span {
+        display: none;
+        }
+
+        img {
+            width: 48px;
+            height: 48px;
+        }
+
+    }
+
+  }
+
+}
+
 // Override Bootstrap CSS
 .container {
     margin-right: auto;

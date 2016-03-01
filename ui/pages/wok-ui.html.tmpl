@@ -28,28 +28,36 @@
 <html lang="$lang.lang[0]">
 <head>
     <meta charset="UTF-8">
-    <title>Kimchi</title>
+    <title>Wok</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Wok">
-    <link href="images/apple-touch-icon-152.png" sizes="152x152" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-144.png" sizes="144x144" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-76.png" sizes="76x76" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-72.png" sizes="72x72" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-180x180.png" sizes="120x120" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-114x114.png" sizes="114x114" rel="apple-touch-icon-precomposed">
-    <link href="images/apple-touch-icon-57x57.png" sizes="57x57" rel="apple-touch-icon-precomposed">
-    <link rel="icon" type="image/png" href="images/android-chrome-192x192.png" sizes="192x192">
-    <!--[if IE  lte 9]><link rel="shortcut icon" href="images/favicon.ico"><![endif]-->
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link href="$href('images/apple-touch-icon-57x57.png')" sizes="57x57" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-72x72.png')" sizes="72x72" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-76x76.png')" sizes="76x76" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-114x114.png')" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-144x144.png')" sizes="144x144" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-152x152.png')" sizes="152x152" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-180x180.png')" sizes="120x120" rel="apple-touch-icon-precomposed">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-36x36.png')" sizes="36x36">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-48x48.png')" sizes="48x48">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-72x72.png')" sizes="72x72">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-96x96.png')" sizes="96x96">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-144x144.png')" sizes="144x144">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-192x192.png')" sizes="192x192">
+    <link rel="icon" type="image/png" href="$href('images/favicon-16x16.png')" sizes="16x16">
+    <link rel="icon" type="image/png" href="$href('images/favicon-32x32.png')" sizes="32x32">
+    <link rel="icon" type="image/png" href="$href('images/favicon-96x96.png')" sizes="96x96">
+    <link rel="icon" type="image/png" href="$href('images/favicon-194x194.png')" sizes="194x194">
+    <link rel="mask-icon" href="$href('images/safari-pinned-tab.svg')" color="#5bbad5">
     <meta name="application-name" content="Wok">
     <meta name="msapplication-config" content="none" />
-    <meta name="msapplication-TileColor" content="#4f4f4f" />
-    <meta name="msapplication-square70x70logo" content="images/tiny.png" />
-    <meta name="msapplication-square150x150logo" content="images/square.png" />
-    <meta name="msapplication-wide310x150logo" content="images/wide.png" />
-    <meta name="msapplication-square310x310logo" content="images/large.png" />
+    <meta name="msapplication-TileColor" content="#f73434" />
+    <meta name="msapplication-square70x70logo" content="$href('images/mstile-70x70.png')" />
+    <meta name="msapplication-square150x150logo" content="$href('images/mstile-150x150.png')" />
+    <meta name="msapplication-wide310x150logo" content="$href('images/mstile-310x310.png')" />
+    <meta name="msapplication-square310x310logo" content="$href('images/mstile-310x150.png')" />
     <link rel="stylesheet" href="$href('libs/jquery-ui/themes/base/jquery-ui.min.css')">
     <link rel="stylesheet" href="$href('css/jquery-ui.custom.css')">
     <link rel="stylesheet" href="$href('css/bootstrap.custom.css')">
@@ -105,7 +113,7 @@
         <nav class="navbar navbar-inverse">
           <div class="container">
             <div class="navbar-header">
-              <a id="logo" class="navbar-brand" href="#" title="Project Kimchi">Kimchi</a>
+              <a id="logo" class="navbar-brand" href="#" title="Wok">Wok</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown hide-content peers" id="peers">
@@ -161,7 +169,7 @@
 
     <div id="buildme" style="display:none">
         <div><p>Oops!  It looks like I am running from a source tree and you forgot to build!
-    Please run the following command from the wok and kimchi directories and reload this page:</p>
+    Please run the following command from the wok and plugins directories and reload this page:</p>
         <p><code>make</code></p>
         </div>
     </div>
@@ -170,7 +178,7 @@
     </div>
 
     <script id="about-tmpl" type="wok/template">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content" >
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -178,13 +186,27 @@
                 </div>
                 <div class="modal-body">
                     <div class="content">
-                                <img src="images/theme-default/logo-flat.svg" />
-                                <h2>Kimchi</h2>
-                                <p>$_("Version:") $get_version()</p>
+                        <div class="col-md-10">
+                                <ul id="wok-about" class="list-inline">
+                                    <li>
+                                        <img src="$href('images/wok.svg')" alt="Wok $get_version()" title="Wok">
+                                        <span class="plugin-title">Wok</span>
+                                        <span class="plugin-version">$get_version()</span>
+                                    </li>
+                                </ul>
+                        </div>
                     </div>
                  </div>
             </div>
          </div>
     </script>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted powered hidden">$_("Powered by"):</p>
+            <ul id="plugins">
+            </ul>
+            <span class="wok-version">Wok Version: $get_version()</span>
+        </div>
+    </footer>
 </body>
 </html>

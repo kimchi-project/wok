@@ -16,6 +16,56 @@
 // limitations under the License.
 //
 
+.login .content .container {
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .col-lg-4 {
+        width: 45.714em;
+        width: 64rem;
+        text-align: center;
+        float: none;
+        margin: 90px auto 0 auto;
+    }
+
+    .row p {
+        margin: 10px 0;
+        color: $gray-base;
+    }
+
+    ul#wok-logos li > img {
+        width: 120px;
+        display: block;
+    }
+
+    ul#wok-logos > li {
+        display: inline-block;
+        padding-left: 40px;
+        padding-right: 40px;
+        text-align: center;
+
+        span.plugin-title,
+        span.plugin-version {
+            display: block;
+        }
+
+        span.plugin-title {
+            color: $gray-darker;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        span.plugin-version {
+            color: $gray-med;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+    }
+
+}
+
 .login-area {
     margin: 90px auto 0;
     width: 300px;

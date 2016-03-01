@@ -73,5 +73,6 @@ wok.login_main = function() {
         return false;
     };
 
+    wok.logos('#wok-logos',true);
     $('#btn-login').bind('click', login);
 };

@@ -36,8 +36,6 @@ from wok.reqlogger import RequestRecord
 from wok.utils import get_plugin_from_request
 
 
-LOG_DISABLED_METHODS = ['GET']
-
 # Default request log messages
 COLLECTION_DEFAULT_LOG = "request on collection"
 RESOURCE_DEFAULT_LOG = "request on resource"
@@ -130,6 +128,18 @@ class Resource(object):
 
                 action_fn = getattr(self.model, model_fn(self, action_name))
                 action_result = action_fn(*model_args)
+
+                params = {}
+                if model_args:
+                    params = {'ident': str(model_args[0])}
+
+                RequestRecord(
+                    self.getRequestMessage(method, action_name) % params,
+                    app=get_plugin_from_request(),
+                    req=method,
+                    user=cherrypy.session.get(USER_NAME, 'N/A')
+                ).log()
+
                 if destructive is False or \
                     ('persistent' in self.info.keys() and
                      self.info['persistent'] is True):
@@ -148,17 +158,6 @@ class Resource(object):
                 raise cherrypy.HTTPError(500, e.message)
             except WokException, e:
                 raise cherrypy.HTTPError(500, e.message)
-            finally:
-                params = {}
-                if model_args:
-                    params = {'ident': str(model_args[0])}
-
-                RequestRecord(
-                    self.getRequestMessage(method, action_name) % params,
-                    app=get_plugin_from_request(),
-                    req=method,
-                    user=cherrypy.session.get(USER_NAME, 'N/A')
-                ).log()
 
         wrapper.__name__ = action_name
         wrapper.exposed = True
@@ -176,15 +175,7 @@ class Resource(object):
             fn = getattr(self.model, model_fn(self, 'delete'))
             fn(*self.model_args)
             cherrypy.response.status = 204
-        except AttributeError:
-            e = InvalidOperation('WOKAPI0002E', {'resource':
-                                                 get_class_name(self)})
-            raise cherrypy.HTTPError(405, e.message)
-        except OperationFailed, e:
-            raise cherrypy.HTTPError(500, e.message)
-        except InvalidOperation, e:
-            raise cherrypy.HTTPError(400, e.message)
-        finally:
+
             method = 'DELETE'
             params = {}
             if self.model_args:
@@ -196,6 +187,14 @@ class Resource(object):
                 req=method,
                 user=cherrypy.session.get(USER_NAME, 'N/A')
             ).log()
+        except AttributeError:
+            e = InvalidOperation('WOKAPI0002E', {'resource':
+                                                 get_class_name(self)})
+            raise cherrypy.HTTPError(405, e.message)
+        except OperationFailed, e:
+            raise cherrypy.HTTPError(500, e.message)
+        except InvalidOperation, e:
+            raise cherrypy.HTTPError(400, e.message)
 
     @cherrypy.expose
     def index(self, *args, **kargs):
@@ -245,19 +244,19 @@ class Resource(object):
             e = InvalidOperation('WOKAPI0003E', {'resource':
                                                  get_class_name(self)})
             raise cherrypy.HTTPError(405, e.message)
-        finally:
-            method = 'PUT'
-            RequestRecord(
-                self.getRequestMessage(method) % params,
-                app=get_plugin_from_request(),
-                req=method,
-                user=cherrypy.session.get(USER_NAME, 'N/A')
-            ).log()
 
         validate_params(params, self, 'update')
 
         args = list(self.model_args) + [params]
         ident = update(*args)
+
+        method = 'PUT'
+        RequestRecord(
+            self.getRequestMessage(method) % params,
+            app=get_plugin_from_request(),
+            req=method,
+            user=cherrypy.session.get(USER_NAME, 'N/A')
+        ).log()
         self._redirect(ident)
         self.lookup()
         return self.get()
@@ -413,7 +412,14 @@ class Collection(object):
                 return self.get(params)
             elif method == 'POST':
                 params = parse_request()
-                return self.create(params, *args)
+                result = self.create(params, *args)
+                RequestRecord(
+                    self.getRequestMessage(method) % params,
+                    app=get_plugin_from_request(),
+                    req=method,
+                    user=cherrypy.session.get(USER_NAME, 'N/A')
+                ).log()
+                return result
         except InvalidOperation, e:
             raise cherrypy.HTTPError(400, e.message)
         except InvalidParameter, e:
@@ -426,14 +432,6 @@ class Collection(object):
             raise cherrypy.HTTPError(500, e.message)
         except WokException, e:
             raise cherrypy.HTTPError(500, e.message)
-        finally:
-            if method not in LOG_DISABLED_METHODS:
-                RequestRecord(
-                    self.getRequestMessage(method) % params,
-                    app=get_plugin_from_request(),
-                    req=method,
-                    user=cherrypy.session.get(USER_NAME, 'N/A')
-                ).log()
 
 
 class AsyncCollection(Collection):

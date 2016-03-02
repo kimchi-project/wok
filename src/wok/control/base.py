@@ -131,7 +131,7 @@ class Resource(object):
 
                 params = {}
                 if model_args:
-                    params = {'ident': str(model_args[0])}
+                    params = {'ident': model_args[0].encode('utf-8')}
 
                 RequestRecord(
                     self.getRequestMessage(method, action_name) % params,
@@ -179,7 +179,7 @@ class Resource(object):
             method = 'DELETE'
             params = {}
             if self.model_args:
-                params = {'ident': str(self.model_args[0])}
+                params = {'ident': self.model_args[0].encode('utf-8')}
 
             RequestRecord(
                 self.getRequestMessage(method, 'default') % params,

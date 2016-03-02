@@ -24,7 +24,7 @@ from wok.control.utils import get_class_name, model_fn
 from wok.control.utils import UrlSubNode
 
 
-@UrlSubNode("logs")
+@UrlSubNode("logs", True)
 class Logs(SimpleCollection):
     def __init__(self, model):
         super(Logs, self).__init__(model)

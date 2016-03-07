@@ -21,6 +21,7 @@
 #
 
 import cherrypy
+import copy
 import glob
 import grp
 import os
@@ -133,6 +134,28 @@ def get_plugin_from_request():
         return split[2]
 
     return 'wok'
+
+
+def ascii_dict(base, overlay=None):
+    result = copy.deepcopy(base)
+    result.update(overlay or {})
+
+    for key, value in result.iteritems():
+        if isinstance(value, unicode):
+            result[key] = str(value.decode('utf-8'))
+
+    return result
+
+
+def utf8_dict(base, overlay=None):
+    result = copy.deepcopy(base)
+    result.update(overlay or {})
+
+    for key, value in result.iteritems():
+        if isinstance(value, unicode):
+            result[key] = value.encode('utf-8')
+
+    return result
 
 
 def import_class(class_path):

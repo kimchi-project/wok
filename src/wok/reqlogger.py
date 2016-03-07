@@ -29,7 +29,7 @@ from tempfile import NamedTemporaryFile
 
 from wok.config import config, get_log_download_path
 from wok.exception import InvalidParameter, OperationFailed
-from wok.utils import remove_old_files
+from wok.utils import ascii_dict, remove_old_files
 
 
 # Log search setup
@@ -89,7 +89,8 @@ class RequestParser(object):
 
             with fd:
                 for record in sortedList:
-                    fd.write(LOG_FORMAT % record)
+                    asciiRecord = ascii_dict(record)
+                    fd.write(LOG_FORMAT % asciiRecord)
 
                 fd.close()
         except IOError as e:

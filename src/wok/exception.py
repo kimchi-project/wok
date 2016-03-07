@@ -43,10 +43,11 @@ class WokException(Exception):
                 # itself to a unicode string.
                 args[key] = unicode(value)
 
-        if cherrypy.request.app:
+        # First, check if it is a Wok error message, then search in plugin
+        # error messages list
+        msg = _messages.get(code, code)
+        if (msg == code) and (cherrypy.request.app):
             msg = self._get_translation()
-        else:
-            msg = _messages.get(code, code)
 
         msg = unicode(msg, 'utf-8') % args
         pattern = "%s: %s" % (code, msg)

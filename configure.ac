@@ -128,6 +128,7 @@ AC_CONFIG_FILES([
     ui/libs/bootstrap-switch/dist/Makefile
     ui/libs/bootstrap-switch/dist/js/Makefile
     ui/libs/bootstrap-switch/dist/css/Makefile
+    ui/libs/jquery-containsNC/Makefile
     ui/libs/bootstrap-editable/Makefile
     ui/libs/bootstrap-editable/dist/Makefile
     ui/libs/bootstrap-editable/dist/js/Makefile

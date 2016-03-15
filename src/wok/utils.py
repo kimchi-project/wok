@@ -391,47 +391,6 @@ def remove_old_files(globexpr, hours):
         wok_log.error(str(e))
 
 
-def get_next_clone_name(all_names, basename, name_suffix=''):
-    """Find the next available name for a cloned resource.
-
-    If any resource named "<basename>-clone-<number><name_suffix>" is found
-    in "all_names", use the maximum "number" + 1; else, use 1.
-
-    Arguments:
-    all_names -- All existing names for the resource type. This list will
-        be used to make sure the new name won't conflict with
-        existing names.
-    basename -- The name of the original resource.
-    name_suffix -- The resource name suffix (optional). This parameter
-        exist so that a resource named "foo.img" gets the name
-        "foo-clone-1.img" instead of "foo.img-clone-1". If this parameter
-        is used, the suffix should not be present in "basename".
-
-    Return:
-    A UTF-8 string in the format "<basename>-clone-<number><name_suffix>".
-    """
-    re_group_num = 'num'
-
-    re_expr = u'%s-clone-(?P<%s>\d+)' % (basename, re_group_num)
-    if name_suffix != '':
-        re_expr = u'%s%s' % (re_expr, name_suffix)
-
-    max_num = 0
-    re_compiled = re.compile(re_expr)
-
-    for n in all_names:
-        match = re_compiled.match(n)
-        if match is not None:
-            max_num = max(max_num, int(match.group(re_group_num)))
-
-    # increments the maximum "clone number" found
-    new_name = u'%s-clone-%d' % (basename, max_num + 1)
-    if name_suffix != '':
-        new_name = new_name + name_suffix
-
-    return new_name
-
-
 def get_unique_file_name(all_names, name):
     """Find the next available, unique name for a file.
 

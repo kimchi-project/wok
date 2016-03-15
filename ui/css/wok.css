@@ -120,8 +120,7 @@ body {
 }
 
 .login .content .container .col-lg-4 {
-  width: 45.714em;
-  width: 64rem;
+  width: 685px;
   text-align: center;
   float: none;
   margin: 90px auto 0 auto;
@@ -134,13 +133,13 @@ body {
 
 .login .content .container ul#wok-logos li > img {
   width: 120px;
-  display: block;
+  display: inline-block;
 }
 
 .login .content .container ul#wok-logos > li {
   display: inline-block;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
   text-align: center;
 }
 

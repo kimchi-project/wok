@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:28-0200\n"
+"POT-Creation-Date: 2016-03-21 10:50-0300\n"
 "PO-Revision-Date: 2013-06-27 10:48+0000\n"
 "Last-Translator: ShaoHe Feng <shaohef@linux.vnet.ibm.com>\n"
 "Language-Team: ShaoHe Feng <shaohef@linux.vnet.ibm.com>\n"
@@ -85,6 +85,14 @@ msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr "无效的LDAP配置：%(item)s : %(value)s"
 
 #, python-format
+msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
+msgstr ""
+
+#, python-format
+msgid "Creation of log file failed: %(err)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "在数据存储中找不到%(item)s"
 
@@ -116,9 +124,6 @@ msgstr "调用栈"
 msgid "Go to Homepage"
 msgstr "返回主页"
 
-msgid "No such data available."
-msgstr "没有可用的数据"
-
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -130,6 +135,9 @@ msgstr "取消"
 
 msgid "Confirm"
 msgstr "确认"
+
+msgid "No such data available."
+msgstr "没有可用的数据"
 
 msgid "Loading..."
 msgstr "正在加载..."
@@ -145,6 +153,36 @@ msgstr "详细消息："
 
 msgid "Max:"
 msgstr "最大："
+
+msgid "Application"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Request"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Please wait..."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+msgstr ""
+
+msgid "No results found!"
+msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr "用户名或密码错误，请重新输入。"
@@ -191,5 +229,5 @@ msgstr "关于"
 msgid "Toggle navigation"
 msgstr ""
 
-msgid "Version:"
-msgstr "版本："
+msgid "Powered by"
+msgstr ""

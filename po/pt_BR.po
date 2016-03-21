@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:28-0200\n"
+"POT-Creation-Date: 2016-03-21 10:50-0300\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -87,6 +87,14 @@ msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr "Configurações LDAP inválidas: %(item)s : %(value)s"
 
 #, python-format
+msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
+msgstr ""
+
+#, python-format
+msgid "Creation of log file failed: %(err)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "Não foi possível encontrar %(item)s no datastore"
 
@@ -119,9 +127,6 @@ msgstr "PILHA"
 msgid "Go to Homepage"
 msgstr "Ir para a Página Inicial"
 
-msgid "No such data available."
-msgstr "Não há dados disponíveis."
-
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -135,6 +140,9 @@ msgstr "Cancelar"
 
 msgid "Confirm"
 msgstr "Confirmar"
+
+msgid "No such data available."
+msgstr "Não há dados disponíveis."
 
 msgid "Loading..."
 msgstr "Carregando..."
@@ -150,6 +158,36 @@ msgstr "Mensagem detalhada:"
 
 msgid "Max:"
 msgstr "Máximo:"
+
+msgid "Application"
+msgstr ""
+
+msgid "User"
+msgstr "Usuário"
+
+msgid "Request"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Please wait..."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+msgstr ""
+
+msgid "No results found!"
+msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr ""
@@ -197,5 +235,5 @@ msgstr "Sobre"
 msgid "Toggle navigation"
 msgstr ""
 
-msgid "Version:"
-msgstr "Versão:"
+msgid "Powered by"
+msgstr ""

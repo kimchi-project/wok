@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:28-0200\n"
+"POT-Creation-Date: 2016-03-21 10:50-0300\n"
 "PO-Revision-Date: 2014-08-28 17:32+0000\n"
 "Last-Translator: Aline Manera <aline.manera@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/kimchi/language/"
@@ -69,6 +69,14 @@ msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr ""
 
 #, python-format
+msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
+msgstr ""
+
+#, python-format
+msgid "Creation of log file failed: %(err)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "Не найден %(item)s в хранилище данных"
 
@@ -100,9 +108,6 @@ msgstr "Стек"
 msgid "Go to Homepage"
 msgstr "Перейти на главную страницу"
 
-msgid "No such data available."
-msgstr "Нет таких данных."
-
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -115,6 +120,9 @@ msgstr "Отмена"
 
 msgid "Confirm"
 msgstr "Подтвердить"
+
+msgid "No such data available."
+msgstr "Нет таких данных."
 
 msgid "Loading..."
 msgstr "Загружается..."
@@ -130,6 +138,36 @@ msgstr "Подробное сообщение:"
 
 msgid "Max:"
 msgstr "Макс.:"
+
+msgid "Application"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Request"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Please wait..."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+msgstr ""
+
+msgid "No results found!"
+msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr "Указано неверное имя пользователя или пароль. Введите еще раз."
@@ -176,5 +214,5 @@ msgstr "О программе"
 msgid "Toggle navigation"
 msgstr ""
 
-msgid "Version:"
-msgstr "Версия:"
+msgid "Powered by"
+msgstr ""

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:28-0200\n"
+"POT-Creation-Date: 2016-03-21 10:50-0300\n"
 "PO-Revision-Date: 2014-08-27 21:30+0000\n"
 "Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www.transifex.com/projects/p/kimchi/language/"
@@ -73,6 +73,14 @@ msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr ""
 
 #, python-format
+msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
+msgstr ""
+
+#, python-format
+msgid "Creation of log file failed: %(err)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "Impossible de trouver %(item)s dans le magasin de données"
 
@@ -106,9 +114,6 @@ msgstr "STACK"
 msgid "Go to Homepage"
 msgstr "Aller à la page d'accueil"
 
-msgid "No such data available."
-msgstr "De telles données ne sont pas disponibles."
-
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -122,6 +127,9 @@ msgstr "Annuler"
 
 msgid "Confirm"
 msgstr "Confirmer"
+
+msgid "No such data available."
+msgstr "De telles données ne sont pas disponibles."
 
 msgid "Loading..."
 msgstr "Chargement en cours..."
@@ -137,6 +145,36 @@ msgstr "Message détaillé:"
 
 msgid "Max:"
 msgstr "Max:"
+
+msgid "Application"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Request"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Please wait..."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+msgstr ""
+
+msgid "No results found!"
+msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr ""
@@ -185,5 +223,5 @@ msgstr "A propos..."
 msgid "Toggle navigation"
 msgstr ""
 
-msgid "Version:"
-msgstr "Version:"
+msgid "Powered by"
+msgstr ""

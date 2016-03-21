@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:28-0200\n"
+"POT-Creation-Date: 2016-03-21 10:50-0300\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -69,6 +69,14 @@ msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr ""
 
 #, python-format
+msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
+msgstr ""
+
+#, python-format
+msgid "Creation of log file failed: %(err)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "%(item)s はデータ・ストアに見つかりません"
 
@@ -102,9 +110,6 @@ msgstr "スタック"
 msgid "Go to Homepage"
 msgstr "ホーム・ページに移動する"
 
-msgid "No such data available."
-msgstr "そのようなデータはありません。"
-
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -117,6 +122,9 @@ msgstr "取消"
 
 msgid "Confirm"
 msgstr "確認"
+
+msgid "No such data available."
+msgstr "そのようなデータはありません。"
 
 msgid "Loading..."
 msgstr "ロードしています..."
@@ -132,6 +140,36 @@ msgstr "詳細メッセージ:"
 
 msgid "Max:"
 msgstr "最大:"
+
+msgid "Application"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Request"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Please wait..."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+msgstr ""
+
+msgid "No results found!"
+msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr "入力したユーザー名またはパスワードが誤っています。やり直してください。"
@@ -178,5 +216,5 @@ msgstr "製品情報"
 msgid "Toggle navigation"
 msgstr ""
 
-msgid "Version:"
-msgstr "バージョン: "
+msgid "Powered by"
+msgstr ""

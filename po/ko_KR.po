@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-17 17:28-0200\n"
+"POT-Creation-Date: 2016-03-21 10:50-0300\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -68,6 +68,14 @@ msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr ""
 
 #, python-format
+msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
+msgstr ""
+
+#, python-format
+msgid "Creation of log file failed: %(err)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "데이터 저장소에서 %(item)s을(를) 찾을 수 없습니다."
 
@@ -99,9 +107,6 @@ msgstr "스택"
 msgid "Go to Homepage"
 msgstr "홈 페이지로 이동"
 
-msgid "No such data available."
-msgstr "해당 데이터가 없습니다."
-
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -114,6 +119,9 @@ msgstr "취소"
 
 msgid "Confirm"
 msgstr "확인"
+
+msgid "No such data available."
+msgstr "해당 데이터가 없습니다."
 
 msgid "Loading..."
 msgstr "로드 중..."
@@ -129,6 +137,36 @@ msgstr "세부 메시지:"
 
 msgid "Max:"
 msgstr "최대:"
+
+msgid "Application"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Request"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Please wait..."
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
+msgstr ""
+
+msgid "No results found!"
+msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr ""
@@ -176,5 +214,5 @@ msgstr "정보"
 msgid "Toggle navigation"
 msgstr ""
 
-msgid "Version:"
-msgstr "버전: "
+msgid "Powered by"
+msgstr ""

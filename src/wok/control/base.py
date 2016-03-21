@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Project Wok
 #
@@ -69,7 +70,9 @@ class Resource(object):
         self.admin_methods = []
         self.log_map = {}
         self.log_args = {
-            'ident': self.ident.encode('utf-8') if self.ident else '',
+            'ident': self.ident.encode('utf-8')
+            if isinstance(self.ident, unicode)
+            else self.ident if self.ident else '',
         }
 
     def _redirect(self, action_result, code=303):

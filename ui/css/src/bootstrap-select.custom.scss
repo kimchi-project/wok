@@ -83,5 +83,26 @@
         .dropdown-menu li a {
             outline: none;
         }
+        .dropdown-toggle .filter-option {
+            text-overflow: ellipsis;
+            padding-right: 30px;
+        }
+    }
+    &.btn-group.show-tick {
+        .dropdown-menu li.active a,
+        .dropdown-menu li.selected.active a {
+            background: darken($dropdown-link-hover-bg,10%);
+            color: $gray-base;
+        }
+        .dropdown-menu li.selected a {
+            background: $dropdown-link-hover-bg;
+            span.check-mark {
+                margin-top: 0 !important;
+                &:before {
+                    font: normal normal normal 14px/1 FontAwesome;
+                    content: "\f00c";
+                }
+            }
+        }
     }
 }

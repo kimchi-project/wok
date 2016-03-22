@@ -22,8 +22,8 @@ wok.login_main = function() {
     var selectedLanguage = wok.lang.get();
     $('#userLang').val(selectedLanguage);
     $('#userLang option[value="'+selectedLanguage+'"]').attr("selected", "selected");
-    $('#userLang').next().find('.selectpicker').attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
-    $('#userLang').next().children().find('.filter-option').text($('#userLang option[value="'+selectedLanguage+'"]').text());
+    $('.filter-option').parent().attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
+    $('.filter-option').text($('#userLang option[value="'+selectedLanguage+'"]').text());
 
     $('#userLang').on('change', function() {
         wok.lang.set($(this).val());

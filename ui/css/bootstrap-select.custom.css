@@ -92,3 +92,27 @@
 .bootstrap-select.btn-group .dropdown-menu li a {
   outline: none;
 }
+
+.bootstrap-select.btn-group .dropdown-toggle .filter-option {
+  text-overflow: ellipsis;
+  padding-right: 30px;
+}
+
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.active a,
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected.active a {
+  background: gainsboro;
+  color: #000;
+}
+
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a {
+  background: #f5f5f5;
+}
+
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark {
+  margin-top: 0 !important;
+}
+
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark:before {
+  font: normal normal normal 14px/1 FontAwesome;
+  content: "\f00c";
+}

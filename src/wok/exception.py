@@ -20,53 +20,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import cherrypy
-import gettext
 
-from wok.i18n import messages as _messages
-from wok.template import get_lang, validate_language
+from wok.message import WokMessage
 
 
 class WokException(Exception):
     def __init__(self, code='', args={}):
         self.code = code
-
-        for key, value in args.iteritems():
-            if isinstance(value, unicode):
-                continue
-
-            # value is not unicode: convert it
-            try:
-                # In case the value formats itself to an ascii string.
-                args[key] = unicode(str(value), 'utf-8')
-            except UnicodeEncodeError:
-                # In case the value is a WokException or it formats
-                # itself to a unicode string.
-                args[key] = unicode(value)
-
-        # First, check if it is a Wok error message, then search in plugin
-        # error messages list
-        msg = _messages.get(code, code)
-        if (msg == code) and (cherrypy.request.app):
-            msg = self._get_translation()
-
-        msg = unicode(msg, 'utf-8') % args
-        pattern = "%s: %s" % (code, msg)
-        cherrypy.log.error_log.error(pattern)
-        Exception.__init__(self, pattern)
-
-    def _get_translation(self):
-        lang = validate_language(get_lang())
-        paths = cherrypy.request.app.root.paths
-        domain = cherrypy.request.app.root.domain
-        messages = cherrypy.request.app.root.messages
-        text = messages.get(self.code, self.code)
-
-        try:
-            translation = gettext.translation(domain, paths.mo_dir, [lang])
-        except:
-            translation = gettext
-
-        return translation.gettext(text)
+        msg = WokMessage(code, args).get_text()
+        cherrypy.log.error_log.error(msg)
+        Exception.__init__(self, msg)
 
 
 class NotFoundError(WokException):

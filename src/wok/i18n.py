@@ -45,6 +45,9 @@ messages = {
     "WOKLOG0001E": _("Invalid filter parameter. Filter parameters allowed: %(filters)s"),
     "WOKLOG0002E": _("Creation of log file failed: %(err)s"),
 
+    "WOKNOT0001E": _("Unable to find notification %(id)s"),
+    "WOKNOT0002E": _("Unable to delete notification %(id)s: %(message)s"),
+
     "WOKOBJST0001E": _("Unable to find %(item)s in datastore"),
 
     "WOKUTILS0001E": _("Unable to reach %(url)s. Make sure it is accessible and try again."),

@@ -33,6 +33,7 @@ from wok.config import config as configParser
 from wok.config import paths, PluginConfig, WokConfig
 from wok.control import sub_nodes
 from wok.model import model
+from wok.objectstore import clean_notifications
 from wok.proxy import start_proxy, terminate_proxy
 from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
@@ -105,6 +106,9 @@ class Server(object):
         # is not 'production'
         if dev_env:
             cherrypy.log.screen = True
+
+        # clean object store notifications
+        clean_notifications()
 
         # close standard file handlers because we are going to use a
         # watchedfiled handler, otherwise we will have two file handlers

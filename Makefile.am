@@ -106,6 +106,8 @@ deb: contrib/make-deb.sh
 wok.spec: contrib/wok.spec.fedora contrib/wok.spec.suse
 	@if test -e /etc/redhat-release; then                   \
 		ln -sf contrib/wok.spec.fedora $@ ;              \
+        elif test -e /etc/system-release; then			\
+		ln -sf contrib/wok.spec.fedora $@ ;		\
 	elif test -e /etc/SuSE-release; then                    \
 		ln -sf contrib/wok.spec.suse $@ ;                \
 	else                                                    \

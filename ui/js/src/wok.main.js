@@ -46,8 +46,8 @@ wok.main = function() {
                         '<a class="item ', disableHelp, '" href="', path, '">',
                             title,
                         '</a>',
-                        '<input id="funcTab" name="funcTab" class="sr-only" value="' + functionality.toLowerCase() + '" type="hidden"/>',
-                        '<input id="helpPathId" name="helpPath" class="sr-only" value="' + helpPath + '" type="hidden"/>',
+                        '<input name="funcTab" class="sr-only" value="' + functionality.toLowerCase() + '" type="hidden"/>',
+                        '<input name="helpPath" class="sr-only" value="' + helpPath + '" type="hidden"/>',
                     '</li>'
                 );
             }

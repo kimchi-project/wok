@@ -193,3 +193,22 @@ wok.urlSafeB64Decode = function(str) {
 wok.urlSafeB64Encode = function(str) {
     return $.base64.btoa(str, true).replace(/\+/g, '-').replace(/\//g, '_');
 }
+
+wok.notificationsLoop = function notificationsLoop() {
+    wok.getNotifications(
+        function(notifications){
+            if(notifications && notifications.length > 0) {
+                $.each(notifications, function(i, notif) {
+                    if (wok.postedNotifications.indexOf(notif.message) == -1) {
+                        wok.message.notify(notif, '#message-container-area');
+                        wok.postedNotifications.push(notif.message);
+                    }
+                })
+            };
+            setTimeout(notificationsLoop, wok.NOTIFICATION_INTERVAL);
+        },
+        function(data){
+            setTimeout(notificationsLoop, wok.NOTIFICATION_INTERVAL);
+        }
+    );
+}

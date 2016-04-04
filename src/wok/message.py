@@ -45,11 +45,11 @@ class WokMessage(object):
         self.plugin = plugin
 
     def _get_translation(self):
-        wok_app = cherrypy.tree.apps['']
+        wok_app = cherrypy.tree.apps.get('', None)
 
         # get app from plugin path if specified
         if self.plugin:
-            app = cherrypy.tree.apps[self.plugin]
+            app = cherrypy.tree.apps.get(self.plugin, None)
         # if on request, try to get app from it
         elif cherrypy.request.app:
             app = cherrypy.request.app
@@ -57,9 +57,12 @@ class WokMessage(object):
         else:
             app = wok_app
 
+        if app is None:
+            return self.code
+
         # fallback to Wok message in case plugins raise Wok exceptions
-        text = app.root.messages.get(self.code, None)
-        if text is None:
+        text = app.root.messages.get(self.code, self.code)
+        if text == self.code and wok_app is not None:
             app = wok_app
             text = app.root.messages.get(self.code, self.code)
 

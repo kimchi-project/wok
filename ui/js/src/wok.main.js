@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+wok.NOTIFICATION_INTERVAL = 5000
+wok.postedNotifications = []
 wok.tabMode = {};
 
 wok.config = undefined;
@@ -296,6 +298,7 @@ wok.main = function() {
      * 5) About button click event
      * 6) Help button click event
      * 7) Peers button click event
+     * 8) Start notifications loop
      */
     var searchingPeers = false;
     var initListeners = function() {
@@ -466,6 +469,8 @@ wok.main = function() {
             wok.message.error(data.responseJSON.reason);
         }
     );
+
+    setTimeout(wok.notificationsLoop, wok.NOTIFICATION_INTERVAL);
 };
 
 

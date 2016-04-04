@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-wok.message = function(msg, level, node, closeable) {
+wok.message = function(msg, level, node, closeable, onclick) {
     "use strict";
     var container = node || $('#alert-fields');
     if ($(container).size() < 1) {
@@ -26,7 +26,7 @@ wok.message = function(msg, level, node, closeable) {
     }
     var message = '<div role="alert" class="alert ' + (level || '') + ' alert-dismissible fade in" style="display: none;">';
     if(!node || closeable) {
-        message += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>';
+        message += '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="' + (onclick || '') + '"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>';
     }
     message += msg;
     message += '</div>';
@@ -65,4 +65,8 @@ wok.message.error.code = function(code, node, closeable) {
 wok.message.success = function(msg, node, closeable) {
     "use strict";
     wok.message(msg, 'alert-success', node, closeable);
+};
+wok.message.notify = function(notification, node) {
+    "use strict";
+    wok.message(notification.message, 'alert-warning', node, true, "wok.removeNotification('" + notification.code + "')");
 };

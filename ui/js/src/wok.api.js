@@ -59,6 +59,24 @@ var wok = {
         });
     },
 
+    getNotifications: function (suc, err) {
+        wok.requestJSON({
+            url: 'notifications',
+            type : 'GET',
+            dataType : 'json',
+            success : suc,
+            error: err
+        });
+    },
+
+    removeNotification: function (id) {
+        wok.requestJSON({
+            url: 'notifications/' + id,
+            type : 'DELETE',
+            dataType : 'json',
+        });
+    },
+
     login : function(settings, suc, err) {
         $.ajax({
             url : "login",

@@ -38,6 +38,10 @@
     }
 }
 
+.panel-group .wok-mask {
+    top: 0 !important;
+}
+
 .wok-mask-loading, .wok-grid-loading, .wok-list-loading {
     width: 100%;
     white-space: nowrap;

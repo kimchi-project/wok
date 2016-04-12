@@ -113,6 +113,10 @@ body {
     font-size: 21.5pt;
 }
 
+.panel-group {
+  position: relative;
+}
+
 // Login
 @import "modules/login";
 // Topbar and navigation

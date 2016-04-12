@@ -22,8 +22,11 @@
 # Port for websocket proxy to listen on
 #websockets_port = 64667
 
-# The full path to an SSL Certificate in PEM format.  If left unspecified,
-# Wok will generate a self-signed certificate automatically.
+# The full path to an SSL Certificate or chain of certificates in
+# PEM format. When a chain is used, the server's certificate must be
+# the first certificate in the file with the chain concatenated into
+# the end of that certificate. If left unspecified, Wok will generate
+# a self-signed certificate automatically.
 #ssl_cert =
 
 # The corresponding private key in PEM format for the SSL Certificate supplied

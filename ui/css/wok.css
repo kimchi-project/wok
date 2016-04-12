@@ -113,6 +113,10 @@ body {
   font-size: 21.5pt;
 }
 
+.panel-group {
+  position: relative;
+}
+
 .login .content .container {
   width: 100% !important;
   padding-left: 0 !important;
@@ -859,6 +863,10 @@ span.wok-repository-status.disabled {
   .wok-mask {
     top: 0 !important;
   }
+}
+
+.panel-group .wok-mask {
+  top: 0 !important;
 }
 
 .wok-mask-loading, .wok-grid-loading, .wok-list-loading {

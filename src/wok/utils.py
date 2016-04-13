@@ -622,3 +622,27 @@ def upgrade_objectstore_schema(objstore=None, field=None):
         wok_log.error("Cannot upgrade objectstore schema: %s" % e.args[0])
         return False
     return True
+
+
+def encode_value(val):
+    """
+        Convert the value to string.
+        If its unicode, use encode otherwise str.
+    """
+    if isinstance(val, unicode):
+        return val.encode('utf-8')
+    return str(val)
+
+
+def decode_value(val):
+    """
+        Converts value to unicode,
+        if its not an instance of unicode.
+        For doing so convert the val to string,
+        if its not instance of basestring.
+    """
+    if not isinstance(val, basestring):
+        val = str(val)
+    if not isinstance(val, unicode):
+        val = val.decode('utf-8')
+    return val

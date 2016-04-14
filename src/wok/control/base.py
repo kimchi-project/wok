@@ -294,6 +294,22 @@ class AsyncResource(Resource):
         cherrypy.response.status = 202
         return wok.template.render('Task', self.info)
 
+    def delete(self):
+        try:
+            fn = getattr(self.model, model_fn(self, 'delete'))
+            task = fn(*self.model_args)
+        except AttributeError:
+            e = InvalidOperation('WOKAPI0002E', {'resource':
+                                                 get_class_name(self)})
+            raise cherrypy.HTTPError(405, e.message)
+        except OperationFailed, e:
+            raise cherrypy.HTTPError(500, e.message)
+        except InvalidOperation, e:
+            raise cherrypy.HTTPError(400, e.message)
+
+        cherrypy.response.status = 202
+        return wok.template.render("Task", task)
+
 
 class Collection(object):
     """

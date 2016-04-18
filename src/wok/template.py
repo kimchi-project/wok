@@ -34,6 +34,12 @@ def get_lang():
     if "wokLang" in cookie.keys():
         return [cookie["wokLang"].value]
 
+    langs = get_accept_language()
+
+    return langs
+
+
+def get_accept_language():
     lang = cherrypy.request.headers.get("Accept-Language", "en_US")
 
     if lang and lang.find(';') != -1:
@@ -46,7 +52,6 @@ def get_lang():
             langCountry = val.split('-')
             langCountry[1] = langCountry[1].upper()
             langs[idx] = "_".join(langCountry)
-
     return langs
 
 

@@ -34,7 +34,7 @@ from wok.exception import InvalidOperation, InvalidParameter
 from wok.exception import MissingParameter, NotFoundError
 from wok.exception import OperationFailed, UnauthorizedError, WokException
 from wok.reqlogger import RequestRecord
-from wok.utils import get_plugin_from_request, utf8_dict
+from wok.utils import get_plugin_from_request, utf8_dict, wok_log
 
 
 # Default request log messages
@@ -364,7 +364,14 @@ class Collection(object):
                 # internal text, get_list changes ident to unicode for sorted
                 args = self.resource_args + [ident]
                 res = self.resource(self.model, *args)
-                res.lookup()
+                try:
+                    res.lookup()
+                except Exception as e:
+                    # In case of errors when fetching a resource info, pass and
+                    # log the error, so, other resources are returned
+                    wok_log.error("Problem in lookup of resource '%s'. "
+                                  "Detail: %s" % (ident, e.message))
+                    continue
                 res_list.append(res)
             return res_list
         except AttributeError:

@@ -99,7 +99,7 @@ def render_cheetah_file(resource, data):
                         'localedir': paths.mo_dir,
                         'lang': [lang]}
         params['lang'] = gettext_conf
-        params['data'] = {'ui_dir': paths.ui_dir}
+        params['data'] = data
         return Template(file=filename, searchList=params).respond()
     except OSError, e:
         if e.errno == errno.ENOENT:

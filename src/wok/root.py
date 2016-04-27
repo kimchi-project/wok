@@ -120,6 +120,13 @@ class Root(Resource):
         data = {}
         data['ui_dir'] = paths.ui_dir
 
+        data['scripts'] = []
+        for plugin, app in cherrypy.tree.apps.iteritems():
+                if app.root.extends is not None:
+                    scripts = app.root.extends.get(script_name, {})
+                    if page in scripts.keys():
+                        data['scripts'].append(scripts[page])
+
         if page.endswith('.html'):
             context = template.render('/tabs/' + page, data)
             cherrypy.response.cookie["lastPage"] = "/#" + last_page
@@ -140,6 +147,7 @@ class WokRoot(Root):
         self.domain = 'wok'
         self.messages = messages
         self.log_map = ROOT_REQUESTS
+        self.extends = None
 
     @cherrypy.expose
     def login(self, *args):

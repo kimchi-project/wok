@@ -75,6 +75,7 @@ input[type=checkbox].wok-checkbox + label:before {
 input[type=checkbox].wok-checkbox:checked + label:before {
     content: "\f14a";
     letter-spacing: 8px;
+    margin-right: 0.9px // Sub-pixel unit for Chrome and Firefox anti-alias
 }
 
 input[type=radio].wok-radio + label:before {

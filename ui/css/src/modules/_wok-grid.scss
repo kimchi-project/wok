@@ -36,23 +36,17 @@
     top: 37px !important;
 }
 
+.wok-list-content {
+    border-top: 1px solid $table-first-row-border-color;
+}
+
 .wok-list-cell {
     position: relative;
-    padding-left: 45px;
+    padding-left: 10px;
 }
 
-.wok-repository-status {
-    position: absolute;
-    left: 6px;
-    top: 0;
-}
-
-.wok-repository-status .fa {
-    font-size: 23px;
-    color: $fa-green;
-}
-
-.wok-list-name, .wok-list-description {
+.wok-list-name,
+.wok-list-description {
     display: block;
 }
 
@@ -67,35 +61,44 @@
     overflow: hidden;
 }
 
-.wok-list-content tbody tr,  .wok-list-content tbody tr * {
-    @include user-select(none);
+.wok-list-item-status {
+    float: left;
+    margin-top: 12px;
+    margin-right: 8px;
+    margin-bottom: 6px;
+    height: 25px;
 }
 
-.wok-list-content tbody tr:hover {
-    text-decoration: underline;
-    cursor: pointer;
+.wok-list-item-status > .fa {
+    font-size: 23px;
+    color: $fa-green;
 }
 
-.wok-list-content tbody tr.generating:hover {
-    text-decoration: none;
-    cursor: default;
-}
-
-.wok-list-content tbody tr.selected {
-    background: #ddd;
-}
-
-span.wok-repository-status.disabled {
-    display: none;
+.wok-list-item-status.disabled > .fa:before {
+    display: block;
+    width: 19px;
+    height: 23px;
+    padding: 0;
+    border: 0;
+    content: "";
 }
 
 .wok-list-cell.disabled span {
-    color: #999;
+    color: $gray-light;
 }
 
-.wok-single-button {
+.wok-list-action-button-container {
     padding-bottom: 16px;
-    margin-top: -11px;
+}
+
+.wok-list-loading-icon-inline {
+    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
+    @include animation(spin 3s infinite linear);
+    height: 16px;
+    width: 16px;
+    background-size: 100%;
+    display: none;
+    position: absolute;
 }
 
 .generating .wok-list-description {
@@ -103,11 +106,186 @@ span.wok-repository-status.disabled {
 }
 
 .generating .wok-list-loading-icon-inline {
-    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
-    @include animation(spin 3s infinite linear);
-    height: 16px;
-    width: 16px;
-    background-size: 100%;
     display: block;
     position: absolute;
+    top: 27px;
+    left: 34px;
+}
+
+.wok-list > ul {
+    list-style: none;
+    padding: 0;
+}
+
+.wok-list > ul > li,
+.wok-list > ul > li * {
+    @include user-select(none);
+}
+
+.wok-list > ul > li,
+.wok-list > ul > li > label {
+    width: 100%;
+}
+
+.wok-list > ul > li {
+    border-top: 1px solid $table-border-color;
+    background: $table-bg;
+    position: relative;
+    @include transition(background .1s ease-in-out);
+}
+
+.wok-list > ul > li:first-child {
+    border: 0;
+}
+
+.wok-list > ul > li:nth-of-type(even) {
+    background: $table-bg-accent;
+}
+
+.wok-list  > ul > li.selected {
+    background: $table-bg-hover;
+}
+
+.wok-list > ul > li > label {
+    cursor: pointer !important;
+    text-decoration: none;
+    margin-bottom: 0;
+    padding-bottom: 5px;
+}
+
+.wok-list > ul > li > label:hover {
+    text-decoration: underline;
+}
+
+.wok-list > ul > li.generating > label:hover {
+    text-decoration: none;
+    cursor: default;
+}
+
+.wok-list > ul > li > input[type=checkbox] {
+    left: -15px;
+}
+
+.wok-list > ul > li > input[type=checkbox].wok-checkbox + label:before {
+    float: left;
+    height: 30px;
+    margin-top: 13px;
+}
+
+// Mobile first
+
+.wok-list-action-button-container {
+    background: $body-bg;
+    z-index: 1;
+    position: relative;
+    @include box-shadow(0 20px 20px -20px rgba(0,0,0,.4));
+}
+
+.mobile-action {
+    width: 100%;
+}
+
+.mobile-action .btn {
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
+}
+
+.mobile-action > .btn {
+    border-radius: $border-radius-base;
+}
+
+.mobile-action.open > .btn {
+    border-radius: $border-radius-base $border-radius-base 0 0;
+}
+
+.mobile-action .btn span.mobile-action-label {
+    font-weight: 600;
+}
+
+.mobile-action .btn span.mobile-action-count {
+    font-weight: 300;
+}
+
+.mobile-action .btn span.mobile-action-count strong {
+    font-weight: 600;
+    font-size: 11pt;
+}
+
+.mobile-action .dropdown-menu {
+    width: 100%;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+}
+
+.mobile-action.open .dropdown-menu .btn {
+    border-radius: 0;
+}
+
+.mobile-action.open .dropdown-menu li:last-child .btn {
+    border-radius: 0 0 $border-radius-base $border-radius-base;
+}
+
+.mobile-action .dropdown-menu li > .btn.disabled,
+.mobile-action .dropdown-menu li > .btn[disabled] {
+    opacity: 1;
+    background: #585758;
+    border-color: #585758;
+    color: #ddd;
+}
+
+// Reset Mobile styles to mimic desktop when min-width is bigger than 768px wide
+
+@media (min-width: $screen-md-min) {
+
+    .wok-list-action-button-container {
+        @include box-shadow(none);
+    }
+
+    .wok-list-action-button-container .dropdown-toggle {
+        display: none;
+    }
+
+    .wok-list-action-button-container .mobile-action {
+        position: static;
+        height: 40px;
+    }
+
+    .wok-list-action-button-container .mobile-action .btn {
+        width: auto;
+    }
+
+    .wok-list-action-button-container .mobile-action li:first-child .btn {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+
+    .wok-list-action-button-container .mobile-action li:last-child .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0 !important;
+        border-top-right-radius: $border-radius-base !important;
+        border-bottom-right-radius: $border-radius-base;
+    }
+
+    .wok-list-action-button-container > .dropdown.mobile-action > .dropdown-menu {
+        display: block;
+        vertical-align: middle;
+        position: absolute;
+        top: 0;
+    }
+
+    .wok-list-action-button-container > .dropdown.mobile-action > .dropdown-menu > li {
+        display: inline-block;
+    }
+
+    .wok-list > ul > li > input[type=checkbox].wok-checkbox:focus + label {
+        outline: auto 5px $input-border-focus; // Accessibility
+        outline: auto 5px -webkit-focus-ring-color; // Set default webkit focus ring color for webkit browsers
+    }
+
 }

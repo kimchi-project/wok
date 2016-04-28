@@ -24,6 +24,7 @@ wok.widget.List = function(opts) {
 
 wok.widget.List.prototype = (function() {
     "use strict";
+
     var htmlStr = [
         '<div id="{id}-section" class="panel panel-default">',
             '<div class="panel-heading">',
@@ -39,13 +40,19 @@ wok.widget.List.prototype = (function() {
                             '</button></p>',
                         '</div>',
                     '</div>',
-                    '<div id="{id}-btn-group" class="btn-group wok-single-button hidden">',
-
+                    '<div id="{id}-action-group" class="wok-list-action-button-container">',
+                        '<div class="dropdown mobile-action">',
+                            '<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">',
+                                '<span class="mobile-action-label">Actions</span>', // TODO: Replace with i18n string
+                            '</button>',
+                            '<ul class="dropdown-menu" role="menu">',
+                            '</ul>',
+                        '</div>',
                     '</div>',
                     '<div id="{id}" class="row clearfix">',
                         '<div class="wok-list-content">',
-                            '<table class="wok-list-table table table-striped" id="list">',
-                            '</table>',
+                            '<div class="wok-list" id="list">',
+                            '</div>',
                         '</div>',
                     '</div>',
                     '<div class="wok-list-mask hidden">',
@@ -80,112 +87,95 @@ wok.widget.List.prototype = (function() {
         return (result);
     };
 
-
-    var fillButton = function(btnContainer){
-        var addOrGenerateBtn = this.opts.toolbarButtons[0];
-        var singleBtnHTML = [
-                '<a class="btn btn-primary" href="#"', (addOrGenerateBtn.id ? (' id="' + addOrGenerateBtn.id + '"') : ''),' role="button">',
-                    addOrGenerateBtn.class ? ('<i class="' + addOrGenerateBtn.class) + '"></i> ' : '',
-                    addOrGenerateBtn.label,
-                '</a>'
-            ].join('');
-            var singleBtn = $(singleBtnHTML).appendTo(btnContainer);
-            $(singleBtn).click(function(e) {
-              e.preventDefault();
-            });
-            addOrGenerateBtn.onClick && singleBtn.on('click', addOrGenerateBtn.onClick);
+    var fillButtons = function(btnContainer){
+        var toolbarButtons = this.opts.toolbarButtons;
+        $.each(toolbarButtons, function(i, button) {
+                var btnHTML = [
+                    '<li class="',
+                    (button.critical === true ? 'critical' : ''),
+                    ,'">',
+                        '<btn data-dismiss="modal"',
+                        (button.id ? (' id="' + button.id + '"') : ''),
+                        ' class="btn btn-primary"',
+                        (button.disabled === true ? ' disabled="disabled"' : ''),
+                        '">',
+                            button.class ? ('<i class="' + button.class) + '"></i> ' : ' ',
+                            button.label,
+                        '</btn>',
+                    '</li>'
+                ].join('');
+                var btnNode = $(btnHTML).appendTo(btnContainer);
+                button.onClick && btnNode.on('click', button.onClick);
+        });
     };
 
     var fillBody = function(container, fields) {
-
-        var toolbarButtons = this.opts.toolbarButtons;
-        var actionDropdownHtml;
         var data = this.data;
-        var tbody = ($('tbody', container).length && $('tbody', container)) || $('<tbody></tbody>').appendTo(container);
+        var tbody = ($('ul', container).length && $('ul', container)) || $('<ul></ul>').appendTo(container);
         tbody.empty();
         if (typeof data !== 'undefined' && data.length > 0) {
             $.each(data, function(i, row) {
-                var rowNode = $('<tr></tr>').appendTo(tbody);
+                var rowNode = $('<li></li>').appendTo(tbody);
                 var columnNodeHTML;
                 var columnData = '';
                 var state = '';
                 var styleClass = '';
-                if (toolbarButtons) {
-                    actionDropdownHtml = [
-                        '<td>',
-                            '<div class="dropdown menu-flat">',
-                                '<button id="wok-dropdown-button-', i, '" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">',
-                                    '<span class="edit-alt"></span>Actions<span class="caret"></span>',
-                                '</button>',
-                                '<ul class="dropdown-menu" role="menu" aria-labelledby="action-dropdown-menu-', i, '">',
-                                '</ul>',
-                            '</div>',
-                        '</td>'
-                    ].join('');
-                }
+                var checkboxName = $('ul', container).parent().parent().parent().attr('id') + '-check' || $(container).parent().parent().parent().attr('id') + '-check';
                 $.each(fields, function(fi, field) {
                     var value = getValue(field.name, row);
                     if (field.type === 'status' && field.name === 'enabled') {
                         styleClass = (value === true ? '' : ' disabled');
                         state = [
-                            '<span class="wok-repository-status ',
+                            '<span class="wok-list-item-status ',
                             value === true ? 'enabled' : 'disabled',
-                            '"><i class="fa fa-power-off"></i></span>'
+                            '"><i class="fa fa-power-off"></i><span class="sr-only">',
+                            value === true ? 'Enabled' : 'Disabled',
+                            '</span></span>'
                         ].join('');
                     }
-                    columnData += (field.type === 'name') ? ('<span class="wok-list-name">' + value.toString() + '</span>') : (field.type !== 'status' ? '<span class="wok-list-loading-icon-inline"></span><span class="wok-list-description">' + value.toString() + '</span>' : '');
-
-                });
-                columnNodeHTML = [
-                    '<td>',
-                        '<div class="wok-list-cell', styleClass, '">', state,
-                            columnData,
-                        '</div>',
-                    '</td>'
-                ].join('');
-                $(columnNodeHTML).appendTo(rowNode);
-
-                var actionMenuNode = $(actionDropdownHtml).appendTo(rowNode);
-
-                $.each(toolbarButtons, function(i, button) {
-                    var btnHTML = [
-                        '<li role="presentation"', button.critical === true ? ' class="critical"' : '', '>',
-                        '<a role="menuitem" tabindex="-1" data-dismiss="modal"', (button.id ? (' id="' + button.id + '"') : ''), (button.disabled === true ? ' class="disabled"' : ''),
-                        '>',
-                        button.class ? ('<i class="' + button.class) + '"></i>' : '',
-                        button.label,
-                        '</a></li>'
+                    columnData += (field.type === 'name') ? ('<span role="status" class="wok-list-loading-icon-inline"></span><span class="wok-list-name '+field.cssClass+'" title="'+field.label+'">'+value.toString()+'</span>') : (field.type !== 'status' ? '<span class="wok-list-description '+field.cssClass+'" title="'+field.label+'">' + value.toString() + '</span>' : '');
+                    columnNodeHTML = [
+                        '<input class="wok-checkbox" type="checkbox" name="'+checkboxName+'" id="wok-list-',i+1,'-check" />',
+                            '<label for="wok-list-',i+1,'-check" class="wok-list-cell', styleClass, '">',
+                                state,
+                                columnData,
+                            '</div>',
+                        '</label>'
                     ].join('');
-                    var btnNode = $(btnHTML).appendTo($('.dropdown-menu', rowNode));
-                    button.onClick && btnNode.on('click', button.onClick);
                 });
+                $(columnNodeHTML).appendTo(rowNode);
             });
         }
     };
 
-    var stylingRow = function(row, className, add) {
-        var index = $(row).index() + 1;
-        $('tr', this.bodyContainer)
-            .removeClass(className);
-        if (add === false) {
-            return;
-        }
-        $('tr:nth-child(' + index + ')', this.bodyContainer)
-            .addClass(className);
+    var stylingRow = function(grid, className) {
+        $('li',grid.bodyContainer).removeClass(className);
+        $.each(grid.selectedIndex, function(){
+            var nth = this + 1;
+            $('li:nth-child('+nth+')',grid.bodyContainer).addClass(className);
+        });
     };
 
     var setBodyListeners = function() {
-        if (this['opts']['rowSelection'] != 'disabled') {
-
-            $('tr', this.bodyContainer).on('click', {
+        if (this['opts']['rowSelection'] !== 'disabled') {
+            $('li:not(.generating) input[type="checkbox"]', this.bodyContainer).on('change', {
                 grid: this
-            }, function(event) {
+            },function(event) {
                 var grid = event.data.grid;
-                if (!$(this).hasClass('generating')) {
-                    grid.selectedIndex = $(this).index();
-                    stylingRow.call(grid, this, 'selected');
-                    grid['opts']['onRowSelected'] && grid['opts']['onRowSelected']();
+                grid.selectedIndex = [];
+                $("li :checkbox:checked", this.bodyContainer).map(function() {
+                    return $(this).parent().index();
+                }).each(function() {
+                    grid.selectedIndex.push(this);
+                });
+                if ($('.mobile-action-count',grid.buttonActionContainer).length) {
+                    $('.mobile-action-count',grid.buttonActionContainer).remove();
                 }
+                if(grid.selectedIndex.length){
+                    $(grid.buttonActionContainer).append('<span class="mobile-action-count"> ( <strong>'+grid.selectedIndex.length+' item(s)</strong> selected )</span>');
+                }
+                stylingRow.call(grid, grid, 'selected');
+                grid['opts']['onRowSelected'] && grid['opts']['onRowSelected']();
             });
         }
     };
@@ -197,7 +187,13 @@ wok.widget.List.prototype = (function() {
     };
 
     var getSelected = function() {
-        return this.selectedIndex >= 0 ? this.data[this.selectedIndex] : null;
+        var selectedItems = [];
+        for (var i = 0; i < this.selectedIndex.length; i++ ){
+            var value = this.selectedIndex[i];
+            selectedItems.push(this.data[value]);
+        }
+        // return this.selectedIndex >= 0 ? this.data[this.selectedIndex] : null;
+        return selectedItems;
     };
 
     var showMessage = function(msg) {
@@ -255,11 +251,17 @@ wok.widget.List.prototype = (function() {
             titleNode = $('<h3 class="panel-title">' + title + '</h3>').appendTo(titleContainer);
         }
 
-        var bodyContainer = $('.wok-list-table.table.table-striped', domNode);
+        var bodyContainer = $('.wok-list', domNode);
         this.bodyContainer = bodyContainer;
 
-        var singleButtonContainer = $('.wok-single-button', domNode);
-        this.singleButtonContainer = singleButtonContainer;
+        var selectButtonContainer = $('.wok-list-action-button-container', domNode);
+        this.selectButtonContainer = selectButtonContainer;
+
+        var buttonActionGroupContainer = $('.wok-list-action-button-container .dropdown-menu', domNode);
+        this.buttonActionGroupContainer = buttonActionGroupContainer;
+
+        var buttonActionContainer = $('.mobile-action .dropdown-toggle.btn', domNode);
+        this.buttonActionContainer = buttonActionContainer;
 
         var gridBody = $('.wok-list-content', domNode);
         this.gridBody = gridBody;
@@ -270,15 +272,13 @@ wok.widget.List.prototype = (function() {
         var messageNode = $('.wok-list-message', domNode);
         this.messageNode = messageNode;
 
-
-        fillButton.call(this,this.singleButtonContainer);
+        fillButtons.call(this,this.buttonActionGroupContainer);
 
         $('.retry-button', domNode).on('click', {
             grid: this
         }, function(event) {
             event.data.grid.reload();
         });
-
 
     };
 

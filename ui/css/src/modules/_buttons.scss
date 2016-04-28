@@ -23,6 +23,14 @@
     font-size: 13pt;
 }
 
+.btn-xs, .btn-group-xs > .btn {
+    font-size: 10.5pt;
+}
+
+.btn-sm, .btn-group-sm > .btn  {
+    font-size: 11.5pt;
+}
+
 .btn-login {
   @include button-variant($btn-login-color, $btn-login-bg, $btn-login-border);
 }

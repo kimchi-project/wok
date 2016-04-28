@@ -44,6 +44,12 @@ label {
   display: none;
 }
 
+.has-warning.has-feedback .form-control-feedback,
+.has-error.has-feedback .form-control-feedback {
+    display: block;
+    right: 5px;
+}
+
 .has-loading .form-control-feedback.wok-loading-icon {
     display:  block;
     margin-right: 10px;

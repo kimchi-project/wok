@@ -91,7 +91,7 @@ class Paths(object):
         else:
             self.nginx_conf_dir = self.add_prefix('src/nginx')
             self.state_dir = self.add_prefix('data')
-            self.log_dir = self.add_prefix('log')
+            self.log_dir = self.add_prefix('data/logs')
             self.conf_dir = self.add_prefix('src')
             self.src_dir = self.add_prefix('src/wok')
             self.plugins_dir = self.add_prefix('src/wok/plugins')

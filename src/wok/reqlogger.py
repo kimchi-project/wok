@@ -105,7 +105,9 @@ class RequestParser(object):
             filename = ".".join([self.baseFile, str(count + 1)])
             records.extend(self.getRecordsFromFile(filename))
 
-        return records
+        # Return ordered by latest events first
+        return sorted(records, key=lambda k: k['date'] + k['time'],
+                      reverse=True)
 
     def getRecordsFromFile(self, filename):
         """

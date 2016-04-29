@@ -57,7 +57,7 @@ class ConfigTests(unittest.TestCase):
         Paths.get_prefix = lambda self: '/home/user/wok'
         paths = Paths()
         self.assertEquals(paths.state_dir, '/home/user/wok/data')
-        self.assertEquals(paths.log_dir, '/home/user/wok/log')
+        self.assertEquals(paths.log_dir, '/home/user/wok/data/logs')
         self.assertEquals(paths.conf_dir, '/home/user/wok/src')
         self.assertEquals(paths.src_dir, '/home/user/wok/src/wok')
         self.assertEquals(paths.plugins_dir, '/home/user/wok/src/wok/plugins')

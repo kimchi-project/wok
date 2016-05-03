@@ -264,7 +264,7 @@ def check_auth_session():
         wokRobot = cherrypy.request.headers.get('Wok-Robot')
         if wokRobot == "wok-robot":
             if (time.time() - cherrypy.session[REFRESH] >
-                    cherrypy.session.timeout * 60):
+                    int(config.get('server', 'session_timeout')) * 60):
                 cherrypy.session[USER_NAME] = None
                 cherrypy.lib.sessions.expire()
                 raise cherrypy.HTTPError(401, "sessionTimeout")

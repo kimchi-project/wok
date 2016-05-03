@@ -22,6 +22,10 @@
 # Port for websocket proxy to listen on
 #websockets_port = 64667
 
+# Number of minutes that a session can remain idle before the server
+# terminates it automatically.
+#session_timeout = 10
+
 # The full path to an SSL Certificate or chain of certificates in
 # PEM format. When a chain is used, the server's certificate must be
 # the first certificate in the file with the chain concatenated into

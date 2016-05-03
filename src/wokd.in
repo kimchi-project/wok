@@ -49,6 +49,7 @@ def main(options):
     https_only = config.config.get("server", "https_only")
     cherrypy_port = config.config.get("server", "cherrypy_port")
     websockets_port = config.config.get("server", "websockets_port")
+    session_timeout = config.config.get("server", "session_timeout")
     runningEnv = config.config.get("server", "environment")
     logDir = config.config.get("logging", "log_dir")
     logLevel = config.config.get("logging", "log_level")
@@ -68,6 +69,10 @@ def main(options):
     parser.add_option('--websockets_port', type="int", default=websockets_port,
                       help="Websockets port to listen on (default %s)" %
                             websockets_port)
+    parser.add_option('--session_timeout', type="int", default=session_timeout,
+                      help="Number of minutes that a session can remain idle "
+                           "before the server terminates it automatically. "
+                           "(default %s)" % session_timeout)
     parser.add_option('--log-level', default=logLevel,
                       help="Logging level")
     parser.add_option('--access-log',

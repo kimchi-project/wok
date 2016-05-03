@@ -57,8 +57,6 @@ FONTS_PATH = {
     ]
 }
 
-SESSIONSTIMEOUT = 10    # session time out is 10 minutes
-
 
 def get_log_download_path():
     return os.path.join(paths.state_dir, 'logs')
@@ -189,7 +187,6 @@ class WokConfig(dict):
             'tools.sessions.httponly': True,
             'tools.sessions.locking': 'explicit',
             'tools.sessions.storage_type': 'ram',
-            'tools.sessions.timeout': SESSIONSTIMEOUT,
             'tools.wokauth.on': False
         },
         '/data/logs': {
@@ -251,6 +248,7 @@ def _get_config():
     config.set("server", "https_only", "false")
     config.set("server", "cherrypy_port", "8010")
     config.set("server", "websockets_port", "64667")
+    config.set("server", "session_timeout", "10")
     config.set("server", "ssl_cert", "")
     config.set("server", "ssl_key", "")
     config.set("server", "environment", "production")

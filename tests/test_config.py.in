@@ -67,7 +67,6 @@ class ConfigTests(unittest.TestCase):
     def test_wok_config(self):
         Paths.get_prefix = get_prefix
         paths = Paths()
-        SESSIONSTIMEOUT = 10
         configObj = {
             '/': {
                 'tools.trailing_slash.on': False,
@@ -80,7 +79,6 @@ class ConfigTests(unittest.TestCase):
                 'tools.sessions.httponly': True,
                 'tools.sessions.locking': 'explicit',
                 'tools.sessions.storage_type': 'ram',
-                'tools.sessions.timeout': SESSIONSTIMEOUT,
                 'tools.wokauth.on': False
             },
             '/data/logs': {

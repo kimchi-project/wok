@@ -63,6 +63,7 @@ var wok = {
         wok.requestJSON({
             url: 'notifications',
             type : 'GET',
+            headers: {'Wok-Robot': 'wok-robot'},
             dataType : 'json',
             success : suc,
             error: err

@@ -230,6 +230,18 @@ class PluginConfig(dict):
     def __init__(self, plugin_name):
         super(PluginConfig, self).__init__(self)
         plugin_config = {
+            '/': {
+                'tools.trailing_slash.on': False,
+                'request.methods_with_bodies': ('POST', 'PUT'),
+                'tools.nocache.on': True,
+                'tools.proxy.on': True,
+                'tools.sessions.on': True,
+                'tools.sessions.name': 'wok',
+                'tools.sessions.secure': True,
+                'tools.sessions.httponly': True,
+                'tools.sessions.locking': 'explicit',
+                'tools.sessions.storage_type': 'ram'
+            },
             '/ui/config/tab-ext.xml': {
                 'tools.staticfile.on': True,
                 'tools.staticfile.filename':

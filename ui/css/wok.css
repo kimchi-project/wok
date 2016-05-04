@@ -344,6 +344,14 @@ body {
   font-size: 11.5pt;
 }
 
+.btn-link:hover {
+  text-decoration: none;
+}
+
+.btn-link:hover > span {
+  text-decoration: underline;
+}
+
 .btn-login {
   color: #fff;
   background-color: #008abf;

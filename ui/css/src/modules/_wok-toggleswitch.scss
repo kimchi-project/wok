@@ -1,0 +1,80 @@
+//
+// Project Wok
+//
+// Copyright IBM Corp, 2016
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+.wok-toggleswitch-label {
+  position: relative;
+  display: inline-block;
+  height: 20px;
+  width: 44px;
+  background: $toggle-checkbox-label-bg;
+  border-radius: 100px;
+  cursor: pointer;
+  @include transition(all 0.3s ease);
+  @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.275));
+}
+
+.wok-toggleswitch-label:after {
+  position: absolute;
+  left: -2px;
+  top: -3px;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  background: $toggle-checkbox-trigger-bg;
+  @include box-shadow (0px 3px 3px rgba(0,0,0,0.05));
+  content: '';
+  @include transition(all 0.3s ease);
+}
+
+.wok-toggleswitch-label:active:after {
+  @include transform(scale(1.05,1.05));
+}
+
+.wok-toggleswitch-checkbox:focus ~ label {
+  background: $toggle-checkbox-label-bg;
+}
+
+.wok-toggleswitch-checkbox:focus ~ label:after {
+  @include box-shadow (0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6));
+  border: 1px solid $input-border-focus;
+  outline: 0;
+}
+
+.wok-toggleswitch-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include opacity(0);
+}
+
+.wok-toggleswitch-checkbox:checked ~ label:after {
+  left: 20px;
+  background: $toggle-checkbox-trigger-checked-bg;
+}
+
+.wok-toggleswitch-checkbox:disabled ~ label {
+  background: $toggle-checkbox-label-bg;
+  pointer-events: none;
+  @include opacity(.75);
+}
+
+.wok-toggleswitch-checkbox:disabled ~ label:after {
+  background: $disabled-color;
+  @include opacity(.75);
+}

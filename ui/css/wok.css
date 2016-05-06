@@ -1161,6 +1161,83 @@ input[type=radio].wok-radio + label {
   margin-right: 10px;
 }
 
+.wok-toggleswitch-label {
+  position: relative;
+  display: inline-block;
+  height: 20px;
+  width: 44px;
+  background: #d6d6d6;
+  border-radius: 100px;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.275);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.275);
+}
+
+.wok-toggleswitch-label:after {
+  position: absolute;
+  left: -2px;
+  top: -3px;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 100px;
+  background: #a7a7a8;
+  -webkit-box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
+  content: '';
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.wok-toggleswitch-label:active:after {
+  -webkit-transform: scale(1.05, 1.05);
+  -moz-transform: scale(1.05, 1.05);
+  -ms-transform: scale(1.05, 1.05);
+  -o-transform: scale(1.05, 1.05);
+  transform: scale(1.05, 1.05);
+}
+
+.wok-toggleswitch-checkbox:focus ~ label {
+  background: #d6d6d6;
+}
+
+.wok-toggleswitch-checkbox:focus ~ label:after {
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  border: 1px solid #66afe9;
+  outline: 0;
+}
+
+.wok-toggleswitch-checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.wok-toggleswitch-checkbox:checked ~ label:after {
+  left: 20px;
+  background: #3a393b;
+}
+
+.wok-toggleswitch-checkbox:disabled ~ label {
+  background: #d6d6d6;
+  pointer-events: none;
+  opacity: 0.75;
+  filter: alpha(opacity=75);
+}
+
+.wok-toggleswitch-checkbox:disabled ~ label:after {
+  background: #999;
+  opacity: 0.75;
+  filter: alpha(opacity=75);
+}
+
 #wok-confirm-modal .modal-title .fa {
   font-size: 47px;
   color: #fdb813;

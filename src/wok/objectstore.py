@@ -23,8 +23,6 @@ import sqlite3
 import threading
 import traceback
 
-from datetime import datetime
-
 try:
     from collections import OrderedDict
 except ImportError:
@@ -146,37 +144,3 @@ class ObjectStore(object):
                 # exception again
                 wok_log.error(traceback.format_exc())
                 return False
-
-
-def add_notification(code, args={}, plugin_name=None):
-    if not code:
-        wok_log.error("Unable to add notification: invalid code '%(code)s'" %
-                      {'code': str(code)})
-        return
-
-    try:
-        with ObjectStore() as session:
-            notification = session.get('notification', code)
-    except NotFoundError:
-        notification = None
-
-    try:
-        # do not update timestamp if notification already exists
-        timestamp = datetime.now().isoformat() if notification is None else \
-            notification['timestamp']
-        args.update({"_plugin_name": plugin_name, "timestamp": timestamp})
-
-        with ObjectStore() as session:
-            session.store('notification', code, args)
-    except Exception as e:
-        wok_log.error("Unable to store notification: %s" % e.message)
-
-
-def clean_notifications():
-    try:
-        with ObjectStore() as session:
-            notifications = session.get_list('notification')
-            for item in notifications:
-                session.delete('notification', item)
-    except Exception as e:
-        wok_log.error("Unable to clean notifications: %s" % e.message)

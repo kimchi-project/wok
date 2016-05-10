@@ -22,12 +22,23 @@ wok.login_main = function() {
     var selectedLanguage = wok.lang.get();
     $('#userLang').val(selectedLanguage);
     $('#userLang option[value="'+selectedLanguage+'"]').attr("selected", "selected");
-    $('.filter-option').parent().attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
-    $('.filter-option').text($('#userLang option[value="'+selectedLanguage+'"]').text());
+    $('.filter-option:first').parent().attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
+    $('.filter-option:first').text($('#userLang option[value="'+selectedLanguage+'"]').text());
+
+    var selectedLocale = wok.lang.get_locale();
+    $('#userLocale').val(selectedLocale);
+    $('#userLocale option[value="'+selectedLocale+'"]').attr("selected", "selected");
+    $('.filter-option:last').parent().attr('title',$('#userLocale option[value="'+selectedLocale+'"]').text());
+    $('.filter-option:last').text($('#userLocale option[value="'+selectedLocale+'"]').text());
+
 
     $('#userLang').on('change', function() {
         wok.lang.set($(this).val());
         location.reload();
+    });
+
+    $('#userLocale').on('change', function() {
+        wok.lang.set_locale($(this).val());
     });
 
     var query = window.location.search;

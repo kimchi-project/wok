@@ -140,6 +140,7 @@ wok.changetoProperUnit = function(numOrg, digits, base) {
             return new Formatted(number, unit);
         }
 
+        var n_locale = settings['locale'] || null;
         var fixed = settings['fixed'];
 
         var unitMapping = unitBaseMapping[base];
@@ -153,11 +154,14 @@ wok.changetoProperUnit = function(numOrg, digits, base) {
 
             var formatted = number / startingValue;
             formatted = fixed ? formatted.toFixed(fixed) : formatted;
-
+            formatted = n_locale ? Number(formatted).toLocaleString(n_locale) : Number(formatted).toLocaleString()
             return new Formatted(formatted, suffix + unit);
         }
 
-        return new Formatted(fixed ? number.toFixed(fixed) : number, unit);
+        formatted = fixed ? number.toFixed(fixed) : number;
+        /* format the formatted number as per settings's locale, if not present format it with default locale. */
+        formatted_locale = n_locale ? Number(formatted).toLocaleString(n_locale) : Number(formatted).toLocaleString()
+        return new Formatted(formatted_locale, unit);
     };
 
     wok.formatMeasurement = format;
@@ -212,3 +216,41 @@ wok.notificationsLoop = function notificationsLoop() {
         }
     );
 }
+
+wok.datetimeLocaleConverter = function datetimeLocaleConverter(datetime_string, locale){
+   var dte = new Date(datetime_string.substr(0,10)+'T'+datetime_string.substr(11));
+   var options = { year: 'numeric', month: 'long', day: 'numeric' };
+   return dte.toLocaleString(locale, options);
+}
+
+
+wok.dateLocaleConverter = function dateLocaleConverter(date_string, locale){
+     var dte = new Date(date_string);
+     var options = { year: 'numeric', month: 'long', day: 'numeric' };
+     return dte.toLocaleDateString(locale, options);
+}
+
+
+wok.timeLocaleConverter = function timeLocaleConverter(time_string, locale){
+     var dte = new Date((new Date(0)).toDateString()+' ' + time_string);
+     return dte.toLocaleTimeString(locale);
+}
+
+
+wok.dateTimeLocaleConverters = {
+       "date-locale-converter": {
+           to: function(date){
+              return wok.dateLocaleConverter(date, wok.lang.get_locale());
+           }
+       },
+       "time-locale-converter": {
+           to: function(time){
+              return wok.timeLocaleConverter(time, wok.lang.get_locale());
+           }
+       },
+       "datetime-locale-converter": {
+            to: function(datetime){
+                return wok.datetimeLocaleConverter(datetime,  wok.lang.get_locale());
+            }
+       }
+ }

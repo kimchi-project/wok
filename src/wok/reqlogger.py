@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
 
+import glob
 import json
 import logging
 import logging.handlers
@@ -40,8 +41,6 @@ LOG_FORMAT = "[%(date)s %(time)s] %(req)-6s %(app)-11s %(user)s: %(message)s\n"
 SECONDS_PER_HOUR = 360
 
 # Log handler setup
-MAX_FILE_SIZE = 3072000
-NUM_BACKUP_FILES = 1
 REQUEST_LOG_FILE = "wok-req.log"
 WOK_REQUEST_LOGGER = "wok_request_logger"
 
@@ -49,9 +48,7 @@ WOK_REQUEST_LOGGER = "wok_request_logger"
 class RequestLogger(object):
     def __init__(self):
         log = os.path.join(config.get("logging", "log_dir"), REQUEST_LOG_FILE)
-        h = logging.handlers.RotatingFileHandler(log, 'a',
-                                                 maxBytes=MAX_FILE_SIZE,
-                                                 backupCount=NUM_BACKUP_FILES)
+        h = logging.handlers.WatchedFileHandler(log, 'a')
         h.setFormatter(logging.Formatter('%(message)s'))
         self.handler = h
         self.logger = logging.getLogger(WOK_REQUEST_LOGGER)
@@ -101,8 +98,7 @@ class RequestParser(object):
     def getRecords(self):
         records = self.getRecordsFromFile(self.baseFile)
 
-        for count in range(NUM_BACKUP_FILES):
-            filename = ".".join([self.baseFile, str(count + 1)])
+        for filename in glob.glob(self.baseFile + "-*[!.gz]"):
             records.extend(self.getRecordsFromFile(filename))
 
         # Return ordered by latest events first

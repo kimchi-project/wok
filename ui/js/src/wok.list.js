@@ -111,6 +111,7 @@ wok.widget.List.prototype = (function() {
 
     var fillBody = function(container, fields) {
         var data = this.data;
+        var converters = this.opts.converters;
         var tbody = ($('ul', container).length && $('ul', container)) || $('<ul></ul>').appendTo(container);
         tbody.empty();
         if (typeof data !== 'undefined' && data.length > 0) {
@@ -123,6 +124,15 @@ wok.widget.List.prototype = (function() {
                 var checkboxName = $('ul', container).parent().parent().parent().attr('id') + '-check' || $(container).parent().parent().parent().attr('id') + '-check';
                 $.each(fields, function(fi, field) {
                     var value = getValue(field.name, row);
+                    if(field.converter){
+                        var converter = field.converter;
+                        if(converters[converter]){
+                            var to = converters[converter]['to'];
+                            value = to(value);
+                        }else{
+                            console.error('converter ' + converters[converter] + ' not defined');
+                        }
+                    }
                     if (field.type === 'status' && field.name === 'enabled') {
                         styleClass = (value === true ? '' : ' disabled');
                         state = [

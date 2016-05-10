@@ -23,6 +23,7 @@ wok.createBootgrid = function(opts) {
   var fields = JSON.parse(opts['gridFields']);
   var selection = ('selection' in opts) ? opts['selection'] : true;
   var navigation = ('navigation' in opts) ? opts['navigation'] : 3;
+  var converters = ('converters' in opts) ? opts['converters'] : '';
 
   var gridMessage = ('loadingMessage' in opts && opts['loadingMessage'].trim() && opts['loadingMessage'].length > 0) ? opts['loadingMessage'] : i18n['WOKSETT0011M'];
   var gridloadingHtml = ['<div id="' + gridId + '-loading" class="wok-list-mask">',
@@ -49,7 +50,7 @@ wok.createBootgrid = function(opts) {
 
   for (var i = 0; i < fields.length; i++) {
     var columnHtml = [
-      '<th data-type="', fields[i]["type"], '" data-column-id="', fields[i]["column-id"], '"', (fields[i].identifier) ? 'data-identifier="true"' : '', ("header-class" in fields[i]) ? 'data-header-css-class="gridHeader ' + fields[i]["header-class"] + '"' : 'gridHeader', ("data-class" in fields[i]) ? ' data-align="' + fields[i]["data-class"] + '"' + ' headerAlign="center"' : ' data-align="left" headerAlign="center"', ("formatter" in fields[i]) ? 'data-formatter=' + fields[i]["formatter"] : '', (fields[i].width) ? (' data-width="' + fields[i].width + '"') : '',
+      '<th data-type="', fields[i]["type"], '" data-column-id="', fields[i]["column-id"], '"', (fields[i].identifier) ? 'data-identifier="true"' : '', ("header-class" in fields[i]) ? 'data-header-css-class="gridHeader ' + fields[i]["header-class"] + '"' : 'gridHeader', ("data-class" in fields[i]) ? ' data-align="' + fields[i]["data-class"] + '"' + ' headerAlign="center"' : ' data-align="left" headerAlign="center"', ("formatter" in fields[i]) ? 'data-formatter=' + fields[i]["formatter"] : '', (fields[i].width) ? (' data-width="' + fields[i].width + '"') : '', ("converter" in fields[i]) ? 'data-converter=' + fields[i]["converter"] : '',
       '>', ("title" in fields[i]) ? fields[i]["title"] : fields[i]["column-id"],
       '</th>'
     ].join('');
@@ -72,8 +73,9 @@ wok.createBootgrid = function(opts) {
       },
       "settings-user-log-message": function(column, row) {
         return '<span class="trim" data-toggle="tooltip"  data-placement="auto bottom" title="'+row.message+'">' +row.message+ '</span> ';
-      }
+      },
     },
+    converters: converters,
     css: {
       iconDown: "fa fa-sort-desc",
       iconUp: "fa fa-sort-asc",

@@ -88,13 +88,12 @@ wok.listUserLogConfig = function() {
       "title": i18n['WOKSETT0003M']
     }, {
       "column-id": 'date',
-      "formatter": "settings-user-log-date",
-      "converter": 'string',
+      "converter": 'date-locale-converter',
       "order": 'desc',
       "title": i18n['WOKSETT0004M']
     }, {
       "column-id": 'time',
-      "converter": 'string',
+      "converter": 'time-locale-converter',
       "order": 'desc',
       "title": i18n['WOKSETT0005M']
     },
@@ -109,6 +108,7 @@ wok.listUserLogConfig = function() {
   ];
 
   wok.opts_user_log['gridFields'] = JSON.stringify(gridFields);
+  wok.opts_user_log['converters'] = wok.dateTimeLocaleConverters;
 
   ulGrid = wok.createBootgrid(wok.opts_user_log);
   wok.hideBootgridLoading(wok.opts_user_log);

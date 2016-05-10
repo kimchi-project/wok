@@ -46,6 +46,22 @@ wok.lang = {
             'en_US';
     },
 
+    /**
+     * Locale is determined by the following sequence:
+     * 1) Cookie setting; or if not set ->
+     * 2) HTML DOM lang attribute; or if not set ->
+     * 3) DEFAULT (en_US).
+     */
+    get_locale: function() {
+        return wok.cookie.get('wokLocale') ||
+            $('html').prop('lang').replace('_', '-') ||
+            'en-US';
+    },
+
+    set_locale: function(selected_locale) {
+        wok.cookie.set('wokLocale', selected_locale, 365);
+    },
+
     set: function(lang) {
         wok.cookie.set('wokLang', lang, 365);
     }

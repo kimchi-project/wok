@@ -392,8 +392,9 @@ class Collection(object):
                 continue
 
             if all(key in res.data and
-                   (res.data[key] == val or res.data[key] in val or
-                    re.match(str(val), res.data[key]))
+                   (res.data[key] == val or
+                    re.match(str(val), res.data[key]) or
+                    (isinstance(val, list) and res.data[key] in val))
                    for key, val in fields_filter.iteritems()):
                 data.append(res.data)
         return data

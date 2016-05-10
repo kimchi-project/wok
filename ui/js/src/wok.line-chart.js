@@ -79,7 +79,8 @@ wok.widget.LineChart = function(params) {
                     formatSettings = {
                         base: series['base'],
                         unit: series['unit'],
-                        fixed: series['fixed']
+                        fixed: series['fixed'],
+                        locale: series['locale']
                     };
                 }
             });

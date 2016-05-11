@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-23 16:14-0300\n"
+"POT-Creation-Date: 2016-05-11 08:43+0200\n"
 "PO-Revision-Date: 2014-08-27 21:30+0000\n"
 "Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www.transifex.com/projects/p/kimchi/language/"
@@ -81,6 +81,14 @@ msgid "Creation of log file failed: %(err)s"
 msgstr ""
 
 #, python-format
+msgid "Unable to find notification %(id)s"
+msgstr ""
+
+#, python-format
+msgid "Unable to delete notification %(id)s: %(message)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "Impossible de trouver %(item)s dans le magasin de données"
 
@@ -114,6 +122,12 @@ msgstr "STACK"
 msgid "Go to Homepage"
 msgstr "Aller à la page d'accueil"
 
+msgid "Settings"
+msgstr ""
+
+msgid "No such data available."
+msgstr "De telles données ne sont pas disponibles."
+
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -127,9 +141,6 @@ msgstr "Annuler"
 
 msgid "Confirm"
 msgstr "Confirmer"
-
-msgid "No such data available."
-msgstr "De telles données ne sont pas disponibles."
 
 msgid "Loading..."
 msgstr "Chargement en cours..."
@@ -202,6 +213,12 @@ msgstr "Se connecter"
 msgid "Logging in..."
 msgstr "En cours de connexion..."
 
+msgid "Language"
+msgstr ""
+
+msgid "Locale"
+msgstr ""
+
 msgid "Peers"
 msgstr ""
 
@@ -224,4 +241,25 @@ msgid "Toggle navigation"
 msgstr ""
 
 msgid "Powered by"
+msgstr ""
+
+msgid "User Activity Log"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Reset To Default"
+msgstr ""
+
+msgid "Search results by:"
+msgstr ""
+
+msgid "Request Type"
+msgstr ""
+
+msgid "Search"
 msgstr ""

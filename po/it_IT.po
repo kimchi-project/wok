@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-23 16:14-0300\n"
+"POT-Creation-Date: 2016-05-11 08:43+0200\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -78,6 +78,14 @@ msgid "Creation of log file failed: %(err)s"
 msgstr ""
 
 #, python-format
+msgid "Unable to find notification %(id)s"
+msgstr ""
+
+#, python-format
+msgid "Unable to delete notification %(id)s: %(message)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "Impossibile trovare %(item)s nell'archivio dati"
 
@@ -111,6 +119,12 @@ msgstr "STACK"
 msgid "Go to Homepage"
 msgstr "Vai alla home page"
 
+msgid "Settings"
+msgstr ""
+
+msgid "No such data available."
+msgstr "Dati indicati non disponibili."
+
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -124,9 +138,6 @@ msgstr "Annulla"
 
 msgid "Confirm"
 msgstr "Conferma"
-
-msgid "No such data available."
-msgstr "Dati indicati non disponibili."
 
 msgid "Loading..."
 msgstr "Caricamento in corso..."
@@ -199,6 +210,12 @@ msgstr "Accedi"
 msgid "Logging in..."
 msgstr "Accesso in corso..."
 
+msgid "Language"
+msgstr ""
+
+msgid "Locale"
+msgstr ""
+
 msgid "Peers"
 msgstr ""
 
@@ -221,4 +238,25 @@ msgid "Toggle navigation"
 msgstr ""
 
 msgid "Powered by"
+msgstr ""
+
+msgid "User Activity Log"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Reset To Default"
+msgstr ""
+
+msgid "Search results by:"
+msgstr ""
+
+msgid "Request Type"
+msgstr ""
+
+msgid "Search"
 msgstr ""

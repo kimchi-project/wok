@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-23 16:14-0300\n"
+"POT-Creation-Date: 2016-05-11 08:43+0200\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -95,6 +95,14 @@ msgid "Creation of log file failed: %(err)s"
 msgstr ""
 
 #, python-format
+msgid "Unable to find notification %(id)s"
+msgstr ""
+
+#, python-format
+msgid "Unable to delete notification %(id)s: %(message)s"
+msgstr ""
+
+#, python-format
 msgid "Unable to find %(item)s in datastore"
 msgstr "Não foi possível encontrar %(item)s no datastore"
 
@@ -127,6 +135,12 @@ msgstr "PILHA"
 msgid "Go to Homepage"
 msgstr "Ir para a Página Inicial"
 
+msgid "Settings"
+msgstr ""
+
+msgid "No such data available."
+msgstr "Não há dados disponíveis."
+
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
@@ -140,9 +154,6 @@ msgstr "Cancelar"
 
 msgid "Confirm"
 msgstr "Confirmar"
-
-msgid "No such data available."
-msgstr "Não há dados disponíveis."
 
 msgid "Loading..."
 msgstr "Carregando..."
@@ -214,6 +225,12 @@ msgstr "Entrar"
 msgid "Logging in..."
 msgstr "Entrando..."
 
+msgid "Language"
+msgstr ""
+
+msgid "Locale"
+msgstr ""
+
 msgid "Peers"
 msgstr "Peers"
 
@@ -236,4 +253,26 @@ msgid "Toggle navigation"
 msgstr ""
 
 msgid "Powered by"
+msgstr ""
+
+msgid "User Activity Log"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Reset To Default"
+msgstr ""
+
+msgid "Search results by:"
+msgstr ""
+
+msgid "Request Type"
+msgstr ""
+
+
+msgid "Search"
 msgstr ""

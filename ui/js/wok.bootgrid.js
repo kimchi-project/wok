@@ -50,7 +50,7 @@ wok.createBootgrid = function(opts) {
 
   for (var i = 0; i < fields.length; i++) {
     var columnHtml = [
-      '<th data-type="', fields[i]["type"], '" data-column-id="', fields[i]["column-id"], '"', (fields[i].identifier) ? 'data-identifier="true"' : '', ("header-class" in fields[i]) ? 'data-header-css-class="gridHeader ' + fields[i]["header-class"] + '"' : 'gridHeader', ("data-class" in fields[i]) ? ' data-align="' + fields[i]["data-class"] + '"' + ' headerAlign="center"' : ' data-align="left" headerAlign="center"', ("formatter" in fields[i]) ? 'data-formatter=' + fields[i]["formatter"] : '', (fields[i].width) ? (' data-width="' + fields[i].width + '"') : '', ("converter" in fields[i]) ? 'data-converter=' + fields[i]["converter"] : '',
+      '<th data-type="', fields[i]["type"], '" data-column-id="', fields[i]["column-id"], '"', (fields[i].identifier) ? 'data-identifier="true"' : '', ("header-class" in fields[i]) ? 'data-header-css-class="gridHeader ' + fields[i]["header-class"] + '"' : 'gridHeader', ("data-class" in fields[i]) ? ' data-align="' + fields[i]["data-class"] + '"' + ' headerAlign="center"' : ' data-align="left" headerAlign="center"', ("formatter" in fields[i]) ? 'data-formatter=' + fields[i]["formatter"] : '', (fields[i].width) ? (' data-width="' + fields[i].width + '"') : '', ("converter" in fields[i]) ? ' data-converter=' + fields[i]["converter"] : '',
       '>', ("title" in fields[i]) ? fields[i]["title"] : fields[i]["column-id"],
       '</th>'
     ].join('');

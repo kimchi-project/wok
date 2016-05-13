@@ -70,21 +70,28 @@ wok.widget.LineChart = function(params) {
         var seriesCount = 0;
         var singleSeries = data.length === 1;
         var firstSeries = data[0];
+        var converters = params['converters'] ? params['converters'] : '';
 
         // TODO: Multiple axes support.
         if(type === 'value') {
             $.each(data, function(i, series) {
                 if(series['max'] > maxValue) {
                     maxValue = series['max'];
+                    // Intoduce converter to format data as per converter's to function
+                    var converter = series['converter'];
+                    if(converter){
+                        converter = converters[converter] ? converters[converter] : '';
+                    }
                     formatSettings = {
                         base: series['base'],
                         unit: series['unit'],
                         fixed: series['fixed'],
-                        locale: series['locale']
+                        converter: converter
                     };
                 }
             });
         }
+
 
         var defs = [
             '<defs>',
@@ -199,6 +206,7 @@ wok.widget.LineChart = function(params) {
             var base = data[i]['base'];
             var latestPoint = data[i]['points'].slice(-1).pop();
             var latestValue = latestPoint['y'];
+
             if(type === 'value') {
                 latestValue = wok.formatMeasurement(
                     latestValue,
@@ -206,7 +214,14 @@ wok.widget.LineChart = function(params) {
                 );
             }
             else {
-                 latestValue = { v: latestValue, s: '%' };
+                // Format value if converter is passed.
+                converter = data[i]['converter'];
+                var converter_to = ''
+                if(converter){
+                    converter_to = converters[converter] ? converters[converter]['to'] : '';
+                }
+
+                latestValue = { v: converter_to ? converter_to(latestValue) : latestValue, s : '%' };
             }
             $('<div class="latest-value"><span class="number">' + latestValue.v + '</span></div>').appendTo(wrapper);
             $('<span class="legend-label">'+ latestValue.s +'</span><span class="legend-string">'+ label + '</span>').appendTo(wrapper[0].children[1]);

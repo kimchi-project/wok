@@ -108,7 +108,7 @@ wok.listUserLogConfig = function() {
   ];
 
   wok.opts_user_log['gridFields'] = JSON.stringify(gridFields);
-  wok.opts_user_log['converters'] = wok.dateTimeLocaleConverters;
+  wok.opts_user_log['converters'] = wok.localeConverters;
 
   ulGrid = wok.createBootgrid(wok.opts_user_log);
   wok.hideBootgridLoading(wok.opts_user_log);

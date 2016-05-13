@@ -32,14 +32,15 @@ from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request
 from wok.exception import MissingParameter, OperationFailed
+from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
 from wok.utils import get_plugin_from_request
 
 
 ROOT_REQUESTS = {
     'POST': {
-        'login': "User '%(username)s' login",
-        'logout': "User '%(username)s' logout",
+        'login': "WOKROOT0001L",
+        'logout': "WOKROOT0002L",
     },
 }
 
@@ -165,8 +166,10 @@ class WokRoot(Root):
             raise cherrypy.HTTPError(401)
         finally:
             method = 'POST'
+            code = self.getRequestMessage(method, 'login')
+            msg = WokMessage(code, params).get_text(prepend_code=False)
             RequestRecord(
-                self.getRequestMessage(method, 'login') % params,
+                msg,
                 app=get_plugin_from_request(),
                 req=method,
                 user=cherrypy.session.get(auth.USER_NAME, 'N/A')
@@ -177,9 +180,11 @@ class WokRoot(Root):
     @cherrypy.expose
     def logout(self):
         method = 'POST'
+        code = self.getRequestMessage(method, 'logout')
         params = {'username': cherrypy.session.get(auth.USER_NAME, 'N/A')}
+        msg = WokMessage(code, params).get_text(prepend_code=False)
         RequestRecord(
-            self.getRequestMessage(method, 'logout') % params,
+            msg,
             app=get_plugin_from_request(),
             req=method,
             user=params['username']

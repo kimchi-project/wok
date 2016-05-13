@@ -54,4 +54,10 @@ messages = {
     "WOKUTILS0002E": _("Timeout while running command '%(cmd)s' after %(seconds)s seconds"),
     "WOKUTILS0004E": _("Invalid data value '%(value)s'"),
     "WOKUTILS0005E": _("Invalid data unit '%(unit)s'"),
+
+    # These messages (ending with L) are for user log purposes
+    "WOKCOL0001L": _("Request on collection"),
+    "WOKRES0001L": _("Request on resource"),
+    "WOKROOT0001L": _("User '%(username)s' login"),
+    "WOKROOT0002L": _("User '%(username)s' logout"),
 }

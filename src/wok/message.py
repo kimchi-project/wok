@@ -78,7 +78,11 @@ class WokMessage(object):
 
         return translation.gettext(text)
 
-    def get_text(self):
+    def get_text(self, prepend_code=True):
         msg = self._get_translation()
         msg = unicode(msg, 'utf-8') % self.args
-        return "%s: %s" % (self.code, msg)
+
+        if prepend_code:
+            return "%s: %s" % (self.code, msg)
+
+        return msg

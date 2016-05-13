@@ -33,13 +33,14 @@ from wok.control.utils import validate_params
 from wok.exception import InvalidOperation, InvalidParameter
 from wok.exception import MissingParameter, NotFoundError
 from wok.exception import OperationFailed, UnauthorizedError, WokException
+from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
 from wok.utils import get_plugin_from_request, utf8_dict, wok_log
 
 
 # Default request log messages
-COLLECTION_DEFAULT_LOG = "request on collection"
-RESOURCE_DEFAULT_LOG = "request on resource"
+COLLECTION_DEFAULT_LOG = "WOKCOL0001L"
+RESOURCE_DEFAULT_LOG = "WOKRES0001L"
 
 LOG_DISABLED_METHODS = ['GET']
 
@@ -138,9 +139,11 @@ class Resource(object):
                 action_result = action_fn(*model_args)
 
                 # log request
+                code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
+                msg = WokMessage(code, reqParams).get_text(prepend_code=False)
                 RequestRecord(
-                    self.getRequestMessage(method, action_name) % reqParams,
+                    msg,
                     app=get_plugin_from_request(),
                     req=method,
                     user=cherrypy.session.get(USER_NAME, 'N/A')
@@ -218,8 +221,10 @@ class Resource(object):
 
         # log request
         if method not in LOG_DISABLED_METHODS:
+            code = self.getRequestMessage(method)
+            msg = WokMessage(code, self.log_args).get_text(prepend_code=False)
             RequestRecord(
-                self.getRequestMessage(method) % self.log_args,
+                msg,
                 app=get_plugin_from_request(),
                 req=method,
                 user=cherrypy.session.get(USER_NAME, 'N/A')
@@ -437,9 +442,11 @@ class Collection(object):
                 result = self.create(params, *args)
 
                 # log request
+                code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
+                msg = WokMessage(code, reqParams).get_text(prepend_code=False)
                 RequestRecord(
-                    self.getRequestMessage(method) % reqParams,
+                    msg,
                     app=get_plugin_from_request(),
                     req=method,
                     user=cherrypy.session.get(USER_NAME, 'N/A')

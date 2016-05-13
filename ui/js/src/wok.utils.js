@@ -140,7 +140,13 @@ wok.changetoProperUnit = function(numOrg, digits, base) {
             return new Formatted(number, unit);
         }
 
-        var n_locale = settings['locale'] || null;
+        // Introduce converter to format data.
+        // Converter's to function will be used for formatting.
+        // if not passed then 'to' formatting will not be done.
+        // e.g. formatMeasurement( 2,
+        //          { .. , converter: wok.localeConverters["number-locale-converter"]})
+        var converter = settings['converter'] || null;
+        var converter_to_fun = converter?converter['to']:''
         var fixed = settings['fixed'];
 
         var unitMapping = unitBaseMapping[base];
@@ -154,14 +160,14 @@ wok.changetoProperUnit = function(numOrg, digits, base) {
 
             var formatted = number / startingValue;
             formatted = fixed ? formatted.toFixed(fixed) : formatted;
-            formatted = n_locale ? Number(formatted).toLocaleString(n_locale) : Number(formatted).toLocaleString()
+            formatted = converter_to_fun ? converter_to_fun(Number(formatted)) : formatted;
             return new Formatted(formatted, suffix + unit);
         }
 
         formatted = fixed ? number.toFixed(fixed) : number;
-        /* format the formatted number as per settings's locale, if not present format it with default locale. */
-        formatted_locale = n_locale ? Number(formatted).toLocaleString(n_locale) : Number(formatted).toLocaleString()
-        return new Formatted(formatted_locale, unit);
+        /* format the formatted number as per settings's converter, if not present return as it is. */
+        formatted_val = converter_to_fun ? converter_to_fun(Number(formatted)) : formatted;
+        return new Formatted(formatted_val, unit);
     };
 
     wok.formatMeasurement = format;
@@ -218,11 +224,10 @@ wok.notificationsLoop = function notificationsLoop() {
 }
 
 wok.datetimeLocaleConverter = function datetimeLocaleConverter(datetime_string, locale){
-   var dte = new Date(datetime_string.substr(0,10)+'T'+datetime_string.substr(11));
+   var dte = new Date(datetime_string.substr(0,10) + 'T' + datetime_string.substr(11));
    var options = { year: 'numeric', month: 'long', day: 'numeric' };
    return dte.toLocaleString(locale, options);
 }
-
 
 wok.dateLocaleConverter = function dateLocaleConverter(date_string, locale){
      var dte = new Date(date_string);
@@ -230,14 +235,17 @@ wok.dateLocaleConverter = function dateLocaleConverter(date_string, locale){
      return dte.toLocaleDateString(locale, options);
 }
 
-
 wok.timeLocaleConverter = function timeLocaleConverter(time_string, locale){
-     var dte = new Date((new Date(0)).toDateString()+' ' + time_string);
+     var dte = new Date((new Date(0)).toDateString() + ' ' + time_string);
      return dte.toLocaleTimeString(locale);
 }
 
+wok.numberLocaleConverter = function numberConverter(number, locale){
+     number = (typeof(number) === 'number') ? number.toLocaleString(wok.lang.get_locale()) : number;
+     return number;
+}
 
-wok.dateTimeLocaleConverters = {
+wok.localeConverters = {
        "date-locale-converter": {
            to: function(date){
               return wok.dateLocaleConverter(date, wok.lang.get_locale());
@@ -250,7 +258,12 @@ wok.dateTimeLocaleConverters = {
        },
        "datetime-locale-converter": {
             to: function(datetime){
-                return wok.datetimeLocaleConverter(datetime,  wok.lang.get_locale());
+                return wok.datetimeLocaleConverter(datetime, wok.lang.get_locale());
             }
-       }
- }
+       },
+       "number-locale-converter":{
+           to: function(number){
+              return wok.numberLocaleConverter(number, wok.lang.get_locale());
+           }
+      }
+}

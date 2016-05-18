@@ -229,6 +229,7 @@ wok.initUserLogWindow = function() {
         $("#"+wok.opts_user_log['gridId']).bootgrid("clear");
         $("#"+wok.opts_user_log['gridId']).bootgrid("append", result);
         $("#reset-button").addClass('hidden');
+        $("#download-button").data('search', '');
       }, function(error) {
         wok.message.error(error.responseJSON.reason, '#message-container-area');
         wok.hideBootgridLoading(wok.opts_user_log);

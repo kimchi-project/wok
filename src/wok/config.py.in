@@ -218,6 +218,12 @@ class WokConfig(dict):
             'tools.staticfile.on': True,
             'tools.staticfile.filename': '%s/robots.txt' % paths.ui_dir
         },
+        '/help': {
+            'tools.staticdir.on': True,
+            'tools.nocache.on': True,
+            'tools.staticdir.dir': os.path.join(paths.ui_dir,
+                                                'pages/help')
+        },
     }
 
     def __init__(self):

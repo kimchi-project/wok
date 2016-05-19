@@ -111,6 +111,11 @@ class ConfigTests(unittest.TestCase):
                 'tools.staticfile.on': True,
                 'tools.staticfile.filename': '%s/robots.txt' % paths.ui_dir
             },
+            '/help': {
+                'tools.staticdir.on': True,
+                'tools.nocache.on': True,
+                'tools.staticdir.dir': '%s/pages/help' % paths.ui_dir
+            },
             '/libs': {
                 'tools.wokauth.on': False,
                 'tools.nocache.on': False,

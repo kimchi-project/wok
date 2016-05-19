@@ -35,6 +35,17 @@
         padding-left: 100px;
     }
 
+    .modal-body ul,
+    .modal-body ol {
+        max-height: 150px;
+        margin: 5px 0;
+        padding: 0;
+        list-style-position: inside;
+        list-style-type: square;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
     .modal-header.icon {
         padding: 19px 0 0 0;
     }

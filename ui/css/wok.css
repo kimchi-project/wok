@@ -1255,6 +1255,17 @@ input[type=radio].wok-radio + label {
   padding-left: 100px;
 }
 
+#wok-confirm-modal .modal-body ul,
+#wok-confirm-modal .modal-body ol {
+  max-height: 150px;
+  margin: 5px 0;
+  padding: 0;
+  list-style-position: inside;
+  list-style-type: square;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 #wok-confirm-modal .modal-header.icon {
   padding: 19px 0 0 0;
 }

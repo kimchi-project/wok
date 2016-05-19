@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 08:43+0200\n"
+"POT-Creation-Date: 2016-05-19 21:30+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,6 +104,20 @@ msgstr ""
 msgid "Invalid data unit '%(unit)s'"
 msgstr ""
 
+msgid "Request made on collection"
+msgstr ""
+
+msgid "Request made on resource"
+msgstr ""
+
+#, python-format
+msgid "User '%(username)s' logged in"
+msgstr ""
+
+#, python-format
+msgid "User '%(username)s' logged out"
+msgstr ""
+
 msgid "ERROR CODE"
 msgstr ""
 
@@ -176,6 +190,9 @@ msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
 msgstr ""
 
 msgid "No results found!"
+msgstr ""
+
+msgid "Actions"
 msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."

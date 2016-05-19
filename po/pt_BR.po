@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 08:43+0200\n"
+"POT-Creation-Date: 2016-05-19 21:30+0530\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -123,6 +123,20 @@ msgstr "Valor inválido '%(value)s'"
 msgid "Invalid data unit '%(unit)s'"
 msgstr "Unidade inválida '%(unit)s'"
 
+msgid "Request made on collection"
+msgstr ""
+
+msgid "Request made on resource"
+msgstr ""
+
+#, python-format
+msgid "User '%(username)s' logged in"
+msgstr ""
+
+#, python-format
+msgid "User '%(username)s' logged out"
+msgstr ""
+
 msgid "ERROR CODE"
 msgstr "CÓDIGO DE ERRO"
 
@@ -200,6 +214,9 @@ msgstr ""
 msgid "No results found!"
 msgstr ""
 
+msgid "Actions"
+msgstr ""
+
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr ""
 "O usuário ou senha inseridos estão incorretos. Por favor, tente novamente."
@@ -272,7 +289,6 @@ msgstr ""
 
 msgid "Request Type"
 msgstr ""
-
 
 msgid "Search"
 msgstr ""

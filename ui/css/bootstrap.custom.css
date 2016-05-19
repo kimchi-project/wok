@@ -3460,9 +3460,9 @@ tbody.collapse.in {
   display: table-cell;
 }
 
-.input-group-addon:not(:first-child, :first-child, :first-child):not(:last-child, :last-child, :last-child),
-.input-group-btn:not(:first-child, :first-child, :first-child):not(:last-child, :last-child, :last-child),
-.input-group .form-control:not(:first-child, :first-child, :first-child):not(:last-child, :last-child, :last-child) {
+.input-group-addon:not(:first-child):not(:last-child),
+.input-group-btn:not(:first-child):not(:last-child),
+.input-group .form-control:not(:first-child):not(:last-child) {
   border-radius: 0;
 }
 

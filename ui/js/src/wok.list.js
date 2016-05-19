@@ -43,7 +43,7 @@ wok.widget.List.prototype = (function() {
                     '<div id="{id}-action-group" class="wok-list-action-button-container">',
                         '<div class="dropdown mobile-action">',
                             '<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">',
-                                '<span class="mobile-action-label">Actions</span>', // TODO: Replace with i18n string
+                                '<span class="mobile-action-label">'+i18n['WOKSETT0012M']+'</span>',
                             '</button>',
                             '<ul class="dropdown-menu" role="menu">',
                             '</ul>',

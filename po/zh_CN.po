@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-11 08:43+0200\n"
+"POT-Creation-Date: 2016-05-19 21:30+0530\n"
 "PO-Revision-Date: 2013-06-27 10:48+0000\n"
 "Last-Translator: ShaoHe Feng <shaohef@linux.vnet.ibm.com>\n"
 "Language-Team: ShaoHe Feng <shaohef@linux.vnet.ibm.com>\n"
@@ -120,6 +120,20 @@ msgstr ""
 msgid "Invalid data unit '%(unit)s'"
 msgstr ""
 
+msgid "Request made on collection"
+msgstr ""
+
+msgid "Request made on resource"
+msgstr ""
+
+#, python-format
+msgid "User '%(username)s' logged in"
+msgstr ""
+
+#, python-format
+msgid "User '%(username)s' logged out"
+msgstr ""
+
 msgid "ERROR CODE"
 msgstr "错误码"
 
@@ -195,6 +209,9 @@ msgstr ""
 msgid "No results found!"
 msgstr ""
 
+msgid "Actions"
+msgstr ""
+
 msgid "The username or password you entered is incorrect. Please try again."
 msgstr "用户名或密码错误，请重新输入。"
 
@@ -266,7 +283,6 @@ msgstr ""
 
 msgid "Request Type"
 msgstr ""
-
 
 msgid "Search"
 msgstr ""

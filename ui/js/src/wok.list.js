@@ -43,7 +43,7 @@ wok.widget.List.prototype = (function() {
                     '<div id="{id}-action-group" class="wok-list-action-button-container">',
                         '<div class="dropdown mobile-action">',
                             '<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">',
-                                '<span class="mobile-action-label">'+i18n['WOKSETT0012M']+'</span>',
+                                '<span class="mobile-action-label">{actions}</span>',
                             '</button>',
                             '<ul class="dropdown-menu" role="menu">',
                             '</ul>',
@@ -246,7 +246,8 @@ wok.widget.List.prototype = (function() {
             loading: i18n.WOKGRD6001M,
             message: i18n.WOKGRD6002M,
             buttonLabel: i18n.WOKGRD6003M,
-            detailedLabel: i18n.WOKGRD6004M
+            detailedLabel: i18n.WOKGRD6004M,
+            actions: i18n.WOKSETT0012M
         })).appendTo(container);
         this.domNode = domNode;
 

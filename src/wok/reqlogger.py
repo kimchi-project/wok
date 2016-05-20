@@ -33,7 +33,7 @@ from wok.utils import ascii_dict, remove_old_files
 
 
 # Log search setup
-FILTER_FIELDS = ['app', 'date', 'download', 'req', 'user']
+FILTER_FIELDS = ['app', 'date', 'download', 'req', 'user', 'time']
 LOG_DOWNLOAD_URI = "/data/logs/%s"
 LOG_DOWNLOAD_TIMEOUT = 6
 LOG_FORMAT = "[%(date)s %(time)s] %(req)-6s %(app)-11s %(user)s: %(message)s\n"

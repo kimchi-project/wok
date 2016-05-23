@@ -226,9 +226,9 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
 
     if env_vars is None:
         env_vars = os.environ.copy()
-        env_vars['LC_ALL'] = 'C'
+        env_vars['LC_ALL'] = 'en_US.UTF-8'
     elif env_vars.get('LC_ALL') is None:
-        env_vars['LC_ALL'] = 'C'
+        env_vars['LC_ALL'] = 'en_US.UTF-8'
 
     try:
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,

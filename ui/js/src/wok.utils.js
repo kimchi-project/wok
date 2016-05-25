@@ -150,9 +150,14 @@ wok.changetoProperUnit = function(numOrg, digits, base) {
         var fixed = settings['fixed'];
 
         var unitMapping = unitBaseMapping[base];
+        var unitmap = { 'Ki': 'WOKFMT2001M', 'Mi': 'WOKFMT2002M', 'Gi': 'WOKFMT2003M',
+                        'Ti': 'WOKFMT2004M', 'Pi': 'WOKFMT2005M', 'k': 'WOKFMT2006M',
+                        'M': 'WOKFMT2007M', 'G': 'WOKFMT2008M', 'T': 'WOKFMT2009M',
+                        'P': 'WOKFMT2010M'}
         for(var i = unitMapping.length - 1; i >= 0; i--) {
             var mapping = unitMapping[i];
-            var suffix = mapping['us'];
+            var s_key = mapping['us'];
+            var suffix = i18n[unitmap[s_key]];
             var startingValue = mapping['v'];
             if(number < startingValue) {
                 continue;

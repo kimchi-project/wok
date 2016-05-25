@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-19 21:30+0530\n"
+"POT-Creation-Date: 2016-05-25 15:08+0530\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -197,6 +197,36 @@ msgid "No results found!"
 msgstr ""
 
 msgid "Actions"
+msgstr ""
+
+msgid "Ki"
+msgstr ""
+
+msgid "Mi"
+msgstr ""
+
+msgid "Gi"
+msgstr ""
+
+msgid "Ti"
+msgstr ""
+
+msgid "Pi"
+msgstr ""
+
+msgid "k"
+msgstr ""
+
+msgid "M"
+msgstr ""
+
+msgid "G"
+msgstr ""
+
+msgid "T"
+msgstr ""
+
+msgid "P"
 msgstr ""
 
 msgid "The username or password you entered is incorrect. Please try again."

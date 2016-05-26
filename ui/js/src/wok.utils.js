@@ -268,7 +268,11 @@ wok.localeConverters = {
        },
        "number-locale-converter":{
            to: function(number){
-              return wok.numberLocaleConverter(number, wok.lang.get_locale());
+              if (number == null) {
+                 return 'Unknown';
+              }
+              format_value = wok.numberLocaleConverter(number, wok.lang.get_locale());
+              return format_value.toString().replace(/\s/g,' '); //replace non-breaking space with breaking space
            }
       }
 }

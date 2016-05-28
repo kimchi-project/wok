@@ -44,6 +44,15 @@ def add_notification(code, args={}, plugin_name=None):
     notificationsStore[code] = args
 
 
+def del_notification(code):
+    global notificationsStore
+
+    try:
+        del notificationsStore[str(code)]
+    except Exception as e:
+        raise OperationFailed("WOKNOT0002E", {'id': str(code), 'msg': e.msg()})
+
+
 class NotificationsModel(object):
     def __init__(self, **kargs):
         pass
@@ -71,10 +80,4 @@ class NotificationModel(object):
         raise NotFoundError("WOKNOT0001E", {'id': str(id)})
 
     def delete(self, id):
-        global notificationsStore
-
-        try:
-            del notificationsStore[str(id)]
-        except Exception as e:
-            raise OperationFailed("WOKNOT0002E", {'id': str(id),
-                                                  'msg': e.msg()})
+        del_notification(id)

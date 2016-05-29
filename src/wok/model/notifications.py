@@ -72,8 +72,8 @@ class NotificationModel(object):
 
         # use WokMessage to translate the notification
         if notification:
-            timestamp = notification['timestamp']
-            plugin = notification.pop('_plugin_name', None)
+            timestamp = notification.get('timestamp', None)
+            plugin = notification.get('_plugin_name', None)
             message = WokMessage(str(id), notification, plugin).get_text()
             return {"code": id, "message": message, "timestamp": timestamp}
 

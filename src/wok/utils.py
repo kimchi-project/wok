@@ -273,7 +273,8 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
         returncode = proc.returncode
         if returncode != 0:
             msg = "rc: %s error: %s returned from cmd: %s" %\
-                  (returncode, error, ' '.join(cmd))
+                  (returncode, decode_value(error),
+                   decode_value(' '.join(cmd)))
 
             if silent:
                 wok_log.debug(msg)
@@ -282,7 +283,7 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
                 wok_log.error(msg)
         elif error:
             wok_log.debug("error: %s returned from cmd: %s",
-                          error, ' '.join(cmd))
+                          decode_value(error), decode_value(' '.join(cmd)))
 
         if timeout_flag[0]:
             msg = ("subprocess is killed by signal.SIGKILL for "

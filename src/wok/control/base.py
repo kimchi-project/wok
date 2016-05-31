@@ -35,7 +35,7 @@ from wok.exception import MissingParameter, NotFoundError
 from wok.exception import OperationFailed, UnauthorizedError, WokException
 from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
-from wok.utils import get_plugin_from_request, utf8_dict, wok_log
+from wok.utils import get_plugin_from_request, utf8_dict, wok_log, encode_value
 
 
 # Default request log messages
@@ -374,8 +374,14 @@ class Collection(object):
                 except Exception as e:
                     # In case of errors when fetching a resource info, pass and
                     # log the error, so, other resources are returned
+                    # log the error, so, other resources are returned.
+                    # Encoding error message as ident is also encoded value.
+                    # This has to be done to avoid unicode error,
+                    # as combination of encoded and unicode value results into
+                    # unicode error.
                     wok_log.error("Problem in lookup of resource '%s'. "
-                                  "Detail: %s" % (ident, e.message))
+                                  "Detail: %s" % (ident,
+                                                  encode_value(e.message)))
                     continue
                 res_list.append(res)
             return res_list

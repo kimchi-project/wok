@@ -281,6 +281,8 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
 
             else:
                 wok_log.error(msg)
+                if tee is not None:
+                    tee_log(msg, tee)
         elif error:
             wok_log.debug("error: %s returned from cmd: %s",
                           decode_value(error), decode_value(' '.join(cmd)))

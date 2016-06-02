@@ -117,6 +117,31 @@ body {
   position: relative;
 }
 
+// Override pagination
+
+.pagination {
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      cursor: pointer !important;
+    }
+  }
+
+  > .disabled {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus {
+      cursor: $cursor-disabled !important;
+    }
+  }
+}
+
 // Login
 @import "modules/login";
 // Topbar and navigation

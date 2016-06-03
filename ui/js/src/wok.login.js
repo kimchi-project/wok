@@ -74,8 +74,14 @@ wok.login_main = function() {
             }
             wok.cookie.set('roles',JSON.stringify(data.roles));
             window.location.replace(window.location.pathname.replace(/\/+login.html/, '') + next_url);
-        }, function() {
-            $("#messUserPass").show();
+        }, function(jqXHR, textStatus, errorThrown) {
+            if (jqXHR.responseText == "") {
+                $("#messUserPass").hide();
+                $("#missServer").show();
+            } else {
+                $("#missServer").hide();
+                $("#messUserPass").show();
+            }
             $("#messSession").hide();
             $("#logging").hide();
             $("#login").show();

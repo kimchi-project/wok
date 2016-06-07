@@ -26,7 +26,9 @@ from wok.template import get_lang, validate_language
 
 
 class WokMessage(object):
-    def __init__(self, code='', args={}, plugin=None):
+    def __init__(self, code='', args=None, plugin=None):
+        if args is None:
+            args = {}
         # make all args unicode
         for key, value in args.iteritems():
             if isinstance(value, unicode):

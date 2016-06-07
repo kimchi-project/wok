@@ -27,7 +27,9 @@ from wok.utils import wok_log
 notificationsStore = {}
 
 
-def add_notification(code, args={}, plugin_name=None):
+def add_notification(code, args=None, plugin_name=None):
+    if args is None:
+        args = {}
     if not code:
         wok_log.error("Unable to add notification: invalid code '%(code)s'" %
                       {'code': str(code)})

@@ -25,7 +25,9 @@ from wok.message import WokMessage
 
 
 class WokException(Exception):
-    def __init__(self, code='', args={}):
+    def __init__(self, code='', args=None):
+        if args is None:
+            args = {}
         self.code = code
         msg = WokMessage(code, args).get_text()
         cherrypy.log.error_log.error(msg)

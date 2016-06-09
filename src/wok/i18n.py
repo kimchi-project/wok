@@ -58,6 +58,6 @@ messages = {
     # These messages (ending with L) are for user log purposes
     "WOKCOL0001L": _("Request made on collection"),
     "WOKRES0001L": _("Request made on resource"),
-    "WOKROOT0001L": _("User '%(username)s' logged in"),
-    "WOKROOT0002L": _("User '%(username)s' logged out"),
+    "WOKROOT0001L": _("User '%(username)s' login"),
+    "WOKROOT0002L": _("User '%(username)s' logout"),
 }

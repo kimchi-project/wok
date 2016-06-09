@@ -23,9 +23,9 @@ import json
 import logging
 import logging.handlers
 import os.path
+import time
 
 from cherrypy.process.plugins import BackgroundTask
-from datetime import datetime
 from tempfile import NamedTemporaryFile
 
 from wok.config import config, get_log_download_path
@@ -37,11 +37,12 @@ from wok.utils import ascii_dict, remove_old_files
 FILTER_FIELDS = ['app', 'date', 'download', 'ip', 'req', 'user', 'time']
 LOG_DOWNLOAD_URI = "/data/logs/%s"
 LOG_DOWNLOAD_TIMEOUT = 6
-LOG_FORMAT = "[%(date)s %(time)s] %(req)-6s %(app)-11s %(ip)-15s %(user)s: " \
-             "%(message)s\n"
+LOG_FORMAT = "[%(date)s %(time)s %(zone)s] %(req)-6s %(app)-11s %(ip)-15s " \
+             "%(user)s: %(message)s\n"
 RECORD_TEMPLATE_DICT = {
     'date': '',
     'time': '',
+    'zone': '',
     'req': '',
     'app': '',
     'ip': '',
@@ -49,6 +50,9 @@ RECORD_TEMPLATE_DICT = {
     'message': '',
 }
 SECONDS_PER_HOUR = 360
+TS_DATE_FORMAT = "%Y-%m-%d"
+TS_TIME_FORMAT = "%H:%M:%S"
+TS_ZONE_FORMAT = "%Z"
 
 # Log handler setup
 REQUEST_LOG_FILE = "wok-req.log"
@@ -180,10 +184,11 @@ class RequestRecord(object):
         self.message = message
         self.kwargs = kwargs
 
-        # register timestamp
-        timestamp = datetime.today()
-        self.kwargs['date'] = timestamp.strftime('%Y-%m-%d')
-        self.kwargs['time'] = timestamp.strftime('%H:%M:%S')
+        # register timestamp in local time
+        timestamp = time.localtime()
+        self.kwargs['date'] = time.strftime(TS_DATE_FORMAT, timestamp)
+        self.kwargs['time'] = time.strftime(TS_TIME_FORMAT, timestamp)
+        self.kwargs['zone'] = time.strftime(TS_ZONE_FORMAT, timestamp)
 
     def __str__(self):
         info = json.JSONEncoder().encode(self.kwargs)

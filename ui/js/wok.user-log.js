@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
- wok.initSettings = function() {
+wok.initSettings = function() {
   wok.opts_user_log = {};
   wok.opts_user_log['id'] = 'user-log-content';
   wok.opts_user_log['gridId'] = "user-log-grid";
@@ -127,7 +127,7 @@ wok.initUserLogConfigGridData = function() {
   }, function(error) {
     wok.message.error(error.responseJSON.reason, '#message-container-area');
     wok.hideBootgridLoading(wok.opts_user_log);
-    });
+  });
 };
 
 wok.initUserLog = function() {
@@ -147,6 +147,12 @@ wok.initUserLog = function() {
       }, function(error) {
         wok.message.error(error.responseJSON.reason, '#message-container-area');
       },search);
+  });
+
+  $("#refresh-button").on('click', function(){
+    $("#download-button").data('search', '');
+    $("#user-log-grid").bootgrid("search");
+    wok.initUserLogConfigGridData();
   });
 
 };
@@ -205,7 +211,6 @@ wok.initUserLogWindow = function() {
         wok.getFilteredUserLogs(function(result) {
           $("#"+wok.opts_user_log['gridId']).bootgrid("clear");
           $("#"+wok.opts_user_log['gridId']).bootgrid("append", result.records);
-          $("#reset-button").removeClass('hidden');
           $("#download-button").data('search',form);
           wok.window.close();
         }, function(err) {
@@ -222,18 +227,6 @@ wok.initUserLogWindow = function() {
       });
         wok.window.close();
       }
-  });
-
-  $("#reset-button").on('click',function(){
-    wok.getUserLogs(function(result) {
-        $("#"+wok.opts_user_log['gridId']).bootgrid("clear");
-        $("#"+wok.opts_user_log['gridId']).bootgrid("append", result);
-        $("#reset-button").addClass('hidden');
-        $("#download-button").data('search', '');
-      }, function(error) {
-        wok.message.error(error.responseJSON.reason, '#message-container-area');
-        wok.hideBootgridLoading(wok.opts_user_log);
-      });
   });
 
   $('#button-search').on('click',function(){

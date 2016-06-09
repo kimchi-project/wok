@@ -28,30 +28,44 @@ class WokException(Exception):
     def __init__(self, code='', args=None):
         if args is None:
             args = {}
+        self.httpStatusCode = 500
         self.code = code
         msg = WokMessage(code, args).get_text()
         cherrypy.log.error_log.error(msg)
         Exception.__init__(self, msg)
 
+    def getHttpStatusCode(self):
+        return self.httpStatusCode
+
 
 class NotFoundError(WokException):
-    pass
+    def __init__(self, code='', args=None):
+        super(NotFoundError, self).__init__(code, args)
+        self.httpStatusCode = 404
 
 
 class OperationFailed(WokException):
-    pass
+    def __init__(self, code='', args=None):
+        super(OperationFailed, self).__init__(code, args)
+        self.httpStatusCode = 500
 
 
 class MissingParameter(WokException):
-    pass
+    def __init__(self, code='', args=None):
+        super(MissingParameter, self).__init__(code, args)
+        self.httpStatusCode = 400
 
 
 class InvalidParameter(WokException):
-    pass
+    def __init__(self, code='', args=None):
+        super(InvalidParameter, self).__init__(code, args)
+        self.httpStatusCode = 400
 
 
 class InvalidOperation(WokException):
-    pass
+    def __init__(self, code='', args=None):
+        super(InvalidOperation, self).__init__(code, args)
+        self.httpStatusCode = 400
 
 
 class IsoFormatError(WokException):
@@ -67,4 +81,6 @@ class TimeoutExpired(WokException):
 
 
 class UnauthorizedError(WokException):
-    pass
+    def __init__(self, code='', args=None):
+        super(UnauthorizedError, self).__init__(code, args)
+        self.httpStatusCode = 403

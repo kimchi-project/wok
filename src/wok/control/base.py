@@ -30,9 +30,7 @@ from wok.auth import USER_GROUPS, USER_NAME, USER_ROLES
 from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
 from wok.control.utils import validate_params
-from wok.exception import InvalidOperation, InvalidParameter
-from wok.exception import MissingParameter, NotFoundError
-from wok.exception import OperationFailed, UnauthorizedError, WokException
+from wok.exception import InvalidOperation, UnauthorizedError, WokException
 from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
 from wok.utils import get_plugin_from_request, utf8_dict, wok_log, encode_value
@@ -119,6 +117,10 @@ class Resource(object):
     def _generate_action_handler_base(self, action_name, render_fn,
                                       destructive=False, action_args=None):
         def wrapper(*args, **kwargs):
+            # status must be always set in order to request be logged.
+            # use 500 as fallback for "exception not handled" cases.
+            status = 500
+
             method = 'POST'
             validate_method((method), self.role_key, self.admin_methods)
             try:
@@ -138,7 +140,18 @@ class Resource(object):
 
                 action_fn = getattr(self.model, model_fn(self, action_name))
                 action_result = action_fn(*model_args)
+                status = 200
 
+                if destructive is False or \
+                    ('persistent' in self.info.keys() and
+                     self.info['persistent'] is True):
+                    result = render_fn(self, action_result)
+                    status = cherrypy.response.status
+                    return result
+            except WokException, e:
+                status = e.getHttpStatusCode()
+                raise cherrypy.HTTPError(status, e.message)
+            finally:
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
@@ -147,28 +160,10 @@ class Resource(object):
                     msg,
                     app=get_plugin_from_request(),
                     req=method,
+                    status=status,
                     user=cherrypy.session.get(USER_NAME, 'N/A'),
                     ip=cherrypy.request.remote.ip
                 ).log()
-
-                if destructive is False or \
-                    ('persistent' in self.info.keys() and
-                     self.info['persistent'] is True):
-                    return render_fn(self, action_result)
-            except MissingParameter, e:
-                raise cherrypy.HTTPError(400, e.message)
-            except InvalidParameter, e:
-                raise cherrypy.HTTPError(400, e.message)
-            except InvalidOperation, e:
-                raise cherrypy.HTTPError(400, e.message)
-            except UnauthorizedError, e:
-                raise cherrypy.HTTPError(403, e.message)
-            except NotFoundError, e:
-                raise cherrypy.HTTPError(404, e.message)
-            except OperationFailed, e:
-                raise cherrypy.HTTPError(500, e.message)
-            except WokException, e:
-                raise cherrypy.HTTPError(500, e.message)
 
         wrapper.__name__ = action_name
         wrapper.exposed = True
@@ -190,13 +185,13 @@ class Resource(object):
             e = InvalidOperation('WOKAPI0002E', {'resource':
                                                  get_class_name(self)})
             raise cherrypy.HTTPError(405, e.message)
-        except OperationFailed, e:
-            raise cherrypy.HTTPError(500, e.message)
-        except InvalidOperation, e:
-            raise cherrypy.HTTPError(400, e.message)
 
     @cherrypy.expose
     def index(self, *args, **kargs):
+        # status must be always set in order to request be logged.
+        # use 500 as fallback for "exception not handled" cases.
+        status = 500
+
         method = validate_method(('GET', 'DELETE', 'PUT'),
                                  self.role_key, self.admin_methods)
 
@@ -208,30 +203,27 @@ class Resource(object):
             result = {'GET': self.get,
                       'DELETE': self.delete,
                       'PUT': self.update}[method](*args, **kargs)
-        except InvalidOperation, e:
-            raise cherrypy.HTTPError(400, e.message)
-        except InvalidParameter, e:
-            raise cherrypy.HTTPError(400, e.message)
-        except UnauthorizedError, e:
-            raise cherrypy.HTTPError(403, e.message)
-        except NotFoundError, e:
-            raise cherrypy.HTTPError(404, e.message)
-        except OperationFailed, e:
-            raise cherrypy.HTTPError(500, e.message)
-        except WokException, e:
-            raise cherrypy.HTTPError(500, e.message)
 
-        # log request
-        if method not in LOG_DISABLED_METHODS:
-            code = self.getRequestMessage(method)
-            msg = WokMessage(code, self.log_args).get_text(prepend_code=False)
-            RequestRecord(
-                msg,
-                app=get_plugin_from_request(),
-                req=method,
-                user=cherrypy.session.get(USER_NAME, 'N/A'),
-                ip=cherrypy.request.remote.ip
-            ).log()
+            status = cherrypy.response.status
+        except WokException, e:
+            status = e.getHttpStatusCode()
+            raise cherrypy.HTTPError(status, e.message)
+        except cherrypy.HTTPError, e:
+            status = e.status
+            raise
+        finally:
+            # log request
+            if method not in LOG_DISABLED_METHODS:
+                code = self.getRequestMessage(method)
+                msg = WokMessage(code, self.log_args)
+                RequestRecord(
+                    msg.get_text(prepend_code=False),
+                    app=get_plugin_from_request(),
+                    req=method,
+                    status=status,
+                    user=cherrypy.session.get(USER_NAME, 'N/A'),
+                    ip=cherrypy.request.remote.ip
+                ).log()
 
         return result
 
@@ -311,10 +303,6 @@ class AsyncResource(Resource):
             e = InvalidOperation('WOKAPI0002E', {'resource':
                                                  get_class_name(self)})
             raise cherrypy.HTTPError(405, e.message)
-        except OperationFailed, e:
-            raise cherrypy.HTTPError(500, e.message)
-        except InvalidOperation, e:
-            raise cherrypy.HTTPError(400, e.message)
 
         cherrypy.response.status = 202
         return wok.template.render("Task", task)
@@ -437,6 +425,10 @@ class Collection(object):
 
     @cherrypy.expose
     def index(self, *args, **kwargs):
+        # status must be always set in order to request be logged.
+        # use 500 as fallback for "exception not handled" cases.
+        status = 500
+
         params = {}
         method = validate_method(('GET', 'POST'),
                                  self.role_key, self.admin_methods)
@@ -449,7 +441,16 @@ class Collection(object):
             elif method == 'POST':
                 params = parse_request()
                 result = self.create(params, *args)
-
+                status = cherrypy.response.status
+                return result
+        except WokException, e:
+            status = e.getHttpStatusCode()
+            raise cherrypy.HTTPError(status, e.message)
+        except cherrypy.HTTPError, e:
+            status = e.status
+            raise
+        finally:
+            if method not in LOG_DISABLED_METHODS:
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
@@ -458,23 +459,10 @@ class Collection(object):
                     msg,
                     app=get_plugin_from_request(),
                     req=method,
+                    status=status,
                     user=cherrypy.session.get(USER_NAME, 'N/A'),
                     ip=cherrypy.request.remote.ip
                 ).log()
-
-                return result
-        except InvalidOperation, e:
-            raise cherrypy.HTTPError(400, e.message)
-        except InvalidParameter, e:
-            raise cherrypy.HTTPError(400, e.message)
-        except MissingParameter, e:
-            raise cherrypy.HTTPError(400, e.message)
-        except NotFoundError, e:
-            raise cherrypy.HTTPError(404, e.message)
-        except OperationFailed, e:
-            raise cherrypy.HTTPError(500, e.message)
-        except WokException, e:
-            raise cherrypy.HTTPError(500, e.message)
 
 
 class AsyncCollection(Collection):

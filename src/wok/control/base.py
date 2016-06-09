@@ -263,6 +263,7 @@ class Resource(object):
         args = list(self.model_args) + [params]
         ident = update(*args)
         self._redirect(ident)
+        cherrypy.response.status = 200
         self.lookup()
         return self.get()
 

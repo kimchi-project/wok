@@ -122,13 +122,14 @@ class Resource(object):
             method = 'POST'
             validate_method((method), self.role_key, self.admin_methods)
             try:
+                request = parse_request()
+                validate_params(request, self, action_name)
+
                 self.lookup()
                 if not self.is_authorized():
                     raise UnauthorizedError('WOKAPI0009E')
 
                 model_args = list(self.model_args)
-                request = parse_request()
-                validate_params(request, self, action_name)
                 if action_args is not None:
                     model_args.extend(
                         request[key] if key in request.keys() else None

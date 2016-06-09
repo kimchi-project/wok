@@ -146,7 +146,8 @@ class Resource(object):
                     msg,
                     app=get_plugin_from_request(),
                     req=method,
-                    user=cherrypy.session.get(USER_NAME, 'N/A')
+                    user=cherrypy.session.get(USER_NAME, 'N/A'),
+                    ip=cherrypy.request.remote.ip
                 ).log()
 
                 if destructive is False or \
@@ -227,7 +228,8 @@ class Resource(object):
                 msg,
                 app=get_plugin_from_request(),
                 req=method,
-                user=cherrypy.session.get(USER_NAME, 'N/A')
+                user=cherrypy.session.get(USER_NAME, 'N/A'),
+                ip=cherrypy.request.remote.ip
             ).log()
 
         return result
@@ -374,7 +376,6 @@ class Collection(object):
                 except Exception as e:
                     # In case of errors when fetching a resource info, pass and
                     # log the error, so, other resources are returned
-                    # log the error, so, other resources are returned.
                     # Encoding error message as ident is also encoded value.
                     # This has to be done to avoid unicode error,
                     # as combination of encoded and unicode value results into
@@ -455,7 +456,8 @@ class Collection(object):
                     msg,
                     app=get_plugin_from_request(),
                     req=method,
-                    user=cherrypy.session.get(USER_NAME, 'N/A')
+                    user=cherrypy.session.get(USER_NAME, 'N/A'),
+                    ip=cherrypy.request.remote.ip
                 ).log()
 
                 return result

@@ -13,6 +13,7 @@
         * req: Filter entries by type of request: "DELETE", "POST", "PUT".
                "GET" requests are not logged.
         * user: Filter entries by user that performed the request.
+        * ip: Filter entries by user IP address, i.e. 127.0.0.1
         * date: Filter entries by date of record in the format "YYYY-MM-DD"
         * download: Generate text file for download of search results.
 

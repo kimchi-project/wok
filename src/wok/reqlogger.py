@@ -34,10 +34,20 @@ from wok.utils import ascii_dict, remove_old_files
 
 
 # Log search setup
-FILTER_FIELDS = ['app', 'date', 'download', 'req', 'user', 'time']
+FILTER_FIELDS = ['app', 'date', 'download', 'ip', 'req', 'user', 'time']
 LOG_DOWNLOAD_URI = "/data/logs/%s"
 LOG_DOWNLOAD_TIMEOUT = 6
-LOG_FORMAT = "[%(date)s %(time)s] %(req)-6s %(app)-11s %(user)s: %(message)s\n"
+LOG_FORMAT = "[%(date)s %(time)s] %(req)-6s %(app)-11s %(ip)-15s %(user)s: " \
+             "%(message)s\n"
+RECORD_TEMPLATE_DICT = {
+    'date': '',
+    'time': '',
+    'req': '',
+    'app': '',
+    'ip': '',
+    'user': '',
+    'message': '',
+}
 SECONDS_PER_HOUR = 360
 
 # Log handler setup
@@ -86,7 +96,8 @@ class RequestParser(object):
 
             with fd:
                 for record in sortedList:
-                    asciiRecord = ascii_dict(record)
+                    asciiRecord = RECORD_TEMPLATE_DICT
+                    asciiRecord.update(ascii_dict(record))
                     fd.write(LOG_FORMAT % asciiRecord)
 
                 fd.close()

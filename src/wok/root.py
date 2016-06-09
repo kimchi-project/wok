@@ -172,7 +172,8 @@ class WokRoot(Root):
                 msg,
                 app=get_plugin_from_request(),
                 req=method,
-                user=cherrypy.session.get(auth.USER_NAME, 'N/A')
+                user=cherrypy.session.get(auth.USER_NAME, 'N/A'),
+                ip=cherrypy.request.remote.ip
             ).log()
 
         return json.dumps(user_info)
@@ -187,7 +188,8 @@ class WokRoot(Root):
             msg,
             app=get_plugin_from_request(),
             req=method,
-            user=params['username']
+            user=params['username'],
+            ip=cherrypy.request.remote.ip
         ).log()
 
         auth.logout()

@@ -34,16 +34,17 @@ from wok.utils import ascii_dict, remove_old_files
 
 
 # Log search setup
-FILTER_FIELDS = ['app', 'date', 'download', 'ip', 'req', 'user', 'time']
+FILTER_FIELDS = ['app', 'date', 'ip', 'req', 'status' 'user', 'time']
 LOG_DOWNLOAD_URI = "/data/logs/%s"
 LOG_DOWNLOAD_TIMEOUT = 6
-LOG_FORMAT = "[%(date)s %(time)s %(zone)s] %(req)-6s %(app)-11s %(ip)-15s " \
-             "%(user)s: %(message)s\n"
+LOG_FORMAT = "[%(date)s %(time)s %(zone)s] %(req)-6s %(status)s %(app)-11s " \
+             "%(ip)-15s %(user)s: %(message)s\n"
 RECORD_TEMPLATE_DICT = {
     'date': '',
     'time': '',
     'zone': '',
     'req': '',
+    'status': '',
     'app': '',
     'ip': '',
     'user': '',
@@ -157,14 +158,13 @@ class RequestParser(object):
         uri = None
         results = []
         records = self.getRecords()
+        download = filter_params.pop('download', False)
 
         # fail for unrecognized filter options
         for key in filter_params.keys():
             if key not in FILTER_FIELDS:
                 filters = ", ".join(FILTER_FIELDS)
                 raise InvalidParameter("WOKLOG0001E", {"filters": filters})
-
-        download = filter_params.pop('download', False)
 
         # filter records according to parameters
         for record in records:

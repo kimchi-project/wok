@@ -31,10 +31,9 @@ from wok.config import paths as wok_paths
 from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request
-from wok.exception import MissingParameter, OperationFailed
+from wok.exception import MissingParameter
 from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
-from wok.utils import get_plugin_from_request
 
 
 ROOT_REQUESTS = {
@@ -152,28 +151,43 @@ class WokRoot(Root):
 
     @cherrypy.expose
     def login(self, *args):
+        method = 'POST'
+        code = self.getRequestMessage(method, 'login')
+        app = 'wok'
+        ip = cherrypy.request.remote.ip
+
         try:
             params = parse_request()
+            msg = WokMessage(code, params).get_text(prepend_code=False)
             username = params['username']
             password = params['password']
         except KeyError, item:
+            RequestRecord(
+                msg,
+                app=app,
+                req=method,
+                status=400,
+                user='N/A',
+                ip=ip
+            ).log()
+
             e = MissingParameter('WOKAUTH0003E', {'item': str(item)})
             raise cherrypy.HTTPError(400, e.message)
 
         try:
+            status = 200
             user_info = auth.login(username, password)
-        except OperationFailed:
-            raise cherrypy.HTTPError(401)
+        except cherrypy.HTTPError, e:
+            status = e.status
+            raise
         finally:
-            method = 'POST'
-            code = self.getRequestMessage(method, 'login')
-            msg = WokMessage(code, params).get_text(prepend_code=False)
             RequestRecord(
                 msg,
-                app=get_plugin_from_request(),
+                app=app,
                 req=method,
-                user=cherrypy.session.get(auth.USER_NAME, 'N/A'),
-                ip=cherrypy.request.remote.ip
+                status=status,
+                user='N/A',
+                ip=ip
             ).log()
 
         return json.dumps(user_info)
@@ -184,13 +198,17 @@ class WokRoot(Root):
         code = self.getRequestMessage(method, 'logout')
         params = {'username': cherrypy.session.get(auth.USER_NAME, 'N/A')}
         msg = WokMessage(code, params).get_text(prepend_code=False)
-        RequestRecord(
-            msg,
-            app=get_plugin_from_request(),
-            req=method,
-            user=params['username'],
-            ip=cherrypy.request.remote.ip
-        ).log()
+        ip = cherrypy.request.remote.ip
 
         auth.logout()
+
+        RequestRecord(
+            msg,
+            app='wok',
+            req=method,
+            status=200,
+            user=params['username'],
+            ip=ip
+        ).log()
+
         return '{}'

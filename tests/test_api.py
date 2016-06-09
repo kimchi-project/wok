@@ -55,3 +55,37 @@ class APITests(unittest.TestCase):
         conf = json.loads(resp)
         keys = ["auth", "ssl_port", "websockets_port", "version"]
         self.assertEquals(sorted(keys), sorted(conf.keys()))
+
+    def test_user_log(self):
+        # Login and logout to make sure there there are entries in user log
+        hdrs = {'AUTHORIZATION': '',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'}
+
+        user, pw = utils.fake_user.items()[0]
+        req = json.dumps({'username': user, 'password': pw})
+        resp = self.request('/login', req, 'POST', hdrs)
+
+        resp = self.request('/logout', '{}', 'POST', hdrs)
+        self.assertEquals(200, resp.status)
+
+        # Test user logs JSON response
+        resp = self.request('/logs?app=wok&download=True').read()
+        conf = json.loads(resp)
+        self.assertIn('records', conf)
+        self.assertIn('uri', conf)
+
+        # Test download URL
+        uri = conf.get('uri')
+        self.assertTrue(len(uri) > 0)
+
+        # Test each record key
+        records = conf.get('records', [])
+        self.assertGreaterEqual(records, 1)
+        for record in records:
+            keys = [u'zone', u'ip', u'app', u'req', u'user', u'time', u'date',
+                    u'message']
+            self.assertEquals(sorted(keys), sorted(record.keys()))
+
+            # Test search by app
+            self.assertEquals(record['app'], 'wok')

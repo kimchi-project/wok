@@ -49,7 +49,7 @@ LOGROTATE_TEMPLATE = """
 ${log_dir}/*log {
     daily
     nomail
-    maxsize 10M
+    maxsize ${log_size}
     rotate 10
     nomissingok
     compress
@@ -153,7 +153,9 @@ class Server(object):
             # redefine logrotate configuration according to wok.conf
             data = Template(LOGROTATE_TEMPLATE)
             data = data.safe_substitute(log_dir=configParser.get("logging",
-                                        "log_dir"))
+                                        "log_dir"),
+                                        log_size=configParser.get("logging",
+                                        "log_size"))
 
             # Write file to be used for nginx.
             config_file = open(os.path.join(paths.logrotate_dir, "wokd"), "w")

@@ -29,7 +29,6 @@ EXTRA_DIST = \
 	wokd-upstart.conf.debian \
 	wokd-upstart.conf.fedora \
 	make-deb.sh.in \
-	wokd.logrotate.in \
 	$(NULL)
 
 make-deb.sh: make-deb.sh.in $(top_builddir)/config.status

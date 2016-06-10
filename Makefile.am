@@ -155,7 +155,6 @@ install-data-local:
 	$(INSTALL_DATA) src/dhparams.pem $(DESTDIR)/etc/wok/dhparams.pem
 	touch $(DESTDIR)/etc/nginx/conf.d/wok.conf
 	mkdir -p $(DESTDIR)/etc/logrotate.d/
-	$(INSTALL_DATA) $(top_srcdir)/contrib/wokd.logrotate.in $(DESTDIR)/etc/logrotate.d/wokd.in
 	touch $(DESTDIR)/etc/logrotate.d/wokd
 
 uninstall-local:
@@ -172,7 +171,6 @@ uninstall-local:
 	$(RM) -rf $(DESTDIR)/$(localstatedir)/log/wok
 	$(RM) -rf $(DESTDIR)/etc/wok
 	$(RM) $(DESTDIR)/etc/nginx/conf.d/wok.conf
-	$(RM) $(DESTDIR)/etc/logrotate.d/wokd.in
 	$(RM) $(DESTDIR)/etc/logrotate.d/wokd
 
 VERSION:

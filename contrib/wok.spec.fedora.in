@@ -117,7 +117,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/nginx/conf.d/wok.conf.in
 %{_sysconfdir}/wok/wok.conf
 %{_sysconfdir}/wok/
-%{_sysconfdir}/logrotate.d/wokd.in
 %{_sysconfdir}/logrotate.d/wokd
 %{_mandir}/man8/wokd.8.gz
 

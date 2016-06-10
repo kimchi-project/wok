@@ -95,7 +95,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/wok/
 %{_sysconfdir}/nginx/conf.d/wok.conf.in
 %{_sysconfdir}/nginx/conf.d/wok.conf
-%{_sysconfdir}/logrotate.d/wokd.in
 %{_sysconfdir}/logrotate.d/wokd
 %{_var}/lib/wok/
 %{_localstatedir}/log/wok/*

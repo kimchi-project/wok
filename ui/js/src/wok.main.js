@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-wok.NOTIFICATION_INTERVAL = 5000
+wok.NOTIFICATION_INTERVAL = 2000
 wok.postedNotifications = []
 wok.tabMode = {};
 

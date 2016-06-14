@@ -99,3 +99,5 @@ ui/libs/typeahead/typeahead.bundle.min.js
 ui/robots.txt
 ui/libs/jquery-containsNC/LICENSE
 ui/libs/jquery-containsNC/jquery.containsNC.js
+ui/libs/lodash/LICENSE
+ui/libs/lodash/lodash.js

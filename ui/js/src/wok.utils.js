@@ -214,12 +214,15 @@ wok.notificationsLoop = function notificationsLoop() {
         function(notifications){
             if(notifications && notifications.length > 0) {
                 $.each(notifications, function(i, notif) {
-                    if (wok.postedNotifications.indexOf(notif.message) == -1) {
-                        wok.message.notify(notif, '#message-container-area');
-                        wok.postedNotifications.push(notif.message);
+                    // Check if notification is being displayed
+                    if (!$("#notification-container").length) {
+                        $('.navbar.toolbar').next().prepend('<div id="notification-container"></div>');
                     }
-                })
-            };
+                    if (($("#notification-container").find("div:contains('" + notif.message + "')").length) == 0) {
+                        wok.message.notify(notif, '#notification-container');
+                    }
+                });
+            }
             setTimeout(notificationsLoop, wok.NOTIFICATION_INTERVAL);
         },
         function(data){

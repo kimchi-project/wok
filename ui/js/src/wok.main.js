@@ -19,7 +19,6 @@
  */
 
 wok.NOTIFICATION_INTERVAL = 2000
-wok.postedNotifications = []
 wok.tabMode = {};
 
 wok.config = undefined;

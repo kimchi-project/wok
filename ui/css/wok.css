@@ -133,6 +133,10 @@ body {
   cursor: not-allowed !important;
 }
 
+#notification-container .alert {
+  margin: 10px;
+}
+
 .login .content .container {
   width: 100% !important;
   padding-left: 0 !important;

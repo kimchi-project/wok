@@ -142,6 +142,10 @@ body {
   }
 }
 
+#notification-container .alert {
+  margin: 10px;
+}
+
 // Login
 @import "modules/login";
 // Topbar and navigation

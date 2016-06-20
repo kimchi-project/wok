@@ -102,6 +102,7 @@ def _create_proxy_config(options):
                                 websockets_port=options.websockets_port,
                                 cert_pem=cert, cert_key=key,
                                 max_body_size=eval(options.max_body_size),
+                                session_timeout=options.session_timeout,
                                 dhparams_pem=dhparams_pem)
 
     # Write file to be used for nginx.

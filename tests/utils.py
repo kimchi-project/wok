@@ -119,7 +119,8 @@ def run_server(host, port, ssl_port, test_mode, cherrypy_port=None,
                  'websockets_port': 64667, 'ssl_cert': '', 'ssl_key': '',
                  'max_body_size': '4*1024', 'test': test_mode,
                  'access_log': '/dev/null', 'error_log': '/dev/null',
-                 'environment': environment, 'log_level': 'debug'})()
+                 'environment': environment, 'log_level': 'debug',
+                 'session_timeout': 10})()
     if model is not None:
         setattr(args, 'model', model)
 

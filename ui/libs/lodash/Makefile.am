@@ -16,6 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-lodashdir = $(datadir)/wok/ui/libs/lodash.js
+lodashdir = $(datadir)/wok/ui/libs/lodash
 
 dist_lodash_DATA = $(wildcard *.js) $(NULL)

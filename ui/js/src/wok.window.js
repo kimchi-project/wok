@@ -49,7 +49,7 @@ wok.window = (function() {
             $('#' + windowID).remove();
         });
 
-        $(windowNode).appendTo('#' + target).on('click', '.window .close', function() {
+        $(windowNode).appendTo('#' + target).on('click', '.modal-header > .close', function() {
             wok.window.close();
         });
 

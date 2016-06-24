@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-25 15:08+0530\n"
+"POT-Creation-Date: 2016-06-24 09:46-0300\n"
 "PO-Revision-Date: 2014-08-27 21:30+0000\n"
 "Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www.transifex.com/projects/p/kimchi/language/"
@@ -242,6 +242,9 @@ msgstr ""
 msgid "Session timeout, please re-login."
 msgstr "Session expirée, veuillez vous reconnecter."
 
+msgid "Server unreachable."
+msgstr ""
+
 msgid "User Name"
 msgstr "Nom d'Utilisateur"
 
@@ -299,7 +302,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-msgid "Reset To Default"
+msgid "Refresh"
 msgstr ""
 
 msgid "Search results by:"

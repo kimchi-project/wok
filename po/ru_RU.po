@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-25 15:08+0530\n"
+"POT-Creation-Date: 2016-06-24 09:46-0300\n"
 "PO-Revision-Date: 2014-08-28 17:32+0000\n"
 "Last-Translator: Aline Manera <aline.manera@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/kimchi/language/"
@@ -233,6 +233,9 @@ msgstr "Указано неверное имя пользователя или �
 msgid "Session timeout, please re-login."
 msgstr ""
 
+msgid "Server unreachable."
+msgstr ""
+
 msgid "User Name"
 msgstr "Имя пользователя"
 
@@ -290,7 +293,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-msgid "Reset To Default"
+msgid "Refresh"
 msgstr ""
 
 msgid "Search results by:"

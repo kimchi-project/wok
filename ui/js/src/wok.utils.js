@@ -232,9 +232,14 @@ wok.notificationsLoop = function notificationsLoop() {
 }
 
 wok.datetimeLocaleConverter = function datetimeLocaleConverter(datetime_string, locale){
-   var dte = new Date(datetime_string.substr(0,10) + 'T' + datetime_string.substr(11));
-   var options = { year: 'numeric', month: 'long', day: 'numeric' };
-   return dte.toLocaleString(locale, options);
+   var dateRegEx = /(\d{4})-(\d{2})-(\d{2})/;
+   if(dateRegEx.test(datetime_string.substr(0,10))){
+     var dte = new Date(datetime_string.substr(0,10) + 'T' + datetime_string.substr(11));
+     var options = { year: 'numeric', month: 'long', day: 'numeric' };
+     return dte.toLocaleString(locale, options);
+  }else{
+    return datetime_string;
+  }
 }
 
 wok.dateLocaleConverter = function dateLocaleConverter(date_string, locale){

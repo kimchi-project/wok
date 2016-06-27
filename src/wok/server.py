@@ -152,10 +152,10 @@ class Server(object):
 
             # redefine logrotate configuration according to wok.conf
             data = Template(LOGROTATE_TEMPLATE)
-            data = data.safe_substitute(log_dir=configParser.get("logging",
-                                        "log_dir"),
-                                        log_size=configParser.get("logging",
-                                        "log_size"))
+            data = data.safe_substitute(
+                log_dir=configParser.get("logging", "log_dir"),
+                log_size=configParser.get("logging", "log_size")
+            )
 
             # Write file to be used for nginx.
             config_file = open(os.path.join(paths.logrotate_dir, "wokd"), "w")

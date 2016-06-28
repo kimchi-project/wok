@@ -146,8 +146,11 @@ class WokRoot(Root):
         self.paths = wok_paths
         self.domain = 'wok'
         self.messages = messages
-        self.log_map = ROOT_REQUESTS
         self.extends = None
+
+        # set user log messages and make sure all parameters are present
+        self.log_map = ROOT_REQUESTS
+        self.log_args.update({'username': ''})
 
     @cherrypy.expose
     def login(self, *args):

@@ -142,6 +142,10 @@ AC_CONFIG_FILES([
     ui/libs/jquery-ui/themes/base/images/Makefile
     ui/libs/list-js/Makefile
     ui/libs/lodash/Makefile
+    ui/libs/moment/Makefile
+    ui/libs/datatables/Makefile
+    ui/libs/datatables/js/Makefile
+    ui/libs/datatables/css/Makefile
     ui/libs/typeahead/Makefile
     ui/pages/Makefile
     ui/pages/help/Makefile

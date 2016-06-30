@@ -101,3 +101,9 @@ ui/libs/jquery-containsNC/LICENSE
 ui/libs/jquery-containsNC/jquery.containsNC.js
 ui/libs/lodash/LICENSE
 ui/libs/lodash/lodash.js
+ui/css/datatables.bootstrap.css
+ui/libs/datatables/LICENSE
+ui/libs/datatables/css/datatables.min.css
+ui/libs/datatables/js/datatables.min.js
+ui/libs/moment/LICENSE
+ui/libs/moment/moment-with-locales.min.js

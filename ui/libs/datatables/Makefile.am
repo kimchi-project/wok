@@ -1,9 +1,8 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2016
 #
-# Code derived from Project Kimchi
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = bootstrap jquery jquery-ui bootstrap-select es5-shim jquery-i18n list-js jquery-bootgrid bootstrap-switch bootstrap-editable typeahead jquery-containsNC lodash datatables moment
+SUBDIRS = css js

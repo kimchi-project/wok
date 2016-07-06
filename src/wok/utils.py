@@ -175,16 +175,21 @@ def import_module(module_name, class_name=''):
     return __import__(module_name, globals(), locals(), [class_name])
 
 
-def run_command(cmd, timeout=None, silent=False, tee=None,
-                env_vars=None):
+def run_command(cmd, timeout=None, silent=False, out_cb=None, env_vars=None):
     """
     cmd is a sequence of command arguments.
     timeout is a float number in seconds.
     timeout default value is None, means command run without timeout.
     silent is bool, it will log errors using debug handler not error.
     silent default value is False.
-    tee is a file path to store the output of the command, like 'tee' command.
-    tee default value is None, means output will not be logged.
+    out_cb is a callback that receives the whole command output every time a
+    new line is thrown by command. Default value is None, meaning that whole
+    output will be returned at the end of execution.
+
+    Returns a tuple (out, error, returncode) where:
+    out is the output thrown by command
+    error is an error message if applicable
+    returncode is an integer equal to the result of command execution
     """
     # subprocess.kill() can leave descendants running
     # and halting the execution. Using psutil to
@@ -201,24 +206,6 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
             pass
         else:
             timeout_flag[0] = True
-
-    # function to append the given msg into the log_file
-    def tee_log(msg=None, log_file=None):
-        if (msg is None) or (log_file is None):
-            return
-
-        try:
-            f = open(log_file, 'a')
-        except IOError as e:
-            msg = "Failed to open file %s: " % log_file
-            wok_log.error("%s %s", msg, e)
-            return
-        msg += '\n'
-        try:
-            f.write(msg)
-        except TypeError:
-            f.write(msg.encode('utf_8'))
-        f.close()
 
     proc = None
     timer = None
@@ -239,9 +226,7 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
             timer.start()
 
         wok_log.debug("Run command: '%s'", " ".join(cmd))
-        if tee is not None:
-            if os.path.exists(tee):
-                os.remove(tee)
+        if out_cb is not None:
             output = []
             while True:
                 line = ""
@@ -259,8 +244,7 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
                 output.append(line)
                 if not line:
                     break
-                line = line.rstrip('\n\r')
-                tee_log(line, tee)
+                out_cb(''.join(output))
             out = ''.join(output)
             error = proc.stderr.read()
             returncode = proc.poll()
@@ -281,8 +265,8 @@ def run_command(cmd, timeout=None, silent=False, tee=None,
 
             else:
                 wok_log.error(msg)
-                if tee is not None:
-                    tee_log(msg, tee)
+                if out_cb is not None:
+                    out_cb(msg)
         elif error:
             wok_log.debug("error: %s returned from cmd: %s",
                           decode_value(error), decode_value(' '.join(cmd)))

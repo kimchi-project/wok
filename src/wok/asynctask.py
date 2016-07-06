@@ -46,15 +46,12 @@ class AsyncTask(object):
         self.thread.start()
 
     def _status_cb(self, message, success=None):
-        if success is None:
-            self.message = message
-            self._save_helper()
-            return
-
         if success is not None:
             self.status = 'finished' if success else 'failed'
-        self.message = message
-        self._save_helper()
+
+        if message.strip():
+            self.message = message
+            self._save_helper()
 
     def _save_helper(self):
         obj = {}
@@ -73,4 +70,4 @@ class AsyncTask(object):
         except Exception, e:
             cherrypy.log.error_log.error("Error in async_task %s " % self.id)
             cherrypy.log.error_log.error(traceback.format_exc())
-            cb("Unexpected exception: %s" % e.message, False)
+            cb(e.message, False)

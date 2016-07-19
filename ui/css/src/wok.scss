@@ -34,6 +34,22 @@ body {
   margin-bottom: 60px;
 }
 
+html.in-progress,
+html.in-progress * {
+  cursor:progress;
+}
+
+html.in-progress a,
+html.in-progress button {
+  cursor: pointer;
+}
+
+html.in-progress [disabled],
+ html.in-progress button[disabled],
+ html.in-progress .disabled {
+  cursor: not-allowed;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

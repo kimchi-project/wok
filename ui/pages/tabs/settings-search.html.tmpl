@@ -32,15 +32,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
     <form id="form-advanced-search" autocomplete="off">
         <div class="form-group">
             <p>$_("Search results by:")</p>
-            <label for="user-log-app-textbox">$_("Application")</label>
+            <label for="application-name">$_("Application")</label>
             <input type="text" class="form-control typeahead" id="application-name" name="app" />
         </div>
         <div class="form-group">
-            <label for="user-log-user-textbox">$_("User")</label>
+            <label for="username">$_("User")</label>
             <input type="text" class="form-control" id="username" name="user" />
         </div>
         <div class="form-group">
-            <label for="user-log-name-textbox">$_("Request")</label>
+            <label for="request-type">$_("Request")</label>
             <select class="form-control selectpicker" id="request-type"  title="$_('Request Type')" name="req">
               <option value="">All Requests</option>
               <option value="POST">POST</option>
@@ -52,12 +52,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
         <div class="row clearfix">
           <div class="col-sm-12">
             <div class="form-group col-sm-6">
-                <label for="user-log-name-textbox">$_("Date")</label>
-                <input type="text" placeholder="YYYY-MM-DD" class="form-control" id="date" name="date" />
+                <label for="ip">$_("User IP Address")</label>
+                <input type="text" class="form-control" id="ip" name="ip" />
             </div>
             <div class="form-group col-sm-6">
-                <label for="user-log-time-textbox">$_("Time")</label>
-                <input type="text" placeholder="HH:MM:SS" class="form-control" id="time" name="time" />
+                <label for="date">$_("Date")</label>
+                <input type="text" placeholder="YYYY-MM-DD" class="form-control" id="date" name="date" />
             </div>
           </div>
         </div>

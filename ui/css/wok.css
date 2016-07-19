@@ -133,6 +133,10 @@ html.in-progress .disabled {
   position: relative;
 }
 
+.panel-collapse.collapse {
+  position: relative;
+}
+
 .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus,
 .pagination > .active > span,
 .pagination > .active > span:hover,

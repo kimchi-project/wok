@@ -83,6 +83,10 @@ wok.listUserLogConfig = function() {
       "converter": 'string',
       "title": i18n['WOKSETT0002M']
     }, {
+      "column-id": 'ip',
+      "converter": 'string',
+      "title": i18n['WOKSETT0014M']
+    }, {
       "column-id": 'req',
       "converter": 'string',
       "title": i18n['WOKSETT0003M']
@@ -96,6 +100,10 @@ wok.listUserLogConfig = function() {
       "converter": 'time-locale-converter',
       "order": 'desc',
       "title": i18n['WOKSETT0005M']
+    }, {
+      "column-id": 'zone',
+      "converter": 'string',
+      "title": i18n['WOKSETT0013M']
     },
     {
       "column-id": 'message',

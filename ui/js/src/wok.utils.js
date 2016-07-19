@@ -243,9 +243,9 @@ wok.datetimeLocaleConverter = function datetimeLocaleConverter(datetime_string, 
 }
 
 wok.dateLocaleConverter = function dateLocaleConverter(date_string, locale){
-     var dte = new Date(date_string);
+     var dte = new moment(date_string);
      var options = { year: 'numeric', month: 'long', day: 'numeric' };
-     return dte.toLocaleDateString(locale, options);
+     return dte._d.toLocaleDateString(locale, options);
 }
 
 wok.timeLocaleConverter = function timeLocaleConverter(time_string, locale){

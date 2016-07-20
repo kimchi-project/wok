@@ -28,6 +28,7 @@ from glob import iglob
 
 from wok.config import paths
 
+REFRESH = 'robot-refresh'
 
 def get_lang():
     cookie = cherrypy.request.cookie

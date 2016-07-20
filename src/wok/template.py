@@ -22,13 +22,17 @@
 import cherrypy
 import errno
 import json
+import time
 from Cheetah.Template import Template
 from glob import iglob
 
 
+from wok import config as config
 from wok.config import paths
 
+EXPIRES_ON = 'Session-Expires-On'
 REFRESH = 'robot-refresh'
+
 
 def get_lang():
     cookie = cherrypy.request.cookie
@@ -110,6 +114,17 @@ def render_cheetah_file(resource, data):
 
 
 def render(resource, data):
+    # get timeout and last refresh
+    s_timeout = float(config.config.get("server", "session_timeout"))
+    cherrypy.session.acquire_lock()
+    last_req = cherrypy.session.get(REFRESH)
+    cherrypy.session.release_lock()
+
+    # last_request is present: calculate remaining time
+    if last_req is not None:
+        session_expires = (float(last_req) + (s_timeout * 60)) - time.time()
+        cherrypy.response.headers[EXPIRES_ON] = session_expires
+
     if can_accept('application/json'):
         cherrypy.response.headers['Content-Type'] = \
             'application/json;charset=utf-8'

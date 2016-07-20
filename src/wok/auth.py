@@ -40,7 +40,6 @@ from wok.utils import get_all_tabs, run_command
 USER_NAME = 'username'
 USER_GROUPS = 'groups'
 USER_ROLES = 'roles'
-REFRESH = 'robot-refresh'
 
 tabs = get_all_tabs()
 
@@ -263,13 +262,13 @@ def check_auth_session():
         debug("Session authenticated for user %s" % session)
         wokRobot = cherrypy.request.headers.get('Wok-Robot')
         if wokRobot == "wok-robot":
-            if (time.time() - cherrypy.session[REFRESH] >
+            if (time.time() - cherrypy.session[template.REFRESH] >
                     int(config.get('server', 'session_timeout')) * 60):
                 cherrypy.session[USER_NAME] = None
                 cherrypy.lib.sessions.expire()
                 raise cherrypy.HTTPError(401, "sessionTimeout")
         else:
-            cherrypy.session[REFRESH] = time.time()
+            cherrypy.session[template.REFRESH] = time.time()
         return True
 
     debug("Session not found")
@@ -316,7 +315,7 @@ def login(username, password, **kwargs):
     cherrypy.session[USER_NAME] = username
     cherrypy.session[USER_GROUPS] = user.get_groups()
     cherrypy.session[USER_ROLES] = user.get_roles()
-    cherrypy.session[REFRESH] = time.time()
+    cherrypy.session[template.REFRESH] = time.time()
     cherrypy.session.release_lock()
     return user.get_user()
 
@@ -324,7 +323,7 @@ def login(username, password, **kwargs):
 def logout():
     cherrypy.session.acquire_lock()
     cherrypy.session[USER_NAME] = None
-    cherrypy.session[REFRESH] = 0
+    cherrypy.session[template.REFRESH] = 0
     cherrypy.session.release_lock()
     cherrypy.lib.sessions.close()
 

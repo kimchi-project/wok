@@ -26,11 +26,12 @@
 
 import os
 import pwd
-import subprocess
 from string import Template
 
 from wok import sslcert
 from wok.config import paths
+from wok.exception import OperationFailed
+from wok.utils import run_command
 
 
 HTTP_CONFIG = """
@@ -110,18 +111,21 @@ def _create_proxy_config(options):
     config_file.write(data)
     config_file.close()
 
+    # If not running from the installed path (from a cloned and builded source
+    # code), create a symbolic link in  system's dir to prevent errors on read
+    # SSL certifications.
+    if not paths.installed:
+        dst = os.path.join(paths.sys_nginx_conf_dir, "wok.conf")
+        if os.path.isfile(dst) or os.path.islink(dst):
+            os.remove(dst)
+        os.symlink(os.path.join(nginx_config_dir, "wok.conf"), dst)
+
 
 def start_proxy(options):
     """Start nginx reverse proxy."""
     _create_proxy_config(options)
-    nginx_config_dir = paths.nginx_conf_dir
-    config_file = "%s/wok.conf" % nginx_config_dir
-    cmd = ['nginx', '-c', config_file]
-    subprocess.call(cmd)
-
-
-def terminate_proxy():
-    """Stop nginx process."""
-    config_file = "%s/wok.conf" % paths.nginx_conf_dir
-    term_proxy_cmd = ['nginx', '-s', 'stop', '-c', config_file]
-    subprocess.call(term_proxy_cmd)
+    # Restart system's nginx service to reload wok configuration
+    cmd = ['systemctl', 'restart', 'nginx.service']
+    output, error, retcode = run_command(cmd, silent=True)
+    if retcode != 0:
+        raise OperationFailed('WOKPROXY0001E', {'error': error})

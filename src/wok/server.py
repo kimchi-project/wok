@@ -33,7 +33,7 @@ from wok.config import config as configParser
 from wok.config import paths, PluginConfig, WokConfig
 from wok.control import sub_nodes
 from wok.model import model
-from wok.proxy import start_proxy, terminate_proxy
+from wok.proxy import start_proxy
 from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
 from wok.safewatchedfilehandler import SafeWatchedFileHandler
@@ -181,10 +181,6 @@ class Server(object):
                                        config=self.configObj)
 
         self._load_plugins(options)
-
-        # Terminate proxy when cherrypy server is terminated
-        cherrypy.engine.subscribe('exit', terminate_proxy)
-
         cherrypy.lib.sessions.init()
 
     def _load_plugins(self, options):

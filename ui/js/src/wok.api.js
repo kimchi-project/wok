@@ -41,6 +41,18 @@ var wok = {
         settings['originalError'] = settings['error'];
         settings['error'] = null;
         settings['wok'] = true;
+        settings['complete'] = function(req) {
+            wok.session.remainingSessionTime = req.getResponseHeader('Session-Expires-On');
+            wok.session.remainingSessionTime = (parseInt(wok.session.remainingSessionTime, 10) * 1000);
+            if (!wok.session.flagInTimer) {
+                wok.session.refreshExpiringCounter();
+                wok.session.expiringCounter();
+            } else if(wok.session.remainingSessionTime > wok.session.remaingTimeToShowAlert) {
+                wok.session.hideExpiringAlert();
+                wok.session.refreshExpiringCounter();
+                wok.session.flagInTimer = false;
+            }
+        };
         return $.ajax(settings);
     },
 
@@ -122,4 +134,15 @@ var wok = {
             error : err
         });
     },
+
+    getTasks: function(suc, err) {
+        wok.requestJSON({
+            url : 'tasks',
+            type : 'GET',
+            contentType : "application/json",
+            dataType : 'json',
+            success : suc,
+            error : err
+        });
+    }
 };

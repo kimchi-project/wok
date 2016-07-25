@@ -166,6 +166,33 @@ html.in-progress [disabled],
   margin: 10px;
 }
 
+// session expiring
+.session-expiring {
+  z-index: 9999999;
+  position: fixed;
+  bottom: 19px;
+  right: 19px;
+  .close {
+    margin-right: 8px;
+    margin-top: 4px;
+  }
+  .well {
+    background: #eee;
+    width: 280px;
+    padding: 0;
+    margin: 0;
+    p {
+      padding: 9px 9px 0 9px;
+    }
+    .form-group {
+      border-top: 1px solid #ccc;
+      margin: 0;
+      padding:9px;
+      text-align: right;
+    }
+  }
+}
+
 // Login
 @import "modules/login";
 // Topbar and navigation

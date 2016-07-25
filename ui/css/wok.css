@@ -157,6 +157,36 @@ html.in-progress .disabled {
   margin: 10px;
 }
 
+.session-expiring {
+  z-index: 9999999;
+  position: fixed;
+  bottom: 19px;
+  right: 19px;
+}
+
+.session-expiring .close {
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+.session-expiring .well {
+  background: #eee;
+  width: 280px;
+  padding: 0;
+  margin: 0;
+}
+
+.session-expiring .well p {
+  padding: 9px 9px 0 9px;
+}
+
+.session-expiring .well .form-group {
+  border-top: 1px solid #ccc;
+  margin: 0;
+  padding: 9px;
+  text-align: right;
+}
+
 .login .content .container {
   width: 100% !important;
   padding-left: 0 !important;

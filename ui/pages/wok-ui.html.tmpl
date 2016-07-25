@@ -183,6 +183,19 @@
     <div class="modal fade host-modal" id="aboutModal" tabindex="-1" role="dialog" labelledby="aboutModalLabel" aria-hidden="true">
     </div>
 
+
+    <div class="fade in session-expiring" id="session-expiring-alert" hidden>
+      <button type="button" class="close">&times;</button>
+      <div class="well">
+        <p>$_("Your session will expire on: 30s. Do you want to renew it?")</p>
+        <div class="form-group">
+          <button class="btn btn-primary btn-xs" id="renew-session-button" onclick="wok.session.renewSession();">Renew</button>
+          <button class="btn btn-primary btn-xs" id="dismiss-session-button" onclick="wok.session.hideExpiringAlert();">Dismiss</button>
+        </div>
+      </div>
+    </div>
+
+
     <script id="about-tmpl" type="wok/template">
         <div class="modal-dialog" role="document">
             <div class="modal-content" >

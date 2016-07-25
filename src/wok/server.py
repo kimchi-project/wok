@@ -179,6 +179,7 @@ class Server(object):
 
         self.app = cherrypy.tree.mount(WokRoot(model_instance, dev_env),
                                        config=self.configObj)
+
         self._load_plugins(options)
 
         # Terminate proxy when cherrypy server is terminated
@@ -201,7 +202,7 @@ class Server(object):
 
             try:
                 plugin_app = import_class(plugin_class)(options)
-            except ImportError, e:
+            except (ImportError, Exception), e:
                 cherrypy.log.error_log.error(
                     "Failed to import plugin %s, "
                     "error: %s" % (plugin_class, e.message)

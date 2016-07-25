@@ -76,9 +76,10 @@ class Paths(object):
         self.prefix = self.get_prefix()
         self.installed = (self.prefix == '@pkgdatadir@')
         self.ui_dir = self.add_prefix('ui')
+        self.sys_nginx_conf_dir = '@sysconfdir@/nginx/conf.d'
 
         if self.installed:
-            self.nginx_conf_dir = '@sysconfdir@/nginx/conf.d'
+            self.nginx_conf_dir = self.sys_nginx_conf_dir
             self.state_dir = '@localstatedir@/lib/wok'
             self.log_dir = '@localstatedir@/log/wok'
             self.conf_dir = '@sysconfdir@/wok'

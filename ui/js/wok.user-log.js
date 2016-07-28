@@ -166,10 +166,10 @@ wok.initUserLog = function() {
 };
 
 wok.initUserLogWindow = function() {
-  var currentLang = wok.lang.get();
-  currentLang = currentLang.substring(0, currentLang.indexOf('_'));
+  var currentLocale = wok.lang.get_locale();
+  currentLocale = currentLocale.substring(0, currentLocale.indexOf('-'));
   $("#request-type").selectpicker();
-  $.datepicker.setDefaults($.datepicker.regional[currentLang]);
+  $.datepicker.setDefaults($.datepicker.regional[currentLocale]);
   $("#date").datepicker({ dateFormat: 'yy-mm-dd',
     onSelect: function(dateText) {
       $('#button-search').prop('disabled',false);

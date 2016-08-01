@@ -35,6 +35,7 @@ wok.main = function() {
     var genTabs = function(tabs) {
         var tabsHtml = [];
         $(tabs).each(function(i, tab) {
+            tab_i18n = i18n[tab] ? i18n[tab] : tab;
             var functionality = tab['functionality'];
             var title = tab['title'];
             var path = tab['path'];
@@ -58,11 +59,11 @@ wok.main = function() {
 
     var genFuncTabs  = function(tabs){
         var functionalTabHtml = [];
-        $(tabs).each(function(i, tab) {
+        $(tabs).each(function(i, tab_i18n) {
             functionalTabHtml.push(
                 '<li>',
-                    '<a class="item',' ',tab.toLowerCase(),'Tab','" href="#">',
-                        tab,
+                    '<a class="item',' ',tab_i18n.toLowerCase(),'Tab','" href="#">',
+                        tab_i18n,
                     '</a>',
                 '</li>'
             );

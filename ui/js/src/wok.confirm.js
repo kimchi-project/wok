@@ -32,8 +32,10 @@
  *            the callback function of click the confirm button.
  * @param cancelCallback
  *            The callback function of click the cancel and X button.
+ * @param closeCallback
+ *            The callback function of click the Esc button and blur.
  */
-wok.confirm = function(settings, confirmCallback, cancelCallback) {
+wok.confirm = function(settings, confirmCallback, cancelCallback, closeCallback) {
     "use strict";
     var modalStr = '<div id="wok-confirm-modal" class="modal fade host-modal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true"></div>';
     if ($('#wok-confirm-modal ').size() < 1 && $('#modalWindow').size() < 1 ) {
@@ -86,6 +88,9 @@ wok.confirm = function(settings, confirmCallback, cancelCallback) {
         "use strict";
         $('#wok-confirm-modal').removeData('bs.modal');
         $('#wok-confirm-modal').remove();
+        if (closeCallback) {
+            closeCallback();
+        }
     };
 
 };

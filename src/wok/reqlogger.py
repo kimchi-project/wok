@@ -30,7 +30,8 @@ from tempfile import NamedTemporaryFile
 
 from wok.config import config, get_log_download_path
 from wok.exception import InvalidParameter, OperationFailed
-from wok.utils import ascii_dict, remove_old_files
+from wok.stringutils import ascii_dict
+from wok.utils import remove_old_files
 
 
 # Log search setup

@@ -33,7 +33,8 @@ from wok.control.utils import validate_params
 from wok.exception import InvalidOperation, UnauthorizedError, WokException
 from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
-from wok.utils import get_plugin_from_request, utf8_dict, wok_log, encode_value
+from wok.stringutils import encode_value, utf8_dict
+from wok.utils import get_plugin_from_request, wok_log
 
 
 # Default request log messages

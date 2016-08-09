@@ -46,7 +46,7 @@ class WokMessage(object):
         self.args = args
         self.plugin = plugin
 
-    def _get_translation(self):
+    def _get_text(self, translate):
         wok_app = cherrypy.tree.apps.get('', None)
 
         # get app from plugin path if specified
@@ -68,20 +68,23 @@ class WokMessage(object):
             app = wok_app
             text = app.root.messages.get(self.code, self.code)
 
-        # do translation
-        domain = app.root.domain
-        paths = app.root.paths
-        lang = validate_language(get_lang())
+        if translate:
+            # do translation
+            domain = app.root.domain
+            paths = app.root.paths
+            lang = validate_language(get_lang())
 
-        try:
-            translation = gettext.translation(domain, paths.mo_dir, [lang])
-        except:
-            translation = gettext
+            try:
+                translation = gettext.translation(domain, paths.mo_dir, [lang])
+            except:
+                translation = gettext
 
-        return translation.gettext(text)
+            return translation.gettext(text)
 
-    def get_text(self, prepend_code=True):
-        msg = self._get_translation()
+        return gettext.gettext(text)
+
+    def get_text(self, prepend_code=True, translate=True):
+        msg = self._get_text(translate)
         msg = unicode(msg, 'utf-8') % self.args
 
         if prepend_code:

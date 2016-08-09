@@ -26,8 +26,7 @@ def ascii_dict(base, overlay=None):
     result.update(overlay or {})
 
     for key, value in result.iteritems():
-        if isinstance(value, unicode):
-            result[key] = str(value.decode('utf-8'))
+        result[key] = encode_value(value)
 
     return result
 
@@ -37,8 +36,7 @@ def utf8_dict(base, overlay=None):
     result.update(overlay or {})
 
     for key, value in result.iteritems():
-        if isinstance(value, unicode):
-            result[key] = value.encode('utf-8')
+        result[key] = decode_value(value)
 
     return result
 

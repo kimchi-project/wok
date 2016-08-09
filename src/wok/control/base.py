@@ -31,7 +31,6 @@ from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
 from wok.control.utils import validate_params
 from wok.exception import InvalidOperation, UnauthorizedError, WokException
-from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
 from wok.stringutils import encode_value, utf8_dict
 from wok.utils import get_plugin_from_request, wok_log
@@ -156,10 +155,10 @@ class Resource(object):
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
-                msg = WokMessage(code, reqParams).get_text(prepend_code=False)
                 RequestRecord(
-                    msg,
+                    reqParams,
                     app=get_plugin_from_request(),
+                    msgCode=code,
                     req=method,
                     status=status,
                     user=cherrypy.session.get(USER_NAME, 'N/A'),
@@ -216,10 +215,10 @@ class Resource(object):
             # log request
             if method not in LOG_DISABLED_METHODS:
                 code = self.getRequestMessage(method)
-                msg = WokMessage(code, self.log_args)
                 RequestRecord(
-                    msg.get_text(prepend_code=False),
+                    self.log_args,
                     app=get_plugin_from_request(),
+                    msgCode=code,
                     req=method,
                     status=status,
                     user=cherrypy.session.get(USER_NAME, 'N/A'),
@@ -455,10 +454,10 @@ class Collection(object):
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
-                msg = WokMessage(code, reqParams).get_text(prepend_code=False)
                 RequestRecord(
-                    msg,
+                    reqParams,
                     app=get_plugin_from_request(),
+                    msgCode=code,
                     req=method,
                     status=status,
                     user=cherrypy.session.get(USER_NAME, 'N/A'),

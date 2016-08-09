@@ -32,7 +32,6 @@ from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request
 from wok.exception import MissingParameter
-from wok.message import WokMessage
 from wok.reqlogger import RequestRecord
 
 
@@ -161,13 +160,13 @@ class WokRoot(Root):
 
         try:
             params = parse_request()
-            msg = WokMessage(code, params).get_text(prepend_code=False)
             username = params['username']
             password = params['password']
         except KeyError, item:
             RequestRecord(
-                msg,
+                params,
                 app=app,
+                msgCode=code,
                 req=method,
                 status=400,
                 user='N/A',
@@ -185,8 +184,9 @@ class WokRoot(Root):
             raise
         finally:
             RequestRecord(
-                msg,
+                params,
                 app=app,
+                msgCode=code,
                 req=method,
                 status=status,
                 user='N/A',
@@ -200,14 +200,14 @@ class WokRoot(Root):
         method = 'POST'
         code = self.getRequestMessage(method, 'logout')
         params = {'username': cherrypy.session.get(auth.USER_NAME, 'N/A')}
-        msg = WokMessage(code, params).get_text(prepend_code=False)
         ip = cherrypy.request.remote.ip
 
         auth.logout()
 
         RequestRecord(
-            msg,
+            params,
             app='wok',
+            msgCode=code,
             req=method,
             status=200,
             user=params['username'],

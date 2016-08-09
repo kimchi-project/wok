@@ -30,6 +30,7 @@ from tempfile import NamedTemporaryFile
 
 from wok.config import config, get_log_download_path
 from wok.exception import InvalidParameter, OperationFailed
+from wok.message import WokMessage
 from wok.stringutils import ascii_dict
 from wok.utils import remove_old_files
 
@@ -55,6 +56,7 @@ SECONDS_PER_HOUR = 360
 TS_DATE_FORMAT = "%Y-%m-%d"
 TS_TIME_FORMAT = "%H:%M:%S"
 TS_ZONE_FORMAT = "%Z"
+UNSAFE_REQUEST_PARAMETERS = ['password', 'passwd']
 
 # Log handler setup
 REQUEST_LOG_FILE = "wok-req.log"
@@ -112,6 +114,16 @@ class RequestParser(object):
 
         return LOG_DOWNLOAD_URI % os.path.basename(fd.name)
 
+    def getTranslatedMessage(self, record, params):
+        code = record.get('msgCode', '')
+        app = record.get('app', 'wok')
+        plugin = None
+        if app != 'wok':
+            plugin = "/plugins/%s" % app
+
+        msg = WokMessage(code, params, plugin)
+        return msg.get_text(prepend_code=False, translate=True)
+
     def getRecords(self):
         records = self.getRecordsFromFile(self.baseFile)
 
@@ -140,7 +152,17 @@ class RequestParser(object):
                     data = line.split(">>>")
                     if len(data) > 1:
                         record = json.JSONDecoder().decode(data[0])
-                        record['message'] = data[1].strip()
+
+                        if len(data) > 2:
+                            # new log format: translate message on the fly
+                            params = json.JSONDecoder().decode(data[1])
+                            msg = self.getTranslatedMessage(record, params)
+                        else:
+                            # make it compatible with v2.2 log files, which
+                            # messages are already translated
+                            msg = data[1].strip()
+
+                        record['message'] = msg
                         records.append(record)
 
                     line = f.readline()
@@ -181,19 +203,32 @@ class RequestParser(object):
 
 
 class RequestRecord(object):
-    def __init__(self, message, **kwargs):
-        self.message = message
-        self.kwargs = kwargs
+    def __init__(self, msgParams, **kwargs):
+        # log record data
+        self.logData = kwargs
+
+        # data for message translation
+        self.code = self.logData['msgCode']
+        self.params = self.getSafeReqParams(msgParams)
 
         # register timestamp in local time
         timestamp = time.localtime()
-        self.kwargs['date'] = time.strftime(TS_DATE_FORMAT, timestamp)
-        self.kwargs['time'] = time.strftime(TS_TIME_FORMAT, timestamp)
-        self.kwargs['zone'] = time.strftime(TS_ZONE_FORMAT, timestamp)
+        self.logData['date'] = time.strftime(TS_DATE_FORMAT, timestamp)
+        self.logData['time'] = time.strftime(TS_TIME_FORMAT, timestamp)
+        self.logData['zone'] = time.strftime(TS_ZONE_FORMAT, timestamp)
+
+    def getSafeReqParams(self, params):
+        result = params.copy()
+        for param in UNSAFE_REQUEST_PARAMETERS:
+            result.pop(param, None)
+        return result
 
     def __str__(self):
-        info = json.JSONEncoder().encode(self.kwargs)
-        return '%s >>> %s' % (info, self.message)
+        msg = WokMessage(self.code, self.params)
+        msgText = msg.get_text(prepend_code=False, translate=False)
+        logData = json.JSONEncoder().encode(self.logData)
+        msgParams = json.JSONEncoder().encode(self.params)
+        return '%s >>> %s >>> %s' % (logData, msgParams, msgText)
 
     def log(self):
         reqLogger = logging.getLogger(WOK_REQUEST_LOGGER)

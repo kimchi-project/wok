@@ -22,6 +22,7 @@
 import cherrypy
 import gettext
 
+from wok.stringutils import decode_value
 from wok.template import get_lang, validate_language
 
 
@@ -36,7 +37,7 @@ class WokMessage(object):
 
             try:
                 # In case the value formats itself to an ascii string.
-                args[key] = unicode(str(value), 'utf-8')
+                args[key] = decode_value(value)
             except UnicodeEncodeError:
                 # In case the value is a WokException or it formats
                 # itself to a unicode string.
@@ -85,7 +86,7 @@ class WokMessage(object):
 
     def get_text(self, prepend_code=True, translate=True):
         msg = self._get_text(translate)
-        msg = unicode(msg, 'utf-8') % self.args
+        msg = decode_value(msg) % self.args
 
         if prepend_code:
             return "%s: %s" % (self.code, msg)

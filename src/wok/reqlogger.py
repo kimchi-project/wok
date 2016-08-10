@@ -114,7 +114,7 @@ class RequestParser(object):
 
         return LOG_DOWNLOAD_URI % os.path.basename(fd.name)
 
-    def getTranslatedMessage(self, record, params):
+    def getTranslatedMessage(self, record, params, detParams):
         code = record.get('msgCode', '')
         app = record.get('app', 'wok')
         plugin = None
@@ -122,7 +122,14 @@ class RequestParser(object):
             plugin = "/plugins/%s" % app
 
         msg = WokMessage(code, params, plugin)
-        return msg.get_text(prepend_code=False, translate=True)
+        text = msg.get_text(prepend_code=False, translate=True)
+
+        detCode = record.get('detCode', '')
+        if detCode:
+            msg = WokMessage(detCode, detParams, plugin)
+            text += ' ' + msg.get_text(prepend_code=True, translate=True)
+
+        return text
 
     def getRecords(self):
         records = self.getRecordsFromFile(self.baseFile)
@@ -156,7 +163,14 @@ class RequestParser(object):
                         if len(data) > 2:
                             # new log format: translate message on the fly
                             params = json.JSONDecoder().decode(data[1])
-                            msg = self.getTranslatedMessage(record, params)
+                            detParams = None
+
+                            # has original exception details
+                            if len(data) > 3:
+                                detParams = json.JSONDecoder().decode(data[2])
+
+                            msg = self.getTranslatedMessage(record, params,
+                                                            detParams)
                         else:
                             # make it compatible with v2.2 log files, which
                             # messages are already translated
@@ -203,9 +217,10 @@ class RequestParser(object):
 
 
 class RequestRecord(object):
-    def __init__(self, msgParams, **kwargs):
+    def __init__(self, msgParams, details, **kwargs):
         # log record data
         self.logData = kwargs
+        self.details = details
 
         # data for message translation
         self.code = self.logData['msgCode']
@@ -224,11 +239,19 @@ class RequestRecord(object):
         return result
 
     def __str__(self):
+        # original exception details
+        details = ''
+        if self.details:
+            self.logData['detCode'] = self.details.code
+            details = ">>> %s" % json.JSONEncoder().encode(self.details.params)
+
+        # request log message
         msg = WokMessage(self.code, self.params)
         msgText = msg.get_text(prepend_code=False, translate=False)
         logData = json.JSONEncoder().encode(self.logData)
         msgParams = json.JSONEncoder().encode(self.params)
-        return '%s >>> %s >>> %s' % (logData, msgParams, msgText)
+
+        return '%s >>> %s %s >>> %s' % (logData, msgParams, details, msgText)
 
     def log(self):
         reqLogger = logging.getLogger(WOK_REQUEST_LOGGER)

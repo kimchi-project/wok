@@ -30,6 +30,7 @@ class WokException(Exception):
             args = {}
         self.httpStatusCode = 500
         self.code = code
+        self.params = args
         msg = WokMessage(code, args).get_text()
         cherrypy.log.error_log.error(msg)
         Exception.__init__(self, msg)

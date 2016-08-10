@@ -83,9 +83,5 @@ class APITests(unittest.TestCase):
         records = conf.get('records', [])
         self.assertGreaterEqual(records, 1)
         for record in records:
-            keys = [u'zone', u'ip', u'app', u'req', u'user', u'time', u'date',
-                    u'message', u'msgCode', u'status']
-            self.assertEquals(sorted(keys), sorted(record.keys()))
-
             # Test search by app
             self.assertEquals(record['app'], 'wok')

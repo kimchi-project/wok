@@ -119,6 +119,7 @@ class Resource(object):
         def wrapper(*args, **kwargs):
             # status must be always set in order to request be logged.
             # use 500 as fallback for "exception not handled" cases.
+            details = None
             status = 500
 
             method = 'POST'
@@ -149,6 +150,7 @@ class Resource(object):
                     status = cherrypy.response.status
                     return result
             except WokException, e:
+                details = e
                 status = e.getHttpStatusCode()
                 raise cherrypy.HTTPError(status, e.message)
             finally:
@@ -157,6 +159,7 @@ class Resource(object):
                 reqParams = utf8_dict(self.log_args, request)
                 RequestRecord(
                     reqParams,
+                    details,
                     app=get_plugin_from_request(),
                     msgCode=code,
                     req=method,
@@ -190,6 +193,7 @@ class Resource(object):
     def index(self, *args, **kargs):
         # status must be always set in order to request be logged.
         # use 500 as fallback for "exception not handled" cases.
+        details = None
         status = 500
 
         method = validate_method(('GET', 'DELETE', 'PUT'),
@@ -206,6 +210,7 @@ class Resource(object):
 
             status = cherrypy.response.status
         except WokException, e:
+            details = e
             status = e.getHttpStatusCode()
             raise cherrypy.HTTPError(status, e.message)
         except cherrypy.HTTPError, e:
@@ -217,6 +222,7 @@ class Resource(object):
                 code = self.getRequestMessage(method)
                 RequestRecord(
                     self.log_args,
+                    details,
                     app=get_plugin_from_request(),
                     msgCode=code,
                     req=method,
@@ -427,6 +433,7 @@ class Collection(object):
     def index(self, *args, **kwargs):
         # status must be always set in order to request be logged.
         # use 500 as fallback for "exception not handled" cases.
+        details = None
         status = 500
 
         params = {}
@@ -444,6 +451,7 @@ class Collection(object):
                 status = cherrypy.response.status
                 return result
         except WokException, e:
+            details = e
             status = e.getHttpStatusCode()
             raise cherrypy.HTTPError(status, e.message)
         except cherrypy.HTTPError, e:
@@ -456,6 +464,7 @@ class Collection(object):
                 reqParams = utf8_dict(self.log_args, params)
                 RequestRecord(
                     reqParams,
+                    details,
                     app=get_plugin_from_request(),
                     msgCode=code,
                     req=method,

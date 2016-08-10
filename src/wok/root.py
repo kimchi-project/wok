@@ -153,6 +153,7 @@ class WokRoot(Root):
 
     @cherrypy.expose
     def login(self, *args):
+        details = None
         method = 'POST'
         code = self.getRequestMessage(method, 'login')
         app = 'wok'
@@ -163,8 +164,11 @@ class WokRoot(Root):
             username = params['username']
             password = params['password']
         except KeyError, item:
+            details = e = MissingParameter('WOKAUTH0003E', {'item': str(item)})
+
             RequestRecord(
                 params,
+                details,
                 app=app,
                 msgCode=code,
                 req=method,
@@ -173,7 +177,6 @@ class WokRoot(Root):
                 ip=ip
             ).log()
 
-            e = MissingParameter('WOKAUTH0003E', {'item': str(item)})
             raise cherrypy.HTTPError(400, e.message)
 
         try:
@@ -185,6 +188,7 @@ class WokRoot(Root):
         finally:
             RequestRecord(
                 params,
+                details,
                 app=app,
                 msgCode=code,
                 req=method,
@@ -206,6 +210,7 @@ class WokRoot(Root):
 
         RequestRecord(
             params,
+            None,
             app='wok',
             msgCode=code,
             req=method,

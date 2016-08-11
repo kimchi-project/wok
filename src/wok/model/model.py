@@ -19,12 +19,9 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
-import inspect
-import os
-
 from wok.basemodel import BaseModel
 from wok.objectstore import ObjectStore
-from wok.utils import import_module, listPathModules
+from wok.utils import get_all_model_instances
 
 
 class Model(BaseModel):
@@ -32,20 +29,5 @@ class Model(BaseModel):
 
         self.objstore = ObjectStore(objstore_loc)
         kargs = {'objstore': self.objstore}
-
-        this = os.path.basename(__file__)
-        this_mod = os.path.splitext(this)[0]
-
-        models = []
-        for mod_name in listPathModules(os.path.dirname(__file__)):
-            if mod_name.startswith("_") or mod_name == this_mod:
-                continue
-
-            module = import_module('wok.model.' + mod_name)
-            members = inspect.getmembers(module, inspect.isclass)
-            for cls_name, instance in members:
-                if inspect.getmodule(instance) == module:
-                    if cls_name.endswith('Model'):
-                        models.append(instance(**kargs))
-
+        models = get_all_model_instances(__name__, __file__, kargs)
         return super(Model, self).__init__(models)

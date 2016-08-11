@@ -23,6 +23,7 @@
 import cherrypy
 import glob
 import grp
+import inspect
 import os
 import psutil
 import pwd
@@ -309,6 +310,68 @@ def listPathModules(path):
         if ext in ('.py', '.pyc', '.pyo'):
             modules.add(base)
     return sorted(modules)
+
+
+def get_model_instances(module_name):
+    instances = []
+    module = import_module(module_name)
+    members = inspect.getmembers(module, inspect.isclass)
+    for cls_name, instance in members:
+        if inspect.getmodule(instance) == module and \
+           cls_name.endswith('Model'):
+            instances.append(instance)
+    return instances
+
+
+def get_all_model_instances(root_model_name, root_model_file,
+                            kwargs):
+    """Function that returns all model instances from all modules
+    found on the same dir as root_model_name module.
+
+    The intended use of this function is to be called from a root
+    model class that subclasses BaseModel to get all model instances
+    contained in its dir. This module array would then be used in
+    the super init call of BaseModel.
+
+    The root model itself is ignored in the return array.
+
+    Args:
+        root_model_name (str): the python name of the root module. For
+            example, in WoK case it would be 'wok.model.model'. This
+            value can be retrieved by calling '__name__' inside the root
+            model file.
+
+        root_model_file (str): the absolute file name of the root model.
+            This can be retrived by calling '__file__' in the root model
+            file.
+
+        kwargs (dict): keyword arguments to be used to initiate the
+            models found. For example, {'objstore': ...}
+
+    Returns:
+        array: an array with all module instances found, excluding the
+            root module itself.
+
+    """
+    models = []
+
+    root_model = os.path.basename(root_model_file)
+    ignore_mod = os.path.splitext(root_model)[0]
+
+    package_namespace = root_model_name.rsplit('.', 1)[0]
+
+    for mod_name in listPathModules(os.path.dirname(root_model_file)):
+        if mod_name.startswith("_") or mod_name == ignore_mod:
+            continue
+
+        instances = get_model_instances(package_namespace + '.' + mod_name)
+        for instance in instances:
+            try:
+                models.append(instance(**kwargs))
+            except TypeError:
+                models.append(instance())
+
+    return models
 
 
 def run_setfacl_set_attr(path, attr="r", user=""):

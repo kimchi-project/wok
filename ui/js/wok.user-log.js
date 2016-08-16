@@ -104,13 +104,17 @@ wok.listUserLogConfig = function() {
       "column-id": 'zone',
       "converter": 'string',
       "title": i18n['WOKSETT0013M']
-    },
-    {
+    }, {
+      "column-id": 'status',
+      "converter": 'string',
+      "width": "7%",
+      "title": i18n['WOKSETT0015M']
+    }, {
       "column-id": 'message',
       "converter": 'string',
       "formatter": "settings-user-log-message",
       "sortable": false,
-      "width": "25%",
+      "width": "30%",
       "title": i18n['WOKSETT0006M']
     }
   ];
@@ -128,7 +132,34 @@ wok.initUserLogConfigGridData = function() {
   wok.hideBootgridData(wok.opts_user_log);
   wok.showBootgridLoading(wok.opts_user_log);
 
+  var labelStyle = function(status) {
+    var result = null;
+    if (status != undefined) {
+      var firstNumberOfStatus = status.toString().charAt(0);
+      result = {
+        labelColor: "",
+        labelIcon: ""
+      };
+      switch(firstNumberOfStatus) {
+        case "1":
+        case "2": result.labelColor = 'label label-info'; result.labelIcon = 'fa fa-check fa-2'; break;
+        case "3": result.labelColor = 'label label-warning'; result.labelIcon = 'fa fa-times fa-2'; break;
+        case "4":
+        case "5": result.labelColor = 'label label-danger'; result.labelIcon = 'fa fa-times fa-2'; break;
+      }
+    }
+    return result;
+  }
+
   wok.getUserLogs(function(result) {
+    $.each(result, function(index, log){
+      var statusLabel = labelStyle(log.status);
+      if (statusLabel != null) {
+        log.status = "<span class='" + statusLabel.labelColor + "'><i class='" + statusLabel.labelIcon + "' aria-hidden='true'></i> " + log.status + "</span> ";
+      } else {
+        log.status = "";
+      }
+    })
     wok.loadBootgridData(wok.opts_user_log['gridId'], result);
     wok.showBootgridData(wok.opts_user_log);
     wok.hideBootgridLoading(wok.opts_user_log);

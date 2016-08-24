@@ -16,8 +16,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = plugins
-
-datatablesjsdir = $(datadir)/wok/ui/libs/datatables/js
-
-dist_datatablesjs_DATA = $(wildcard *.js) $(NULL)
+SUBDIRS = ip-address

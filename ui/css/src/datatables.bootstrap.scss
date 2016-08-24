@@ -105,6 +105,10 @@ div.dataTables_wrapper {
         }
     }
 
+    div.datatable-footer {
+        margin: 15px 0;
+    }
+
     div.dataTables_info {
         padding-top: 8px;
         white-space: nowrap;
@@ -204,6 +208,9 @@ table.dataTable tfoot {
     display: none; // Wok doesn't have tfoot on tables
 }
 
+table.dataTable tbody td.tabular-data {
+    font-feature-settings: "tnum";
+}
 
 // Scrolling
 div.dataTables_scrollHead table.dataTable {
@@ -217,6 +224,7 @@ div.dataTables_scrollBody {
         margin-bottom: 0 !important;
 
         thead { // Hide sort icons
+            .sorting:before,
             .sorting:after,
             .sorting_asc:after,
             .sorting_desc:after {

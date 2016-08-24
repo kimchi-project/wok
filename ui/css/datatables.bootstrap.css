@@ -79,6 +79,10 @@ div.dataTables_wrapper div.dataTables_filter .form-control {
   height: 34px;
 }
 
+div.dataTables_wrapper div.datatable-footer {
+  margin: 15px 0;
+}
+
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 8px;
   white-space: nowrap;
@@ -183,6 +187,10 @@ table.dataTable tfoot {
   display: none;
 }
 
+table.dataTable tbody td.tabular-data {
+  font-feature-settings: "tnum";
+}
+
 div.dataTables_scrollHead table.dataTable {
   margin-bottom: 0 !important;
 }
@@ -193,6 +201,7 @@ div.dataTables_scrollBody table {
   margin-bottom: 0 !important;
 }
 
+div.dataTables_scrollBody table thead .sorting:before,
 div.dataTables_scrollBody table thead .sorting:after,
 div.dataTables_scrollBody table thead .sorting_asc:after,
 div.dataTables_scrollBody table thead .sorting_desc:after {

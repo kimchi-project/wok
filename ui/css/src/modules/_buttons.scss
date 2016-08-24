@@ -43,3 +43,12 @@
 .btn-login {
   @include button-variant($btn-login-color, $btn-login-bg, $btn-login-border);
 }
+
+.btn-group > span > .btn {
+	@include button-variant($btn-primary-color, $kimchi-dropdown, $kimchi-dropdown);
+	font-weight: 700;
+  font-size: $font-size-btn;
+	background: $kimchi-dropdown;
+  height: 40px;
+  padding: 4px 12px;
+}

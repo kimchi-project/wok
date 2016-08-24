@@ -477,6 +477,88 @@ fieldset[disabled] .btn-login.active {
   background-color: #fff;
 }
 
+.btn-group > span > .btn {
+  color: #fff;
+  background-color: #4d4c4e;
+  border-color: #4d4c4e;
+  font-weight: 700;
+  font-size: 13.5pt;
+  background: #4d4c4e;
+  height: 40px;
+  padding: 4px 12px;
+}
+
+.btn-group > span > .btn:focus, .btn-group > span > .btn.focus {
+  color: #fff;
+  background-color: #343334;
+  border-color: #0d0d0d;
+}
+
+.btn-group > span > .btn:hover {
+  color: #fff;
+  background-color: #343334;
+  border-color: #2e2e2f;
+}
+
+.btn-group > span > .btn:active, .btn-group > span > .btn.active,
+.open > .btn-group > span > .btn.dropdown-toggle {
+  color: #fff;
+  background-color: #343334;
+  border-color: #2e2e2f;
+}
+
+.btn-group > span > .btn:active:hover, .btn-group > span > .btn:active:focus, .btn-group > span > .btn:active.focus, .btn-group > span > .btn.active:hover, .btn-group > span > .btn.active:focus, .btn-group > span > .btn.active.focus,
+.open > .btn-group > span > .btn.dropdown-toggle:hover,
+.open > .btn-group > span > .btn.dropdown-toggle:focus,
+.open > .btn-group > span > .btn.dropdown-toggle.focus {
+  color: #fff;
+  background-color: #222122;
+  border-color: #0d0d0d;
+}
+
+.btn-group > span > .btn:active, .btn-group > span > .btn.active,
+.open > .btn-group > span > .btn.dropdown-toggle {
+  background-image: none;
+}
+
+.btn-group > span > .btn.disabled, .btn-group > span > .btn.disabled:hover, .btn-group > span > .btn.disabled:focus, .btn-group > span > .btn.disabled.focus, .btn-group > span > .btn.disabled:active, .btn-group > span > .btn.disabled.active, .btn-group > span > .btn[disabled], .btn-group > span > .btn[disabled]:hover, .btn-group > span > .btn[disabled]:focus, .btn-group > span > .btn[disabled].focus, .btn-group > span > .btn[disabled]:active, .btn-group > span > .btn[disabled].active,
+fieldset[disabled] .btn-group > span > .btn,
+fieldset[disabled] .btn-group > span > .btn:hover,
+fieldset[disabled] .btn-group > span > .btn:focus,
+fieldset[disabled] .btn-group > span > .btn.focus,
+fieldset[disabled] .btn-group > span > .btn:active,
+fieldset[disabled] .btn-group > span > .btn.active {
+  background-color: #4d4c4e;
+  border-color: #4d4c4e;
+}
+
+.btn-group > span > .btn .badge {
+  color: #4d4c4e;
+  background-color: #fff;
+}
+
+.btn-group > .menu-flat.dropdown,
+.btn-group > .menu-flat.dropup {
+  display: inline-block;
+}
+
+.btn-group > .menu-flat.dropdown.hidden,
+.btn-group > .menu-flat.dropup.hidden {
+  display: none;
+}
+
+.btn-group > .menu-flat .btn,
+.btn-group > .menu-flat .dropdown-menu {
+  min-width: 130px !important;
+}
+
+.btn-group > .menu-flat[class*="action"] .btn,
+.btn-group > .menu-flat[class*="action"] .dropdown-menu,
+.btn-group > .menu-flat[class*="actions"] .btn,
+.btn-group > .menu-flat[class*="actions"] .dropdown-menu {
+  min-width: 160px !important;
+}
+
 .menu-flat .btn {
   background: #4d4c4e !important;
   min-width: 160px;
@@ -484,9 +566,10 @@ fieldset[disabled] .btn-login.active {
   font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 700;
   font-size: 13.5pt;
+  text-align: left;
   position: relative;
   height: 40px;
-  padding: 4px 45px 5px 38px;
+  padding: 4px 45px 5px 45px;
 }
 
 .menu-flat .btn > i {
@@ -501,11 +584,16 @@ fieldset[disabled] .btn-login.active {
   left: 6px;
 }
 
+.menu-flat .btn > i:first-child {
+  left: 12px;
+  text-align: center;
+}
+
 .menu-flat .btn > i:before {
   line-height: 40px;
 }
 
-.menu-flat .btn .edit-alt {
+.menu-flat .btn span.edit-alt {
   background: transparent url("/images/theme-default/edit-alt.svg") no-repeat 50% 50%;
   background-size: 100%;
   vertical-align: bottom;
@@ -540,7 +628,7 @@ fieldset[disabled] .btn-login.active {
   text-decoration: inherit;
   width: 1.2em;
   height: 1.2em;
-  margin: .5em;
+  margin: .5em .85em;
   text-align: center;
   font-variant: normal;
   text-transform: none;
@@ -686,13 +774,13 @@ fieldset[disabled] .btn-login.active {
 }
 
 .dropdown-menu-right {
-  left: auto;
-  right: 0;
+  left: auto !important;
+  right: 0 !important;
 }
 
 .dropdown-menu-left {
-  left: 0;
-  right: auto;
+  left: 0 !important;
+  right: auto !important;
 }
 
 .dropdown-header {

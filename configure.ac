@@ -145,6 +145,8 @@ AC_CONFIG_FILES([
     ui/libs/moment/Makefile
     ui/libs/datatables/Makefile
     ui/libs/datatables/js/Makefile
+    ui/libs/datatables/js/plugins/Makefile
+    ui/libs/datatables/js/plugins/ip-address/Makefile
     ui/libs/datatables/css/Makefile
     ui/libs/typeahead/Makefile
     ui/pages/Makefile

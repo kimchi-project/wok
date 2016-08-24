@@ -21,6 +21,30 @@
 // Menu-Flat Drop-Down
 // --------------------------------------------------
 // Dropdown arrow/caret
+
+.btn-group > .menu-flat.dropdown,
+.btn-group > .menu-flat.dropup {
+    display: inline-block;
+    &.hidden {
+        display: none;
+    }
+}
+
+.btn-group > .menu-flat {
+    .btn,
+    .dropdown-menu {
+        min-width: 130px !important;
+    }
+}
+
+.btn-group > .menu-flat[class*="action"],
+.btn-group > .menu-flat[class*="actions"] {
+    .btn,
+    .dropdown-menu {
+        min-width: 160px !important;
+    }
+}
+
 .menu-flat {
     .btn {
         background: $kimchi-dropdown !important;
@@ -29,9 +53,10 @@
         font-family: $font-family-bold;
         font-weight: 700;
         font-size: $font-size-btn;
+        text-align: left;
         position: relative;
         height: 40px;
-        padding: 4px 45px 5px 38px;
+        padding: 4px 45px 5px 45px;
         & > i {
             font-size: 22px;
             vertical-align: bottom;
@@ -43,10 +68,15 @@
             top: 0;
             left: 6px;
         }
+        // This rule will allow to use different icons for the drop-down button instead of the default .edit-alt class
+        & > i:first-child {
+            left: 12px;
+            text-align: center;
+        }
         & > i:before {
             line-height: 40px;
         }
-        .edit-alt {
+        span.edit-alt {
             background: transparent url('#{$wok-icon-path}/edit-alt.svg') no-repeat 50% 50%;
             background-size: 100%;
             vertical-align: bottom;
@@ -79,7 +109,7 @@
             text-decoration: inherit;
             width: 1.2em;
             height: 1.2em;
-            margin: .5em;
+            margin: .5em .85em;
             text-align: center;
             font-variant: normal;
             text-transform: none;
@@ -237,8 +267,8 @@
 // Add extra class to `.dropdown-menu` to flip the alignment of the dropdown
 // menu with the parent.
 .dropdown-menu-right {
-    left: auto; // Reset the default from `.dropdown-menu`
-    right: 0;
+    left: auto !important; // Reset the default from `.dropdown-menu`
+    right: 0 !important;
 }
 
 // With v3, we enabled auto-flipping if you have a dropdown within a right
@@ -248,8 +278,8 @@
 // This is only for left-aligning a dropdown menu within a `.navbar-right` or
 // `.pull-right` nav component.
 .dropdown-menu-left {
-    left: 0;
-    right: auto;
+    left: 0 !important;
+    right: auto !important;
 }
 
 // Dropdown section headers

@@ -35,7 +35,7 @@ wok.initCompleteDataTableCallback = function(e) {
 
 $.extend( true, $.fn.dataTable.defaults, {
     "sPaginationType": "full_numbers",
-    "dom": '<"row"<"col-sm-12 filter"<"pull-right"l><"pull-right"f>>><"row"<"col-sm-12"t>><"row"<"col-sm-6 pages"p><"col-sm-6 info"i>>',
+    "dom": '<"row"<"col-sm-12 filter"<"pull-right"l><"pull-right"f>>><"row"<"col-sm-12"t>><"row datatable-footer"<"col-sm-6 pages"p><"col-sm-6 info"i>>',
     "initComplete": function(settings, json) {
         wok.initCompleteDataTableCallback(settings);
     }

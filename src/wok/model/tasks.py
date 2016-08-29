@@ -22,7 +22,8 @@
 
 import time
 
-from wok.exception import TimeoutExpired
+from wok.asynctask import tasks_queue
+from wok.exception import NotFoundError, TimeoutExpired
 
 
 class TasksModel(object):
@@ -30,8 +31,7 @@ class TasksModel(object):
         self.objstore = kargs['objstore']
 
     def get_list(self):
-        with self.objstore as session:
-            return session.get_list('task')
+        return tasks_queue.keys()
 
 
 class TaskModel(object):
@@ -39,8 +39,13 @@ class TaskModel(object):
         self.objstore = kargs['objstore']
 
     def lookup(self, id):
-        with self.objstore as session:
-            return session.get('task', str(id))
+        if id not in tasks_queue.keys():
+            raise NotFoundError('WOKASYNC0001E', {'id': id})
+        task = tasks_queue[id]
+        return {'id': id,
+                'status': task.status,
+                'message': task.message,
+                'target_uri': task.target_uri}
 
     def wait(self, id, timeout=10):
         """Wait for a task until it stops running (successfully or due to
@@ -54,13 +59,12 @@ class TaskModel(object):
             "TimeoutExpired" is raised.
         """
         for i in range(0, timeout):
-            with self.objstore as session:
-                task = session.get('task', str(id))
+            task = tasks_queue[id]
 
-            if task['status'] != 'running':
+            if task.status != 'running':
                 return
 
             time.sleep(1)
 
         raise TimeoutExpired('WOKASYNC0003E', {'seconds': timeout,
-                                               'task': task['target_uri']})
+                                               'task': task.target_uri})

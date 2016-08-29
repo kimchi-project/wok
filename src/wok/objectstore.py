@@ -107,18 +107,12 @@ class ObjectStore(object):
         c.execute('''SELECT * FROM sqlite_master WHERE type='table' AND
                      tbl_name='objects'; ''')
         res = c.fetchall()
-        # Because the tasks are regarded as temporary resource, the task states
-        # are purged every time the daemon startup
         if len(res) == 0:
             c.execute('''CREATE TABLE objects
                       (id TEXT, type TEXT, json TEXT, version TEXT,
                       PRIMARY KEY (id, type))''')
             conn.commit()
             return
-
-        # Clear out expired objects from a previous session
-        c.execute('''DELETE FROM objects WHERE type = 'task'; ''')
-        conn.commit()
 
     def _get_conn(self):
         ident = threading.currentThread().ident

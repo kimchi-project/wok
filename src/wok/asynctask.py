@@ -21,29 +21,41 @@
 
 import cherrypy
 import threading
+import time
 import traceback
+import uuid
 
 
-from wok.exception import OperationFailed
+tasks_queue = {}
+
+
+def clean_old_tasks():
+    """
+    Remove from tasks_queue any task that started before 12 hours ago and has
+    current status equal do finished or failed.
+    """
+    for id, task in tasks_queue.items():
+        if (task.timestamp < (time.time()-43200)):
+            if (task.status is 'finished') or (task.status is 'failed'):
+                task.remove()
 
 
 class AsyncTask(object):
-    def __init__(self, id, target_uri, fn, objstore, opaque=None):
-        if objstore is None:
-            raise OperationFailed("WOKASYNC0001E")
-
-        self.id = str(id)
+    def __init__(self, target_uri, fn, opaque=None):
+        self.id = str(uuid.uuid1())
         self.target_uri = target_uri
         self.fn = fn
-        self.objstore = objstore
         self.status = 'running'
-        self.message = 'OK'
-        self._save_helper()
+        self.message = 'The request is being processing.'
+        self.timestamp = time.time()
         self._cp_request = cherrypy.serving.request
         self.thread = threading.Thread(target=self._run_helper,
                                        args=(opaque, self._status_cb))
         self.thread.setDaemon(True)
         self.thread.start()
+        # let's prevent memory leak in tasks_queue
+        clean_old_tasks()
+        tasks_queue[self.id] = self
 
     def _status_cb(self, message, success=None):
         if success is not None:
@@ -51,17 +63,6 @@ class AsyncTask(object):
 
         if message.strip():
             self.message = message
-            self._save_helper()
-
-    def _save_helper(self):
-        obj = {}
-        for attr in ('id', 'target_uri', 'message', 'status'):
-            obj[attr] = getattr(self, attr)
-        try:
-            with self.objstore as session:
-                session.store('task', self.id, obj)
-        except Exception as e:
-            raise OperationFailed('WOKASYNC0002E', {'err': e.message})
 
     def _run_helper(self, opaque, cb):
         cherrypy.serving.request = self._cp_request
@@ -71,3 +72,10 @@ class AsyncTask(object):
             cherrypy.log.error_log.error("Error in async_task %s " % self.id)
             cherrypy.log.error_log.error(traceback.format_exc())
             cb(e.message, False)
+
+    def remove(self):
+        try:
+            del tasks_queue[self.id]
+        except KeyError:
+            msg = "There's no task_id %s in tasks_queue. Nothing changed."
+            cherrypy.log.error_log.error(msg % self.id)

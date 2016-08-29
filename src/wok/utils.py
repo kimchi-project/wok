@@ -39,31 +39,12 @@ from datetime import datetime, timedelta
 from multiprocessing import Process, Queue
 from threading import Timer
 
-from wok.asynctask import AsyncTask
 from wok.config import paths, PluginPaths
 from wok.exception import InvalidParameter, TimeoutExpired
 from wok.stringutils import decode_value
 
 
 wok_log = cherrypy.log.error_log
-task_id = 0
-
-
-def get_next_task_id():
-    global task_id
-    task_id += 1
-    return task_id
-
-
-def get_task_id():
-    global task_id
-    return task_id
-
-
-def add_task(target_uri, fn, objstore, opaque=None):
-    id = get_next_task_id()
-    AsyncTask(id, target_uri, fn, objstore, opaque)
-    return id
 
 
 def is_digit(value):

@@ -33,8 +33,6 @@ messages = {
     "WOKAPI0008E": _("Parameters does not match requirement in schema: %(err)s"),
     "WOKAPI0009E": _("You don't have permission to perform this operation."),
 
-    "WOKASYNC0001E": _("Datastore is not initiated in the model object."),
-    "WOKASYNC0002E": _("Unable to start task due error: %(err)s"),
     "WOKASYNC0003E": _("Timeout of %(seconds)s seconds expired while running task '%(task)s."),
 
     "WOKAUTH0001E": _("Authentication failed for user '%(username)s'. [Error code: %(code)s]"),

@@ -26,6 +26,9 @@ import traceback
 import uuid
 
 
+from wok.exception import InvalidOperation, OperationFailed
+
+
 tasks_queue = {}
 
 
@@ -41,10 +44,11 @@ def clean_old_tasks():
 
 
 class AsyncTask(object):
-    def __init__(self, target_uri, fn, opaque=None):
+    def __init__(self, target_uri, fn, opaque=None, kill_cb=None):
         self.id = str(uuid.uuid1())
         self.target_uri = target_uri
         self.fn = fn
+        self.kill_cb = kill_cb
         self.status = 'running'
         self.message = 'The request is being processing.'
         self.timestamp = time.time()
@@ -79,3 +83,15 @@ class AsyncTask(object):
         except KeyError:
             msg = "There's no task_id %s in tasks_queue. Nothing changed."
             cherrypy.log.error_log.error(msg % self.id)
+
+    def kill(self):
+        if self.kill_cb is None:
+            raise InvalidOperation('WOKASYNC0002E')
+
+        try:
+            self.kill_cb()
+            self.status = 'killed'
+            self.message = 'Task killed by user.'
+        except Exception, e:
+            self.message = e.message
+            raise OperationFailed('WOKASYNC0004E', {'err': e.message})

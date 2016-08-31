@@ -18,11 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import json
+import time
 import unittest
-from functools import partial
-
 import utils
 
+from functools import partial
+
+from wok.asynctask import AsyncTask
 
 test_server = None
 model = None
@@ -85,3 +87,23 @@ class APITests(unittest.TestCase):
         for record in records:
             # Test search by app
             self.assertEquals(record['app'], 'wok')
+
+    def test_kill_async_task(self):
+        def continuous_ops(cb, params):
+            for i in range(30):
+                cb("...step %s OK" % i)
+                time.sleep(2)
+            cb("FINAL step OK", params.get('result', True))
+
+        def kill_function():
+            print "... killing task...... BUUUUUUM"
+
+        taskid = AsyncTask('', continuous_ops, {'result': True},
+                           kill_function).id
+        tasks = json.loads(self.request('/tasks').read())
+        self.assertLessEqual(1, len(tasks))
+        time.sleep(10)
+        resp = self.request('/tasks/%s' % taskid, '{}', 'DELETE')
+        self.assertEquals(204, resp.status)
+        task = json.loads(self.request('/tasks/%s' % taskid).read())
+        self.assertEquals('killed', task['status'])

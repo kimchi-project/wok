@@ -85,7 +85,7 @@ class AsyncTaskTests(unittest.TestCase):
         wait_task(self._task_lookup, taskid, timeout=10)
         self.assertEquals('finished', self._task_lookup(taskid)['status'])
 
-    def test_tasks_model(self):
+    def test_async_tasks_model(self):
         class task_except(Exception):
             pass
 
@@ -122,3 +122,20 @@ class AsyncTaskTests(unittest.TestCase):
         self.assertEquals('running', inst.task_lookup(taskid)['status'])
         inst.task_wait(taskid, timeout=10)
         self.assertEquals('finished', inst.task_lookup(taskid)['status'])
+
+    def test_kill_async_task(self):
+        def continuous_ops(cb, params):
+            for i in range(30):
+                cb("...step %s OK" % i)
+                time.sleep(2)
+            cb("FINAL step OK", params.get('result', True))
+
+        def kill_function():
+            print "... killing task...... BUUUUUUM"
+
+        taskid = AsyncTask('', continuous_ops, {'result': True},
+                           kill_function).id
+        self.assertEquals('running', self._task_lookup(taskid)['status'])
+        time.sleep(10)
+        tasks_queue[taskid].kill()
+        self.assertEquals('killed', self._task_lookup(taskid)['status'])

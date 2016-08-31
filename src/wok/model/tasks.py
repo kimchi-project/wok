@@ -68,3 +68,16 @@ class TaskModel(object):
 
         raise TimeoutExpired('WOKASYNC0003E', {'seconds': timeout,
                                                'task': task.target_uri})
+
+    def delete(self, id):
+        """
+        'Stops' an AsyncTask, by executing the kill callback provided by user
+        when created the task. Task's status will be changed to 'killed'.
+        """
+        try:
+            task = tasks_queue[id]
+        except KeyError:
+            raise NotFoundError("WOKASYNC0001E", {'id': id})
+
+        if task.status is 'running':
+            task.kill()

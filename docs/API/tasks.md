@@ -27,8 +27,10 @@ server.
         * running: The task is running
         * finished: The task has finished successfully
         * failed: The task failed
+        * killed: The task was killed by user
     * message: Human-readable details about the Task status
     * target_uri: Resource URI related to the Task
+* **DELETE**: Kill the Task, moving its status to 'killed'
 * **POST**: *See Task Actions*
 
 **Actions (POST):**

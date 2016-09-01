@@ -297,10 +297,8 @@ wok.main = function() {
      * 4) Log-out button click event
      * 5) About button click event
      * 6) Help button click event
-     * 7) Peers button click event
-     * 8) Start notifications loop
+     * 7) Start notifications loop
      */
-    var searchingPeers = false;
     var initListeners = function() {
         wok.topic('languageChanged').subscribe(onLanguageChanged);
         wok.topic('redirect').subscribe(onWokRedirect);
@@ -380,31 +378,6 @@ wok.main = function() {
 
         // Set handler for help button
         $('#btn-help').on('click', wok.openHelp);
-
-        // Set handler to peers drop down
-        $('#peers').on('click', function() {
-
-            // Check if any request is in progress
-            if ($('.dropdown', '#peers').is('.open') || searchingPeers == true)
-                return
-
-            $('#search-peers').show();
-            $('#no-peers').addClass('hide-content');
-            $('a', '#peers').remove();
-
-            searchingPeers = true;
-
-            kimchi.getPeers(function(data){
-                $('#search-peers').hide();
-                if (data.length == 0)
-                    $('#no-peers').removeClass('hide-content');
-
-                for(var i=0; i<data.length; i++){
-                    $('.dropdown-menu ', '#peers').append("<li><a href='"+data[i]+"' target='_blank'>"+data[i]+"</a></li>");
-                }
-                searchingPeers = false;
-            });
-        });
     };
 
     var initUI = function() {

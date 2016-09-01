@@ -1246,13 +1246,24 @@ label {
 }
 
 .form-control-feedback {
+  display: none;
   width: 16px;
   height: 16px;
 }
 
 .has-feedback label ~ .form-control-feedback {
+  display: block;
   top: 43px;
   margin-right: 10px;
+}
+
+.has-feedback .form-control {
+  padding-right: 12px;
+}
+
+.has-warning.has-feedback form-control,
+.has-error.has-feedback .form-control {
+  padding-right: 42.5px;
 }
 
 .has-feedback .form-control-feedback {

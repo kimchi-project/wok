@@ -25,10 +25,12 @@ import time
 import traceback
 import uuid
 
+from wok.exception import InvalidOperation, OperationFailed, WokException
+from wok.reqlogger import ASYNCTASK_REQUEST_METHOD, log_request
 
-from wok.exception import InvalidOperation, OperationFailed
 
-
+MSG_FAILED = 'WOKASYNC0002L'
+MSG_SUCCESS = 'WOKASYNC0001L'
 tasks_queue = {}
 
 
@@ -43,27 +45,58 @@ def clean_old_tasks():
                 task.remove()
 
 
+def save_request_log_id(log_id, task_id):
+    tasks_queue[task_id].log_id = log_id
+
+
 class AsyncTask(object):
     def __init__(self, target_uri, fn, opaque=None, kill_cb=None):
+        # task info
         self.id = str(uuid.uuid1())
         self.target_uri = target_uri
         self.fn = fn
         self.kill_cb = kill_cb
+        self.log_id = None
+        self.timestamp = time.time()
+
+        # log info - save info to log on task finish
+        self.app = ''
+        if cherrypy.request.app:
+            self.app = cherrypy.request.app.script_name
+
+        # task context
         self.status = 'running'
         self.message = 'The request is being processing.'
-        self.timestamp = time.time()
         self._cp_request = cherrypy.serving.request
         self.thread = threading.Thread(target=self._run_helper,
                                        args=(opaque, self._status_cb))
         self.thread.setDaemon(True)
         self.thread.start()
+
         # let's prevent memory leak in tasks_queue
         clean_old_tasks()
         tasks_queue[self.id] = self
 
-    def _status_cb(self, message, success=None):
+    def _log(self, code, status, exception=None):
+        log_request(
+            code,
+            {'target_uri': self.target_uri},
+            exception,
+            ASYNCTASK_REQUEST_METHOD,
+            status,
+            app=self.app,
+            user='',
+            ip=''
+        )
+
+    def _status_cb(self, message, success=None, exception=None):
         if success is not None:
-            self.status = 'finished' if success else 'failed'
+            if success:
+                self._log(MSG_SUCCESS, 200)
+                self.status = 'finished'
+            else:
+                self._log(MSG_FAILED, 400, exception)
+                self.status = 'failed'
 
         if message.strip():
             self.message = message
@@ -72,10 +105,14 @@ class AsyncTask(object):
         cherrypy.serving.request = self._cp_request
         try:
             self.fn(cb, opaque)
+        except WokException, e:
+            cherrypy.log.error_log.error("Error in async_task %s " % self.id)
+            cherrypy.log.error_log.error(traceback.format_exc())
+            cb(e.message, success=False, exception=e)
         except Exception, e:
             cherrypy.log.error_log.error("Error in async_task %s " % self.id)
             cherrypy.log.error_log.error(traceback.format_exc())
-            cb(e.message, False)
+            cb(e.message, success=False)
 
     def remove(self):
         try:

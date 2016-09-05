@@ -31,7 +31,7 @@ from cherrypy.process.plugins import BackgroundTask
 from tempfile import NamedTemporaryFile
 
 from wok.auth import USER_NAME
-from wok.config import config, get_log_download_path
+from wok.config import get_log_download_path, paths
 from wok.exception import InvalidParameter, OperationFailed
 from wok.message import WokMessage
 from wok.stringutils import ascii_dict
@@ -62,7 +62,7 @@ TS_ZONE_FORMAT = "%Z"
 UNSAFE_REQUEST_PARAMETERS = ['password', 'passwd']
 
 # Log handler setup
-REQUEST_LOG_FILE = "wok-req.log"
+REQUEST_LOG_FILE = "user-requests.data"
 WOK_REQUEST_LOGGER = "wok_request_logger"
 
 # AsyncTask handling
@@ -119,7 +119,7 @@ def log_request(code, params, exception, method, status, app=None, user=None,
 
 class RequestLogger(object):
     def __init__(self):
-        log = os.path.join(config.get("logging", "log_dir"), REQUEST_LOG_FILE)
+        log = os.path.join(paths.state_dir, REQUEST_LOG_FILE)
         h = logging.handlers.WatchedFileHandler(log, 'a')
         h.setFormatter(logging.Formatter('%(message)s'))
         self.handler = h

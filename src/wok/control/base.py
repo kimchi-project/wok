@@ -31,9 +31,9 @@ from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
 from wok.control.utils import validate_params
 from wok.exception import InvalidOperation, UnauthorizedError, WokException
-from wok.reqlogger import RequestRecord
+from wok.reqlogger import log_request
 from wok.stringutils import encode_value, utf8_dict
-from wok.utils import get_plugin_from_request, wok_log
+from wok.utils import wok_log
 
 
 # Default request log messages
@@ -157,16 +157,7 @@ class Resource(object):
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
-                RequestRecord(
-                    reqParams,
-                    details,
-                    app=get_plugin_from_request(),
-                    msgCode=code,
-                    req=method,
-                    status=status,
-                    user=cherrypy.session.get(USER_NAME, 'N/A'),
-                    ip=cherrypy.request.remote.ip
-                ).log()
+                log_request(code, reqParams, details, method, status)
 
         wrapper.__name__ = action_name
         wrapper.exposed = True
@@ -220,16 +211,7 @@ class Resource(object):
             # log request
             if method not in LOG_DISABLED_METHODS:
                 code = self.getRequestMessage(method)
-                RequestRecord(
-                    self.log_args,
-                    details,
-                    app=get_plugin_from_request(),
-                    msgCode=code,
-                    req=method,
-                    status=status,
-                    user=cherrypy.session.get(USER_NAME, 'N/A'),
-                    ip=cherrypy.request.remote.ip
-                ).log()
+                log_request(code, self.log_args, details, method, status)
 
         return result
 
@@ -462,16 +444,7 @@ class Collection(object):
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
-                RequestRecord(
-                    reqParams,
-                    details,
-                    app=get_plugin_from_request(),
-                    msgCode=code,
-                    req=method,
-                    status=status,
-                    user=cherrypy.session.get(USER_NAME, 'N/A'),
-                    ip=cherrypy.request.remote.ip
-                ).log()
+                log_request(code, reqParams, details, method, status)
 
 
 class AsyncCollection(Collection):

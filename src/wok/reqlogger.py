@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
 
+import cherrypy
 import glob
 import json
 import logging
@@ -28,6 +29,7 @@ import time
 from cherrypy.process.plugins import BackgroundTask
 from tempfile import NamedTemporaryFile
 
+from wok.auth import USER_NAME
 from wok.config import config, get_log_download_path
 from wok.exception import InvalidParameter, OperationFailed
 from wok.message import WokMessage
@@ -61,6 +63,30 @@ UNSAFE_REQUEST_PARAMETERS = ['password', 'passwd']
 # Log handler setup
 REQUEST_LOG_FILE = "wok-req.log"
 WOK_REQUEST_LOGGER = "wok_request_logger"
+
+
+def log_request(code, params, exception, method, status, app=None, user=None,
+                ip=None):
+    if app is None:
+        app = cherrypy.request.app.root.domain
+
+    if user is None:
+        user = cherrypy.session.get(USER_NAME, 'N/A')
+
+    if ip is None:
+        ip = cherrypy.request.remote.ip
+
+    log_id = RequestRecord(
+        {'code': code, 'params': params},
+        exception,
+        app=app,
+        req=method,
+        status=status,
+        user=user,
+        ip=ip
+    ).log()
+
+    return log_id
 
 
 class RequestLogger(object):

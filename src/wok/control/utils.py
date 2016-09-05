@@ -24,7 +24,6 @@ import cherrypy
 import json
 from jsonschema import Draft3Validator, ValidationError, FormatChecker
 
-
 from wok.auth import USER_ROLES
 from wok.exception import InvalidParameter, OperationFailed
 from wok.utils import import_module, listPathModules

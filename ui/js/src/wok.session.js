@@ -28,18 +28,20 @@ wok.session = {
 
 	expiringCounter: function(){
 		var counter = wok.session.remainingSessionTime - wok.session.remaingTimeToShowAlert;
-		wok.session.expiringTimeout = setTimeout(function(){
-			wok.session.flagInTimer = true;
-			$("#session-expiring-alert").show();
-			$("#session-expiring-alert p").html("<script>var message = i18n['WOKSESS0001M'].replace('%1', 30);"
-				+ "$('#session-expiring-alert p').html(message);"
-				+ "var n = 30;"
-				+ "wok.session.oneSecondExternalCounter = setTimeout(countDown,1000);"
-				+ "function countDown(){n--; if(n > 0){wok.session.oneSecondInternalCounter = setTimeout(countDown,1000);}"
-				+ "message = i18n['WOKSESS0001M'].replace('%1', n);"
-				+ "$('#session-expiring-alert p').html(message);}</script>"
-			);
-		}, counter);
+		if (!isNaN(counter)) {
+			wok.session.expiringTimeout = setTimeout(function(){
+				wok.session.flagInTimer = true;
+				$("#session-expiring-alert").show();
+				$("#session-expiring-alert p").html("<script>var message = i18n['WOKSESS0001M'].replace('%1', 30);"
+					+ "$('#session-expiring-alert p').html(message);"
+					+ "var n = 30;"
+					+ "wok.session.oneSecondExternalCounter = setTimeout(countDown,1000);"
+					+ "function countDown(){n--; if(n > 0){wok.session.oneSecondInternalCounter = setTimeout(countDown,1000);}"
+					+ "message = i18n['WOKSESS0001M'].replace('%1', n);"
+					+ "$('#session-expiring-alert p').html(message);}</script>"
+				);
+			}, counter);
+		}
 	},
 
 	refreshExpiringCounter: function() {

@@ -26,6 +26,7 @@ import urllib2
 
 
 import wok.template
+from wok.asynctask import save_request_log_id
 from wok.auth import USER_GROUPS, USER_NAME, USER_ROLES
 from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
@@ -148,6 +149,7 @@ class Resource(object):
                      self.info['persistent'] is True):
                     result = render_fn(self, action_result)
                     status = cherrypy.response.status
+
                     return result
             except WokException, e:
                 details = e
@@ -157,7 +159,9 @@ class Resource(object):
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
-                log_request(code, reqParams, details, method, status)
+                log_id = log_request(code, reqParams, details, method, status)
+                if status == 202:
+                    save_request_log_id(log_id, action_result['id'])
 
         wrapper.__name__ = action_name
         wrapper.exposed = True
@@ -209,7 +213,7 @@ class Resource(object):
             raise
         finally:
             # log request
-            if method not in LOG_DISABLED_METHODS:
+            if method not in LOG_DISABLED_METHODS and status != 202:
                 code = self.getRequestMessage(method)
                 log_request(code, self.log_args, details, method, status)
 
@@ -293,6 +297,15 @@ class AsyncResource(Resource):
             raise cherrypy.HTTPError(405, e.message)
 
         cherrypy.response.status = 202
+
+        # log request
+        method = 'DELETE'
+        code = self.getRequestMessage(method)
+        reqParams = utf8_dict(self.log_args)
+        log_id = log_request(code, reqParams, None, method,
+                             cherrypy.response.status)
+        save_request_log_id(log_id, task['id'])
+
         return wok.template.render("Task", task)
 
 
@@ -440,7 +453,7 @@ class Collection(object):
             status = e.status
             raise
         finally:
-            if method not in LOG_DISABLED_METHODS:
+            if method not in LOG_DISABLED_METHODS and status != 202:
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
@@ -466,6 +479,15 @@ class AsyncCollection(Collection):
         args = self.model_args + [params]
         task = create(*args)
         cherrypy.response.status = 202
+
+        # log request
+        method = 'POST'
+        code = self.getRequestMessage(method)
+        reqParams = utf8_dict(self.log_args, params)
+        log_id = log_request(code, reqParams, None, method,
+                             cherrypy.response.status)
+        save_request_log_id(log_id, task['id'])
+
         return wok.template.render("Task", task)
 
 

@@ -32,7 +32,7 @@ from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request
 from wok.exception import MissingParameter
-from wok.reqlogger import RequestRecord
+from wok.reqlogger import log_request
 
 
 ROOT_REQUESTS = {
@@ -156,8 +156,6 @@ class WokRoot(Root):
         details = None
         method = 'POST'
         code = self.getRequestMessage(method, 'login')
-        app = 'wok'
-        ip = cherrypy.request.remote.ip
 
         try:
             params = parse_request()
@@ -165,18 +163,7 @@ class WokRoot(Root):
             password = params['password']
         except KeyError, item:
             details = e = MissingParameter('WOKAUTH0003E', {'item': str(item)})
-
-            RequestRecord(
-                params,
-                details,
-                app=app,
-                msgCode=code,
-                req=method,
-                status=400,
-                user='N/A',
-                ip=ip
-            ).log()
-
+            log_request(code, params, details, method, 400)
             raise cherrypy.HTTPError(400, e.message)
 
         try:
@@ -186,16 +173,7 @@ class WokRoot(Root):
             status = e.status
             raise
         finally:
-            RequestRecord(
-                params,
-                details,
-                app=app,
-                msgCode=code,
-                req=method,
-                status=status,
-                user='N/A',
-                ip=ip
-            ).log()
+            log_request(code, params, details, method, status)
 
         return json.dumps(user_info)
 
@@ -204,19 +182,9 @@ class WokRoot(Root):
         method = 'POST'
         code = self.getRequestMessage(method, 'logout')
         params = {'username': cherrypy.session.get(auth.USER_NAME, 'N/A')}
-        ip = cherrypy.request.remote.ip
 
         auth.logout()
 
-        RequestRecord(
-            params,
-            None,
-            app='wok',
-            msgCode=code,
-            req=method,
-            status=200,
-            user=params['username'],
-            ip=ip
-        ).log()
+        log_request(code, params, None, method, 200, user=params['username'])
 
         return '{}'

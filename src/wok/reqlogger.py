@@ -25,6 +25,7 @@ import logging
 import logging.handlers
 import os.path
 import time
+import uuid
 
 from cherrypy.process.plugins import BackgroundTask
 from tempfile import NamedTemporaryFile
@@ -64,11 +65,38 @@ UNSAFE_REQUEST_PARAMETERS = ['password', 'passwd']
 REQUEST_LOG_FILE = "wok-req.log"
 WOK_REQUEST_LOGGER = "wok_request_logger"
 
+# AsyncTask handling
+ASYNCTASK_REQUEST_METHOD = 'TASK'
+
 
 def log_request(code, params, exception, method, status, app=None, user=None,
                 ip=None):
+    '''
+    Add an entry to user request log
+
+    @param settings
+        base Measurement base, accepts 2 or 10. defaults to 2.
+        unit The unit of the measurement, e.g., B, Bytes/s, bps, etc.
+    @param code message code (ending with L) for the request made by user
+    @param params templating parameters for the message referred by code
+    @param exception None if no exception, or a dict containing
+        code error message code (ending with E, I or W)
+        params templating parameters for the message referred by code
+    @param method the string corresponding to HTTP method (GET, PUT, POST,
+        DELETE) or the string 'TASK', meaning a log entry to track completion
+        of an asynchronous task. 'TASK' log entries are not visible to user.
+    @param status HTTP request status code
+    @param app the root URI of the mounted cherrypy application. Defaults to
+        cherrypy request application
+    @param user the logged in user that made the request. Defaults to cherrypy
+        request user
+    @param ip the IP address of the user that made the request. Defaults to
+        cherrypy request remote IP address
+
+    @returns ID of log entry
+    '''
     if app is None:
-        app = cherrypy.request.app.root.domain
+        app = cherrypy.request.app.script_name
 
     if user is None:
         user = cherrypy.session.get(USER_NAME, 'N/A')
@@ -140,20 +168,17 @@ class RequestParser(object):
 
         return LOG_DOWNLOAD_URI % os.path.basename(fd.name)
 
-    def getTranslatedMessage(self, record, params, detParams):
-        code = record.get('msgCode', '')
-        app = record.get('app', 'wok')
-        plugin = None
-        if app != 'wok':
-            plugin = "/plugins/%s" % app
-
-        msg = WokMessage(code, params, plugin)
+    def getTranslatedMessage(self, message, error, app_root):
+        code = message.get('code', '')
+        params = message.get('params', {})
+        msg = WokMessage(code, params, app_root)
         text = msg.get_text(prepend_code=False, translate=True)
 
-        detCode = record.get('detCode', '')
-        if detCode:
-            msg = WokMessage(detCode, detParams, plugin)
-            text += ' ' + msg.get_text(prepend_code=True, translate=True)
+        if error:
+            code = error.get('code', '')
+            params = error.get('params', {})
+            msg = WokMessage(code, params, app_root)
+            text += ' (%s)' % msg.get_text(prepend_code=True, translate=True)
 
         return text
 
@@ -163,8 +188,46 @@ class RequestParser(object):
         for filename in glob.glob(self.baseFile + "-*[!.gz]"):
             records.extend(self.getRecordsFromFile(filename))
 
-        # Return ordered by latest events first
-        return sorted(records, key=lambda k: k['date'] + k['time'],
+        # normalize entries
+        normalized = {}
+        asynctask_updates = []
+        for record in records:
+            # because async tasks run in another thread, their record entry
+            # may be recorded before original request record. Since we use
+            # them to just update original request record, do it afterwards
+            if record['info']['req'] == ASYNCTASK_REQUEST_METHOD:
+                asynctask_updates.append(record)
+                continue
+
+            # initial request entry: generate translated message text
+            message = record.pop('message')
+            error = record.pop('error', None)
+            uri = record['info']['app']
+            text = self.getTranslatedMessage(message, error, uri)
+            record['info']['message'] = text
+
+            # get user-friendly app name
+            app_name = 'wok'
+            app = cherrypy.tree.apps.get(uri)
+            if app:
+                app_name = app.root.domain
+
+            record['info']['app'] = app_name
+
+            id = record.pop('id')
+            normalized[id] = record['info']
+
+        # time to update original records based on async task records
+        for record in asynctask_updates:
+            id = record.pop('id')
+
+            # task id may not exist, since GET requests are not logged but
+            # may generate tasks (i.e. AsyncResource)
+            if id in normalized:
+                normalized[id]['status'] = record['info']['status']
+
+        # return results in chronological reverse order
+        return sorted(normalized.values(), key=lambda k: k['date'] + k['time'],
                       reverse=True)
 
     def getRecordsFromFile(self, filename):
@@ -177,34 +240,12 @@ class RequestParser(object):
         if not os.path.exists(filename):
             return []
 
-        # read records from file
         try:
             with open(filename) as f:
                 line = f.readline()
                 while line != "":
-                    data = line.split(">>>")
-                    if len(data) > 1:
-                        record = json.JSONDecoder().decode(data[0])
-
-                        if len(data) > 2:
-                            # new log format: translate message on the fly
-                            params = json.JSONDecoder().decode(data[1])
-                            detParams = None
-
-                            # has original exception details
-                            if len(data) > 3:
-                                detParams = json.JSONDecoder().decode(data[2])
-
-                            msg = self.getTranslatedMessage(record, params,
-                                                            detParams)
-                        else:
-                            # make it compatible with v2.2 log files, which
-                            # messages are already translated
-                            msg = data[1].strip()
-
-                        record['message'] = msg
-                        records.append(record)
-
+                    record = json.JSONDecoder().decode(line)
+                    records.append(record)
                     line = f.readline()
 
             f. close()
@@ -243,20 +284,32 @@ class RequestParser(object):
 
 
 class RequestRecord(object):
-    def __init__(self, msgParams, details, **kwargs):
-        # log record data
-        self.logData = kwargs
-        self.details = details
-
+    def __init__(self, message, error, id=None, **kwargs):
         # data for message translation
-        self.code = self.logData['msgCode']
-        self.params = self.getSafeReqParams(msgParams)
+        self.message = {
+            'code': message['code'],
+            'params': self.getSafeReqParams(message['params']),
+        }
 
-        # register timestamp in local time
+        # data for error translation (WokException)
+        self.error = None
+        if error:
+            self.error = {
+                'code': error.code,
+                'params': error.params,
+            }
+
+        # log entry info
+        self.id = id or str(uuid.uuid4())
+        self.info = kwargs
+
+        # generate timestamp
         timestamp = time.localtime()
-        self.logData['date'] = time.strftime(TS_DATE_FORMAT, timestamp)
-        self.logData['time'] = time.strftime(TS_TIME_FORMAT, timestamp)
-        self.logData['zone'] = time.strftime(TS_ZONE_FORMAT, timestamp)
+        self.info.update({
+            'date': time.strftime(TS_DATE_FORMAT, timestamp),
+            'time': time.strftime(TS_TIME_FORMAT, timestamp),
+            'zone': time.strftime(TS_ZONE_FORMAT, timestamp),
+        })
 
     def getSafeReqParams(self, params):
         result = params.copy()
@@ -265,20 +318,16 @@ class RequestRecord(object):
         return result
 
     def __str__(self):
-        # original exception details
-        details = ''
-        if self.details:
-            self.logData['detCode'] = self.details.code
-            details = ">>> %s" % json.JSONEncoder().encode(self.details.params)
+        entry = {
+            "id": self.id,
+            "message": self.message,
+            "error": self.error,
+            "info": self.info,
+        }
 
-        # request log message
-        msg = WokMessage(self.code, self.params)
-        msgText = msg.get_text(prepend_code=False, translate=False)
-        logData = json.JSONEncoder().encode(self.logData)
-        msgParams = json.JSONEncoder().encode(self.params)
-
-        return '%s >>> %s %s >>> %s' % (logData, msgParams, details, msgText)
+        return json.JSONEncoder().encode(entry)
 
     def log(self):
         reqLogger = logging.getLogger(WOK_REQUEST_LOGGER)
         reqLogger.info(self)
+        return self.id

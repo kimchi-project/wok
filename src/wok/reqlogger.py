@@ -39,7 +39,7 @@ from wok.utils import remove_old_files
 
 
 # Log search setup
-FILTER_FIELDS = ['app', 'date', 'ip', 'req', 'status' 'user', 'time']
+FILTER_FIELDS = ['app', 'date', 'ip', 'req', 'status', 'user', 'time']
 LOG_DOWNLOAD_URI = "/data/logs/%s"
 LOG_DOWNLOAD_TIMEOUT = 6
 LOG_FORMAT = "[%(date)s %(time)s %(zone)s] %(req)-6s %(status)s %(app)-11s " \

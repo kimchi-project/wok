@@ -116,6 +116,11 @@ def _create_proxy_config(options):
     # SSL certifications.
     if not paths.installed:
         dst = os.path.join(paths.sys_nginx_conf_dir, "wok.conf")
+
+        # directoy does not exist: create it
+        if not os.path.exists(paths.sys_nginx_conf_dir):
+            os.makedirs(paths.sys_nginx_conf_dir)
+
         if os.path.isfile(dst) or os.path.islink(dst):
             os.remove(dst)
         os.symlink(os.path.join(nginx_config_dir, "wok.conf"), dst)

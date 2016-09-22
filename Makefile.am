@@ -115,30 +115,17 @@ wok.spec: contrib/wok.spec.fedora contrib/wok.spec.suse
 		/bin/false ;                                        \
 	fi
 
-check_files:
-	@if [ -d '.git' ]; then                                                                 \
-                if [ `git status --porcelain --untracked-files=no | wc -l` -gt 0 ]; then        \
-                        echo "***** Aborting 'make rpm' command *****";                         \
-                        echo "There are some changes not commited in your working \
-directory. To avoid losing them, please commit or stage before run 'make rpm' command.";        \
-                        exit 1;                                                                 \
-                fi                                                                              \
-        fi
-
-rpm: check_files dist wok.spec
+rpm: wok.spec
 	$(MKDIR_P) rpm/BUILD rpm/RPMS rpm/SOURCES rpm/SPECS rpm/SRPMS
 	cp $(top_srcdir)/wok.spec rpm/SPECS/wok.spec
 	cp $(DIST_ARCHIVES) rpm/SOURCES
 	rpmbuild -ba --define "_topdir `pwd`/rpm" rpm/SPECS/wok.spec
-	@if [ -d '.git' ]; then         \
-                git reset --hard;       \
-        fi
 
-fedora-rpm: check_files contrib/wok.spec.fedora
+fedora-rpm: contrib/wok.spec.fedora
 	ln -sf contrib/wok.spec.fedora wok.spec
 	$(MAKE) rpm
 
-suse-rpm: check_files contrib/wok.spec.suse
+suse-rpm: contrib/wok.spec.suse
 	ln -sf contrib/wok.spec.suse wok.spec
 	$(MAKE) rpm
 

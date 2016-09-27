@@ -177,40 +177,6 @@ a#btn-logout:hover {
     }
 }
 
-.peers {
-    color: white;
-    cursor: pointer;
-    height: 52px;
-    margin: 0 12px;
-}
-
-.peers span {
-    margin-top: 25px;
-}
-
-.peers .arrow {
-    border: 6px solid transparent;
-    border-bottom: none;
-    border-top-color: white;
-    display: inline-block;
-    width: 0;
-}
-
-.peers .dropdown {
-    top: 45px;
-    right: 110px;
-    color: black;
-    padding: 10px 15px;
-    white-space: nowrap;
-    line-height: 12px;
-    width: inherit;
-}
-
-.peers .dropdown a {
-    display: block;
-    padding: 10px;
-}
-
 .hide-content {
     display: none!important;
 }

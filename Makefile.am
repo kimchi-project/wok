@@ -115,17 +115,17 @@ wok.spec: contrib/wok.spec.fedora contrib/wok.spec.suse
 		/bin/false ;                                        \
 	fi
 
-rpm: wok.spec
+rpm: dist wok.spec
 	$(MKDIR_P) rpm/BUILD rpm/RPMS rpm/SOURCES rpm/SPECS rpm/SRPMS
 	cp $(top_srcdir)/wok.spec rpm/SPECS/wok.spec
 	cp $(DIST_ARCHIVES) rpm/SOURCES
 	rpmbuild -ba --define "_topdir `pwd`/rpm" rpm/SPECS/wok.spec
 
-fedora-rpm: contrib/wok.spec.fedora
+fedora-rpm: dist contrib/wok.spec.fedora
 	ln -sf contrib/wok.spec.fedora wok.spec
 	$(MAKE) rpm
 
-suse-rpm: contrib/wok.spec.suse
+suse-rpm: dist contrib/wok.spec.suse
 	ln -sf contrib/wok.spec.suse wok.spec
 	$(MAKE) rpm
 
@@ -178,7 +178,7 @@ VERSION:
 		git describe --abbrev=0 --always > $@;        \
 	fi
 
-.PHONY: deb install-deb rpm fedora-rpm suse-rpm ChangeLog VERSION
+.PHONY: deb install-deb rpm fedora-rpm suse-rpm VERSION
 
 
 clean-local:

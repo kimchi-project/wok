@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-24 09:46-0300\n"
+"POT-Creation-Date: 2016-09-29 11:57-0300\n"
 "PO-Revision-Date: 2014-08-27 21:30+0000\n"
 "Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www.transifex.com/projects/p/kimchi/language/"
@@ -44,15 +44,19 @@ msgstr ""
 msgid "You don't have permission to perform this operation."
 msgstr "Vous n'avez pas la permission d'effectuer cette opération."
 
-msgid "Datastore is not initiated in the model object."
-msgstr "Le magasin de données n'est pas initié dans l'objet modèle."
-
 #, python-format
-msgid "Unable to start task due error: %(err)s"
-msgstr "Impossible de démarrer la tâche à cause de l'erreur: %(err)s"
+msgid "Unable to find task id: %(id)s"
+msgstr ""
+
+msgid "There is no callback to execute the kill task process."
+msgstr ""
 
 #, python-format
 msgid "Timeout of %(seconds)s seconds expired while running task '%(task)s."
+msgstr ""
+
+#, python-format
+msgid "Unable to kill task due error: %(err)s"
 msgstr ""
 
 #, python-format
@@ -93,10 +97,6 @@ msgid "Unable to find %(item)s in datastore"
 msgstr "Impossible de trouver %(item)s dans le magasin de données"
 
 #, python-format
-msgid "Unable to reach %(url)s. Make sure it is accessible and try again."
-msgstr ""
-
-#, python-format
 msgid "Timeout while running command '%(cmd)s' after %(seconds)s seconds"
 msgstr ""
 "Timeout durant l'exécution de la commande '%(cmd)s' après %(seconds)s "
@@ -110,6 +110,18 @@ msgstr ""
 msgid "Invalid data unit '%(unit)s'"
 msgstr ""
 
+#, python-format
+msgid "Unable to (re)start system's nginx.service. Details: '%(error)s'"
+msgstr ""
+
+#, python-format
+msgid "Successfully completed task '%(target_uri)s'"
+msgstr ""
+
+#, python-format
+msgid "Failed to complete task '%(target_uri)s'"
+msgstr ""
+
 msgid "Request made on collection"
 msgstr ""
 
@@ -117,11 +129,11 @@ msgid "Request made on resource"
 msgstr ""
 
 #, python-format
-msgid "User '%(username)s' logged in"
+msgid "User '%(username)s' login"
 msgstr ""
 
 #, python-format
-msgid "User '%(username)s' logged out"
+msgid "User '%(username)s' logout"
 msgstr ""
 
 msgid "ERROR CODE"
@@ -135,6 +147,15 @@ msgstr "STACK"
 
 msgid "Go to Homepage"
 msgstr "Aller à la page d'accueil"
+
+msgid "Host"
+msgstr ""
+
+msgid "Virtualization"
+msgstr ""
+
+msgid "Wok"
+msgstr ""
 
 msgid "Settings"
 msgstr ""
@@ -204,6 +225,18 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+msgid "Timezone"
+msgstr ""
+
+msgid "IP Address"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Your session will be expired on: %1 s. Do you want to renew it?"
+msgstr ""
+
 msgid "Ki"
 msgstr ""
 
@@ -234,50 +267,6 @@ msgstr ""
 msgid "P"
 msgstr ""
 
-msgid "The username or password you entered is incorrect. Please try again."
-msgstr ""
-"Le nom d'utilisateur ou le mot de passe que vous avez entré est incorrect. "
-"Veuillez essayer à nouveau."
-
-msgid "Session timeout, please re-login."
-msgstr "Session expirée, veuillez vous reconnecter."
-
-msgid "Server unreachable."
-msgstr ""
-
-msgid "User Name"
-msgstr "Nom d'Utilisateur"
-
-msgid " User Name "
-msgstr ""
-
-msgid "Password"
-msgstr "Mot de Passe"
-
-msgid " Password "
-msgstr ""
-
-msgid "Log in"
-msgstr "Se connecter"
-
-msgid "Logging in..."
-msgstr "En cours de connexion..."
-
-msgid "Language"
-msgstr ""
-
-msgid "Locale"
-msgstr ""
-
-msgid "Peers"
-msgstr ""
-
-msgid "Searching"
-msgstr ""
-
-msgid "No peers found."
-msgstr ""
-
 msgid "Log out"
 msgstr "Se déconnecter"
 
@@ -288,6 +277,9 @@ msgid "About"
 msgstr "A propos..."
 
 msgid "Toggle navigation"
+msgstr ""
+
+msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
 msgid "Powered by"
@@ -309,6 +301,24 @@ msgid "Search results by:"
 msgstr ""
 
 msgid "Request Type"
+msgstr ""
+
+msgid "All Requests"
+msgstr ""
+
+msgid "POST"
+msgstr ""
+
+msgid "GET"
+msgstr ""
+
+msgid "PUT"
+msgstr ""
+
+msgid "DELETE"
+msgstr ""
+
+msgid "User IP Address"
 msgstr ""
 
 msgid "Search"

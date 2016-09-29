@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-24 09:46-0300\n"
+"POT-Creation-Date: 2016-09-29 11:57-0300\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -57,18 +57,22 @@ msgstr "Parâmetros não correspondem à especificação do esquema: %(err)s"
 msgid "You don't have permission to perform this operation."
 msgstr "Você não tem permissão para executar esta operação."
 
-msgid "Datastore is not initiated in the model object."
-msgstr "Datastore não está inicializado no objeto modelo."
-
 #, python-format
-msgid "Unable to start task due error: %(err)s"
-msgstr "Não foi possível iniciar a tarefa devido a um erro: %(err)s"
+msgid "Unable to find task id: %(id)s"
+msgstr ""
+
+msgid "There is no callback to execute the kill task process."
+msgstr ""
 
 #, python-format
 msgid "Timeout of %(seconds)s seconds expired while running task '%(task)s."
 msgstr ""
 "Limite de tempo de %(seconds)s segundos expirado ao executar a tarefa "
 "'%(task)s'."
+
+#, python-format
+msgid "Unable to kill task due error: %(err)s"
+msgstr ""
 
 #, python-format
 msgid "Authentication failed for user '%(username)s'. [Error code: %(code)s]"
@@ -107,10 +111,6 @@ msgid "Unable to find %(item)s in datastore"
 msgstr "Não foi possível encontrar %(item)s no datastore"
 
 #, python-format
-msgid "Unable to reach %(url)s. Make sure it is accessible and try again."
-msgstr ""
-
-#, python-format
 msgid "Timeout while running command '%(cmd)s' after %(seconds)s seconds"
 msgstr ""
 "Fim do limite de tempo ao rodar comando '%(cmd)s' após %(seconds)s segundos"
@@ -123,6 +123,18 @@ msgstr "Valor inválido '%(value)s'"
 msgid "Invalid data unit '%(unit)s'"
 msgstr "Unidade inválida '%(unit)s'"
 
+#, python-format
+msgid "Unable to (re)start system's nginx.service. Details: '%(error)s'"
+msgstr ""
+
+#, python-format
+msgid "Successfully completed task '%(target_uri)s'"
+msgstr ""
+
+#, python-format
+msgid "Failed to complete task '%(target_uri)s'"
+msgstr ""
+
 msgid "Request made on collection"
 msgstr ""
 
@@ -130,11 +142,11 @@ msgid "Request made on resource"
 msgstr ""
 
 #, python-format
-msgid "User '%(username)s' logged in"
+msgid "User '%(username)s' login"
 msgstr ""
 
 #, python-format
-msgid "User '%(username)s' logged out"
+msgid "User '%(username)s' logout"
 msgstr ""
 
 msgid "ERROR CODE"
@@ -148,6 +160,15 @@ msgstr "PILHA"
 
 msgid "Go to Homepage"
 msgstr "Ir para a Página Inicial"
+
+msgid "Host"
+msgstr ""
+
+msgid "Virtualization"
+msgstr ""
+
+msgid "Wok"
+msgstr ""
 
 msgid "Settings"
 msgstr ""
@@ -217,6 +238,18 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+msgid "Timezone"
+msgstr ""
+
+msgid "IP Address"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Your session will be expired on: %1 s. Do you want to renew it?"
+msgstr ""
+
 msgid "Ki"
 msgstr ""
 
@@ -247,49 +280,6 @@ msgstr ""
 msgid "P"
 msgstr ""
 
-msgid "The username or password you entered is incorrect. Please try again."
-msgstr ""
-"O usuário ou senha inseridos estão incorretos. Por favor, tente novamente."
-
-msgid "Session timeout, please re-login."
-msgstr "Fim do limite do tempo da sessão, por favor se autentique novamente."
-
-msgid "Server unreachable."
-msgstr ""
-
-msgid "User Name"
-msgstr "Usuário"
-
-msgid " User Name "
-msgstr ""
-
-msgid "Password"
-msgstr "Senha"
-
-msgid " Password "
-msgstr " Senha"
-
-msgid "Log in"
-msgstr "Entrar"
-
-msgid "Logging in..."
-msgstr "Entrando..."
-
-msgid "Language"
-msgstr ""
-
-msgid "Locale"
-msgstr ""
-
-msgid "Peers"
-msgstr "Peers"
-
-msgid "Searching"
-msgstr "Procurando"
-
-msgid "No peers found."
-msgstr "Nenhum peer encontrado."
-
 msgid "Log out"
 msgstr "Sair"
 
@@ -300,6 +290,9 @@ msgid "About"
 msgstr "Sobre"
 
 msgid "Toggle navigation"
+msgstr ""
+
+msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
 msgid "Powered by"
@@ -321,6 +314,24 @@ msgid "Search results by:"
 msgstr ""
 
 msgid "Request Type"
+msgstr ""
+
+msgid "All Requests"
+msgstr ""
+
+msgid "POST"
+msgstr ""
+
+msgid "GET"
+msgstr ""
+
+msgid "PUT"
+msgstr ""
+
+msgid "DELETE"
+msgstr ""
+
+msgid "User IP Address"
 msgstr ""
 
 msgid "Search"

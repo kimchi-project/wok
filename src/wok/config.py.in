@@ -272,6 +272,7 @@ def _get_config():
     config.set("server", "ssl_key", "")
     config.set("server", "environment", "production")
     config.set('server', 'max_body_size', '4*1024*1024')
+    config.set("server", "server_root", "")
     config.add_section("authentication")
     config.set("authentication", "method", "pam")
     config.set("authentication", "ldap_server", "")

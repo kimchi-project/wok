@@ -37,7 +37,7 @@ from wok.utils import run_command
 HTTP_CONFIG = """
 server {
     listen %(host_addr)s:%(proxy_port)s;
-    rewrite ^/(.*)$ https://$host:%(proxy_ssl_port)s/$1 redirect;
+    rewrite ^/(.*)$ https://$host:%(proxy_ssl_port)s%(rel_path)s/$1 redirect;
 }
 """
 
@@ -88,7 +88,8 @@ def _create_proxy_config(options):
     if options.https_only == 'false':
         http_config = HTTP_CONFIG % {'host_addr': options.host,
                                      'proxy_port': options.port,
-                                     'proxy_ssl_port': options.ssl_port}
+                                     'proxy_ssl_port': options.ssl_port,
+                                     'rel_path': options.server_root}
 
     # Read template file and create a new config file
     # with the specified parameters.
@@ -104,7 +105,8 @@ def _create_proxy_config(options):
                                 cert_pem=cert, cert_key=key,
                                 max_body_size=eval(options.max_body_size),
                                 session_timeout=options.session_timeout,
-                                dhparams_pem=dhparams_pem)
+                                dhparams_pem=dhparams_pem,
+                                server_root=options.server_root)
 
     # Write file to be used for nginx.
     config_file = open(os.path.join(nginx_config_dir, "wok.conf"), "w")

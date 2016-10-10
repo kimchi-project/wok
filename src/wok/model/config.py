@@ -28,4 +28,5 @@ class ConfigModel(object):
         return {'ssl_port': config.get('server', 'ssl_port'),
                 'websockets_port': config.get('server', 'websockets_port'),
                 'auth': config.get('authentication', 'method'),
+                'server_root': config.get('server', 'server_root'),
                 'version': get_version()}

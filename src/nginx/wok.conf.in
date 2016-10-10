@@ -56,15 +56,15 @@ server {
     add_header X-Content-Type-Options nosniff;
     add_header X-XSS-Protection "1; mode=block";
 
-    location / {
+    location ${server_root}/ {
         proxy_pass http://127.0.0.1:${cherrypy_port};
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_redirect http://127.0.0.1:${cherrypy_port}/ https://$host:${proxy_ssl_port}/;
+        proxy_redirect http://127.0.0.1:${cherrypy_port}/ https://$host:${proxy_ssl_port}${server_root}/;
     }
 
-    location /websockify {
+    location ${server_root}/websockify {
         proxy_pass http://websocket;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;

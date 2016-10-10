@@ -18,15 +18,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 -->
 #unicode UTF-8
 #import gettext
+#from wok.cachebust import href
 #silent t = gettext.translation($lang.domain, $lang.localedir, languages=$lang.lang)
 #silent _ = t.gettext
 #silent _t = t.gettext
 <html>
 
 <head>
-  <link rel="stylesheet" type="text/css" href="../../css/settings.css">
-  <script type="text/javascript" src="../../js/wok.user-log.js"></script>
-  <script type="text/javascript" src="../../js/wok.bootgrid.js"></script>
+  <link rel="stylesheet" type="text/css" href="$href('css/settings.css')">
+  <script type="text/javascript" src="$href('js/wok.user-log.js')"></script>
+  <script type="text/javascript" src="$href('js/wok.bootgrid.js')"></script>
 </head>
 
 <body>

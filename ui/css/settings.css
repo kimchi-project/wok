@@ -121,7 +121,8 @@ div#user-log-actions {
   background-color: #d9182d;
 }
 
-.label-primary.label-wok[href]:hover, .label-primary.label-wok[href]:focus {
+.label-primary.label-wok[href]:hover,
+.label-primary.label-wok[href]:focus {
   background-color: #ab1323;
 }
 
@@ -129,7 +130,8 @@ div#user-log-actions {
   background-color: #8cc63f;
 }
 
-.label-primary.label-kimchi[href]:hover, .label-primary.label-kimchi[href]:focus {
+.label-primary.label-kimchi[href]:hover,
+.label-primary.label-kimchi[href]:focus {
   background-color: #71a230;
 }
 
@@ -137,7 +139,8 @@ div#user-log-actions {
   background-color: #00578c;
 }
 
-.label-primary.label-ginger[href]:hover, .label-primary.label-ginger[href]:focus {
+.label-primary.label-ginger[href]:hover,
+.label-primary.label-ginger[href]:focus {
   background-color: #003759;
 }
 
@@ -145,7 +148,8 @@ div#user-log-actions {
   background-color: #008abf;
 }
 
-.label-primary.label-gingerbase[href]:hover, .label-primary.label-gingerbase[href]:focus {
+.label-primary.label-gingerbase[href]:hover,
+.label-primary.label-gingerbase[href]:focus {
   background-color: #00658c;
 }
 

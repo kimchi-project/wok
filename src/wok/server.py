@@ -178,7 +178,7 @@ class Server(object):
                 cfg[ident] = {'tools.wokauth.on': True}
 
         self.app = cherrypy.tree.mount(WokRoot(model_instance, dev_env),
-                                       config=self.configObj)
+                                       options.server_root, self.configObj)
 
         self._load_plugins(options)
         cherrypy.lib.sessions.init()

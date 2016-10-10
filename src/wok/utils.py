@@ -39,7 +39,7 @@ from datetime import datetime, timedelta
 from multiprocessing import Process, Queue
 from threading import Timer
 
-from wok.config import paths, PluginPaths
+from wok.config import config, paths, PluginPaths
 from wok.exception import InvalidParameter, TimeoutExpired
 from wok.stringutils import decode_value
 
@@ -71,6 +71,14 @@ def _load_plugin_conf(name):
                                      (plugin_conf, e.message))
 
 
+def _check_plugin_relative_path(plugin_config):
+    rel_path = config.get("server", "server_root")
+    plugin_uri = plugin_config['wok']['uri']
+    if (rel_path is not "") and (not plugin_uri.startswith(rel_path)):
+        plugin_config['wok']['uri'] = rel_path + plugin_uri
+    return plugin_config
+
+
 def get_enabled_plugins():
     plugin_dir = paths.plugins_dir
     try:
@@ -82,6 +90,7 @@ def get_enabled_plugins():
             plugin_config = _load_plugin_conf(name)
             try:
                 if plugin_config['wok']['enable']:
+                    plugin_config = _check_plugin_relative_path(plugin_config)
                     yield (name, plugin_config)
             except (TypeError, KeyError):
                 continue

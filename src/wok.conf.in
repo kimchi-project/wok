@@ -43,6 +43,11 @@
 # Max request body size in KB, default value is 4GB
 #max_body_size = 4 * 1024 * 1024
 
+# Wok server root. Set the following variable to configure any relative path to
+# the server. For example, to have Wok pointing to https://localhost:8001/wok/
+# uncomment the following:
+#server_root=/wok
+
 [logging]
 # Log directory
 #log_dir = @localstatedir@/log/wok

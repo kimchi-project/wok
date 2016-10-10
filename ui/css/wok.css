@@ -137,7 +137,9 @@ html.in-progress .disabled {
   position: relative;
 }
 
-.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus,
+.pagination > .active > a,
+.pagination > .active > a:hover,
+.pagination > .active > a:focus,
 .pagination > .active > span,
 .pagination > .active > span:hover,
 .pagination > .active > span:focus {
@@ -428,7 +430,8 @@ html.in-progress .disabled {
   border-color: #008abf;
 }
 
-.btn-login:focus, .btn-login.focus {
+.btn-login:focus,
+.btn-login.focus {
   color: #fff;
   background-color: #00658c;
   border-color: #002e40;
@@ -440,14 +443,20 @@ html.in-progress .disabled {
   border-color: #005e82;
 }
 
-.btn-login:active, .btn-login.active,
+.btn-login:active,
+.btn-login.active,
 .open > .btn-login.dropdown-toggle {
   color: #fff;
   background-color: #00658c;
   border-color: #005e82;
 }
 
-.btn-login:active:hover, .btn-login:active:focus, .btn-login:active.focus, .btn-login.active:hover, .btn-login.active:focus, .btn-login.active.focus,
+.btn-login:active:hover,
+.btn-login:active:focus,
+.btn-login:active.focus,
+.btn-login.active:hover,
+.btn-login.active:focus,
+.btn-login.active.focus,
 .open > .btn-login.dropdown-toggle:hover,
 .open > .btn-login.dropdown-toggle:focus,
 .open > .btn-login.dropdown-toggle.focus {
@@ -456,12 +465,24 @@ html.in-progress .disabled {
   border-color: #002e40;
 }
 
-.btn-login:active, .btn-login.active,
+.btn-login:active,
+.btn-login.active,
 .open > .btn-login.dropdown-toggle {
   background-image: none;
 }
 
-.btn-login.disabled, .btn-login.disabled:hover, .btn-login.disabled:focus, .btn-login.disabled.focus, .btn-login.disabled:active, .btn-login.disabled.active, .btn-login[disabled], .btn-login[disabled]:hover, .btn-login[disabled]:focus, .btn-login[disabled].focus, .btn-login[disabled]:active, .btn-login[disabled].active,
+.btn-login.disabled,
+.btn-login.disabled:hover,
+.btn-login.disabled:focus,
+.btn-login.disabled.focus,
+.btn-login.disabled:active,
+.btn-login.disabled.active,
+.btn-login[disabled],
+.btn-login[disabled]:hover,
+.btn-login[disabled]:focus,
+.btn-login[disabled].focus,
+.btn-login[disabled]:active,
+.btn-login[disabled].active,
 fieldset[disabled] .btn-login,
 fieldset[disabled] .btn-login:hover,
 fieldset[disabled] .btn-login:focus,
@@ -488,7 +509,8 @@ fieldset[disabled] .btn-login.active {
   padding: 4px 12px;
 }
 
-.btn-group > span > .btn:focus, .btn-group > span > .btn.focus {
+.btn-group > span > .btn:focus,
+.btn-group > span > .btn.focus {
   color: #fff;
   background-color: #343334;
   border-color: #0d0d0d;
@@ -500,14 +522,20 @@ fieldset[disabled] .btn-login.active {
   border-color: #2e2e2f;
 }
 
-.btn-group > span > .btn:active, .btn-group > span > .btn.active,
+.btn-group > span > .btn:active,
+.btn-group > span > .btn.active,
 .open > .btn-group > span > .btn.dropdown-toggle {
   color: #fff;
   background-color: #343334;
   border-color: #2e2e2f;
 }
 
-.btn-group > span > .btn:active:hover, .btn-group > span > .btn:active:focus, .btn-group > span > .btn:active.focus, .btn-group > span > .btn.active:hover, .btn-group > span > .btn.active:focus, .btn-group > span > .btn.active.focus,
+.btn-group > span > .btn:active:hover,
+.btn-group > span > .btn:active:focus,
+.btn-group > span > .btn:active.focus,
+.btn-group > span > .btn.active:hover,
+.btn-group > span > .btn.active:focus,
+.btn-group > span > .btn.active.focus,
 .open > .btn-group > span > .btn.dropdown-toggle:hover,
 .open > .btn-group > span > .btn.dropdown-toggle:focus,
 .open > .btn-group > span > .btn.dropdown-toggle.focus {
@@ -516,12 +544,24 @@ fieldset[disabled] .btn-login.active {
   border-color: #0d0d0d;
 }
 
-.btn-group > span > .btn:active, .btn-group > span > .btn.active,
+.btn-group > span > .btn:active,
+.btn-group > span > .btn.active,
 .open > .btn-group > span > .btn.dropdown-toggle {
   background-image: none;
 }
 
-.btn-group > span > .btn.disabled, .btn-group > span > .btn.disabled:hover, .btn-group > span > .btn.disabled:focus, .btn-group > span > .btn.disabled.focus, .btn-group > span > .btn.disabled:active, .btn-group > span > .btn.disabled.active, .btn-group > span > .btn[disabled], .btn-group > span > .btn[disabled]:hover, .btn-group > span > .btn[disabled]:focus, .btn-group > span > .btn[disabled].focus, .btn-group > span > .btn[disabled]:active, .btn-group > span > .btn[disabled].active,
+.btn-group > span > .btn.disabled,
+.btn-group > span > .btn.disabled:hover,
+.btn-group > span > .btn.disabled:focus,
+.btn-group > span > .btn.disabled.focus,
+.btn-group > span > .btn.disabled:active,
+.btn-group > span > .btn.disabled.active,
+.btn-group > span > .btn[disabled],
+.btn-group > span > .btn[disabled]:hover,
+.btn-group > span > .btn[disabled]:focus,
+.btn-group > span > .btn[disabled].focus,
+.btn-group > span > .btn[disabled]:active,
+.btn-group > span > .btn[disabled].active,
 fieldset[disabled] .btn-group > span > .btn,
 fieldset[disabled] .btn-group > span > .btn:hover,
 fieldset[disabled] .btn-group > span > .btn:focus,
@@ -594,7 +634,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .menu-flat .btn span.edit-alt {
-  background: transparent url("/images/theme-default/edit-alt.svg") no-repeat 50% 50%;
+  background: transparent url("../images/theme-default/edit-alt.svg") no-repeat 50% 50%;
   background-size: 100%;
   vertical-align: bottom;
   width: 22px;
@@ -628,14 +668,15 @@ fieldset[disabled] .btn-group > span > .btn.active {
   text-decoration: inherit;
   width: 1.2em;
   height: 1.2em;
-  margin: .5em .85em;
+  margin: 0.5em 0.85em;
   text-align: center;
   font-variant: normal;
   text-transform: none;
   line-height: 2em;
 }
 
-.menu-flat.dropup, .menu-flat.dropdown {
+.menu-flat.dropup,
+.menu-flat.dropdown {
   position: relative;
 }
 
@@ -716,13 +757,16 @@ fieldset[disabled] .btn-group > span > .btn.active {
   display: inline-block;
 }
 
-.menu-flat .dropdown-menu > li > a:hover, .menu-flat .dropdown-menu > li > a:focus {
+.menu-flat .dropdown-menu > li > a:hover,
+.menu-flat .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: #fff;
   background-color: #3a393b;
 }
 
-.menu-flat .dropdown-menu > .active > a, .menu-flat .dropdown-menu > .active > a:hover, .menu-flat .dropdown-menu > .active > a:focus {
+.menu-flat .dropdown-menu > .active > a,
+.menu-flat .dropdown-menu > .active > a:hover,
+.menu-flat .dropdown-menu > .active > a:focus {
   color: #fff;
   text-decoration: none;
   outline: 0;
@@ -739,11 +783,14 @@ fieldset[disabled] .btn-group > span > .btn.active {
   background-color: #3a393b;
 }
 
-.menu-flat .dropdown-menu > .disabled > a, .menu-flat .dropdown-menu > .disabled > a:hover, .menu-flat .dropdown-menu > .disabled > a:focus {
+.menu-flat .dropdown-menu > .disabled > a,
+.menu-flat .dropdown-menu > .disabled > a:hover,
+.menu-flat .dropdown-menu > .disabled > a:focus {
   color: #999;
 }
 
-.menu-flat .dropdown-menu > .disabled > a:hover, .menu-flat .dropdown-menu > .disabled > a:focus {
+.menu-flat .dropdown-menu > .disabled > a:hover,
+.menu-flat .dropdown-menu > .disabled > a:focus {
   text-decoration: none;
   background-color: transparent;
   background-image: none;
@@ -906,7 +953,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-list-loading-icon-inline {
-  background: transparent url("/images/theme-default/spin5.svg") no-repeat 50% 50%;
+  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
   -webkit-animation: spin 3s infinite linear;
   -o-animation: spin 3s infinite linear;
   animation: spin 3s infinite linear;
@@ -1181,7 +1228,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-loading-icon {
-  background: transparent url("/images/theme-default/spin5.svg") no-repeat 50% 50%;
+  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
   -webkit-animation: spin 3s infinite linear;
   -o-animation: spin 3s infinite linear;
   animation: spin 3s infinite linear;
@@ -1221,7 +1268,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon {
-  background: transparent url("/images/theme-default/spin5.svg") no-repeat 50% 50%;
+  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
   -webkit-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;
   animation: spin 2s infinite linear;
@@ -1306,7 +1353,7 @@ input[type=checkbox].wok-checkbox + label:before {
 input[type=checkbox].wok-checkbox:checked + label:before {
   content: "\f14a";
   letter-spacing: 8px;
-  margin-right: 0.9px;
+  margin-right: 0.9px // Sub-pixel unit for Chrome and Firefox anti-alias;
 }
 
 input[type=radio].wok-radio + label:before {

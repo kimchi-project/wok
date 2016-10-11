@@ -103,6 +103,7 @@ wok.listUserLogConfig = function() {
     }, {
       "column-id": 'zone',
       "converter": 'string',
+      "width": "6%",
       "title": i18n['WOKSETT0013M']
     }, {
       "column-id": 'status',

@@ -88,7 +88,7 @@ def get_enabled_plugins():
 
 
 def get_all_tabs():
-    files = []
+    files = [os.path.join(paths.ui_dir, 'config/tab-ext.xml')]
 
     for plugin, _ in get_enabled_plugins():
         files.append(os.path.join(PluginPaths(plugin).ui_dir,

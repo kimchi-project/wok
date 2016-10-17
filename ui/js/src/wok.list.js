@@ -173,7 +173,7 @@ wok.widget.List.prototype = (function() {
             },function(event) {
                 var grid = event.data.grid;
                 grid.selectedIndex = [];
-                $("li :checkbox:checked", this.bodyContainer).map(function() {
+                $("li > :checkbox:checked", this.bodyContainer).map(function() {
                     return $(this).parent().index();
                 }).each(function() {
                     grid.selectedIndex.push(this);

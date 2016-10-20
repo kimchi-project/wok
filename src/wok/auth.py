@@ -301,8 +301,8 @@ def check_auth_httpba():
 
 def login(username, password, **kwargs):
     auth_args = {'auth_type': config.get("authentication", "method"),
-                 'username': username,
-                 'password': password}
+                 'username': username.encode('utf-8'),
+                 'password': password.encode('utf-8')}
 
     user = User.get(auth_args)
     if not user:

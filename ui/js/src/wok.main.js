@@ -208,10 +208,17 @@ wok.main = function() {
             $('#main').html('No plugins installed currently.You can download the available plugins <a href="https://github.com/kimchi-project/kimchi">Kimchi</a> and <a href="https://github.com/kimchi-project/ginger">Ginger</a> from Github').addClass('noPluginMessage');
         } else {
             var plugin = $(tab).parent().find("input[name='funcTab']").val();
+            var toolbar = $('#toolbar').closest('.navbar-default.toolbar');
+            $('#toolbar ul.tools').html('');
 
             $('#tabPanel').removeClass(function(i, css) {
                 return (css.match(/\S+Tab/g) || []).join(' ');
             });
+
+            $(toolbar).removeClass(function(i, css) {
+                return (css.match(/\S+Selected/g) || []).join(' ');
+            });
+
             $('#tabPanel').addClass(plugin + 'Tab');
             $('#tabPanel ul li').removeClass('active');
             $.each($('#tabPanel li'), function(i, t) {
@@ -224,6 +231,7 @@ wok.main = function() {
 
             $(tab).parent().addClass('active');
             $(tab).addClass(plugin + 'Selected').focus();
+            $(toolbar).addClass(plugin + 'Selected');
 
             $('#functionalTabPanel ul li').removeClass('active');
             $('#functionalTabPanel ul .' + plugin + 'Tab').parent().addClass('active').focus();

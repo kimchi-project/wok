@@ -57,19 +57,16 @@
     }
 }
 
-@each $page,
-$bgcolor in $colors {
-    ##{$page}-root-container .navbar-default.toolbar {
-        @if $page=='guests' or $page=='templates' or $page=='storage' or $page=='network' {
-            background-color: map-get($colors, guests) !important;
-        }
-        @else if $page=='host' {
-            background-color: map-get($colors, host) !important;
-        }
-        @else if $page=='wok' {
-            background-color: map-get($colors, wok) !important;
-        }
-    }
+.navbar-default.toolbar.virtualizationSelected {
+    background-color: map-get($colors, guests) !important;
+}
+
+.navbar-default.toolbar.hostSelected {
+    background-color: map-get($colors, host) !important;
+}
+
+.navbar-default.toolbar.wokSelected {
+    background-color: map-get($colors, wok) !important;
 }
 
 @each $tab,
@@ -78,8 +75,6 @@ $bgcolor in $colors {
         background-color: map-get($colors, $tab) !important;
     }
 }
-
-
 
 @media (min-width: $screen-sm-max) and (max-width: $screen-md-min) {
 

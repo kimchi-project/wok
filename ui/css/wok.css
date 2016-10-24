@@ -316,27 +316,15 @@ html.in-progress .disabled {
   margin-right: 15px;
 }
 
-#host-root-container .navbar-default.toolbar {
+.navbar-default.toolbar.virtualizationSelected {
+  background-color: #8cc63f !important;
+}
+
+.navbar-default.toolbar.hostSelected {
   background-color: #008abf !important;
 }
 
-#guests-root-container .navbar-default.toolbar {
-  background-color: #8cc63f !important;
-}
-
-#templates-root-container .navbar-default.toolbar {
-  background-color: #8cc63f !important;
-}
-
-#storage-root-container .navbar-default.toolbar {
-  background-color: #8cc63f !important;
-}
-
-#network-root-container .navbar-default.toolbar {
-  background-color: #8cc63f !important;
-}
-
-#wok-root-container .navbar-default.toolbar {
+.navbar-default.toolbar.wokSelected {
   background-color: #d9182d !important;
 }
 

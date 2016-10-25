@@ -17,11 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* Hide the "Build Me" warning */
-#buildme {
-    display: none;
-}
-
 .bgmask {
     position: fixed;
     left: 0;

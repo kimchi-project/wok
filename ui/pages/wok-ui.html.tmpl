@@ -91,29 +91,6 @@
     <script src="$href('base64/jquery.base64.js')"></script>
     <script src="$href('js/wok.min.js')"></script>
     <!-- This is used for detecting if the UI needs to be built -->
-    <style type="text/css">
-    #buildme {
-        position: fixed;
-        background: rgba(0, 0, 0, 0.5);
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10000;
-    }
-    #buildme div {
-        background-color: #FFB2C0;
-        border-style: solid;
-        border-color: #FF0000;
-        padding: 30px;
-        width: 75%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 50px;
-        -moz-border-radius: 15px;
-        border-radius: 15px;
-    }
-    </style>
     </head>
 <body onload="wok.main()">
     <div class="topbar">
@@ -172,13 +149,6 @@
         <div id="main">
         </div>
     </div>
-    </div>
-
-    <div id="buildme" style="display:none">
-        <div><p>Oops!  It looks like I am running from a source tree and you forgot to build!
-    Please run the following command from the wok and plugins directories and reload this page:</p>
-        <p><code>make</code></p>
-        </div>
     </div>
 
     <div class="modal fade host-modal" id="aboutModal" tabindex="-1" role="dialog" labelledby="aboutModalLabel" aria-hidden="true">

@@ -292,5 +292,10 @@ def _get_config():
 config = _get_config()
 
 
+def get_base_plugin_uri(p_name):
+    return os.path.join("/", config.get("server", "server_root"),
+                        "plugins", p_name)
+
+
 if __name__ == '__main__':
     print paths.prefix

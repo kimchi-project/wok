@@ -189,9 +189,7 @@ class Server(object):
                 plugin_class = ('plugins.%s.%s' %
                                 (plugin_name,
                                  plugin_name[0].upper() + plugin_name[1:]))
-                script_name = plugin_config['wok']['uri']
                 del plugin_config['wok']
-
                 plugin_config.update(PluginConfig(plugin_name))
             except KeyError:
                 continue
@@ -229,7 +227,9 @@ class Server(object):
                     "error: %s" % (plugin_class, e.message)
                 )
 
-            cherrypy.tree.mount(plugin_app, script_name, plugin_config)
+            cherrypy.tree.mount(plugin_app,
+                                config.get_base_plugin_uri(plugin_name),
+                                plugin_config)
 
     def start(self):
         # Subscribe to SignalHandler plugin

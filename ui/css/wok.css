@@ -316,66 +316,6 @@ html.in-progress .disabled {
   margin-right: 15px;
 }
 
-.navbar-default.toolbar.virtualizationSelected {
-  background-color: #8cc63f !important;
-}
-
-.navbar-default.toolbar.hostSelected {
-  background-color: #008abf !important;
-}
-
-.navbar-default.toolbar.wokSelected {
-  background-color: #d9182d !important;
-}
-
-#tabPanel.hostSelected {
-  background-color: #008abf !important;
-}
-
-#tabPanel.host {
-  background-color: #008abf !important;
-}
-
-#tabPanel.guests {
-  background-color: #8cc63f !important;
-}
-
-#tabPanel.templates {
-  background-color: #00a6a0 !important;
-}
-
-#tabPanel.storage {
-  background-color: #feb813 !important;
-}
-
-#tabPanel.network {
-  background-color: #7f1c7d !important;
-}
-
-#tabPanel.wok {
-  background-color: #d9182d !important;
-}
-
-#tabPanel.virtualizationTab {
-  background-color: #59930c !important;
-}
-
-#tabPanel.hostTab {
-  background-color: #00578c !important;
-}
-
-#tabPanel.virtualizationSelected {
-  background-color: #8cc63f !important;
-}
-
-#tabPanel.wokTab {
-  background-color: #930c0c !important;
-}
-
-#tabPanel.wokSelected {
-  background-color: #d9182d !important;
-}
-
 @media (min-width: 991px) and (max-width: 992px) {
   .host-dashboard .container {
     padding-right: 10px;

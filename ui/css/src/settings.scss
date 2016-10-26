@@ -71,22 +71,6 @@ div#user-log-actions {
     vertical-align: middle;
 }
 
-.label-primary.label-wok {
-  @include label-variant(map-get($colors, wok));
-}
-
-.label-primary.label-kimchi {
-  @include label-variant(map-get($colors, virtualizationSelected));
-}
-
-.label-primary.label-ginger {
-  @include label-variant(map-get($colors, hostTab));
-}
-
-.label-primary.label-gingerbase {
-  @include label-variant(map-get($colors, hostSelected));
-}
-
 .bootgrid-table th>.column-header-anchor>.icon.fa {
     right: 6px;
     top: 4px;

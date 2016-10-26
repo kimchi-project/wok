@@ -117,38 +117,6 @@ div#user-log-actions {
   vertical-align: middle;
 }
 
-.label-primary.label-wok {
-  background-color: #d9182d;
-}
-
-.label-primary.label-wok[href]:hover, .label-primary.label-wok[href]:focus {
-  background-color: #ab1323;
-}
-
-.label-primary.label-kimchi {
-  background-color: #8cc63f;
-}
-
-.label-primary.label-kimchi[href]:hover, .label-primary.label-kimchi[href]:focus {
-  background-color: #71a230;
-}
-
-.label-primary.label-ginger {
-  background-color: #00578c;
-}
-
-.label-primary.label-ginger[href]:hover, .label-primary.label-ginger[href]:focus {
-  background-color: #003759;
-}
-
-.label-primary.label-gingerbase {
-  background-color: #008abf;
-}
-
-.label-primary.label-gingerbase[href]:hover, .label-primary.label-gingerbase[href]:focus {
-  background-color: #00658c;
-}
-
 .bootgrid-table th > .column-header-anchor > .icon.fa {
   right: 6px;
   top: 4px;

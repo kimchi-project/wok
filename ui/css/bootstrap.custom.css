@@ -4353,67 +4353,6 @@ tbody.collapse.in {
   background-color: transparent;
 }
 
-.navbar-default .navbar-nav > .active > a.hostSelected, .navbar-default .navbar-nav > .active > a.hostSelected:hover, .navbar-default .navbar-nav > .active > a.hostSelected:focus {
-  height: 41px;
-  background-color: #008abf !important;
-}
-
-.navbar-default .navbar-nav > .active > a.host, .navbar-default .navbar-nav > .active > a.host:hover, .navbar-default .navbar-nav > .active > a.host:focus {
-  height: 41px;
-  background-color: #008abf !important;
-}
-
-.navbar-default .navbar-nav > .active > a.guests, .navbar-default .navbar-nav > .active > a.guests:hover, .navbar-default .navbar-nav > .active > a.guests:focus {
-  height: 41px;
-  background-color: #8cc63f !important;
-}
-
-.navbar-default .navbar-nav > .active > a.templates, .navbar-default .navbar-nav > .active > a.templates:hover, .navbar-default .navbar-nav > .active > a.templates:focus {
-  height: 41px;
-  background-color: #00a6a0 !important;
-}
-
-.navbar-default .navbar-nav > .active > a.storage, .navbar-default .navbar-nav > .active > a.storage:hover, .navbar-default .navbar-nav > .active > a.storage:focus {
-  height: 41px;
-  background-color: #feb813 !important;
-  color: #000 !important;
-}
-
-.navbar-default .navbar-nav > .active > a.network, .navbar-default .navbar-nav > .active > a.network:hover, .navbar-default .navbar-nav > .active > a.network:focus {
-  height: 41px;
-  background-color: #7f1c7d !important;
-}
-
-.navbar-default .navbar-nav > .active > a.wok, .navbar-default .navbar-nav > .active > a.wok:hover, .navbar-default .navbar-nav > .active > a.wok:focus {
-  height: 41px;
-  background-color: #d9182d !important;
-}
-
-.navbar-default .navbar-nav > .active > a.virtualizationTab, .navbar-default .navbar-nav > .active > a.virtualizationTab:hover, .navbar-default .navbar-nav > .active > a.virtualizationTab:focus {
-  height: 41px;
-  background-color: #59930c !important;
-}
-
-.navbar-default .navbar-nav > .active > a.hostTab, .navbar-default .navbar-nav > .active > a.hostTab:hover, .navbar-default .navbar-nav > .active > a.hostTab:focus {
-  height: 41px;
-  background-color: #00578c !important;
-}
-
-.navbar-default .navbar-nav > .active > a.virtualizationSelected, .navbar-default .navbar-nav > .active > a.virtualizationSelected:hover, .navbar-default .navbar-nav > .active > a.virtualizationSelected:focus {
-  height: 41px;
-  background-color: #8cc63f !important;
-}
-
-.navbar-default .navbar-nav > .active > a.wokTab, .navbar-default .navbar-nav > .active > a.wokTab:hover, .navbar-default .navbar-nav > .active > a.wokTab:focus {
-  height: 41px;
-  background-color: #930c0c !important;
-}
-
-.navbar-default .navbar-nav > .active > a.wokSelected, .navbar-default .navbar-nav > .active > a.wokSelected:hover, .navbar-default .navbar-nav > .active > a.wokSelected:focus {
-  height: 41px;
-  background-color: #d9182d !important;
-}
-
 .navbar-default .navbar-nav > .hostname {
   margin: 0;
   padding: 8px 10px;

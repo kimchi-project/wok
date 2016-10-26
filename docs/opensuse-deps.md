@@ -29,4 +29,4 @@ Packages required for UI development
 Packages required for tests
 ---------------------------
 
-    $ sudo zypper install python-pyflakes python-pep8 python-requests
+    $ sudo zypper install python-pyflakes python-pep8 python-requests rpmlint

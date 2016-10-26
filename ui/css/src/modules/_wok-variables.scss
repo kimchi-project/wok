@@ -21,9 +21,9 @@ $bootstrap-sass-asset-helper: false !default;
 // Variables
 // --------------------------------------------------
 
-$wok-logo: '/images/wok-logo.png';
-$wok-icon-path: '/images/theme-default';
-$icon-font-path: '/css/fontawesome/fontawesome-webfont.ttf';
+$wok-logo:          '/images/wok-logo.png';
+$wok-icon-path:     '/images/theme-default';
+$icon-font-path:    '/css/fontawesome/fontawesome-webfont.ttf';
 $modal-flat-color:  #8cc63f;
 $wok-color:         #d9182d;
 
@@ -31,15 +31,15 @@ $wok-color:         #d9182d;
 //
 //## Gray and brand colors for use across Bootstrap.
 
-$gray-base:              #000 !default;
-$gray-darker:            #222 !default;
-$gray-dark:               $gray-darker !default;
-$gray:                      #444 !default;
-$gray-med:              #777 !default;
-$gray-light:               #999 !default;
-$gray-lighter:            #fff !default;
+$gray-base:     #000 !default;
+$gray-darker:   #222 !default;
+$gray-dark:     $gray-darker !default;
+$gray:          #444 !default;
+$gray-med:      #777 !default;
+$gray-light:    #999 !default;
+$gray-lighter:  #fff !default;
 
-$brand-primary:         #3a393b !default; // #3a393b
+$brand-primary:         #3a393b !default;
 $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
@@ -47,12 +47,9 @@ $brand-danger:          #d9534f !default;
 $wok-dropdown:          #4d4c4e !default;
 $fa-green:              #a8d46f !default;
 $vnc-blue:              #5ab3d4;
-$toggle-checkbox-trigger-bg:   #a7a7a8;
-$toggle-checkbox-trigger-checked-bg:   $brand-primary;
-$toggle-checkbox-label-bg:   #d6d6d6;
-
-
-
+$toggle-checkbox-trigger-bg:            #a7a7a8;
+$toggle-checkbox-trigger-checked-bg:    $brand-primary;
+$toggle-checkbox-label-bg:              #d6d6d6;
 
 //== Scaffolding
 //
@@ -82,15 +79,14 @@ $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
 $font-family-base:        $font-family-sans-serif !default;
-$font-family-light:         $font-family-sans-serif !default;
-$font-family-bold:         $font-family-sans-serif !default;
-$font-family-alternate: $font-family-sans-serif !default;
-
+$font-family-light:       $font-family-sans-serif !default;
+$font-family-bold:        $font-family-sans-serif !default;
+$font-family-alternate:   $font-family-sans-serif !default;
 
 $font-size-base:          14px !default;
 $font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
 $font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
-$font-size-btn:             13.5pt;
+$font-size-btn:           13.5pt;
 
 $font-size-h1:            1.571em !default;
 $font-size-h2:            22px !default;
@@ -180,8 +176,7 @@ $table-bg-active:               $table-bg-hover !default;
 
 //** Border color for table and cell borders.
 $table-border-color:            #eee !default;
-$table-first-row-border-color:            #e3e3e3 !default;
-
+$table-first-row-border-color:  #e3e3e3 !default;
 
 //== Buttons
 //
@@ -195,27 +190,27 @@ $btn-default-border:             #ccc !default;
 
 $btn-primary-color:              #fff !default;
 $btn-primary-bg:                 $brand-primary !default;
-$btn-primary-border:           $btn-primary-bg !default;
+$btn-primary-border:             $btn-primary-bg !default;
 
-$btn-login-color:              #fff !default;
-$btn-login-bg:                 #008abf !default;
-$btn-login-border:             $btn-login-bg !default;
+$btn-login-color:                #fff !default;
+$btn-login-bg:                   #008abf !default;
+$btn-login-border:               $btn-login-bg !default;
 
 $btn-success-color:              #fff !default;
 $btn-success-bg:                 $brand-success !default;
-$btn-success-border:           $btn-success-bg !default;
+$btn-success-border:             $btn-success-bg !default;
 
 $btn-info-color:                 #fff !default;
 $btn-info-bg:                    $brand-info !default;
-$btn-info-border:              $brand-info !default;
+$btn-info-border:                $brand-info !default;
 
 $btn-warning-color:              #fff !default;
 $btn-warning-bg:                 $brand-warning !default;
-$btn-warning-border:           $brand-warning !default;
+$btn-warning-border:             $brand-warning !default;
 
 $btn-danger-color:               #fff !default;
 $btn-danger-bg:                  $brand-danger !default;
-$btn-danger-border:            $brand-danger !default;
+$btn-danger-border:              $brand-danger !default;
 
 $btn-link-disabled-color:        $gray-light !default;
 
@@ -315,23 +310,23 @@ $dropdown-caret-color:           #000 !default;
 //
 //## Menu-Flat Dropdown menu container and contents.
 
-$menu-flat-text:                                    #fff !default;
-$menu-flat-dropdown-bg:                       #3a393b !default;
-$line-height-menu-flat:                             31px;
+$menu-flat-text:                        #fff !default;
+$menu-flat-dropdown-bg:                 #3a393b !default;
+$line-height-menu-flat:                 31px;
 //** Menu-Flat Dropdown menu `border-color`.
-$menu-flat-dropdown-border:                 #2e2e2e !default;
-$menu-flat-dropdown-divider-bg:             #404042 !default;
-$menu-flat-dropdown-critical-bg:             #d9182d !default;
+$menu-flat-dropdown-border:             #2e2e2e !default;
+$menu-flat-dropdown-divider-bg:         #404042 !default;
+$menu-flat-dropdown-critical-bg:        #d9182d !default;
 //** Dropdown link text color.
-$menu-flat-dropdown-link-color:              $menu-flat-text !default;
+$menu-flat-dropdown-link-color:         $menu-flat-text !default;
 //** Hover color for dropdown links.
-$menu-flat-dropdown-link-hover-color:     $menu-flat-text !default;
+$menu-flat-dropdown-link-hover-color:   $menu-flat-text !default;
 //** Hover background for dropdown links.
-$menu-flat-dropdown-link-hover-bg:         $menu-flat-dropdown-bg !default;
+$menu-flat-dropdown-link-hover-bg:      $menu-flat-dropdown-bg !default;
 //** Active dropdown menu item text color.
-$menu-flat-dropdown-link-active-color:     $menu-flat-text !default;
+$menu-flat-dropdown-link-active-color:  $menu-flat-text !default;
 //** Active dropdown menu item background color.
-$menu-flat-dropdown-link-active-bg:        $menu-flat-dropdown-bg !default;
+$menu-flat-dropdown-link-active-bg:     $menu-flat-dropdown-bg !default;
 
 
 //-- Z-index master list
@@ -431,10 +426,10 @@ $container-lg:                 $container-large-desktop !default;
 
 // Basics of a navbar
 $navbar-height:                    40px !default;
-$navbar-margin-bottom:          0 !default;
+$navbar-margin-bottom:             0 !default;
 $navbar-border-radius:             0 !default;
 $navbar-padding-horizontal:        0 !default;
-$navbar-right-padding-horizontal:        10px !default;
+$navbar-right-padding-horizontal:  10px !default;
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
 $navbar-collapse-max-height:       340px !default;
 
@@ -469,7 +464,7 @@ $navbar-inverse-bg:                         #222 !default;
 $navbar-inverse-border:                     $navbar-inverse-bg !default;
 
 // Inverted navbar links
-$navbar-inverse-link-color:                    $highlights-color !default;
+$navbar-inverse-link-color:                 $highlights-color !default;
 $navbar-inverse-link-hover-color:           $navbar-inverse-link-color !default;
 $navbar-inverse-link-hover-bg:              transparent !default;
 $navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color !default;
@@ -583,8 +578,8 @@ $state-warning-bg:               #f1e3c2 !default;
 $state-warning-border:           #fdb813 !default;
 
 $state-danger-text:              #6c6c6c !default;
-$state-danger-bg:                 #eac3c7 !default;
-$state-danger-border:           #d9182d !default;
+$state-danger-bg:                #eac3c7 !default;
+$state-danger-border:            #d9182d !default;
 
 
 //== Tooltips
@@ -698,7 +693,7 @@ $alert-padding:               8px 15px !default;
 $alert-border-radius:         0 !default;
 $alert-link-font-weight:      bold !default;
 $alert-border-width:          0 0 0 5px !default;
-$alert-font-size:                10.5pt !default;
+$alert-font-size:             10.5pt !default;
 
 $alert-success-bg:            $state-success-bg !default;
 $alert-success-text:          $state-success-text !default;
@@ -965,9 +960,9 @@ $hr-border:                   $gray-lighter !default;
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE. */
 
-$color-red-error: rgb(185, 74, 72);
-$color-blue-hover: rgb(100, 177, 216);
-$color-gray-arrow: rgb(204, 204, 204);
+$color-red-error:   rgb(185, 74, 72);
+$color-blue-hover:  rgb(100, 177, 216);
+$color-gray-arrow:  rgb(204, 204, 204);
 
 $width-default: 220px;
 

@@ -35,12 +35,12 @@
 
 .wok {
     div.modal-footer {
-        background-color: map-get($colors, wok);
+        background-color: $wok-color;
     }
     .modal-body .nav-tabs > li.active > a,
     .modal-body .nav-tabs > li.active > a:hover,
     .modal-body .nav-tabs > li.active > a:focus {
-        border-color: -moz-use-text-color -moz-use-text-color map-get($colors, wok);
+        border-color: -moz-use-text-color -moz-use-text-color $wok-color;
     }
 
     &.modal {

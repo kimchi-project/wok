@@ -130,7 +130,7 @@
   text-align: left !important;
   border-top: 0;
   margin-top: 20px;
-  background-color: map-get($colors, guests);
+  background-color: $modal-flat-color;
   @include clearfix; // clear it in case folks use .pull-* classes on buttons
 
   .btn {
@@ -224,7 +224,7 @@
 .modal-body .nav-tabs > li.active > a, .modal-body .nav-tabs > li.active > a:hover, .modal-body .nav-tabs > li.active > a:focus {
     border: 0;
     border-radius: 0;
-    border-bottom: 5px solid map-get($colors, guests);
+    border-bottom: 5px solid $modal-flat-color;
     font-weight: 600;
 }
 

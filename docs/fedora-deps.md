@@ -42,7 +42,7 @@ Packages required for UI development
 Packages required for tests
 ---------------------------
 
-    $ sudo yum install pyflakes python-pep8 python-requests
+    $ sudo yum install pyflakes python-pep8 python-requests rpmlint
 
     # For RHEL systems, install the additional packages:
     $ sudo yum install python-unittest2

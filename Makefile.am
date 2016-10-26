@@ -68,7 +68,10 @@ check-local:
 			&& echo "ERROR: Whitespaces found" || echo "Ok";     	\
 		echo "Check IBM license header and copyright date ..." ;    \
 		/bin/bash check-IBM-license-header.sh ;						\
-	fi
+		fi;
+		@if [ -f $(RPMLINT) ]; then 								\
+			./check_spec_errors.sh; 								\
+		fi;
 
 # Link built mo files in the source tree to enable use of translations from
 # within the source tree

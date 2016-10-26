@@ -69,7 +69,7 @@ wok.createBootgrid = function(opts) {
     rowSelect: false,
     formatters: {
       "settings-user-log-app": function(column, row) {
-        return '<span class="label label-primary label-'+row.app+'">' +row.app+ '</span> ';
+        return '<span class="label label-primary" style="background-color:' + wok.pluginsColor[row.app] + '">' + row.app + '</span> ';
       },
       "settings-user-log-message": function(column, row) {
         return '<span class="trim" data-toggle="tooltip"  data-placement="auto bottom" title="'+row.message+'">' +row.message+ '</span> ';

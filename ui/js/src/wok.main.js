@@ -20,6 +20,7 @@
 
 wok.NOTIFICATION_INTERVAL = 2000
 wok.tabMode = {};
+wok.pluginsColor = {};
 
 wok.config = undefined;
 wok.getConfig(function(result) {
@@ -81,7 +82,7 @@ wok.main = function() {
         return functionalTabHtml.join('');
     };
 
-    var parseTabs = function(xmlData) {
+    var parseTabs = function(plugin, xmlData) {
         var tabs = [];
         var funcNode = $(xmlData).find('functionality');
         var functionality = funcNode.text();
@@ -117,13 +118,14 @@ wok.main = function() {
         return tabs;
     };
 
-    var retrieveTabs = function(url) {
+    var retrieveTabs = function(plugin, url) {
         var tabs = [];
         $.ajax({
             url : url,
             async : false,
+            context: plugin,
             success : function(xmlData) {
-                tabs = parseTabs(xmlData);
+                tabs = parseTabs(this, xmlData);
             },
             statusCode : {
                 404: function() {
@@ -139,7 +141,7 @@ wok.main = function() {
     var pluginI18nUrl = 'plugins/{plugin}/i18n.json';
     var DEFAULT_HASH;
     var buildTabs = function(callback) {
-        var tabs = retrieveTabs(wokConfigUrl);
+        var tabs = retrieveTabs('wok', wokConfigUrl);
         wok.listPlugins(function(plugins) {
             $(plugins).each(function(i, p) {
                 var url = wok.substitute(pluginConfigUrl, {
@@ -151,7 +153,7 @@ wok.main = function() {
                 wok.getI18n(function(i18nObj){ $.extend(i18n, i18nObj)},
                             function(i18nObj){ //i18n is not define by plugin
                             }, i18nUrl, true);
-                var pluginTabs = retrieveTabs(url);
+                var pluginTabs = retrieveTabs(p, url);
                 if(pluginTabs.length > 0){
                     tabs.push.apply(tabs, pluginTabs);
                 }

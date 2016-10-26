@@ -21,6 +21,7 @@
 
 import cherrypy
 
+from wok.config import get_base_plugin_uri
 from wok.utils import get_enabled_plugins
 
 
@@ -32,4 +33,4 @@ class PluginsModel(object):
         # Will only return plugins that were loaded correctly by WOK and are
         # properly configured in cherrypy
         return [plugin for (plugin, config) in get_enabled_plugins()
-                if config.get('wok').get('uri') in cherrypy.tree.apps.keys()]
+                if get_base_plugin_uri(plugin) in cherrypy.tree.apps.keys()]

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs-ext>
-    <functionality>Wok</functionality>
+    <functionality colorTab1="#930c0c" colorTab2="#d9182d">Wok</functionality>
     <tab>
         <access role="admin" mode="admin"/>
         <access role="user" mode="none"/>

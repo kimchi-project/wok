@@ -57,25 +57,6 @@
     }
 }
 
-.navbar-default.toolbar.virtualizationSelected {
-    background-color: map-get($colors, guests) !important;
-}
-
-.navbar-default.toolbar.hostSelected {
-    background-color: map-get($colors, host) !important;
-}
-
-.navbar-default.toolbar.wokSelected {
-    background-color: map-get($colors, wok) !important;
-}
-
-@each $tab,
-$bgcolor in $colors {
-    #tabPanel.#{$tab} {
-        background-color: map-get($colors, $tab) !important;
-    }
-}
-
 @media (min-width: $screen-sm-max) and (max-width: $screen-md-min) {
 
     .host-dashboard .container {

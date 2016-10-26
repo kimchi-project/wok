@@ -622,21 +622,6 @@
 
     }
 
-    @each $page, $bgcolor in $colors {
-
-    > .active > a.#{$page} {
-        &,
-        &:hover,
-        &:focus {
-          height: 41px;
-          background-color: $bgcolor !important;
-          @if $page == 'storage' {
-            color: $gray-base !important;
-          }
-        }
-      }
-    }
-
     > .hostname {
       margin: 0;
       padding: 8px 10px;

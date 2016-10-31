@@ -52,22 +52,6 @@ if test "x$PYFLAKES" = "x"; then
   AC_MSG_WARN([pyflakes not found])
 fi
 
-AC_ARG_ENABLE(
-    [sample],
-    [AS_HELP_STRING(
-        [--enable-sample],
-        [enable sample plugin @<:@default=no@:>@]
-    )],
-    ,
-    [enable_sample="no"]
-)
-
-if test "${enable_sample}" = "yes"; then
-AC_SUBST([ENABLE_SAMPLE], [True])
-else
-AC_SUBST([ENABLE_SAMPLE], [False])
-fi
-
 # check for systemd
 PKG_PROG_PKG_CONFIG
 AC_ARG_WITH([systemdsystemunitdir],
@@ -100,13 +84,6 @@ AC_CONFIG_FILES([
     src/wok/model/Makefile
     src/wok/xmlutils/Makefile
     src/wok/plugins/Makefile
-    src/wok/plugins/sample/Makefile
-    src/wok/plugins/sample/po/Makefile.in
-    src/wok/plugins/sample/sample.conf
-    src/wok/plugins/sample/ui/Makefile
-    src/wok/plugins/sample/ui/config/Makefile
-    src/wok/plugins/sample/ui/js/Makefile
-    src/wok/plugins/sample/ui/pages/Makefile
     ui/Makefile
     ui/base64/Makefile
     ui/css/Makefile

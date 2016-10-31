@@ -155,7 +155,7 @@ install-data-local:
 	$(INSTALL_DATA) src/dhparams.pem $(DESTDIR)/etc/wok/dhparams.pem
 	touch $(DESTDIR)/etc/nginx/conf.d/wok.conf
 	mkdir -p $(DESTDIR)/etc/logrotate.d/
-	touch $(DESTDIR)/etc/logrotate.d/wokd
+	$(INSTALL_DATA) $(top_srcdir)/src/wok.logrotate $(DESTDIR)/etc/logrotate.d/wokd
 
 uninstall-local:
 	@if test -f $(systemdsystemunitdir)/wokd.service; then \

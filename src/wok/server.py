@@ -30,7 +30,7 @@ from string import Template
 from wok import auth
 from wok import config
 from wok.config import config as configParser
-from wok.config import paths, PluginConfig, WokConfig
+from wok.config import PluginConfig, WokConfig
 from wok.control import sub_nodes
 from wok.model import model
 from wok.proxy import start_proxy
@@ -45,17 +45,6 @@ LOGGING_LEVEL = {"debug": logging.DEBUG,
                  "warning": logging.WARNING,
                  "error": logging.ERROR,
                  "critical": logging.CRITICAL}
-LOGROTATE_TEMPLATE = """
-${log_dir}/*log {
-    daily
-    nomail
-    maxsize ${log_size}
-    rotate 10
-    nomissingok
-    compress
-}
-"""
-
 
 def set_no_cache():
     from time import strftime, gmtime
@@ -146,21 +135,6 @@ class Server(object):
 
         # start request logger
         self.reqLogger = RequestLogger()
-
-        # only add logrotate if wok is installed
-        if paths.installed:
-
-            # redefine logrotate configuration according to wok.conf
-            data = Template(LOGROTATE_TEMPLATE)
-            data = data.safe_substitute(
-                log_dir=configParser.get("logging", "log_dir"),
-                log_size=configParser.get("logging", "log_size")
-            )
-
-            # Write file to be used for nginx.
-            config_file = open(os.path.join(paths.logrotate_dir, "wokd"), "w")
-            config_file.write(data)
-            config_file.close()
 
         # Handling running mode
         if not dev_env:

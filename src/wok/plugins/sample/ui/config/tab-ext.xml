@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs-ext>
+    <functionality colorTab1="#B404AE" colorTab2="#DF01D7">Sample</functionality>
     <tab>
         <access role="admin" mode="admin"/>
         <access role="user" mode="none"/>
-
-        <title>SampleTab 1</title>
-        <path>plugins/sample/sample-tab1.html</path>
+        <title>SampleTab1</title>
+        <path>plugins/sample/tabs/sample-tab1.html</path>
+        <order>85</order>
     </tab>
     <tab>
         <access role="admin" mode="admin"/>
         <access role="user" mode="none"/>
-
-        <title>SampleTab 2</title>
-        <path>plugins/sample/sample-tab2.html</path>
+        <title>SampleTab2</title>
+        <path>plugins/sample/tabs/sample-tab2.html</path>
+        <order>90</order>
     </tab>
 </tabs-ext>

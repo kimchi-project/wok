@@ -1,7 +1,7 @@
 #*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2016
  *
  * Code derived from Project Kimchi
  *
@@ -17,12 +17,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *#
+
 #unicode UTF-8
+
 <!DOCTYPE html>
 <html>
-<script type="text/javascript" src="plugins/sample/js/util.js"></script>
+<head>
+    <link rel="stylesheet" href="plugins/sample/css/sample.css">
+    <script type="text/javascript" src="plugins/sample/js/util.js"></script>
+</head>
 <body>
+  <div id="sample-root-container">
     <div id="samplebody"/>
+</div>
 </body>
 <script>
     sample.description(function(r){

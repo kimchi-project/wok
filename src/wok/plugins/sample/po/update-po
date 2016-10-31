@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2016
 #
 # Code derived from Project Kimchi
 #
@@ -19,10 +19,16 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 
-for src in $@; do
+for src in `cat POTFILES.in`; do
     if [ ${src: -3} == ".py" ]; then
         cat $src
     else
         cat $src | cheetah compile -
     fi
 done | xgettext --no-location -o sample.pot -L Python -
+
+for lingua in `cat LINGUAS`; do
+    msgmerge --update --no-fuzzy-matching --backup=off $lingua.po sample.pot 
+    msgfmt -c --statistics --verbose -o $lingua.gmo $lingua.po
+done
+

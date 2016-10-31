@@ -1,2 +1,2 @@
-# List of source files which contain translatable strings.
-src/wok/plugins/sample/ui/pages/*.tmpl
+../ui/pages/*.tmpl
+../i18n.py

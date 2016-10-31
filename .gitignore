@@ -36,7 +36,6 @@ src/wok/config.py
 tests/run_tests.sh
 tests/test_config.py
 src/wok/plugins/sample/po/POTFILES
-src/wok/plugins/sample/sample.conf
 ui/pages/help/*/*.html
 po/POTFILES
 po/gen-pot

@@ -33,8 +33,6 @@ src/wok.conf.in
 src/wok/API.json
 src/wok/plugins/sample/API.json
 src/wok/plugins/sample/po/LINGUAS
-src/wok/plugins/sample/po/Makefile.in.in
-src/wok/plugins/sample/po/Makevars
 src/wok/plugins/sample/po/POTFILES.in
 src/wok/plugins/sample/po/sample.pot
 src/wok/plugins/sample/sample.conf.in

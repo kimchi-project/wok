@@ -23,6 +23,14 @@ from wok.basemodel import BaseModel
 from wok.exception import InvalidOperation, NotFoundError
 
 
+class ConfigModel(object):
+    def __init__(self):
+        pass
+
+    def lookup(self, *name):
+        return {'version': '2.3.0'}
+
+
 class CirclesModel(object):
     def __init__(self):
         self._circles = {}
@@ -110,18 +118,6 @@ class RectangleModel(object):
             pass
 
 
-class Model(BaseModel):
-    def __init__(self):
-        circles = CirclesModel()
-        circle = CircleModel(circles)
-
-        rectangles = RectanglesModel()
-        rectangle = RectangleModel(rectangles)
-
-        return super(Model, self).__init__(
-            [circle, circles, rectangle, rectangles])
-
-
 class Rectangle(object):
     def __init__(self, length, width):
         self.length = length
@@ -131,3 +127,20 @@ class Rectangle(object):
 class Circle(object):
     def __init__(self, radius):
         self.radius = radius
+
+
+"""
+All model instances must be grouped into one Model class as below.
+"""
+class Model(BaseModel):
+    def __init__(self):
+        config = ConfigModel()
+
+        circles = CirclesModel()
+        circle = CircleModel(circles)
+
+        rectangles = RectanglesModel()
+        rectangle = RectangleModel(rectangles)
+
+        return super(Model, self).__init__(
+            [config, circle, circles, rectangle, rectangles])

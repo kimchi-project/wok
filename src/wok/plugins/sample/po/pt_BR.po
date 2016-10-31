@@ -20,5 +20,49 @@ msgstr ""
 "X-Poedit-Language: Portuguese\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-msgid "SampleTab"
-msgstr "Tab de exemplo"
+msgid "SampleTab1"
+msgstr "Aba de Exemplo 1"
+
+msgid "SampleTab2"
+msgstr "Aba de Exemplo 2"
+
+#, python-format
+msgid "Unkown parameter specified %(value)s"
+msgstr ""
+
+#, python-format
+msgid "The specified value %(value)s is not a positive number"
+msgstr ""
+
+#, python-format
+msgid "Circle %(name)s does not exist"
+msgstr ""
+
+msgid "Specify name and radius to create a Circle"
+msgstr ""
+
+msgid "Circle name must be a string"
+msgstr ""
+
+msgid "Circle radius must be a positive number"
+msgstr ""
+
+#, python-format
+msgid "Rectangle %(name)s already exists"
+msgstr ""
+
+#, python-format
+msgid "Rectangle %(name)s does not exist"
+msgstr ""
+
+msgid "Specify name, length and width to create a Rectangle"
+msgstr ""
+
+msgid "Rectangle name must be a string"
+msgstr ""
+
+msgid "Rectangle length must be a positive number"
+msgstr ""
+
+msgid "Rectangle width must be a positive number"
+msgstr ""

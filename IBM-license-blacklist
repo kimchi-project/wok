@@ -35,7 +35,6 @@ src/wok/plugins/sample/API.json
 src/wok/plugins/sample/po/LINGUAS
 src/wok/plugins/sample/po/POTFILES.in
 src/wok/plugins/sample/po/sample.pot
-src/wok/plugins/sample/sample.conf.in
 src/wok/plugins/sample/ui/config/tab-ext.xml
 src/wok/plugins/sample/ui/pages/help/en_US/.*.html
 ui/base64/README.md

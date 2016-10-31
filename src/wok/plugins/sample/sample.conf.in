@@ -1,5 +1,5 @@
 [wok]
-enable = @ENABLE_SAMPLE@
+enable = False
 plugin_class = "Drawings"
 uri = "/plugins/sample"
 

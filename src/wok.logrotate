@@ -1,0 +1,9 @@
+/var/log/wok {
+    daily
+    nomail
+    maxsize 10M
+    rotate 10
+    nomissingok
+    compress
+}
+

@@ -45,13 +45,15 @@
 
 [logging]
 # Log directory
+
+# Be aware that editting logging directory, you must change logrotate
+# configuration file to keep logs being compressed.
+# Look /etc/logrotate.d/wokd
+
 #log_dir = @localstatedir@/log/wok
 
 # Logging level: debug, info, warning, error or critical
 #log_level = debug
-
-# Log file size (specify size in K, M or G)
-#log_size = 10M
 
 [authentication]
 # Authentication method, available option: pam, ldap.

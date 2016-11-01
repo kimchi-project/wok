@@ -25,8 +25,6 @@ import logging
 import logging.handlers
 import os
 
-from string import Template
-
 from wok import auth
 from wok import config
 from wok.config import config as configParser
@@ -45,6 +43,7 @@ LOGGING_LEVEL = {"debug": logging.DEBUG,
                  "warning": logging.WARNING,
                  "error": logging.ERROR,
                  "critical": logging.CRITICAL}
+
 
 def set_no_cache():
     from time import strftime, gmtime

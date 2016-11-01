@@ -28,6 +28,7 @@ po/Makevars
 po/POTFILES.in
 po/wok.pot
 src/firewalld.xml
+src/wok.logrotate
 src/wok.conf.in
 src/wok/API.json
 src/wok/plugins/sample/API.json

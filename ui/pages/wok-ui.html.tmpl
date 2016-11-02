@@ -160,8 +160,8 @@
       <div class="well">
         <p>$_("Your session will expire on: 30s. Do you want to renew it?")</p>
         <div class="form-group">
-          <button class="btn btn-primary btn-xs" id="renew-session-button" onclick="wok.session.renewSession();">Renew</button>
-          <button class="btn btn-primary btn-xs" id="dismiss-session-button" onclick="wok.session.hideExpiringAlert();">Dismiss</button>
+          <button class="btn btn-primary btn-xs" id="renew-session-button" onclick="wok.session.renewSession();">$_("Renew")</button>
+          <button class="btn btn-primary btn-xs" id="dismiss-session-button" onclick="wok.session.hideExpiringAlert();">$_("Dismiss")</button>
         </div>
       </div>
     </div>
@@ -195,7 +195,7 @@
             <p class="text-muted powered hidden">$_("Powered by"):</p>
             <ul id="plugins">
             </ul>
-            <span class="wok-version">Wok Version: $get_version()</span>
+            <span class="wok-version">$_("Wok Version"): $get_version()</span>
         </div>
     </footer>
 </body>

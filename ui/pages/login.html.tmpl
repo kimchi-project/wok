@@ -111,12 +111,12 @@
                 <form id="form-login" class="form-horizontal" method="post">
                     <div class="form-group">
                         <label for="username" class="sr-only">$_("User Name")</label>
-                        <input type="text" class="form-control" id="username" name="username" required="required" placeholder="$_(" User Name ")" autofocus autocomplete="off" />
+                        <input type="text" class="form-control" id="username" name="username" required="required" placeholder="$_(" User Name ")" autofocus autocomplete="off" title=" " />
                         <div id="username-msg" class="msg-required"></div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="sr-only">$_("Password")</label>
-                        <input type="password" class="form-control" id="password" name="password" required="required" placeholder="$_(" Password ")"  autocomplete="off" />
+                        <input type="password" class="form-control" id="password" name="password" required="required" placeholder="$_(" Password ")"  autocomplete="off" title=" "/>
                         <div id="password-msg" class="msg-required"></div>
                     </div>
                     <div class="form-group">
@@ -322,7 +322,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4 delayed-fadein">
-                    <p class="text-muted powered hidden">Powered by:</p>
+                    <p class="text-muted powered hidden">$_("Powered by:")</p>
                     <ul id="wok-logos" class="list-inline"></ul>
                 </div>
             </div>

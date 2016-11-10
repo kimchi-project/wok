@@ -28,7 +28,7 @@ for src in `cat POTFILES.in`; do
 done | xgettext --no-location -o sample.pot -L Python -
 
 for lingua in `cat LINGUAS`; do
-    msgmerge --update --no-fuzzy-matching --backup=off $lingua.po sample.pot 
+    msgmerge --update --no-fuzzy-matching --backup=off $lingua.po sample.pot
     msgfmt -c --statistics --verbose -o $lingua.gmo $lingua.po
 done
 

@@ -64,7 +64,7 @@ class SSLCert(object):
         self.cert.set_not_after(nowPlusYear)
 
         issuer = X509.X509_Name()
-        issuer.CN = 'kimchi'
+        issuer.CN = 'wok'
         issuer.O = 'kimchi-project.org'
         self.cert.set_issuer(issuer)
 

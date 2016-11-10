@@ -26,5 +26,6 @@ case "$1" in
     ;;
     purge)
         rm -rf /var/log/wok /var/run/wok.pid /usr/share/wok/
+        rm /etc/wok/wok-key.pem /etc/wok/wok-cert.pem
     ;;
 esac

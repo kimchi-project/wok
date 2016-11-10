@@ -19,18 +19,24 @@
  */
 wok.login_main = function() {
     "use strict";
+
+    // verify if language is available
     var selectedLanguage = wok.lang.get();
-    $('#userLang').val(selectedLanguage);
-    $('#userLang option[value="'+selectedLanguage+'"]').attr("selected", "selected");
-    $('.filter-option:first').parent().attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
-    $('.filter-option:first').text($('#userLang option[value="'+selectedLanguage+'"]').text());
+    if ($('#userLang option[value="'+selectedLanguage+'"]').length == 1)  {
+        $('#userLang').val(selectedLanguage);
+        $('#userLang option[value="'+selectedLanguage+'"]').attr("selected", "selected");
+        $('.filter-option:first').parent().attr('title',$('#userLang option[value="'+selectedLanguage+'"]').text());
+        $('.filter-option:first').text($('#userLang option[value="'+selectedLanguage+'"]').text());
+    }
 
+    // verify if locale is available
     var selectedLocale = wok.lang.get_locale();
-    $('#userLocale').val(selectedLocale);
-    $('#userLocale option[value="'+selectedLocale+'"]').attr("selected", "selected");
-    $('.filter-option:last').parent().attr('title',$('#userLocale option[value="'+selectedLocale+'"]').text());
-    $('.filter-option:last').text($('#userLocale option[value="'+selectedLocale+'"]').text());
-
+    if ($('#userLocale option[value="'+selectedLocale+'"]').length == 1) {
+        $('#userLocale').val(selectedLocale);
+        $('#userLocale option[value="'+selectedLocale+'"]').attr("selected", "selected");
+        $('.filter-option:last').parent().attr('title',$('#userLocale option[value="'+selectedLocale+'"]').text());
+        $('.filter-option:last').text($('#userLocale option[value="'+selectedLocale+'"]').text());
+    }
 
     $('#userLang').on('change', function() {
         wok.lang.set($(this).val());

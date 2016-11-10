@@ -1,5 +1,7 @@
 [Unit]
 Description=Wok - Webserver Originated from Kimchi
+Wants=nginx.service
+After=nginx.service
 
 [Service]
 Type=simple

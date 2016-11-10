@@ -17,7 +17,7 @@ contrib/DEBIAN/control.in
 contrib/wok.spec.fedora.in
 contrib/wok.spec.suse.in
 contrib/wokd.logrotate.in
-contrib/wokd.service.fedora
+contrib/wokd.service.systemd
 docs/API/.*.md
 docs/.*.md
 docs/wokd.8.in

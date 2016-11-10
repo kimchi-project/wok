@@ -34,24 +34,15 @@ import utils
 
 test_server = None
 model = None
-host = None
-port = None
-ssl_port = None
-cherrypy_port = None
 tmpfile = None
 
 
 def setUpModule():
-    global test_server, model, host, port, ssl_port, cherrypy_port, tmpfile
+    global test_server, model, tmpfile
 
     utils.patch_auth()
     tmpfile = tempfile.mktemp()
-    host = '127.0.0.1'
-    port = utils.get_free_port('http')
-    ssl_port = utils.get_free_port('https')
-    cherrypy_port = utils.get_free_port('cherrypy_port')
-    test_server = utils.run_server(host, port, ssl_port, test_mode=True,
-                                   cherrypy_port=cherrypy_port)
+    test_server = utils.run_server(test_mode=True)
 
 
 def tearDownModule():
@@ -60,7 +51,7 @@ def tearDownModule():
 
 class ServerTests(unittest.TestCase):
     def setUp(self):
-        self.request = partial(utils.request, host, ssl_port)
+        self.request = partial(utils.request)
 
     def assertValidJSON(self, txt):
         try:

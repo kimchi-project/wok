@@ -20,25 +20,18 @@
 import json
 import unittest
 
-from utils import get_free_port, patch_auth, request, run_server
+from utils import patch_auth, request, run_server
 
 
 test_server = None
 model = None
-host = None
-port = None
-ssl_port = None
 
 
 def setup_server(environment='development', server_root=''):
-    global test_server, model, host, port, ssl_port
+    global test_server, model
 
     patch_auth()
-    host = '127.0.0.1'
-    port = get_free_port('http')
-    ssl_port = get_free_port('https')
-    test_server = run_server(host, port, ssl_port, test_mode=True,
-                             environment=environment,
+    test_server = run_server(test_mode=True, environment=environment,
                              server_root=server_root)
 
 
@@ -54,7 +47,7 @@ class ServerRootTests(unittest.TestCase):
         setup_server('production', server_root)
 
         # check if server_root in config is the same used to start server
-        resp = request(host, ssl_port, server_root + '/config').read()
+        resp = request(server_root + '/config').read()
         conf = json.loads(resp)
         self.assertEquals(len(conf), 5)
 
@@ -66,6 +59,6 @@ class ServerRootTests(unittest.TestCase):
         setup_server(server_root=server_root)
 
         # check if server_root in config is the same used to start server
-        resp = request(host, ssl_port, server_root + '/config').read()
+        resp = request(server_root + '/config').read()
         conf = json.loads(resp)
         self.assertEquals(len(conf), 5)

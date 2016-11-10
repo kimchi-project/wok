@@ -3,10 +3,10 @@
 Kimchi \- HTML5 based management tool for KVM
 .SH SYNOPSIS
 .B kimchid
-[\fB-h\fP|\fB--help\fP] [\fB--host\fP \fIhost\fP] [\fB--port\fP \fIport\fP]
-[\fB--ssl-port\fP \fIssl_port\fP] [\fB--cherrypy_port\fP \fIcherrypy_port\fP]
-[\fB--log-level\fP \fIlog_level\fP] [\fB--access-log\fP \fIaccess_log\fP]
-[\fB--error-log\fP \fIerror_log\fP] [\fB--environment\fP \fIenvironment\fP]
+[\fB-h\fP|\fB--help\fP] [\fB--proxy-port\fP \fIproxy_port\fP]
+[\fB--cherrypy_port\fP \fIcherrypy_port\fP] [\fB--log-level\fP \fIlog_level\fP]
+[\fB--access-log\fP \fIaccess_log\fP] [\fB--error-log\fP \fIerror_log\fP]
+[\fB--environment\fP \fIenvironment\fP]
 .SH DESCRIPTION
 \fBKimchi\fP is an HTML5 based management tool for KVM. It is designed to make
 it as easy as possible to get started with KVM and create your first guest.
@@ -19,13 +19,7 @@ The following options are supported:
 \fB\-h\fP , \fB\-\-help\fP
 Show this help message and exit.
 .TP
-\fB\-\-host\fP \fIhost\fP
-Specify the hostname or IP to listen on.
-.TP
-\fB\-\-port\fP \fIport\fP
-Specify the HTTP port (default \fI8000\fP).
-.TP
-\fB\-\-ssl-port\fP \fIssl_port\fP
+\fB\-\-proxy-port\fP \fIproxy_port\fP
 Specify the HTTPS port (default \fI8001\fP).
 .TP
 \fB\-\-cherrypy_port\fP \fIcherrypy_port\fP

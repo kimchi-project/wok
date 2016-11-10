@@ -24,7 +24,7 @@ SUBDIRS = DEBIAN
 EXTRA_DIST = \
 	check_i18n.py \
 	wokd.sysvinit \
-	wokd.service.fedora \
+	wokd.service.systemd \
 	wok.spec.fedora.in \
 	wokd-upstart.conf.debian \
 	wokd-upstart.conf.fedora \

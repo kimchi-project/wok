@@ -90,7 +90,7 @@ install-deb: install
 	cp -R $(top_srcdir)/contrib/DEBIAN $(DESTDIR)/
 	@if test -d "$(systemdsystemunitdir)" ; then \
 		$(MKDIR_P) $(DESTDIR)/$(systemdsystemunitdir); \
-		cp -R contrib/wokd.service.fedora \
+		cp -R contrib/wokd.service.systemd \
 			$(DESTDIR)/$(systemdsystemunitdir)/wokd.service; \
 	else \
 		$(MKDIR_P) $(DESTDIR)/etc/init; \
@@ -140,7 +140,7 @@ ChangeLog:
 install-data-local:
 	@if test -d "$(systemdsystemunitdir)" ; then \
 		mkdir -p $(DESTDIR)/$(systemdsystemunitdir); \
-		$(INSTALL_DATA) contrib/wokd.service.fedora $(DESTDIR)/$(systemdsystemunitdir)/wokd.service; \
+		$(INSTALL_DATA) contrib/wokd.service.systemd $(DESTDIR)/$(systemdsystemunitdir)/wokd.service; \
 	else \
 		mkdir -p $(DESTDIR)/etc/init.d/; \
 		$(INSTALL_DATA) contrib/wokd.sysvinit $(DESTDIR)/etc/init.d/wokd; \

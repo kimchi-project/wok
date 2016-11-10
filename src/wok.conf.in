@@ -3,18 +3,8 @@
 #
 
 [server]
-# Hostname or IP address to listen on
-#host = 0.0.0.0
-
-# Port to listen on
-#port = 8000
-
 # Start an SSL-enabled server on the given port
-#ssl_port = 8001
-
-# Allow user disables HTTP port. In that case, all the connections
-# will be done directly through HTTPS port (values: true|false)
-#https_only = false
+#proxy_port = 8001
 
 # Cherrypy server port
 #cherrypy_port = 8010
@@ -25,17 +15,6 @@
 # Number of minutes that a session can remain idle before the server
 # terminates it automatically.
 #session_timeout = 10
-
-# The full path to an SSL Certificate or chain of certificates in
-# PEM format. When a chain is used, the server's certificate must be
-# the first certificate in the file with the chain concatenated into
-# the end of that certificate. If left unspecified, Wok will generate
-# a self-signed certificate automatically.
-#ssl_cert =
-
-# The corresponding private key in PEM format for the SSL Certificate supplied
-# above.  If left blank, Wok will generate a self-signed certificate.
-#ssl_key =
 
 # Running environment of the server
 #environment = production

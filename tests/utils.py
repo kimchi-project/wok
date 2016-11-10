@@ -25,25 +25,23 @@ import cherrypy
 import grp
 import httplib
 import inspect
-import json
 import os
-import socket
 import ssl
 import sys
 import threading
 import time
 import unittest
-from contextlib import closing
-from lxml import etree
 
 import wok.server
-from wok.config import config, PluginPaths
+
 from wok.auth import User, USER_NAME, USER_GROUPS, USER_ROLES, tabs
+from wok.config import config
 from wok.exception import NotFoundError, OperationFailed
 from wok.utils import wok_log
 
+HOST = '0.0.0.0'
+PROXY_PORT = 8001
 
-_ports = {}
 fake_user = {'root': 'letmein!'}
 
 
@@ -90,37 +88,15 @@ if sys.version_info[:2] == (2, 6):
     unittest.TestCase.assertNotIn = assertNotIn
 
 
-def get_free_port(name='http'):
-    global _ports
-    if _ports.get(name) is not None:
-        return _ports[name]
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    with closing(sock):
-        try:
-            sock.bind(("0.0.0.0", 0))
-        except:
-            raise Exception("Could not find a free port")
-        _ports[name] = sock.getsockname()[1]
-        return _ports[name]
-
-
-def run_server(host, port, ssl_port, test_mode, cherrypy_port=None,
-               model=None, environment='development', server_root=''):
-
-    if cherrypy_port is None:
-        cherrypy_port = get_free_port('cherrypy_port')
-
-    if ssl_port is None:
-        ssl_port = get_free_port('https')
+def run_server(test_mode, model=None, environment='dev', server_root=''):
 
     args = type('_', (object,),
-                {'host': host, 'port': port, 'ssl_port': ssl_port,
-                 'https_only': 'false', 'cherrypy_port': cherrypy_port,
-                 'websockets_port': 64667, 'ssl_cert': '', 'ssl_key': '',
-                 'max_body_size': '4*1024', 'test': test_mode,
-                 'access_log': '/dev/null', 'error_log': '/dev/null',
-                 'environment': environment, 'log_level': 'debug',
-                 'session_timeout': 10, 'server_root': server_root})()
+                {'cherrypy_port': 8010, 'max_body_size': '4*1024',
+                 'test': test_mode, 'access_log': '/dev/null',
+                 'error_log': '/dev/null', 'environment': environment,
+                 'log_level': 'debug', 'session_timeout': 10,
+                 'server_root': server_root})()
+
     if model is not None:
         setattr(args, 'model', model)
 
@@ -130,13 +106,6 @@ def run_server(host, port, ssl_port, test_mode, cherrypy_port=None,
     t.start()
     cherrypy.engine.wait(cherrypy.engine.states.STARTED)
     return s
-
-
-def silence_server():
-    """
-    Silence server status messages on stdout
-    """
-    cherrypy.config.update({"environment": "embedded"})
 
 
 def running_as_root():
@@ -155,34 +124,15 @@ def _request(conn, path, data, method, headers):
     return conn.getresponse()
 
 
-def request(host, port, path, data=None, method='GET', headers=None):
+def request(path, data=None, method='GET', headers=None):
     # verify if HTTPSConnection has context parameter
     if "context" in inspect.getargspec(httplib.HTTPSConnection.__init__).args:
         context = ssl._create_unverified_context()
-        conn = httplib.HTTPSConnection(host, port, context=context)
+        conn = httplib.HTTPSConnection(HOST, PROXY_PORT, context=context)
     else:
-        conn = httplib.HTTPSConnection(host, port)
+        conn = httplib.HTTPSConnection(HOST, PROXY_PORT)
 
     return _request(conn, path, data, method, headers)
-
-
-def get_remote_iso_path():
-    """
-    Get a remote iso with the right arch from the distro files shipped
-    with kimchi.
-    """
-    host_arch = os.uname()[4]
-    remote_path = ''
-    with open(os.path.join(PluginPaths('kimchi').conf_dir, 'distros.d',
-              'fedora.json')) as fedora_isos:
-        # Get a list of dicts
-        json_isos_list = json.load(fedora_isos)
-        for iso in json_isos_list:
-            if (iso.get('os_arch')) == host_arch:
-                remote_path = iso.get('path')
-                break
-
-    return remote_path
 
 
 class FakeUser(User):
@@ -222,11 +172,6 @@ def patch_auth(sudo=True):
     """
     config.set("authentication", "method", "fake")
     FakeUser.sudo = sudo
-
-
-def normalize_xml(xml_str):
-    return etree.tostring(etree.fromstring(xml_str,
-                          etree.XMLParser(remove_blank_text=True)))
 
 
 def wait_task(task_lookup, taskid, timeout=10):

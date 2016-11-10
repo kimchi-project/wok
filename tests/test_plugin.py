@@ -30,19 +30,13 @@ import utils
 
 test_server = None
 model = None
-host = None
-port = None
-ssl_port = None
 
 
 def setUpModule():
-    global test_server, model, host, port, ssl_port
+    global test_server, model
 
     utils.patch_auth()
-    host = '127.0.0.1'
-    port = utils.get_free_port('http')
-    ssl_port = utils.get_free_port('https')
-    test_server = utils.run_server(host, port, ssl_port, test_mode=True)
+    test_server = utils.run_server(test_mode=True)
 
 
 def tearDownModule():
@@ -55,7 +49,7 @@ def tearDownModule():
 class PluginTests(unittest.TestCase):
 
     def setUp(self):
-        self.request = partial(utils.request, host, ssl_port)
+        self.request = partial(utils.request)
 
     def _create_rectangle(self, name, length, width):
         req = json.dumps({'name': name, 'length': length, 'width': width})

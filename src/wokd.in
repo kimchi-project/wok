@@ -43,10 +43,7 @@ def main(options):
     if not os.geteuid() == 0:
         sys.exit("\nMust be root to run this script. Exiting ...\n")
 
-    host = config.config.get("server", "host")
-    port = config.config.get("server", "port")
-    ssl_port = config.config.get("server", "ssl_port")
-    https_only = config.config.get("server", "https_only")
+    proxy_port = config.config.get("server", "proxy_port")
     cherrypy_port = config.config.get("server", "cherrypy_port")
     websockets_port = config.config.get("server", "websockets_port")
     session_timeout = config.config.get("server", "session_timeout")
@@ -56,15 +53,8 @@ def main(options):
     logLevel = config.config.get("logging", "log_level")
 
     parser = OptionParser()
-    parser.add_option('--host', type="string", default=host,
-                      help="Hostname to listen on")
-    parser.add_option('--port', type="int", default=port,
-                      help="Port to listen on (default %s)" % port)
-    parser.add_option('--ssl-port', type="int", default=ssl_port,
-                      help="Port to enable SSL (default %s)" % ssl_port)
-    parser.add_option('--https_only', type="choice", default=https_only,
-                      choices=['false', 'true'],
-                      help="Disable HTTP port (default %s)" % ssl_port)
+    parser.add_option('--proxy-port', type="int", default=proxy_port,
+                      help="Port to enable SSL (default %s)" % proxy_port)
     parser.add_option('--cherrypy_port', type="int", default=cherrypy_port,
                       help="Cherrypy server port (default %s)" % cherrypy_port)
     parser.add_option('--websockets_port', type="int", default=websockets_port,
@@ -98,8 +88,6 @@ def main(options):
                 config.config.set(sec, item, str(getattr(options, item)))
 
     # Add non-option arguments
-    setattr(options, 'ssl_cert', config.config.get('server', 'ssl_cert'))
-    setattr(options, 'ssl_key', config.config.get('server', 'ssl_key'))
     setattr(options, 'max_body_size',
             config.config.get('server', 'max_body_size'))
 

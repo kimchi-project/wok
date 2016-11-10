@@ -9,7 +9,7 @@ Contains information about the application environment and configuration.
 **Methods:**
 
 * **GET**: Retrieve configuration information
-    * ssl_port: SSL port to list on
+    * proxy_port: SSL port to list on
     * websockets_port: Port for websocket proxy to listen on
     * auth: Authentication method used to log in to Wok
     * version: Wok version
@@ -22,7 +22,7 @@ Contains information about the application environment and configuration.
 #### Examples
 GET /config
 {
- ssl_port: 8001,
+ proxy_port: 8001,
  websockets_port: 64667,
  version: 2.0
 }

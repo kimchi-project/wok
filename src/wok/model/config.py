@@ -25,7 +25,7 @@ class ConfigModel(object):
         pass
 
     def lookup(self, name):
-        return {'ssl_port': config.get('server', 'ssl_port'),
+        return {'proxy_port': config.get('server', 'proxy_port'),
                 'websockets_port': config.get('server', 'websockets_port'),
                 'auth': config.get('authentication', 'method'),
                 'server_root': config.get('server', 'server_root'),

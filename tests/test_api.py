@@ -28,19 +28,13 @@ from wok.asynctask import AsyncTask
 
 test_server = None
 model = None
-host = None
-port = None
-ssl_port = None
 
 
 def setUpModule():
-    global test_server, model, host, port, ssl_port
+    global test_server, model
 
     utils.patch_auth()
-    host = '127.0.0.1'
-    port = utils.get_free_port('http')
-    ssl_port = utils.get_free_port('https')
-    test_server = utils.run_server(host, port, ssl_port, test_mode=True)
+    test_server = utils.run_server(test_mode=True)
 
 
 def tearDownModule():
@@ -50,12 +44,12 @@ def tearDownModule():
 class APITests(unittest.TestCase):
 
     def setUp(self):
-        self.request = partial(utils.request, host, ssl_port)
+        self.request = partial(utils.request)
 
     def test_config(self):
         resp = self.request('/config').read()
         conf = json.loads(resp)
-        keys = ["auth", "ssl_port", "websockets_port", "version",
+        keys = ["auth", "proxy_port", "websockets_port", "version",
                 "server_root"]
         self.assertEquals(sorted(keys), sorted(conf.keys()))
 

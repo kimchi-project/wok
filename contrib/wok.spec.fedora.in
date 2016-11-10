@@ -20,6 +20,7 @@ Requires:	python-psutil >= 0.6.0
 Requires:	fontawesome-fonts
 Requires:	open-sans-fonts
 Requires:	logrotate
+Requires:	openssl
 BuildRequires:	gettext-devel
 BuildRequires:	libxslt
 BuildRequires:	openssl
@@ -75,27 +76,28 @@ install -Dm 0755 contrib/wokd.sysvinit %{buildroot}%{_initrddir}/wokd
 
 %post
 if [ $1 -eq 1 ] ; then
-    /bin/systemctl enable wokd.service >/dev/null 2>&1 || :
     # Initial installation
+    /bin/systemctl enable wokd.service >/dev/null 2>&1 || :
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+    openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
 fi
 
-
 %preun
-
 if [ $1 -eq 0 ] ; then
     # Package removal, not upgrade
     /bin/systemctl --no-reload disable wokd.service > /dev/null 2>&1 || :
     /bin/systemctl stop wokd.service > /dev/null 2>&1 || :
 fi
-
 exit 0
 
 
 %postun
 if [ "$1" -ge 1 ] ; then
     /bin/systemctl try-restart wokd.service >/dev/null 2>&1 || :
+else
+    rm /etc/wok/wok-key.pem /etc/wok/wok-cert.pem
 fi
+
 exit 0
 
 %clean

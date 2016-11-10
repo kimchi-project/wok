@@ -20,6 +20,7 @@
 
 systemd_exists=$(type /bin/systemctl > /dev/null 2>&1; echo $?)
 if test $systemd_exists = "0"; then
+    openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
     /bin/systemctl enable wokd > /dev/null 2>&1
     /bin/systemctl daemon-reload > /dev/null 2>&1
     /bin/systemctl start wokd > /dev/null 2>&1

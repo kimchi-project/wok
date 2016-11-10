@@ -55,8 +55,6 @@ messages = {
     "WOKUTILS0004E": _("Invalid data value '%(value)s'"),
     "WOKUTILS0005E": _("Invalid data unit '%(unit)s'"),
 
-    "WOKPROXY0001E": _("Unable to (re)start system's nginx.service. Details: '%(error)s'"),
-
     # These messages (ending with L) are for user log purposes
     "WOKASYNC0001L": _("Successfully completed task '%(target_uri)s'"),
     "WOKASYNC0002L": _("Failed to complete task '%(target_uri)s'"),

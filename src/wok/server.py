@@ -31,7 +31,7 @@ from wok.config import config as configParser
 from wok.config import PluginConfig, WokConfig
 from wok.control import sub_nodes
 from wok.model import model
-from wok.proxy import start_proxy
+from wok.proxy import check_proxy_config
 from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
 from wok.safewatchedfilehandler import SafeWatchedFileHandler
@@ -61,8 +61,8 @@ def set_no_cache():
 
 class Server(object):
     def __init__(self, options):
-        # Launch reverse proxy
-        start_proxy(options)
+        # Check proxy configuration
+        check_proxy_config()
 
         make_dirs = [
             os.path.abspath(config.get_log_download_path()),

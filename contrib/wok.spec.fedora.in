@@ -116,7 +116,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/share/locale/*/LC_MESSAGES/wok.mo
 %{_datadir}/wok/ui/
 %{_datadir}/wok
-%{_sysconfdir}/nginx/conf.d/wok.conf.in
 %{_sysconfdir}/wok/wok.conf
 %{_sysconfdir}/wok/
 %{_sysconfdir}/logrotate.d/wokd

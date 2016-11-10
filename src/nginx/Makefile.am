@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015
+# Copyright IBM Corp, 2015-2016
 #
 # Code derived from Project Kimchi
 #
@@ -19,9 +19,8 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-EXTRA_DIST = wok.conf.in
+EXTRA_DIST = wok.conf
 
 confdir = $(sysconfdir)/nginx/conf.d
-dist_conf_DATA = wok.conf.in
+dist_conf_DATA = wok.conf
 
-CLEANFILES = wok.conf

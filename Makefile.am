@@ -156,6 +156,7 @@ install-data-local:
 	touch $(DESTDIR)/$(localstatedir)/log/wok/wok-error.log
 	mkdir -p $(DESTDIR)/etc/wok/
 	$(INSTALL_DATA) src/dhparams.pem $(DESTDIR)/etc/wok/dhparams.pem
+	mkdir -p $(DESTDIR)/etc/nginx/conf.d/
 	touch $(DESTDIR)/etc/nginx/conf.d/wok.conf
 	mkdir -p $(DESTDIR)/etc/logrotate.d/
 	$(INSTALL_DATA) $(top_srcdir)/src/wok.logrotate $(DESTDIR)/etc/logrotate.d/wokd

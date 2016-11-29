@@ -16,6 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-datatablesipaddressjsdir = $(datadir)/wok/ui/libs/datatables/js/plugins/ip-address/ip-address.js
+datatablesipaddressjsdir = $(datadir)/wok/ui/libs/datatables/js/plugins/ip-address
 
 dist_datatablesipaddressjs_DATA = $(wildcard *.js) $(NULL)

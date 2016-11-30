@@ -98,9 +98,6 @@ install-deb: install
 			$(DESTDIR)/etc/init/wokd.conf; \
 	fi
 	$(MKDIR_P) $(DESTDIR)/$(localstatedir)/lib/wok/
-	$(MKDIR_P) $(DESTDIR)/usr/lib/firewalld/services
-	cp -R $(top_srcdir)/src/firewalld.xml \
-		$(DESTDIR)/usr/lib/firewalld/services/wokd.xml
 
 
 deb: contrib/make-deb.sh

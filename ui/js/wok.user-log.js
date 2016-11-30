@@ -174,7 +174,7 @@ wok.initUserLog = function() {
   $(".content-area", "#wokSettings").css("height", "100%");
   wok.initUserLogConfig();
   $('#advanced-search-button').on('click',function(){
-    wok.window.open('/tabs/settings-search.html');
+    wok.window.open('tabs/settings-search.html');
   });
 
   $("#download-button").on('click',function(){

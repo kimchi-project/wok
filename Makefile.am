@@ -35,6 +35,8 @@ EXTRA_DIST = \
 	CONTRIBUTE.md \
 	VERSION \
 	build-aux/pkg-version \
+	check_ui_code_errors.sh \
+	check_spec_errors.sh \
 	$(NULL)
 
 

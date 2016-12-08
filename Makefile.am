@@ -44,9 +44,7 @@ PEP8_BLACKLIST = *src/wok/plugins,*src/wok/config.py,*src/wok/i18n.py,*tests/tes
 
 SKIP_PYFLAKES_ERR = "\./src/wok/websocket\.py"
 
-I18N_FILES = src/wok/plugins/*/i18n.py \
-	src/wok/i18n.py \
-	$(NULL)
+I18N_FILES = src/wok/i18n.py $(NULL)
 
 check-local:
 	PYTHONPATH=src contrib/check_i18n.py $(I18N_FILES)

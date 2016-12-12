@@ -22,6 +22,7 @@ Requires:	fontawesome-fonts
 Requires:	google-opensans-fonts
 Requires:	logrotate
 Requires:	openssl
+BuildRequires:  firewalld
 BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
 BuildRequires:	openssl

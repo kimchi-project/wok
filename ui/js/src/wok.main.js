@@ -41,25 +41,22 @@ wok.main = function() {
             var functionality = tab['functionality'];
             var title = tab['title'];
             var path = tab['path'];
-            var mode = tab['mode'];
-            if (mode != 'none') {
-                var helpPath = wok.checkHelpFile(path);
-                var disableHelp = (helpPath.length == 0 ? "disableHelp" : helpPath);
-                tabsHtml.push(
-                    '<li class="', functionality.toLowerCase() + 'Tab', '">',
-                        '<a class="item ', disableHelp, '" href="', path, '">',
-                            title,
-                        '</a>',
-                        '<input name="funcTab" class="sr-only" value="' + functionality.toLowerCase() + '" type="hidden"/>',
-                        '<input name="helpPath" class="sr-only" value="' + helpPath + '" type="hidden"/>',
-                        '<input name="colorTab1" class="sr-only" value="' + tab['colorTab1'] + '" type="hidden"/>',
-                        '<input name="colorTab2" class="sr-only" value="' + tab['colorTab2'] + '" type="hidden"/>',
-                    '</li>'
-                );
+            var helpPath = wok.checkHelpFile(path);
+            var disableHelp = (helpPath.length == 0 ? "disableHelp" : helpPath);
+            tabsHtml.push(
+                '<li class="', functionality.toLowerCase() + 'Tab', '">',
+                    '<a class="item ', disableHelp, '" href="', path, '">',
+                        title,
+                    '</a>',
+                    '<input name="funcTab" class="sr-only" value="' + functionality.toLowerCase() + '" type="hidden"/>',
+                    '<input name="helpPath" class="sr-only" value="' + helpPath + '" type="hidden"/>',
+                    '<input name="colorTab1" class="sr-only" value="' + tab['colorTab1'] + '" type="hidden"/>',
+                    '<input name="colorTab2" class="sr-only" value="' + tab['colorTab2'] + '" type="hidden"/>',
+                '</li>'
+            );
 
-                if (functionalTabs.indexOf(functionality) == -1) {
-                    functionalTabs.push(functionality)
-                }
+            if (functionalTabs.indexOf(functionality) == -1) {
+                functionalTabs.push(functionality)
             }
         });
 
@@ -101,15 +98,17 @@ wok.main = function() {
                 var role = JSON.parse(roles)[titleKey.toLowerCase()];
                 var mode = tab.find('[role="' + role + '"]').attr('mode');
                 wok.tabMode[titleKey.toLowerCase()] = mode;
-                tabs.push({
-                    functionality: functionality,
-                    title: title,
-                    path: path,
-                    mode: mode,
-                    order: order,
-                    colorTab1: colorTab1,
-                    colorTab2: colorTab2
-                });
+                if (mode != 'none') {
+                    tabs.push({
+                        functionality: functionality,
+                        title: title,
+                        path: path,
+                        mode: mode,
+                        order: order,
+                        colorTab1: colorTab1,
+                        colorTab2: colorTab2
+                    });
+                }
             } else {
                 document.location.href = 'login.html';
             }
@@ -203,58 +202,65 @@ wok.main = function() {
      *      Load the page content via Ajax.
      */
     var onWokRedirect = function(url) {
+
+        if (url == 'wok-empty.html') {
+            var warning_msg = "Unable to access WoK User Activity Log feature as a non-root user.<br>No plugins installed currently. You can download the available plugins <a href='https://github.com/kimchi-project/kimchi'>Kimchi</a> and <a href='https://github.com/kimchi-project/ginger'>Ginger</a> from Github."
+            $('#main').html(warning_msg).addClass('noPluginMessage');
+            return;
+        }
+
         /*
          * Find the corresponding tab node and animate the arrow indicator to
          * point to the tab. If nothing found, inform user the URL is invalid
          * and clear location.hash to jump to home page.
          */
         var tab = $('#tabPanel a[href="' + url + '"]');
-        if (tab.length === 0 && url != 'wok-empty.html') {
-            location.hash = '#';
+        if (tab.length === 0) {
+            location.hash = '#' + $('#tabPanel a').attr('href');
+            var lastIndex = location.hash.lastIndexOf(".html");
+            if (lastIndex != -1) {
+                location.hash = location.hash.substring(0, lastIndex);
+            }
             return;
         }
-        //Remove the tab arrow indicator for no plugin
-        if (url == 'wok-empty.html') {
-            $('#main').html('No plugins installed currently.You can download the available plugins <a href="https://github.com/kimchi-project/kimchi">Kimchi</a> and <a href="https://github.com/kimchi-project/ginger">Ginger</a> from Github').addClass('noPluginMessage');
-        } else {
-            var plugin = $(tab).parent().find("input[name='funcTab']").val();
-            var colorTab1 = $(tab).parent().find("input[name='colorTab1']").val();
-            var colorTab2 = $(tab).parent().find("input[name='colorTab2']").val();
-            var toolbar = $('#toolbar').closest('.navbar-default.toolbar');
-            $('#toolbar ul.tools').html('');
 
-            $('#tabPanel').css('background-color', colorTab1);
-            $('#tabPanel ul li').removeClass('active');
-            $('#tabPanel ul li a').removeAttr('style');
-            $.each($('#tabPanel li'), function(i, t) {
-                if ($(t).hasClass(plugin + 'Tab')) {
-                    $(t).css('display', 'block');
-                } else {
-                    $(t).css('display', 'none');
-                }
-            });
+        var plugin = $(tab).parent().find("input[name='funcTab']").val();
+        var colorTab1 = $(tab).parent().find("input[name='colorTab1']").val();
+        var colorTab2 = $(tab).parent().find("input[name='colorTab2']").val();
+        var toolbar = $('#toolbar').closest('.navbar-default.toolbar');
+        $('#toolbar ul.tools').html('');
 
-            $(tab).parent().addClass('active');
-            $(tab).css('background-color', colorTab2).focus();
-            $(toolbar).css('background-color', colorTab2);
-
-            $('#functionalTabPanel ul li').removeClass('active');
-            $('#functionalTabPanel ul li').removeAttr('style');
-            $('#functionalTabPanel ul .' + plugin + 'Tab').parent().addClass('active').focus();
-            $('#functionalTabPanel ul .' + plugin + 'Tab').parent().css('background-color', colorTab1);
-
-            // Disable Help button according to selected tab
-            if ($(tab).hasClass("disableHelp")) {
-                $('#btn-help').css('cursor', "not-allowed");
-                $('#btn-help').off("click");
+        $('#tabPanel').css('background-color', colorTab1);
+        $('#tabPanel ul li').removeClass('active');
+        $('#tabPanel ul li a').removeAttr('style');
+        $.each($('#tabPanel li'), function(i, t) {
+            if ($(t).hasClass(plugin + 'Tab')) {
+                $(t).css('display', 'block');
+            } else {
+                $(t).css('display', 'none');
             }
-            else {
-                $('#btn-help').css('cursor', "pointer");
-                $('#btn-help').on("click", wok.openHelp);
-            }
-            // Load page content.
-            loadPage(url);
+        });
+
+        $(tab).parent().addClass('active');
+        $(tab).css('background-color', colorTab2).focus();
+        $(toolbar).css('background-color', colorTab2);
+
+        $('#functionalTabPanel ul li').removeClass('active');
+        $('#functionalTabPanel ul li').removeAttr('style');
+        $('#functionalTabPanel ul .' + plugin + 'Tab').parent().addClass('active').focus();
+        $('#functionalTabPanel ul .' + plugin + 'Tab').parent().css('background-color', colorTab1);
+
+        // Disable Help button according to selected tab
+        if ($(tab).hasClass("disableHelp")) {
+            $('#btn-help').css('cursor', "not-allowed");
+            $('#btn-help').off("click");
         }
+        else {
+            $('#btn-help').css('cursor', "pointer");
+            $('#btn-help').on("click", wok.openHelp);
+        }
+        // Load page content.
+        loadPage(url);
     };
 
     /**

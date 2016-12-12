@@ -24,7 +24,7 @@ contrib/wok.spec.suse
 contrib/make-deb.sh
 docs/wokd.8
 *.min.css
-*.min.js
+wok.min.js
 *.gmo
 stamp-po
 wok-*.tar.gz

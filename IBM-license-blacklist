@@ -100,7 +100,7 @@ ui/robots.txt
 ui/libs/jquery-containsNC/LICENSE
 ui/libs/jquery-containsNC/jquery.containsNC.js
 ui/libs/lodash/LICENSE
-ui/libs/lodash/lodash.js
+ui/libs/lodash/lodash.min.js
 ui/css/datatables.bootstrap.css
 ui/libs/datatables/LICENSE
 ui/libs/datatables/css/datatables.min.css

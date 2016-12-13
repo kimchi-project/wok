@@ -21,6 +21,7 @@ Requires:	python-psutil >= 0.6.0
 Requires:	fontawesome-fonts
 Requires:	google-opensans-fonts
 Requires:	logrotate
+BuildRequires:  firewalld
 BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
 BuildRequires:	openssl

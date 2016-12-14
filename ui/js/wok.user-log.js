@@ -155,10 +155,14 @@ wok.initUserLogConfigGridData = function() {
   wok.getUserLogs(function(result) {
     $.each(result, function(index, log){
       var statusLabel = labelStyle(log.status);
+      var userLabel = labelStyle(log.user);
       if (statusLabel != null) {
         log.status = "<span class='" + statusLabel.labelColor + "'><i class='" + statusLabel.labelIcon + "' aria-hidden='true'></i> " + log.status + "</span> ";
       } else {
         log.status = "";
+      }
+      if (userLabel == null) {
+        log.user = "N/A";
       }
     })
     wok.loadBootgridData(wok.opts_user_log['gridId'], result);

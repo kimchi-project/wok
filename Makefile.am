@@ -64,7 +64,7 @@ check-local:
 	@if $(GIT) rev-parse &> /dev/null ; then                        \
 		echo "Whitespace verification ...";                         \
 		git grep --cached -Il '' |                                  \
-			grep -v '^ui/css/src/vendor/' | xargs egrep '.* +$$' 	\
+			grep -v '^ui/css/src/vendor/\|^ui/libs/' | xargs egrep '.* +$$' 	\
 			&& echo "ERROR: Whitespaces found" || echo "Ok";     	\
 		echo "Check IBM license header and copyright date ..." ;    \
 		/bin/bash check-IBM-license-header.sh ;						\

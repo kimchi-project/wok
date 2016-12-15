@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-29 11:57-0300\n"
+"POT-Creation-Date: 2016-12-15 10:29-0200\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -161,12 +161,6 @@ msgstr "PILHA"
 msgid "Go to Homepage"
 msgstr "Ir para a Página Inicial"
 
-msgid "Host"
-msgstr ""
-
-msgid "Virtualization"
-msgstr ""
-
 msgid "Wok"
 msgstr ""
 
@@ -238,7 +232,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Timezone"
+msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
@@ -295,7 +289,16 @@ msgstr ""
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
+msgid "Renew"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
 msgid "Powered by"
+msgstr ""
+
+msgid "Wok Version"
 msgstr ""
 
 msgid "User Activity Log"

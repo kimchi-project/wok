@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-29 11:57-0300\n"
+"POT-Creation-Date: 2016-12-15 10:29-0200\n"
 "PO-Revision-Date: 2014-08-27 21:30+0000\n"
 "Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www.transifex.com/projects/p/kimchi/language/"
@@ -148,12 +148,6 @@ msgstr "STACK"
 msgid "Go to Homepage"
 msgstr "Aller à la page d'accueil"
 
-msgid "Host"
-msgstr ""
-
-msgid "Virtualization"
-msgstr ""
-
 msgid "Wok"
 msgstr ""
 
@@ -225,7 +219,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Timezone"
+msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
@@ -282,7 +276,16 @@ msgstr ""
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
+msgid "Renew"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
 msgid "Powered by"
+msgstr ""
+
+msgid "Wok Version"
 msgstr ""
 
 msgid "User Activity Log"

@@ -37,7 +37,7 @@
   clear: both;
 }
 
-#wok-root-container .accordion:first-chld {
+#wok-root-container .accordion:first-child {
   margin-top: 24px;
 }
 

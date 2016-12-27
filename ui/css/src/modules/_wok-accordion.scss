@@ -22,7 +22,7 @@
     border-bottom: 1px solid $table-border-color;
     overflow: visible;
     clear: both;
-    &:first-chld {
+    &:first-child {
         margin-top: 24px;
     }
     > h3 {

@@ -10,7 +10,7 @@ Build Dependencies
 --------------------
 
     $ sudo zypper install gcc make autoconf automake gettext-tools git \
-                          rpm-build libxslt-tools firewalld
+                          rpm-build libxslt-tools
 
 Runtime Dependencies
 --------------------

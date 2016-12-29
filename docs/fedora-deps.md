@@ -20,7 +20,7 @@ Build Dependencies
 --------------------
 
     $ sudo yum install gcc make autoconf automake gettext-devel git rpm-build \
-                        libxslt firewalld
+                        libxslt
 
 Runtime Dependencies
 --------------------

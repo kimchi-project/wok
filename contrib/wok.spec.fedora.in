@@ -21,7 +21,6 @@ Requires:	fontawesome-fonts
 Requires:	open-sans-fonts
 Requires:	logrotate
 Requires:	openssl
-BuildRequires:  firewalld
 BuildRequires:	gettext-devel
 BuildRequires:	libxslt
 BuildRequires:	openssl
@@ -39,7 +38,6 @@ BuildRequires:    python-unittest2
 
 %if 0%{?with_systemd}
 Requires:	systemd
-Requires:	firewalld
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -115,6 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/wok/plugins/*.py*
 %{python_sitelib}/wok/
 %{_prefix}/share/locale/*/LC_MESSAGES/wok.mo
+%{_prefix}/lib/firewalld/services/wokd.xml
 %{_datadir}/wok/ui/
 %{_datadir}/wok
 %{_sysconfdir}/wok/wok.conf
@@ -128,7 +127,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/log/wok/*
 %{_localstatedir}/log/wok/
 %{_unitdir}/wokd.service
-%{_prefix}/lib/firewalld/services/wokd.xml
 %endif
 %if 0%{?rhel} == 6
 /etc/init/wokd.conf

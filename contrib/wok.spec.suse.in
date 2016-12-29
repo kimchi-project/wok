@@ -22,7 +22,6 @@ Requires:	fontawesome-fonts
 Requires:	google-opensans-fonts
 Requires:	logrotate
 Requires:	openssl
-BuildRequires:  firewalld
 BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
 BuildRequires:	openssl
@@ -110,6 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/log/wok/*
 %{_localstatedir}/log/wok/
 %{_mandir}/man8/wokd.8.gz
+%{_prefix}/lib/firewalld/services/wokd.xml
 
 %if 0%{?with_systemd}
 %{_unitdir}/wokd.service

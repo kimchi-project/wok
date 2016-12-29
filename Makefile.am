@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -98,6 +98,9 @@ install-deb: install
 			$(DESTDIR)/etc/init/wokd.conf; \
 	fi
 	$(MKDIR_P) $(DESTDIR)/$(localstatedir)/lib/wok/
+	$(MKDIR_P) $(DESTDIR)/usr/lib/firewalld/services
+	cp -R $(top_srcdir)/src/firewalld.xml \
+		$(DESTDIR)/usr/lib/firewalld/services/wokd.xml
 
 
 deb: contrib/make-deb.sh
@@ -143,10 +146,8 @@ install-data-local:
 		$(INSTALL_DATA) contrib/wokd.sysvinit $(DESTDIR)/etc/init.d/wokd; \
 		chmod +x $(DESTDIR)/etc/init.d/wokd; \
 	fi; \
-	if test -d /usr/lib/firewalld/services/; then \
-		mkdir -p $(DESTDIR)/usr/lib/firewalld/services/; \
-		$(INSTALL_DATA) src/firewalld.xml $(DESTDIR)/usr/lib/firewalld/services/wokd.xml; \
-	fi; \
+	mkdir -p $(DESTDIR)/usr/lib/firewalld/services/;
+	$(INSTALL_DATA) src/firewalld.xml $(DESTDIR)/usr/lib/firewalld/services/wokd.xml;
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/wok/
 	mkdir -p $(DESTDIR)/$(localstatedir)/log/wok/
 	touch $(DESTDIR)/$(localstatedir)/log/wok/wok-access.log
@@ -165,9 +166,8 @@ uninstall-local:
 		$(RM) $(DESTDIR)/etc/init.d/wokd; \
 		$(RM) $(DESTDIR)/etc/init/wok.conf; \
 	fi; \
-	if test -d /usr/lib/firewalld/services/; then \
-		$(RM) $(DESTDIR)/usr/lib/firewalld/services/wokd.xml; \
-	fi; \
+	$(RM) $(DESTDIR)/usr/lib/firewalld/services/wokd.xml
+	rmdir $(DESTDIR)/usr/lib/firewalld/services && rmdir $(DESTDIR)/usr/lib/firewalld || :
 	$(RM) -rf $(DESTDIR)/$(localstatedir)/lib/wok
 	$(RM) -rf $(DESTDIR)/$(localstatedir)/log/wok
 	$(RM) -rf $(DESTDIR)/etc/wok

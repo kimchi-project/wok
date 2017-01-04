@@ -21,6 +21,7 @@ Requires:	python-psutil >= 0.6.0
 Requires:	logrotate
 Requires:	openssl
 Requires:	python-websockify
+Requires:	sudo
 BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
 BuildRequires:	python-lxml

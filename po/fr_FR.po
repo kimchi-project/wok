@@ -1,11 +1,11 @@
 # French translations for Wok package.
-# Copyright IBM Corp, 2014-2016
+# Copyright IBM Corp, 2014-2017
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-29 11:57-0300\n"
+"POT-Creation-Date: 2017-01-05 15:36-0200\n"
 "PO-Revision-Date: 2014-08-27 21:30+0000\n"
 "Last-Translator: BobSynfig\n"
 "Language-Team: French (http://www.transifex.com/projects/p/kimchi/language/"
@@ -65,12 +65,12 @@ msgstr ""
 "L'authentification a échoué pour l'utilisateur '%(username)s'. [Code "
 "d'Erreur: %(code)s]"
 
-msgid "You are not authorized to access Kimchi"
-msgstr "Vous n'êtes pas autorisé à accéder à Kimchi"
+msgid "You are not authorized to access Wok. Please, login first."
+msgstr ""
 
 #, python-format
-msgid "Specify %(item)s to login into Kimchi"
-msgstr "Spécifiez %(item)s pour vous logguer dans Kimchi"
+msgid "Specify %(item)s to login into Wok."
+msgstr "Spécifiez %(item)s pour vous logguer dans Wok"
 
 #, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
@@ -111,10 +111,6 @@ msgid "Invalid data unit '%(unit)s'"
 msgstr ""
 
 #, python-format
-msgid "Unable to (re)start system's nginx.service. Details: '%(error)s'"
-msgstr ""
-
-#, python-format
 msgid "Successfully completed task '%(target_uri)s'"
 msgstr ""
 
@@ -147,12 +143,6 @@ msgstr "STACK"
 
 msgid "Go to Homepage"
 msgstr "Aller à la page d'accueil"
-
-msgid "Host"
-msgstr ""
-
-msgid "Virtualization"
-msgstr ""
 
 msgid "Wok"
 msgstr ""
@@ -225,7 +215,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Timezone"
+msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
@@ -282,7 +272,16 @@ msgstr ""
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
+msgid "Renew"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
 msgid "Powered by"
+msgstr ""
+
+msgid "Wok Version"
 msgstr ""
 
 msgid "User Activity Log"

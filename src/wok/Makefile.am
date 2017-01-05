@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -29,12 +29,6 @@ EXTRA_DIST = \
 	API.json \
 	config.py.in
 
-if WITH_SPICE
-WITH_SPICE=yes
-else
-WITH_SPICE=no
-endif
-
 wokdir = $(pythondir)/wok
 
 install-data-local:
@@ -52,8 +46,7 @@ do_substitution = \
 	-e 's,[@]pkgdatadir[@],$(pkgdatadir),g'         \
 	-e 's,[@]wokdir[@],$(wokdir),g'           \
 	-e 's,[@]wokversion[@],$(PACKAGE_VERSION),g' \
-	-e 's,[@]wokrelease[@],$(PACKAGE_RELEASE),g' \
-	-e 's,[@]withspice[@],$(WITH_SPICE),g'
+	-e 's,[@]wokrelease[@],$(PACKAGE_RELEASE),g'
 
 
 config.py: config.py.in Makefile

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -60,15 +60,6 @@ AC_ARG_WITH([systemdsystemunitdir],
 if test "x$with_systemdsystemunitdir" != xno; then
     AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
 fi
-
-AC_ARG_WITH(
-    [spice-html5],
-    [AS_HELP_STRING([--with-spice-html5],
-                    [Build Kimchi with spice-html5 @<:@default=no@:>@])],
-    ,
-    [with_spice_html5="no"]
-)
-AM_CONDITIONAL([WITH_SPICE], [test "x$with_spice_html5" = xyes])
 
 AC_CONFIG_FILES([
     po/Makefile.in

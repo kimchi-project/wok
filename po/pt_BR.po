@@ -1,5 +1,5 @@
 # Portuguese (pt_BR) translations for Wok package.
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 # ShaoHe Feng <shaohef@linux.vnet.ibm.com>, 2013-04-18.
 #
 # This library is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-29 11:57-0300\n"
+"POT-Creation-Date: 2017-01-05 15:36-0200\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -79,12 +79,12 @@ msgid "Authentication failed for user '%(username)s'. [Error code: %(code)s]"
 msgstr ""
 "Autenticação falhou para o usuário '%(username)s'. [Código de erro: %(code)s]"
 
-msgid "You are not authorized to access Kimchi"
-msgstr "Você não está autorizado para acessar o Kimchi"
+msgid "You are not authorized to access Wok. Please, login first."
+msgstr ""
 
 #, python-format
-msgid "Specify %(item)s to login into Kimchi"
-msgstr "Especifique %(item)s para autenticar no Kimchi"
+msgid "Specify %(item)s to login into Wok."
+msgstr "Especifique %(item)s para autenticar no Wok"
 
 #, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
@@ -124,10 +124,6 @@ msgid "Invalid data unit '%(unit)s'"
 msgstr "Unidade inválida '%(unit)s'"
 
 #, python-format
-msgid "Unable to (re)start system's nginx.service. Details: '%(error)s'"
-msgstr ""
-
-#, python-format
 msgid "Successfully completed task '%(target_uri)s'"
 msgstr ""
 
@@ -160,12 +156,6 @@ msgstr "PILHA"
 
 msgid "Go to Homepage"
 msgstr "Ir para a Página Inicial"
-
-msgid "Host"
-msgstr ""
-
-msgid "Virtualization"
-msgstr ""
 
 msgid "Wok"
 msgstr ""
@@ -238,7 +228,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Timezone"
+msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
@@ -295,7 +285,16 @@ msgstr ""
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
+msgid "Renew"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
 msgid "Powered by"
+msgstr ""
+
+msgid "Wok Version"
 msgstr ""
 
 msgid "User Activity Log"

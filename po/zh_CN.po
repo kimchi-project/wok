@@ -1,5 +1,5 @@
 # Chinese (zh_CN) translations for Wok package.
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 # ShaoHe Feng <shaohef@linux.vnet.ibm.com>, 2013-04-18.
 #
 # This library is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-29 11:57-0300\n"
+"POT-Creation-Date: 2017-01-05 15:36-0200\n"
 "PO-Revision-Date: 2013-06-27 10:48+0000\n"
 "Last-Translator: ShaoHe Feng <shaohef@linux.vnet.ibm.com>\n"
 "Language-Team: ShaoHe Feng <shaohef@linux.vnet.ibm.com>\n"
@@ -77,12 +77,12 @@ msgstr ""
 msgid "Authentication failed for user '%(username)s'. [Error code: %(code)s]"
 msgstr "用户'%(username)s'身份验证失败.[错误代码：%(code)s]"
 
-msgid "You are not authorized to access Kimchi"
-msgstr "您没有被授权访问Kimchi"
+msgid "You are not authorized to access Wok. Please, login first."
+msgstr ""
 
 #, python-format
-msgid "Specify %(item)s to login into Kimchi"
-msgstr "指定登录Kimchi的%(item)s"
+msgid "Specify %(item)s to login into Wok."
+msgstr "指定登录Wok的%(item)s"
 
 #, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
@@ -121,10 +121,6 @@ msgid "Invalid data unit '%(unit)s'"
 msgstr ""
 
 #, python-format
-msgid "Unable to (re)start system's nginx.service. Details: '%(error)s'"
-msgstr ""
-
-#, python-format
 msgid "Successfully completed task '%(target_uri)s'"
 msgstr ""
 
@@ -157,12 +153,6 @@ msgstr "调用栈"
 
 msgid "Go to Homepage"
 msgstr "返回主页"
-
-msgid "Host"
-msgstr ""
-
-msgid "Virtualization"
-msgstr ""
 
 msgid "Wok"
 msgstr ""
@@ -233,7 +223,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Timezone"
+msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
@@ -290,7 +280,16 @@ msgstr ""
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
+msgid "Renew"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
 msgid "Powered by"
+msgstr ""
+
+msgid "Wok Version"
 msgstr ""
 
 msgid "User Activity Log"

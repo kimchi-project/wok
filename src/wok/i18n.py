@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -39,8 +39,8 @@ messages = {
     "WOKASYNC0004E": _("Unable to kill task due error: %(err)s"),
 
     "WOKAUTH0001E": _("Authentication failed for user '%(username)s'. [Error code: %(code)s]"),
-    "WOKAUTH0002E": _("You are not authorized to access Kimchi"),
-    "WOKAUTH0003E": _("Specify %(item)s to login into Kimchi"),
+    "WOKAUTH0002E": _("You are not authorized to access Wok. Please, login first."),
+    "WOKAUTH0003E": _("Specify %(item)s to login into Wok."),
     "WOKAUTH0005E": _("Invalid LDAP configuration: %(item)s : %(value)s"),
 
     "WOKLOG0001E": _("Invalid filter parameter. Filter parameters allowed: %(filters)s"),

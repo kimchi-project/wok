@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -66,12 +66,7 @@ def main(options):
                            "(default %s)" % session_timeout)
     parser.add_option('--log-level', default=logLevel,
                       help="Logging level")
-    parser.add_option('--access-log',
-                      default=os.path.join(logDir, ACCESS_LOG),
-                      help="Access log file")
-    parser.add_option('--error-log',
-                      default=os.path.join(logDir, ERROR_LOG),
-                      help="Error log file")
+    parser.add_option('--log-dir', default=logDir, help="Log directory")
     parser.add_option('--environment', default=runningEnv,
                       help="Running environment of wok server")
     parser.add_option('--test', action='store_true',
@@ -79,6 +74,9 @@ def main(options):
     parser.add_option('--server_root', type="string", default=server_root,
                       help="Relative path to server")
     (options, args) = parser.parse_args()
+
+    setattr(options, 'access_log', os.path.join(options.log_dir, ACCESS_LOG))
+    setattr(options, 'error_log', os.path.join(options.log_dir, ERROR_LOG))
 
     # Update config.config with the command line values
     # So the whole application will have access to accurate values

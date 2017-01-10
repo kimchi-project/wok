@@ -53,7 +53,7 @@ def main(options):
     logLevel = config.config.get("logging", "log_level")
 
     parser = OptionParser()
-    parser.add_option('--proxy-port', type="int", default=proxy_port,
+    parser.add_option('--proxy_port', type="int", default=proxy_port,
                       help="Port to enable SSL (default %s)" % proxy_port)
     parser.add_option('--cherrypy_port', type="int", default=cherrypy_port,
                       help="Cherrypy server port (default %s)" % cherrypy_port)
@@ -64,15 +64,15 @@ def main(options):
                       help="Number of minutes that a session can remain idle "
                            "before the server terminates it automatically. "
                            "(default %s)" % session_timeout)
-    parser.add_option('--log-level', default=logLevel,
+    parser.add_option('--log_level', default=logLevel,
                       help="Logging level")
-    parser.add_option('--log-dir', default=logDir, help="Log directory")
+    parser.add_option('--log_dir', default=logDir, help="Log directory")
     parser.add_option('--environment', default=runningEnv,
                       help="Running environment of wok server")
-    parser.add_option('--test', action='store_true',
-                      help="Run server in mock model")
     parser.add_option('--server_root', type="string", default=server_root,
                       help="Relative path to server")
+    parser.add_option('--test', action='store_true',
+                      help="Run server in mock model")
     (options, args) = parser.parse_args()
 
     setattr(options, 'access_log', os.path.join(options.log_dir, ACCESS_LOG))

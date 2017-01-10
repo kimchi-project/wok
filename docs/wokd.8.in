@@ -1,93 +1,108 @@
-.TH KIMCHI 8 "February 05, 2015" "Version @PACKAGE_VERSION@" "Kimchi Manual"
+.TH WOKD 8 "February 05, 2015" "Version @PACKAGE_VERSION@" "Wok Manual"
 .SH NAME
-Kimchi \- HTML5 based management tool for KVM
+wokd - Launch Wok web server
 .SH SYNOPSIS
-.B kimchid
-[\fB-h\fP|\fB--help\fP] [\fB--proxy-port\fP \fIproxy_port\fP]
-[\fB--cherrypy_port\fP \fIcherrypy_port\fP] [\fB--log-level\fP \fIlog_level\fP]
-[\fB--access-log\fP \fIaccess_log\fP] [\fB--error-log\fP \fIerror_log\fP]
-[\fB--environment\fP \fIenvironment\fP]
+.B wokd
+[\fB-h\fP|\fB--help\fP] [\fB--proxy_port\fP \fIPROXY_PORT\fP]
+[\fB--cherrypy_port\fP \fICHERRYPY_PORT\fP] [\fB--websockets_port\fP \fIWEBSOCKETS_PORT\fP]
+[\fB--session_timeout\fP \fISESSION_TIMEOUT\fP] [\fB--log_level\fP \fILOG_LEVEL\fP]
+[\fB--log_dir\fP \fILOG_DIR\fP] [\fB--environment\fP \fIENV\fP]
+[\fB--server_root\fP \fISERVER_ROOT\fP] [\fB--test\fP]
 .SH DESCRIPTION
-\fBKimchi\fP is an HTML5 based management tool for KVM. It is designed to make
-it as easy as possible to get started with KVM and create your first guest.
-\fBkimchid\fP launches the daemon on the hypervisor host which manages KVM guests through
-libvirt. The management interface is accessed over the web using a browser that
-supports HTML5.
+\fBWok\fP is a cherrypy-based web framework with HTML5 support originated from Kimchi.
+It can be extended by plugins which expose functionality through REST APIs.
+
+\fBwokd\fP launches the web server and load all the installed plugins as part of an intuitive
+web interface that can be accessible over HTTP or HTTPS according to the configuration specified in
+/etc/wok/wok.conf and /etc/nginx/conf.d/wok.conf
+
+By default, Wok uses nginx as a reverse proxy and it launches a cherrypy process on localhost for
+security matters. The nginx can be replaced by other proxy without problems. Just make sure to have
+the configuration aligned in /etc/wok/wok.conf
 .SH OPTIONS
+Most of the options provide mechanism to change the web server configuration and must be aligned with
+the proxy configuration as well. So check /etc/nginx/conf.d/wok.conf
+
 The following options are supported:
 .TP
 \fB\-h\fP , \fB\-\-help\fP
 Show this help message and exit.
 .TP
-\fB\-\-proxy-port\fP \fIproxy_port\fP
-Specify the HTTPS port (default \fI8001\fP).
+\fB\-\-proxy_port\fP \fIPROXY_PORT\fP
+Wok runs behind a reverse proxy so use this option to specify on which HTTPS
+port the proxy is running (default \fI8001\fP).
 .TP
-\fB\-\-cherrypy_port\fP \fIcherrypy_port\fP
-Specify the Cherrypy server port (default \fI8010\fP).
+\fB\-\-cherrypy_port\fP \fICHERRYPY_PORT\fP
+Corresponds to the Cherrypy server port (default \fI8010\fP).
+Cherrypy will run on localhost so no firewall configuration is needed for that.
 .TP
-\fB\-\-log-level\fP [\fIdebug\fP | \fIinfo\fP | \fIwarning\fP | \fIerror\fP | \fIcritical\fP]
-Specify the log level (default \fIdebug\fP).
+\fB\-\-websockets_port\fP \fIWEBSOCKETS_PORT\fP
+Corresponds to the Websockets port (default \fI64667\fP).
 .TP
-\fB\-\-access-log\fP \fIaccess_log\fP
-Specify the access log location where kimchi should create the access log file.
+\fB\-\-session_timeout\fP \fISESSION_TIMEOUT\fP
+Number of minutes that a session can remain idle before the server terminates it automatically (default \fI10\fP).
 .TP
-\fB\-\-environment\fP [\fIdevelopment\fP | \fIproduction\fP]
-Specify the running environment of kimchi server. Check cherrypy documentation for more details (default \fIproduction\fP).
+\fB\-\-log_level\fP [\fIdebug\fP | \fIinfo\fP | \fIwarning\fP | \fIerror\fP | \fIcritical\fP]
+Specify the application log level (default \fIdebug\fP).
 .TP
-Register and discover Kimchi peers in the same network using OpenSLP. Check
-below the \fBFEDERATION\fP section for more details (default \fIoff\fP).
+\fB\-\-log_dir\fP [\fILOG_DIR\fP]
+Specify the log files location (default \fI/var/log/wok/\fP).
+.TP
+\fB\-\-environment\fP [\fIdev\fP | \fIproduction\fP]
+Specify the running environment of Wok server.
+Check cherrypy documentation for more details (default \fIproduction\fP).
+.TP
+\fB\-\-server_root\fP [\fISERVER_ROOT\fP]
+Relative path to Wok server. No value is specified by default, ie, Wok will run on '/'.
 .TP
 \fB\-\-test\fP
-Run kimchi on a mock version that does not affect the system. For testing proposals.
+Run Wok on a mock version that does not affect the system. For testing proposals.
+It depends on how plugins implements the mock environment as well.
+.SH SIGNALS
+Wok relies on Cherrypy to handle system signals as below:
+
+\fBSIGTERM\fP: Stop all services and prepare to exit the process.
+
+\fBSIGHUP\fP: Restart if daemonized, else exit.
+
+\fBSIGUSR1\fP: Advise all services to reload.
+.SH FILES
+.I /etc/wok/wok.conf
+.RS
+The Wok server configuration file.
+.RE
+.I /etc/nginx/conf.d/wok.conf
+.RS
+The nginx configuration to server Wok server configuration. It must be aligned with /etc/wok/wok.conf content.
+.RE
+.I /etc/logrotate.d/wokd
+.RS
+The logrotate configuration file for Wok logs.
+.RE
+.I /usr/lib/firewalld/services/wokd.xml
+.RS
+The firewalld configuration file for Wok server.
+.RE
 .SH LICENCE
 .br
-Kimchi is distributed pursuant to the terms of two different licenses.
+Wok is distributed pursuant to the terms of two different licenses.
+.br
 The user interface (located in ui/ in this distribution) is governed by
-the Apache License version 2.0.
-
-The code under ui/spice-html5 is imported from spice-html5 project
-(http://cgit.freedesktop.org/spice/spice-html5) and the code under ui/libs which is
-imported from JQuery UI (http://jqueryui.com)
+the Apache License version 2.0. More details about all the imported code and
+its correspondent license information can be found in COPYING file.
 
 The rest of this distribution is governed by the GNU Lesser General Public
-License version 3.
+License version 2.1+.
 
-See COPYING.LGPL and COPYING.ASL2.
+See COPYING, COPYING.LGPL and COPYING.ASL2.
 .SH BUGS
-Current bugs can be found here : https://github.com/kimchi-project/kimchi/issues
 .br
-If you find any, please open an issue : https://github.com/kimchi-project/kimchi/issues/new
+Please report all bugs you find.
+.br
+This should be done on bug tracker <https://github.com/kimchi-project/wok/issues/new>
+.br
+You can also report bugs to your software distributor/vendor.
 .SH AUTHOR
-\fBAdam King\fP <rak@linux.vnet.ibm.com>,
-\fBAdam Litke\fP <agl@linux.vnet.ibm.com>,
-\fBAdriano Botega\fP <abotega@linux.vnet.ibm.com>,
-\fBAlexandre Tanaka Hirata\fP <hirata@linux.vnet.ibm.com>,
-\fBAline Manera\fP <alinefm@br.ibm.com>,
-\fBapporc\fP <appleorchard2000@gmail.com>,
-\fBAnthony Liguori\fP <aliguori@us.ibm.com>,
-\fBBing Bu Cao\fP <mars@linux.vnet.ibm.com>,
-\fBChristy Perez\fP <christy@linux.vnet.ibm.com>,
-\fBCole Robinson\fP <crobinso@redhat.com>,
-\fBCrístian Viana\fP <vianac@linux.vnet.ibm.com>,
-\fBDaniel H Barboza\fP <danielhb@linux.vnet.ibm.com>,
-\fBEduardo Elias Ferreira\fP <edusf@linux.vnet.ibm.com>,
-\fBEli Qiao(Li Yong Qiao)\fP <taget@linux.vnet.ibm.com>,
-\fBHongliang Wang\fP <hlwang@linux.vnet.ibm.com>,
-\fBLeonardo Garcia\fP <lagarcia@br.ibm.com>,
-\fBLise Noble\fP <lwnoble@us.ibm.com>,
-\fBMalcolm Yu\fP <minghaoyusombie@gmail.com>,
-\fBMark Wu\fP <wudxw@linux.vnet.ibm.com>,
-\fBMei Na Zhou\fP <zhoumein@linux.vnet.ibm.com>,
-\fBPaulo Vital\fP <pvital@linux.vnet.ibm.com>,
-\fBPradeep K Surisetty\fP <psuriset@linux.vnet.ibm.com>,
-\fBRamon Medeiros\fP <ramonn@linux.vnet.ibm.com>,
-\fBRodrigo Trujilo\fP <rodrigo.trujillo@linux.vnet.ibm.com>,
-\fBRoyce Lv\fP <lvroyce@linux.vnet.ibm.com>,
-\fBShaoHe Feng\fP <shaohef@linux.vnet.ibm.com>,
-\fBShu Ming\fP <shuming@linux.vnet.ibm.com>,
-\fBToby Allsopp\fP <toby@MI6.GEN.NZ>,
-\fBTony Breeds\fP <tonyb@au1.ibm.com>,
-\fBXin BJ Ding\fP <xinding@cn.ibm.com>,
-\fBYu Xin Huo\fP <huoyuxin@linux.vnet.ibm.com>,
-\fBZhou Zheng Sheng\fP <zhshzhou@linux.vnet.ibm.com>,
+Please refer to the AUTHORS file distributed with Wok.
 .SH SEE ALSO
+<https://github.com/kimchi-project/wok>, <http://kimchi-project.github.io/wok>

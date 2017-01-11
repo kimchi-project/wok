@@ -4,7 +4,7 @@
 #
 # Copyright IBM Corp, 2015-2017
 #
-# Code delivered from Project Kimchi
+# Code derived from Project Kimchi
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

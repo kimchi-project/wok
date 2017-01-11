@@ -1,13 +1,107 @@
-Wok/Kimchi are distributed pursuant to the terms of two different licenses.
-The user interface (located in ui/ and plugins/kimchi/ui in this distribution)
-is governed by the Apache License version 2.0.
+Wok are distributed pursuant to the terms of two different licenses.
+The user interface (located in ui/ in this distribution) is governed by the
+Apache License version 2.0.
 
-Kimchi makes use of different projects and they are placed as below:
-- the code under ui/spice-html5 is imported from spice-html5 project
-(http://cgit.freedesktop.org/spice/spice-html5);
-- the code under ui/libs which is imported from JQuery UI (http://jqueryui.com);
-- the code under ui/base64 is imported from Jquery Base64 (https://plugins.jquery.com/base64/).
-- the code under ui/fontello is imported from Fontello (http://fontello.com).
+Wok makes use of different projects and they are placed as below:
+
+Files: ui/base64/jquery.base64.js
+Source: https://plugins.jquery.com/base64 
+License: MIT
+
+Files: ui/css/fontawesome/fontawesome.css
+Source: http://fontawesome.io
+License: MIT
+
+Files: ui/css/opensans/opensans.css
+Source: https://fonts.google.com/specimen/Open+Sans
+License: Apache-2.0
+
+Files: ui/css/src/bootstrap.custom.scss
+       ui/css/src/vendor/bootstrap-sass/bootstrap/*
+Source: https://github.com/twbs/bootstrap
+License: MIT
+
+Files: ui/css/src/vendor/compass-mixins/*
+Source: https://github.com/Igosuki/compass-mixins
+License: MIT-with-addition
+
+Files: ui/css/src/datatables.bootstrap.scss
+Source: http://datatables.net
+License: MIT
+
+Files: ui/images/theme-default/edit-alt.svg
+Source: http://elusiveicons.com
+License: SIL-1.1
+
+Files: ui/images/theme-default/spin5.svg
+Source: http://fontello.com
+License: CC-BY-3.0
+
+Files: ui/libs/bootstrap/bootstrap.min.js
+Source: http://getbootstrap.com
+License: MIT
+
+Files: ui/libs/bootstrap-editable/*
+Source: https://vitalets.github.io/bootstrap-editable
+License: MIT
+
+Files: ui/libs/bootstrap-select/*
+Source: https://github.com/silviomoreto/bootstrap-select
+License: MIT
+
+Files: ui/libs/bootstrap-switch/*
+Source: http://www.bootstrap-switch.org
+License: MIT
+
+Files: ui/libs/datatables/*
+Source: http://datatables.net
+License: MIT
+
+Files: ui/libs/datatables/js/plugins/ip-address/ip-address.js
+Source: https://datatables.net/plug-ins/sorting/ip-address
+License: MIT
+
+Files: ui/libs/es5-shim/es5-shim.min.js
+Source: https://github.com/es-shims/es5-shim
+License: MIT
+
+Files: ui/libs/jquery/jquery.min.js
+Source: http://jquery.com
+License: GPL-2 or MIT
+
+Files: ui/libs/jquery-bootgrid/*
+Source: http://www.jquery-bootgrid.com
+License: MIT
+
+Files: ui/libs/jquery-containsNC/*
+Source: https://github.com/friedolinfoerder/jquery.containsNC
+License: MIT
+
+Files: ui/libs/jquery-i18n/jquery.i18n.min.js
+Source: https://github.com/recurser/jquery-i18n
+License: MIT
+
+Files: ui/libs/jquery-ui/jquery-ui.min.js
+       ui/libs/jquery-ui/jquery-ui-i18n.min.js
+       ui/libs/jquery-ui/themes/base/jquery-ui.min.css
+Homepage: http://jqueryui.com/
+License: GPL-2 or MIT
+
+Files: ui/libs/list-js/list.min.js
+Source: http://listjs.com
+License: MIT
+
+Files: ui/libs/lodash/lodash.min.js
+Source: https://lodash.com
+License: MIT
+
+Files: ui/libs/moment/moment-with-locales.min.js
+Source: http://momentjs.com
+License: MIT
+
+Files: ui/libs/typeahead/typeahead.bundle.min.js
+Source: https://twitter.github.io/typeahead.js
+License: MIT
 
 The rest of this distribution is governed by the GNU Lesser General Public
 License version 2.1.

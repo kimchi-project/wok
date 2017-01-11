@@ -1,9 +1,9 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
-# Code delivered from Project Kimchi
+# Code derived from Project Kimchi
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -207,7 +207,7 @@ class ServerTests(unittest.TestCase):
         self.assertEquals(401, resp.status)
 
     def test_auth_browser_no_httpba(self):
-        # Kimchi detects REST requests from the browser by looking for a
+        # Wok detects REST requests from the browser by looking for a
         # specific header
         hdrs = {"X-Requested-With": "XMLHttpRequest"}
 

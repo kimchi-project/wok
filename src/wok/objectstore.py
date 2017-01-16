@@ -1,6 +1,6 @@
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -115,7 +115,7 @@ class ObjectStore(object):
             return
 
     def _get_conn(self):
-        ident = threading.currentThread().ident
+        ident = threading.currentThread().name
         try:
             return self._connections[ident]
         except KeyError:

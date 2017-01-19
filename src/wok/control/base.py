@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -27,7 +27,7 @@ import urllib2
 
 import wok.template
 from wok.asynctask import save_request_log_id
-from wok.auth import USER_GROUPS, USER_NAME, USER_ROLES
+from wok.auth import USER_GROUPS, USER_NAME, USER_ROLE
 from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
 from wok.control.utils import validate_params
@@ -66,7 +66,6 @@ class Resource(object):
         self.model = model
         self.ident = ident
         self.model_args = (ident,)
-        self.role_key = None
         self.admin_methods = []
         self.log_map = {}
         self.log_args = {
@@ -124,7 +123,7 @@ class Resource(object):
             status = 500
 
             method = 'POST'
-            validate_method((method), self.role_key, self.admin_methods)
+            validate_method((method), self.admin_methods)
             try:
                 request = parse_request()
                 validate_params(request, self, action_name)
@@ -191,8 +190,7 @@ class Resource(object):
         details = None
         status = 500
 
-        method = validate_method(('GET', 'DELETE', 'PUT'),
-                                 self.role_key, self.admin_methods)
+        method = validate_method(('GET', 'DELETE', 'PUT'), self.admin_methods)
 
         try:
             self.lookup()
@@ -222,7 +220,7 @@ class Resource(object):
     def is_authorized(self):
         user_name = cherrypy.session.get(USER_NAME, '')
         user_groups = cherrypy.session.get(USER_GROUPS, [])
-        user_role = cherrypy.session.get(USER_ROLES, {}).get(self.role_key)
+        user_role = cherrypy.session.get(USER_ROLE, None)
 
         users = self.data.get("users", None)
         groups = self.data.get("groups", None)
@@ -331,7 +329,6 @@ class Collection(object):
         self.resource = Resource
         self.resource_args = []
         self.model_args = []
-        self.role_key = None
         self.admin_methods = []
         self.log_map = {}
         self.log_args = {}
@@ -432,8 +429,7 @@ class Collection(object):
         status = 500
 
         params = {}
-        method = validate_method(('GET', 'POST'),
-                                 self.role_key, self.admin_methods)
+        method = validate_method(('GET', 'POST'), self.admin_methods)
 
         try:
             if method == 'GET':

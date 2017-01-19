@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -78,7 +78,7 @@ wok.login_main = function() {
                 var lastPage = wok.cookie.get('lastPage');
                 var next_url = lastPage ? lastPage.replace(/\"/g,'') : "/";
             }
-            wok.cookie.set('roles',JSON.stringify(data.roles));
+            wok.cookie.set('user_role', data.role);
             window.location.replace(window.location.pathname.replace(/\/+login.html/, '') + next_url);
         }, function(jqXHR, textStatus, errorThrown) {
             if (jqXHR.responseText == "") {

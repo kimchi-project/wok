@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -91,12 +91,11 @@ wok.main = function() {
             var titleKey = tab.find('title').text();
             var title = i18n[titleKey] ? i18n[titleKey] : titleKey;
             var path = tab.find('path').text();
-            var roles = wok.cookie.get('roles');
+            var user_role = wok.cookie.get('user_role');
             var order = tab.find('order').text();
 
-            if (roles) {
-                var role = JSON.parse(roles)[titleKey.toLowerCase()];
-                var mode = tab.find('[role="' + role + '"]').attr('mode');
+            if (user_role) {
+                var mode = tab.find('[role=' + user_role + ']').attr('mode');
                 wok.tabMode[titleKey.toLowerCase()] = mode;
                 if (mode != 'none') {
                     tabs.push({

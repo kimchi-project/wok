@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -24,7 +24,7 @@ import cherrypy
 import json
 from jsonschema import Draft3Validator, ValidationError, FormatChecker
 
-from wok.auth import USER_ROLES
+from wok.auth import USER_ROLE
 from wok.exception import InvalidParameter, OperationFailed
 from wok.utils import import_module, listPathModules
 
@@ -41,12 +41,12 @@ def model_fn(cls, fn_name):
     return '%s_%s' % (get_class_name(cls), fn_name)
 
 
-def validate_method(allowed, role_key, admin_methods):
+def validate_method(allowed, admin_methods):
     method = cherrypy.request.method.upper()
     if method not in allowed:
         raise cherrypy.HTTPError(405)
 
-    user_role = cherrypy.session.get(USER_ROLES, {}).get(role_key)
+    user_role = cherrypy.session.get(USER_ROLE, None)
     if user_role and user_role != 'admin' and method in admin_methods:
         raise cherrypy.HTTPError(403)
 

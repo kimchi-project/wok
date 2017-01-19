@@ -34,7 +34,7 @@ import unittest
 
 import wok.server
 
-from wok.auth import User, USER_NAME, USER_GROUPS, USER_ROLES, tabs
+from wok.auth import User
 from wok.config import config
 from wok.exception import NotFoundError, OperationFailed
 from wok.utils import wok_log
@@ -140,21 +140,15 @@ class FakeUser(User):
     sudo = True
 
     def __init__(self, username):
-        self.user = {}
-        self.user[USER_NAME] = username
-        self.user[USER_GROUPS] = None
-        self.user[USER_ROLES] = dict.fromkeys(tabs, 'user')
+        super(FakeUser, self).__init__(username)
 
-    def get_groups(self):
+    def _get_groups(self):
         return sorted([group.gr_name for group in grp.getgrall()])[0:3]
 
-    def get_roles(self):
+    def _get_role(self):
         if self.sudo:
-            self.user[USER_ROLES] = dict.fromkeys(tabs, 'admin')
-        return self.user[USER_ROLES]
-
-    def get_user(self):
-        return self.user
+            return 'admin'
+        return 'user'
 
     @staticmethod
     def authenticate(username, password, service="passwd"):

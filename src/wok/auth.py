@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -35,13 +35,11 @@ import urllib2
 from wok import template
 from wok.config import config
 from wok.exception import InvalidOperation, OperationFailed
-from wok.utils import get_all_tabs, run_command
+from wok.utils import run_command
 
 USER_NAME = 'username'
+USER_ROLE = 'role'
 USER_GROUPS = 'groups'
-USER_ROLES = 'roles'
-
-tabs = get_all_tabs()
 
 
 def redirect_login():
@@ -60,6 +58,20 @@ def debug(msg):
 
 
 class User(object):
+    def __init__(self, username):
+        self.name = username
+        self.groups = self._get_groups()
+        # after adding support to change user roles that info should be read
+        # from a specific objstore and fallback to default only if any entry is
+        # found
+        self.role = self._get_role()
+
+    def _get_groups(self):
+        pass
+
+    def _get_role(self):
+        pass
+
     @classmethod
     def get(cls, auth_args):
         auth_type = auth_args.pop('auth_type')
@@ -78,29 +90,23 @@ class PAMUser(User):
     auth_type = "pam"
 
     def __init__(self, username):
-        self.user = {}
-        self.user[USER_NAME] = username
-        self.user[USER_GROUPS] = None
-        # after adding support to change user roles that info should be read
-        # from a specific objstore and fallback to default only if any entry is
-        # found
-        self.user[USER_ROLES] = dict.fromkeys(tabs, 'user')
+        super(PAMUser, self).__init__(username)
 
-    def get_groups(self):
-        out, err, rc = run_command(['id', '-Gn', self.user[USER_NAME]])
+    def _get_groups(self):
+        out, err, rc = run_command(['id', '-Gn', self.name])
         if rc == 0:
-            self.user[USER_GROUPS] = out.rstrip().split(" ")
+            return out.rstrip().split(" ")
 
-        return self.user[USER_GROUPS]
+        return None
 
-    def get_roles(self):
+    def _get_role(self):
         if self.has_sudo():
             # after adding support to change user roles that info should be
             # read from a specific objstore and fallback to default only if
             # any entry is found
-            self.user[USER_ROLES] = dict.fromkeys(tabs, 'admin')
+            return 'admin'
 
-        return self.user[USER_ROLES]
+        return 'user'
 
     def has_sudo(self):
         result = multiprocessing.Value('i', 0, lock=False)
@@ -117,16 +123,16 @@ class PAMUser(User):
         os.setsid()
         fcntl.ioctl(slave, termios.TIOCSCTTY, 0)
 
-        out, err, exit = run_command(['sudo', '-l', '-U', self.user[USER_NAME],
+        out, err, exit = run_command(['sudo', '-l', '-U', self.name,
                                       'sudo'])
         if exit == 0:
-            debug("User %s is allowed to run sudo" % self.user[USER_NAME])
+            debug("User %s is allowed to run sudo" % self.name)
             # sudo allows a wide range of configurations, such as controlling
             # which binaries the user can execute with sudo.
             # For now, we will just check whether the user is allowed to run
             # any command with sudo.
             out, err, exit = run_command(['sudo', '-l', '-U',
-                                          self.user[USER_NAME]])
+                                          self.name])
             for line in out.split('\n'):
                 if line and re.search("(ALL)", line):
                     result.value = True
@@ -134,12 +140,9 @@ class PAMUser(User):
                           result.value)
                     return
             debug("User %s can only run some commands with sudo" %
-                  self.user[USER_NAME])
+                  self.name)
         else:
-            debug("User %s is not allowed to run sudo" % self.user[USER_NAME])
-
-    def get_user(self):
-        return self.user
+            debug("User %s is not allowed to run sudo" % self.name)
 
     @staticmethod
     def authenticate(username, password, service="passwd"):
@@ -189,12 +192,7 @@ class LDAPUser(User):
     auth_type = "ldap"
 
     def __init__(self, username):
-        self.user = {}
-        self.user[USER_NAME] = username
-        self.user[USER_GROUPS] = list()
-        # FIXME: user roles will be changed according roles assignment after
-        # objstore is integrated
-        self.user[USER_ROLES] = dict.fromkeys(tabs, 'user')
+        super(PAMUser, self).__init__(username)
 
     @staticmethod
     def authenticate(username, password):
@@ -227,19 +225,16 @@ class LDAPUser(User):
             arg = {"username": username, "code": e.message}
             raise OperationFailed("WOKAUTH0001E", arg)
 
-    def get_groups(self):
-        return self.user[USER_GROUPS]
+    def _get_groups(self):
+        return None
 
-    def get_roles(self):
+    def _get_role(self):
         admin_ids = config.get(
             "authentication", "ldap_admin_id").strip('"').split(',')
         for admin_id in admin_ids:
-            if self.user[USER_NAME] == admin_id.strip():
-                self.user[USER_ROLES] = dict.fromkeys(tabs, 'admin')
-        return self.user[USER_ROLES]
-
-    def get_user(self):
-        return self.user
+            if self.name == admin_id.strip():
+                return 'admin'
+        return 'user'
 
 
 def from_browser():
@@ -313,11 +308,12 @@ def login(username, password, **kwargs):
     cherrypy.session.acquire_lock()
     cherrypy.session.regenerate()
     cherrypy.session[USER_NAME] = username
-    cherrypy.session[USER_GROUPS] = user.get_groups()
-    cherrypy.session[USER_ROLES] = user.get_roles()
+    cherrypy.session[USER_GROUPS] = user.groups
+    cherrypy.session[USER_ROLE] = user.role
     cherrypy.session[template.REFRESH] = time.time()
     cherrypy.session.release_lock()
-    return user.get_user()
+    return {USER_NAME: user.name, USER_GROUPS: user.groups,
+            USER_ROLE: user.role}
 
 
 def logout():

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2016
+# Copyright IBM Corp, 2016-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -25,6 +25,9 @@ from wok.control.utils import UrlSubNode
 class Config(Resource):
     def __init__(self, model, id=None):
         super(Config, self).__init__(model, id)
+        self.uri_fmt = '/config/%s'
+        self.admin_methods = ['POST']
+        self.reload = self.generate_action_handler('reload')
 
     @property
     def data(self):

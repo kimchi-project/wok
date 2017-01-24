@@ -17,7 +17,7 @@ Contains information about the application environment and configuration.
 
 **Actions (POST):**
 
-*No actions defined*
+* reload: reloads WoK configuration. This process will drop all existing WoK connections, reloading WoK and all its enabled plug-ins.
 
 #### Examples
 GET /config

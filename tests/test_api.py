@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2016
+# Copyright IBM Corp, 2016-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import json
+import mock
 import time
 import unittest
 import utils
@@ -102,3 +103,9 @@ class APITests(unittest.TestCase):
         self.assertEquals(204, resp.status)
         task = json.loads(self.request('/tasks/%s' % taskid).read())
         self.assertEquals('killed', task['status'])
+
+    @mock.patch('cherrypy.engine.restart')
+    def test_config_reload(self, mock_restart):
+        resp = self.request('/config/reload', '{}', 'POST')
+        self.assertEquals(200, resp.status)
+        mock_restart.assert_called_once_with()

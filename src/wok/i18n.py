@@ -61,6 +61,7 @@ messages = {
     "WOKASYNC0001L": _("Successfully completed task '%(target_uri)s'"),
     "WOKASYNC0002L": _("Failed to complete task '%(target_uri)s'"),
     "WOKCOL0001L": _("Request made on collection"),
+    "WOKCONFIG0001L": _("Wok reload"),
     "WOKRES0001L": _("Request made on resource"),
     "WOKROOT0001L": _("User '%(username)s' login"),
     "WOKROOT0002L": _("User '%(username)s' logout"),

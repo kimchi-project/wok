@@ -21,12 +21,20 @@ from wok.control.base import Resource
 from wok.control.utils import UrlSubNode
 
 
+CONFIG_REQUESTS = {
+    'POST': {
+        'reload': "WOKCONFIG0001L",
+    },
+}
+
+
 @UrlSubNode("config")
 class Config(Resource):
     def __init__(self, model, id=None):
         super(Config, self).__init__(model, id)
         self.uri_fmt = '/config/%s'
         self.admin_methods = ['POST']
+        self.log_map = CONFIG_REQUESTS
         self.reload = self.generate_action_handler('reload')
 
     @property

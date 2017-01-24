@@ -18,8 +18,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import cherrypy
+import time
 
 from wok.config import config, get_version
+from wok.model.notifications import add_notification
+from wok.utils import wok_log
 
 
 class ConfigModel(object):
@@ -34,4 +37,16 @@ class ConfigModel(object):
                 'version': get_version()}
 
     def reload(self, name):
+        add_notification('WOKCONFIG0001I', plugin_name='/')
+        # If we proceed with the cherrypy.engine.restart() right after
+        # adding the notification, the server will reboot and the
+        # opened UIs will most likely not see the notification at all. The
+        # notification interval is set in wok.main.js as:
+        #
+        # wok.NOTIFICATION_INTERVAL = 2000
+        #
+        # Inserting a time.sleep(2) here will ensure that all opened
+        # UI had the chance to see the reload notification.
+        wok_log.info('Reloading WoK in two seconds ...')
+        time.sleep(2)
         cherrypy.engine.restart()

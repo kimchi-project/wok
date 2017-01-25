@@ -28,6 +28,7 @@ import os
 
 from wok import sslcert
 from wok.config import paths
+from wok.utils import run_command
 
 
 DH_COMMAND = "openssl dhparam -dsaparam -out %s 2048"
@@ -75,4 +76,9 @@ def check_proxy_config():
             f.write(ssl_gen.key_pem())
 
     # Reload nginx configuration.
-    os.system('nginx -s reload')
+    cmd = ['service', 'nginx', 'status']
+    output, error, rc = run_command(cmd)
+    if rc != 0:
+        os.system('service nginx start')
+    else:
+        os.system('nginx -s reload')

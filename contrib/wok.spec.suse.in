@@ -24,7 +24,6 @@ Requires:	logrotate
 Requires:	openssl
 BuildRequires:	gettext-tools
 BuildRequires:	libxslt-tools
-BuildRequires:	openssl
 BuildRequires:	python-lxml
 
 %if 0%{?suse_version} == 1100
@@ -52,13 +51,18 @@ make DESTDIR=%{buildroot} install
 
 %post
 if [ $1 -eq 1 ] ; then
+    if [ ! -e /etc/wok/dhparams.pem ]; then
+        openssl dhparam -dsaparam -out /etc/wok/dhparams.pem 2048 >/dev/null 2>&1 || :
+    fi
+    if [ ! -e /etc/wok/wok-key.pem ] || [ ! -e /etc/wok/wok-cert.pem ]; then
+        openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
+    fi
     %if 0%{?with_systemd}
         /bin/systemctl enable wokd.service >/dev/null 2>&1 || :
         /bin/systemctl daemon-reload >/dev/null 2>&1 || :
     %else
         chkconfig wokd on
     %endif
-    openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
 fi
 exit 0
 

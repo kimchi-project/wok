@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -48,10 +48,4 @@ wokd: wokd.in Makefile
 wok.conf: wok.conf.in Makefile
 	$(do_substitution) < wok.conf.in > wok.conf
 
-# Generate unique Diffie-Hellman group with 2048-bit
-all-local: dhparams.pem
-
-dhparams.pem:
-	openssl dhparam -out dhparams.pem 2048
-
-CLEANFILES = $(bin_SCRIPTS) $(BUILT_SOURCES) dhparams.pem
+CLEANFILES = $(bin_SCRIPTS) $(BUILT_SOURCES)

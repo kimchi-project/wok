@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,21 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+DHPARAMS_PEM=/etc/wok/dhparams.pem
+WOKCERT_PEM=/etc/wok/wok-cert.pem
+WOKKEY_PEM=/etc/wok/wok-key.pem
+
+if [ ! -e "$DHPARAMS_PEM" ]; then
+    openssl dhparam -dsaparam -out "$DHPARAMS_PEM" 2048 >/dev/null 2>&1 || :
+fi
+if [ ! -e "$WOKCERT_PEM" ] || [ ! -e "$WOKKEY_PEM" ]; then
+    openssl req -x509 -newkey rsa:4096 -keyout "$WOKKEY_PEM" \
+        -out "$WOKCERT_PEM" -days 365 -nodes \
+        -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
+fi
+
 systemd_exists=$(type /bin/systemctl > /dev/null 2>&1; echo $?)
 if test $systemd_exists = "0"; then
-    openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
     /bin/systemctl enable wokd > /dev/null 2>&1
     /bin/systemctl daemon-reload > /dev/null 2>&1
     /bin/systemctl start wokd > /dev/null 2>&1

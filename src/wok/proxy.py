@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -30,6 +30,9 @@ from wok import sslcert
 from wok.config import paths
 
 
+DH_COMMAND = "openssl dhparam -dsaparam -out %s 2048"
+
+
 def check_proxy_config():
     # When running from a installed system, there is nothing to do
     if paths.installed:
@@ -48,15 +51,17 @@ def check_proxy_config():
     # Create a symbolic link in system's dir to prevent errors while
     # running from source code
     symlinks = [{'target': os.path.join(paths.nginx_conf_dir, 'wok.conf'),
-                 'link': os.path.join(paths.sys_nginx_conf_dir,
-                                      'wok.conf')},
-                {'target': os.path.join(paths.conf_dir, 'dhparams.pem'),
-                 'link': os.path.join(paths.sys_conf_dir, 'dhparams.pem')}]
+                 'link': os.path.join(paths.sys_nginx_conf_dir, 'wok.conf')}]
     for item in symlinks:
         link = item['link']
         if os.path.isfile(link) or os.path.islink(link):
             os.remove(link)
         os.symlink(item['target'], link)
+
+    # Generate unique Diffie-Hellman group with 2048-bit
+    dh_file = os.path.join(paths.sys_conf_dir, 'dhparams.pem')
+    if not os.path.exists(dh_file):
+        os.system(DH_COMMAND % dh_file)
 
     # Create cert files if they don't exist
     cert = os.path.join(paths.sys_conf_dir, 'wok-cert.pem')

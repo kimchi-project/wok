@@ -52,7 +52,7 @@ class ObjectStoreSession(object):
         objects.sort(key=lambda (_, obj): obj[sort_key])
         return [ident for ident, _ in objects]
 
-    def get(self, obj_type, ident):
+    def get(self, obj_type, ident, ignore_missing=False):
         c = self.conn.cursor()
         res = c.execute('SELECT json FROM objects WHERE type=? AND id=?',
                         (obj_type, ident))
@@ -60,7 +60,10 @@ class ObjectStoreSession(object):
             jsonstr = res.fetchall()[0][0]
         except IndexError:
             self.conn.rollback()
-            raise NotFoundError("WOKOBJST0001E", {'item': ident})
+            data = {"":""}
+            jsonstr = json.dumps(data)
+            if not ignore_missing:
+	         raise NotFoundError("WOKOBJST0001E", {'item': ident})
         return json.loads(jsonstr)
 
     def get_object_version(self, obj_type, ident):

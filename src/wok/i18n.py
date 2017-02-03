@@ -57,6 +57,8 @@ messages = {
 
     "WOKCONFIG0001I": _("WoK is going to restart. Existing WoK connections will be closed."),
 
+    "WOKPLUGIN0001E": _("Unable to find plug-in %(name)s"),
+
     # These messages (ending with L) are for user log purposes
     "WOKASYNC0001L": _("Successfully completed task '%(target_uri)s'"),
     "WOKASYNC0002L": _("Failed to complete task '%(target_uri)s'"),
@@ -65,4 +67,6 @@ messages = {
     "WOKRES0001L": _("Request made on resource"),
     "WOKROOT0001L": _("User '%(username)s' login"),
     "WOKROOT0002L": _("User '%(username)s' logout"),
+    "WOKPLUGIN0001L": _("Enable plug-in %(ident)s."),
+    "WOKPLUGIN0002L": _("Disable plug-in %(ident)s."),
 }

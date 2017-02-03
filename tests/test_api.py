@@ -26,6 +26,8 @@ import utils
 from functools import partial
 
 from wok.asynctask import AsyncTask
+from wok.utils import set_plugin_state
+from wok.rollbackcontext import RollbackContext
 
 test_server = None
 model = None
@@ -53,6 +55,63 @@ class APITests(unittest.TestCase):
         keys = ["auth", "proxy_port", "websockets_port", "version",
                 "server_root"]
         self.assertEquals(sorted(keys), sorted(conf.keys()))
+
+    def test_config_plugins(self):
+        resp = self.request('/config/plugins')
+        self.assertEquals(200, resp.status)
+
+        plugins = json.loads(resp.read())
+        if len(plugins) == 0:
+            return
+
+        plugin_name = ''
+        plugin_state = ''
+        for p in plugins:
+            if p.get('name') == 'sample':
+                plugin_name = p.get('name').encode('utf-8')
+                plugin_state = p.get('enabled')
+                break
+        else:
+            return
+
+        with RollbackContext() as rollback:
+            rollback.prependDefer(set_plugin_state, plugin_name,
+                                  plugin_state)
+
+            resp = self.request('/config/plugins/sample')
+            self.assertEquals(200, resp.status)
+
+            resp = self.request('/config/plugins/sample/enable',
+                                '{}', 'POST')
+            self.assertEquals(200, resp.status)
+
+            resp = self.request('/config/plugins')
+            self.assertEquals(200, resp.status)
+            plugins = json.loads(resp.read())
+
+            for p in plugins:
+                if p.get('name') == 'sample':
+                    plugin_state = p.get('enabled')
+                    break
+            self.assertTrue(plugin_state)
+
+            resp = self.request('/config/plugins/sample/disable',
+                                '{}', 'POST')
+            self.assertEquals(200, resp.status)
+
+            resp = self.request('/config/plugins')
+            self.assertEquals(200, resp.status)
+            plugins = json.loads(resp.read())
+
+            for p in plugins:
+                if p.get('name') == 'sample':
+                    plugin_state = p.get('enabled')
+                    break
+            self.assertFalse(plugin_state)
+
+    def test_plugins_api_404(self):
+        resp = self.request('/plugins')
+        self.assertEquals(404, resp.status)
 
     def test_user_log(self):
         # Login and logout to make sure there there are entries in user log

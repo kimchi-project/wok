@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2016
+ * Copyright IBM Corp, 2016-2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,18 +78,21 @@ wok.logos = function(element, powered) {
         wok.listPlugins(function(plugins) {
             if(plugins && plugins.length > 0) {
                 $(plugins).each(function(i, p) {
+                    if (p.enabled === false) {
+                        return true;
+                    }
                     var url = wok.substitute(pluginUrl, {
-                        plugin: p
+                        plugin: p.name
                     });
                     obj[i] = {
-                        name : p
+                        name : p.name
                     }
                     var pluginVersions;
                     pluginVersions = retrieveVersion(url);
                     if(pluginVersions && pluginVersions.length > 0){
                         obj[i].version = pluginVersions;
                     }
-                    var imagepath = url+'/images/'+p;
+                    var imagepath = url+'/images/'+p.name;
                     if(checkImage(imagepath+'.svg') == 200) {
                         obj[i].image = imagepath+'.svg';
                     }

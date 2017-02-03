@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -111,7 +111,7 @@ var wok = {
 
     listPlugins : function(suc, err, sync) {
         wok.requestJSON({
-            url : 'plugins',
+            url : '/config/plugins',
             type : 'GET',
             contentType : 'application/json',
             dataType : 'json',

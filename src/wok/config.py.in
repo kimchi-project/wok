@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -269,6 +269,7 @@ def _get_config():
     config.set("server", "environment", "production")
     config.set('server', 'max_body_size', '4*1024*1024')
     config.set("server", "server_root", "")
+    config.set("server", "test", "")
     config.add_section("authentication")
     config.set("authentication", "method", "pam")
     config.set("authentication", "ldap_server", "")

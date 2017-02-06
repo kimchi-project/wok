@@ -146,19 +146,14 @@ class Server(object):
         if not dev_env:
             cherrypy.config.update({'environment': 'production'})
 
-        if hasattr(options, 'model'):
-            model_instance = options.model
-        else:
-            model_instance = model.Model()
-
         for ident, node in sub_nodes.items():
             if node.url_auth:
                 cfg = self.configObj
                 ident = "/%s" % ident
                 cfg[ident] = {'tools.wokauth.on': True}
 
-        self.app = cherrypy.tree.mount(WokRoot(model_instance, dev_env),
-                                       options.server_root, self.configObj)
+        cherrypy.tree.mount(WokRoot(model.Model(), dev_env),
+                            options.server_root, self.configObj)
 
         self._load_plugins()
         cherrypy.lib.sessions.init()

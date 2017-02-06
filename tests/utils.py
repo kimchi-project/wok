@@ -88,7 +88,7 @@ if sys.version_info[:2] == (2, 6):
     unittest.TestCase.assertNotIn = assertNotIn
 
 
-def run_server(test_mode, model=None, environment='dev', server_root=''):
+def run_server(test_mode, environment='dev', server_root=''):
 
     args = type('_', (object,),
                 {'cherrypy_port': 8010, 'max_body_size': '4*1024',
@@ -96,9 +96,6 @@ def run_server(test_mode, model=None, environment='dev', server_root=''):
                  'error_log': '/dev/null', 'environment': environment,
                  'log_level': 'debug', 'session_timeout': 10,
                  'server_root': server_root})()
-
-    if model is not None:
-        setattr(args, 'model', model)
 
     s = wok.server.Server(args)
     t = threading.Thread(target=s.start)

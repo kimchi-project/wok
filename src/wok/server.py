@@ -61,6 +61,13 @@ def set_no_cache():
 
 class Server(object):
     def __init__(self, options):
+        # Update config.config with the command line values
+        # So the whole application will have access to accurate values
+        for sec in config.config.sections():
+            for item in config.config.options(sec):
+                if hasattr(options, item):
+                    config.config.set(sec, item, str(getattr(options, item)))
+
         # Check proxy configuration
         check_proxy_config()
 

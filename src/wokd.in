@@ -78,13 +78,6 @@ def main(options):
     setattr(options, 'access_log', os.path.join(options.log_dir, ACCESS_LOG))
     setattr(options, 'error_log', os.path.join(options.log_dir, ERROR_LOG))
 
-    # Update config.config with the command line values
-    # So the whole application will have access to accurate values
-    for sec in config.config.sections():
-        for item in config.config.options(sec):
-            if hasattr(options, item):
-                config.config.set(sec, item, str(getattr(options, item)))
-
     # Add non-option arguments
     setattr(options, 'max_body_size',
             config.config.get('server', 'max_body_size'))

@@ -1,7 +1,7 @@
 #*
  * Project Wok
  *
- * Copyright IBM Corp, 2014-2016
+ * Copyright IBM Corp, 2014-2017
  *
  * Code derived from Project Kimchi
  *
@@ -104,9 +104,7 @@
         <div class="container">
             <div id="login-window" class="login-area row">
                 <div class="err-area">
-                    <div id="messUserPass" class="alert alert-danger" style="display: none;">$_("The username or password you entered is incorrect. Please try again.")</div>
-                    <div id="messSession" class="alert alert-danger" style="display: none;">$_("Session timeout, please re-login.")</div>
-                    <div id="missServer" class="alert alert-danger" style="display: none;">$_("Server unreachable.")</div>
+                    <div id="errorArea" class="alert alert-danger" style="display: none;"></div>
                 </div>
                 <form id="form-login" class="form-horizontal" method="post">
                     <div class="form-group">

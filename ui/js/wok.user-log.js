@@ -28,46 +28,6 @@ wok.initUserLogConfig = function() {
   wok.listUserLogConfig();
 }
 
-wok.getUserLogs = function(suc, err) {
-    wok.requestJSON({
-        url : 'logs',
-        type : 'GET',
-        contentType : 'application/json',
-        dataType : 'json',
-        resend : true,
-        success : suc,
-        error : err || function(data) {
-            wok.message.error(data.responseJSON.reason);
-        }
-    });
-};
-
-wok.getFilteredUserLogs = function(suc, err, search) {
-    wok.requestJSON({
-        url : 'logs?' + search,
-        type : 'GET',
-        contentType : 'application/json',
-        dataType : 'json',
-        success : suc,
-        error : err || function(data) {
-            wok.message.error(data.responseJSON.reason);
-        }
-    });
-};
-
-wok.downloadLogs = function(suc, err, search) {
-    wok.requestJSON({
-        url : 'logs?'+search+'download=True',
-        type : 'GET',
-        contentType : 'application/json',
-        dataType : 'json',
-        success : suc,
-        error : err || function(data) {
-            wok.message.error(data.responseJSON.reason);
-        }
-    });
-};
-
 wok.listUserLogConfig = function() {
 
   var ulGrid = [];

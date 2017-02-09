@@ -36,6 +36,10 @@ user-log: src/user-log.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< user-log.css
 
+settings: src/settings.scss
+	echo "Compiling .scss file $<"
+	sassc -s expanded $< settings.css
+
 bootstrap-select: src/bootstrap-select.custom.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< bootstrap-select.custom.css
@@ -44,7 +48,7 @@ datatables: src/datatables.bootstrap.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< datatables.bootstrap.css
 
-css: wok bootstrap bootstrap-select user-log datatables
+css: wok bootstrap bootstrap-select user-log settings  datatables
 
 theme-default.min.css: theme-default/*.css
 	cat $^ > $@

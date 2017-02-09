@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+Copyright IBM Corp, 2015
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+#unicode UTF-8
+#import gettext
+#from wok.cachebust import href
+#silent t = gettext.translation($lang.domain, $lang.localedir, languages=$lang.lang)
+#silent _ = t.gettext
+#silent _t = t.gettext
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="$href('css/settings.css')">
+  <script type="text/javascript" src="$href('js/wok.settings.js')"></script>
+  <script type="text/javascript" src="$href('js/wok.bootgrid.js')"></script>
+</head>
+
+<body>
+  <div id="wok-root-container" class="wok">
+    <div class="container">
+      <div id="wokSettings" class="wok-settings">
+      <!-- Plugins Management -->
+        <div class="panel-group accordion" id="plugins-mgmt-accordion" role="tablist" aria-multiselectable="false">
+          <h3>
+            <a role="button" data-toggle="collapse" data-parent="#plugin-mgmt-accordion" href="#plugins-mgmt-content-area" aria-expanded="true" aria-controls="plugins-mgmt-content-area" class="">
+              <span class="accordion-icon"></span><span class="accordion-text" id="plugins-mgmt-header">$_("Plugins Management")</span>
+            </a>
+          </h3>
+          <div id="plugins-mgmt-content-area" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="plugins-mgmt-header">
+            <div id="plugins-mgmt-alert-container"></div>
+            <div class="row grid-control">
+              <div class="pull-right">
+                <label for="search_input_plugins_mgmt" class="sr-only">$_("Filter"):</label>
+                <input type="text" class="filter form-control search" id="search_input_plugins_mgmt" placeholder="$_("Filter")">
+              </div>
+            </div>
+            <div class="wok-datagrid" id="plugins-mgmt-datagrid">
+              <div class="wok-datagrid-header">
+                <span class="column-plugin-name" data-placement="auto bottom" data-toggle="tooltip" title="$_('Name')">$_("Name")</span><!--
+             --><span class="column-plugin-description" data-placement="auto bottom" data-toggle="tooltip" title="$_('Description')">$_("Description")</span><!--
+             --><span class="column-plugin-status" data-placement="auto bottom" data-toggle="tooltip" title="$_('Status')">$_("Status")</span>
+              </div>
+              <div class="well">
+                <ul class="wok-datagrid-body list" id="plugins-mgmt-body"></ul>
+                <div class="no-matching-data hidden">
+                  <span role="row">$_("No result found")</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- -->
+      </div>
+    </div>
+  </div>
+
+  <script id="pluginItem" type="html/text">
+    <li class="wok-datagrid-row" id="{id}" data-id="{name}" role="row">
+        <input type="hidden" name="plugin-depends" value="{depends}">
+        <input type="hidden" name="plugin-is-dependency-of" value="{is_dependency_of}">
+        <div role="gridcell" class="column-plugin-name">
+            <img src="{logo}" longdesc="{name} logotype" alt="{name} plugin" title="{name} plugin" class="{disabled}"/>
+            <span class="plugin-name-filter" title="{name}">{name}</span>
+        </div>
+        <span role="gridcell" title="{description}" class="column-plugin-description plugin-description-filter">{description}</span><!--
+     --><span role="gridcell" class="column-plugin-status"><input type="checkbox" name="plugin-status[]" id="{name}" value="{name}" {checked} class="wok-toggleswitch-checkbox"><label for="{name}" class="wok-toggleswitch-label"><span class="sr-only">{pluginstatus}</span></label></span>
+    </li>
+  </script>
+  <script>
+    wok.initSettings();
+  </script>
+</body>
+
+</html>

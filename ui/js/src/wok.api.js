@@ -111,12 +111,36 @@ var wok = {
 
     listPlugins : function(suc, err, sync) {
         wok.requestJSON({
-            url : '/config/plugins',
+            url : 'config/plugins',
             type : 'GET',
             contentType : 'application/json',
             dataType : 'json',
             resend: true,
             async : !sync,
+            success : suc,
+            error : err
+        });
+    },
+
+    enablePlugin : function(plugin, suc, err) {
+        wok.requestJSON({
+            url : 'config/plugins/' + encodeURIComponent(plugin) + "/enable",
+            type : 'POST',
+            contentType : 'application/json',
+            dataType : 'json',
+            resend: true,
+            success : suc,
+            error : err
+        });
+    },
+
+    disablePlugin : function(plugin, suc, err) {
+        wok.requestJSON({
+            url : 'config/plugins/' + encodeURIComponent(plugin) + "/disable",
+            type : 'POST',
+            contentType : 'application/json',
+            dataType : 'json',
+            resend: true,
             success : suc,
             error : err
         });

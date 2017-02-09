@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 <html>
 
 <head>
-  <link rel="stylesheet" type="text/css" href="$href('css/settings.css')">
+  <link rel="stylesheet" type="text/css" href="$href('css/user-log.css')">
   <script type="text/javascript" src="$href('js/wok.user-log.js')"></script>
   <script type="text/javascript" src="$href('js/wok.bootgrid.js')"></script>
 </head>
@@ -33,11 +33,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 <body>
   <div id="wok-root-container" class="wok">
     <div class="container">
-      <div id="wokSettings" class="wok-settings">
+      <div id="wokUserLog" class="wok-user-log">
         <!-- User Log Panel -->
         <div class="panel-group content-area accordion" id="user-log-content-area-accordion" role="tablist" aria-multiselectable="true">
           <h3>
-            <a role="button" aria-expanded="true" data-toggle="collapse" data-parent="#user-log-content-area-accordion" href="#user-log-content-area" aria-expanded="false" aria-controls="user-log-content-area" class="">
+            <a role="button" data-toggle="collapse" data-parent="#user-log-content-area-accordion" href="#user-log-content-area" aria-expanded="true" aria-controls="user-log-content-area" class="">
               <span class="accordion-icon"></span>
               <span class="accordion-text">$_("User Activity Log")</span>
             </a>
@@ -59,13 +59,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
   <div id="modalWindow" class="modal fade settings-modal wok" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
   </div>
+
   <script>
-    wok.initSettings();
+    wok.initUserLog();
   </script>
 </body>
 

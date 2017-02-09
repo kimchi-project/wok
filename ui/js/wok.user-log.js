@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp, 2016
+ * Copyright IBM Corp, 2016-2017
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,17 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-wok.initSettings = function() {
+wok.initUserLog = function() {
     wok.opts_user_log = {};
     wok.opts_user_log['id'] = 'user-log-content';
     wok.opts_user_log['gridId'] = "user-log-grid";
     wok.opts_user_log['loadingMessage'] = i18n['WOKSETT0007M'];
-    wok.initUserLog();
+    wok.initUserLogContent();
 };
-
-wok.initUserLogConfig = function() {
-    wok.listUserLogConfig();
-}
 
 wok.listUserLogConfig = function() {
 
@@ -36,7 +32,7 @@ wok.listUserLogConfig = function() {
     gridFields = [{
         "column-id": 'app',
         "converter": 'string',
-        "formatter": "settings-user-log-app",
+        "formatter": "user-log-app",
         "title": i18n['WOKSETT0001M']
     }, {
         "column-id": 'user',
@@ -73,7 +69,7 @@ wok.listUserLogConfig = function() {
     }, {
         "column-id": 'message',
         "converter": 'string',
-        "formatter": "settings-user-log-message",
+        "formatter": "user-log-message",
         "sortable": false,
         "width": "30%",
         "title": i18n['WOKSETT0006M']
@@ -133,11 +129,11 @@ wok.initUserLogConfigGridData = function() {
     });
 };
 
-wok.initUserLog = function() {
-    $(".content-area", "#wokSettings").css("height", "100%");
-    wok.initUserLogConfig();
+wok.initUserLogContent = function() {
+    $(".content-area", "#wokUserLog").css("height", "100%");
+    wok.listUserLogConfig();
     $('#advanced-search-button').on('click',function(){
-        wok.window.open('tabs/settings-search.html');
+        wok.window.open('tabs/user-log-search.html');
     });
 
     $("#download-button").on('click',function(){

@@ -156,6 +156,12 @@ wok.initUserLogContent = function() {
 };
 
 wok.initUserLogWindow = function() {
+    // Make wok.plugins is ready to be used
+    if (wok.plugins == undefined) {
+        setTimeout(wok.initUserLogWindow, 2000);
+        return;
+    }
+
     var currentLocale = wok.lang.get_locale();
     currentLocale = currentLocale.substring(0, currentLocale.indexOf('-'));
     $("#request-type").selectpicker();
@@ -172,26 +178,25 @@ wok.initUserLogWindow = function() {
         }
     });
     var pluginsData = [];
-    wok.listPlugins(function(pluginReturn) {
-        $.each(pluginReturn, function(i, obj) {
-            pluginsData.push({"app": obj});
-        });
-        pluginsData.unshift({"app": "wok"});
-        var pluginsTt = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('app'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: pluginsData
-        });
-        pluginsTt.initialize();
+    var pluginReturn = wok.plugins;
+    $.each(pluginReturn, function(i, obj) {
+        pluginsData.push({"app": obj});
+    });
+    pluginsData.unshift({"app": "wok"});
+    var pluginsTt = new Bloodhound({
+         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('app'),
+         queryTokenizer: Bloodhound.tokenizers.whitespace,
+         local: pluginsData
+    });
+    pluginsTt.initialize();
 
-        $('.typeahead').typeahead(
-            {
-                autoselect:  false
-            }, {
-                name: 'application-name',
-                displayKey: 'app',
-                source: pluginsTt.ttAdapter()
-        });
+    $('.typeahead').typeahead(
+        {
+            autoselect:  false
+        }, {
+            name: 'application-name',
+            displayKey: 'app',
+            source: pluginsTt.ttAdapter()
     });
 
     $('#form-advanced-search').submit(function(event) {

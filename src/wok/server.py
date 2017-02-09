@@ -115,6 +115,10 @@ class Server(object):
             if isinstance(handler, logging.FileHandler):
                 cherrypy.log.error_log.removeHandler(handler)
 
+        # set logLevel
+        cherrypy.log.access_log.setLevel(logLevel)
+        cherrypy.log.error_log.setLevel(logLevel)
+
         # Create handler to access log file
         h = logging.handlers.WatchedFileHandler(options.access_log, 'a',
                                                 delay=1)

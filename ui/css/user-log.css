@@ -1,0 +1,159 @@
+/*
+ * Project Wok
+ *
+ * Copyright IBM Corp, 2017
+ *
+ * Code derived from Project Kimchi
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * A partial implementation of the Ruby list functions from Compass:
+ * https://github.com/Compass/compass/blob/stable/lib/compass/sass_extensions/functions/lists.rb
+ */
+/*
+ * A partial implementation of the Ruby constants functions from Compass:
+ * https://github.com/Compass/compass/blob/stable/lib/compass/sass_extensions/functions/constants.rb
+ */
+/*
+ * A partial implementation of the Ruby display functions from Compass:
+ * https://github.com/Compass/compass/blob/stable/core/lib/compass/core/sass_extensions/functions/display.rb
+ */
+#wok-root-container .accordion {
+  margin: 12px 20px 12px 60px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eee;
+  overflow: visible;
+  clear: both;
+}
+
+#wok-root-container .accordion:first-child {
+  margin-top: 24px;
+}
+
+#wok-root-container .accordion > h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 26px;
+  font-weight: 300;
+  height: 44px;
+  display: block;
+}
+
+#wok-root-container .accordion > h3 a {
+  color: #3a393b;
+  text-decoration: none;
+  display: block;
+  padding: 6px 30px;
+  margin-left: -30px;
+  margin-right: -30px;
+}
+
+#wok-root-container .accordion > h3 a span.accordion-icon {
+  margin-left: -52px;
+  vertical-align: middle;
+  display: inline-block;
+  font: normal normal normal 32px/1 FontAwesome;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  color: #3a393b;
+}
+
+#wok-root-container .accordion > h3 a[aria-expanded="false"] span.accordion-icon:before {
+  content: "\f01a";
+}
+
+#wok-root-container .accordion > h3 a[aria-expanded="true"] span.accordion-icon:before {
+  content: "\f01b";
+}
+
+#wok-root-container .accordion > h3 a span.accordion-text {
+  margin-left: 23px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.wok div.modal-footer {
+  background-color: #d9182d;
+}
+
+.wok .modal-body .nav-tabs > li.active > a,
+.wok .modal-body .nav-tabs > li.active > a:hover,
+.wok .modal-body .nav-tabs > li.active > a:focus {
+  border-color: -moz-use-text-color -moz-use-text-color #d9182d;
+}
+
+.wok.modal .row.clearfix {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.wok.modal .form-group.col-sm-6 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.action-group {
+  position: absolute;
+  z-index: 999;
+}
+
+div#user-log-actions {
+  padding-top: 15px;
+}
+
+.label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.bootgrid-table th > .column-header-anchor > .icon.fa {
+  right: 6px;
+  top: 4px;
+}
+
+span.trim {
+  display: inline-block;
+  width: 100%;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 6px;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.tooltip > .tooltip-inner {
+  font-weight: 400;
+  font-size: 12.5pt;
+  padding: 8px !important;
+  max-width: 420px !important;
+  text-align: left;
+}
+
+.search {
+  margin: 0 !important;
+  width: 514px !important;
+}
+
+.pagination .button {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pagination .disabled .button {
+  cursor: not-allowed;
+}

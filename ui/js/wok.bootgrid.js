@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp, 2016
+ * Copyright IBM Corp, 2016-2017
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -74,10 +74,10 @@ wok.createBootgrid = function(opts) {
     navigation: navigation,
     rowSelect: false,
     formatters: {
-      "settings-user-log-app": function(column, row) {
+      "user-log-app": function(column, row) {
         return '<span class="label label-primary" style="background-color:' + wok.pluginsColor[row.app] + '">' + row.app + '</span> ';
       },
-      "settings-user-log-message": function(column, row) {
+      "user-log-message": function(column, row) {
         return '<span class="trim" data-toggle="tooltip"  data-placement="auto bottom" title="'+row.message+'">' +row.message+ '</span> ';
       },
     },

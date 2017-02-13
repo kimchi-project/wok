@@ -116,8 +116,8 @@ class Root(Resource):
         # template to save the delay of the extra get to the guest page
         # For that, the tab template needs to know the correct path to ui files
         paths = cherrypy.request.app.root.paths
-        script_name = cherrypy.request.app.script_name
-        last_page = script_name.lstrip("/") + "/tabs/" + page[:-5]
+        script_name = cherrypy.request.app.script_name or "/"
+        last_page = os.path.join(script_name, "tabs/", page[:-5]).lstrip("/")
 
         data = {}
         data['ui_dir'] = paths.ui_dir

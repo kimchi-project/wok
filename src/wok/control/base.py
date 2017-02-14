@@ -27,7 +27,7 @@ import urllib2
 
 import wok.template
 from wok.asynctask import save_request_log_id
-from wok.auth import USER_GROUPS, USER_NAME, USER_ROLE
+from wok.auth import wokauth, USER_GROUPS, USER_NAME, USER_ROLE
 from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
 from wok.control.utils import validate_params
@@ -91,7 +91,7 @@ class Resource(object):
             raise cherrypy.HTTPRedirect(base_uri % tuple(uri_params), code)
 
     def generate_action_handler(self, action_name, action_args=None,
-                                destructive=False):
+                                destructive=False, protected=None):
         def _render_element(self, ident):
             self._redirect(ident)
             uri_params = []
@@ -104,7 +104,8 @@ class Resource(object):
 
         return self._generate_action_handler_base(action_name, _render_element,
                                                   destructive=destructive,
-                                                  action_args=action_args)
+                                                  action_args=action_args,
+                                                  protected=protected)
 
     def generate_action_handler_task(self, action_name, action_args=None):
         def _render_task(self, task):
@@ -115,10 +116,14 @@ class Resource(object):
                                                   action_args=action_args)
 
     def _generate_action_handler_base(self, action_name, render_fn,
-                                      destructive=False, action_args=None):
+                                      destructive=False, action_args=None,
+                                      protected=None):
         def wrapper(*args, **kwargs):
             # status must be always set in order to request be logged.
             # use 500 as fallback for "exception not handled" cases.
+            if protected is not None and protected:
+                wokauth()
+
             details = None
             status = 500
 

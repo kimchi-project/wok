@@ -44,7 +44,7 @@ class Config(Resource):
         self.admin_methods = ['POST']
         self.plugins = Plugins(self.model)
         self.log_map = CONFIG_REQUESTS
-        self.reload = self.generate_action_handler('reload')
+        self.reload = self.generate_action_handler('reload', protected=True)
 
     @property
     def data(self):
@@ -64,8 +64,8 @@ class Plugin(Resource):
         self.admin_methods = ['POST']
         self.uri_fmt = "/config/plugins/%s"
         self.log_map = PLUGIN_REQUESTS
-        self.enable = self.generate_action_handler('enable')
-        self.disable = self.generate_action_handler('disable')
+        self.enable = self.generate_action_handler('enable', protected=True)
+        self.disable = self.generate_action_handler('disable', protected=True)
 
     @property
     def data(self):

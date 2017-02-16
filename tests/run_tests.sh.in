@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -40,16 +40,4 @@ else
     CMD="python -m unittest"
 fi
 
-LIST=($ARGS)
-MODEL_LIST=()
-MOCK_LIST=()
-for ((i=0;i<${#LIST[@]};i++)); do
-
-    if [[ ${LIST[$i]} == test_model* ]]; then
-        MODEL_LIST+=(${LIST[$i]})
-    else
-        MOCK_LIST+=(${LIST[$i]})
-    fi
-done
-
-PYTHONPATH=../src:../ $CMD $OPTS ${MODEL_LIST[@]} ${MOCK_LIST[@]}
+PYTHONPATH=../src:../ $CMD $OPTS $ARGS

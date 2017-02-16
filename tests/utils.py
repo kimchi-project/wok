@@ -42,7 +42,7 @@ from wok.utils import wok_log
 HOST = '0.0.0.0'
 PROXY_PORT = 8001
 
-fake_user = {'root': 'letmein!'}
+fake_user = {'admin': 'letmein!', 'user': 'letmein!'}
 
 
 def get_fake_user():
@@ -109,19 +109,19 @@ def running_as_root():
     return os.geteuid() == 0
 
 
-def _request(conn, path, data, method, headers):
+def _request(conn, path, data, method, headers, user):
     if headers is None:
         headers = {'Content-Type': 'application/json',
                    'Accept': 'application/json'}
     if 'AUTHORIZATION' not in headers.keys():
-        user, pw = fake_user.items()[0]
+        user, pw = user, fake_user[user]
         hdr = "Basic " + base64.b64encode("%s:%s" % (user, pw))
         headers['AUTHORIZATION'] = hdr
     conn.request(method, path, data, headers)
     return conn.getresponse()
 
 
-def request(path, data=None, method='GET', headers=None):
+def request(path, data=None, method='GET', headers=None, user='admin'):
     # verify if HTTPSConnection has context parameter
     if "context" in inspect.getargspec(httplib.HTTPSConnection.__init__).args:
         context = ssl._create_unverified_context()
@@ -129,12 +129,11 @@ def request(path, data=None, method='GET', headers=None):
     else:
         conn = httplib.HTTPSConnection(HOST, PROXY_PORT)
 
-    return _request(conn, path, data, method, headers)
+    return _request(conn, path, data, method, headers, user)
 
 
 class FakeUser(User):
     auth_type = "fake"
-    sudo = True
 
     def __init__(self, username):
         super(FakeUser, self).__init__(username)
@@ -143,9 +142,7 @@ class FakeUser(User):
         return sorted([group.gr_name for group in grp.getgrall()])[0:3]
 
     def _get_role(self):
-        if self.sudo:
-            return 'admin'
-        return 'user'
+        return self.name
 
     @staticmethod
     def authenticate(username, password, service="passwd"):
@@ -156,13 +153,12 @@ class FakeUser(User):
                                                    'code': e.message})
 
 
-def patch_auth(sudo=True):
+def patch_auth():
     """
     Override the authenticate function with a simple test against an
     internal dict of users and passwords.
     """
     config.set("authentication", "method", "fake")
-    FakeUser.sudo = sudo
 
 
 def wait_task(task_lookup, taskid, timeout=10):

@@ -201,12 +201,12 @@ class WokRoot(Root):
             user_info = auth.login(username, password)
 
             # user logged sucessfuly: reset counters
-            if self.failed_logins.get(user_ip_sid) != None:
+            if self.failed_logins.get(user_ip_sid) is not None:
                 self.failed_logins.pop(user_ip_sid)
         except cherrypy.HTTPError, e:
 
             # store time and prevent too much tries
-            if self.failed_logins.get(user_ip_sid) == None:
+            if self.failed_logins.get(user_ip_sid) is None:
                 self.failed_logins[user_ip_sid] = {"time": time.time(),
                                                    "ip": remote_ip,
                                                    "session_id": session_id,

@@ -103,7 +103,7 @@ class Server(object):
         cherrypy.log.access_file = options.access_log
         cherrypy.log.error_file = options.error_log
 
-        logLevel = LOGGING_LEVEL.get(options.log_level, logging.DEBUG)
+        logLevel = LOGGING_LEVEL.get(options.log_level, logging.INFO)
         dev_env = options.environment != 'production'
 
         # Enable cherrypy screen logging if running environment

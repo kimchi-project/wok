@@ -37,7 +37,7 @@
 #log_dir = @localstatedir@/log/wok
 
 # Logging level: debug, info, warning, error or critical
-#log_level = debug
+#log_level = info
 
 [authentication]
 # Authentication method, available option: pam, ldap.

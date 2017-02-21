@@ -28,7 +28,7 @@ __version__ = "@wokversion@"
 __release__ = "@wokrelease@"
 
 CACHEEXPIRES = 31536000     # expires is one year.
-DEFAULT_LOG_LEVEL = "debug"
+DEFAULT_LOG_LEVEL = "info"
 
 FONT_FILES = {'fontawesome': ['fontawesome-webfont.ttf'],
               'opensans': ['OpenSans-ExtraBoldItalic.ttf',

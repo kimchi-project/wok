@@ -40,6 +40,7 @@ from wok.exception import NotFoundError, OperationFailed
 from wok.utils import wok_log
 
 HOST = '0.0.0.0'
+PORT = 8010
 PROXY_PORT = 8001
 
 fake_user = {'admin': 'letmein!', 'user': 'letmein!'}
@@ -88,14 +89,15 @@ if sys.version_info[:2] == (2, 6):
     unittest.TestCase.assertNotIn = assertNotIn
 
 
-def run_server(test_mode, environment='dev', server_root=''):
+def run_server(test_mode, environment='dev', server_root='', no_proxy=True):
 
+    port = PORT if no_proxy else PROXY_PORT
     args = type('_', (object,),
-                {'cherrypy_port': 8010, 'max_body_size': '4*1024',
+                {'cherrypy_port': port, 'max_body_size': '4*1024',
                  'test': test_mode, 'access_log': '/dev/null',
                  'error_log': '/dev/null', 'environment': environment,
                  'log_level': 'debug', 'session_timeout': 10,
-                 'server_root': server_root})()
+                 'server_root': server_root, 'no_proxy': no_proxy})()
 
     s = wok.server.Server(args)
     t = threading.Thread(target=s.start)
@@ -121,14 +123,19 @@ def _request(conn, path, data, method, headers, user):
     return conn.getresponse()
 
 
-def request(path, data=None, method='GET', headers=None, user='admin'):
-    # verify if HTTPSConnection has context parameter
+def requestHttps(path, data=None, method='GET', headers=None, user='admin'):
+    # To work, this requires run_server() to be called with no_proxy=False.
     if "context" in inspect.getargspec(httplib.HTTPSConnection.__init__).args:
         context = ssl._create_unverified_context()
         conn = httplib.HTTPSConnection(HOST, PROXY_PORT, context=context)
     else:
         conn = httplib.HTTPSConnection(HOST, PROXY_PORT)
 
+    return _request(conn, path, data, method, headers, user)
+
+
+def request(path, data=None, method='GET', headers=None, user='admin'):
+    conn = httplib.HTTPConnection(HOST, PORT)
     return _request(conn, path, data, method, headers, user)
 
 

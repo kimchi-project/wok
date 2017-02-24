@@ -69,7 +69,8 @@ class Server(object):
                     config.config.set(sec, item, str(getattr(options, item)))
 
         # Check proxy configuration
-        check_proxy_config()
+        if not hasattr(options, 'no_proxy') or not options.no_proxy:
+            check_proxy_config()
 
         make_dirs = [
             os.path.abspath(config.get_log_download_path()),

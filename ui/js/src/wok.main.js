@@ -141,7 +141,7 @@ wok.main = function() {
     var buildTabs = function(callback) {
         // Make wok.plugins is ready to be used
         if (wok.plugins == undefined) {
-            setTimeout(buildTabs, 2000);
+            setTimeout(function() {buildTabs(callback)}, 2000);
             return;
         }
 

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-05 15:36-0200\n"
+"POT-Creation-Date: 2017-03-07 11:43-0300\n"
 "PO-Revision-Date: 2015-03-23 12:57+0000\n"
 "Last-Translator: Crístian Deives dos Santos Viana <cristiandeives@gmail."
 "com>\n"
@@ -82,13 +82,27 @@ msgstr ""
 msgid "You are not authorized to access Wok. Please, login first."
 msgstr ""
 
-#, python-format
-msgid "Specify %(item)s to login into Wok."
+msgid "Specify username to login into Wok."
 msgstr "Especifique %(item)s para autenticar no Wok"
+
+#, python-format
+msgid ""
+"You have failed to login in too much attempts. Please, wait for %(seconds)s "
+"seconds to try again."
+msgstr ""
 
 #, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
 msgstr "Configurações LDAP inválidas: %(item)s : %(value)s"
+
+msgid "Specify password to login into Wok."
+msgstr "Especifique %(item)s para autenticar no Wok"
+
+msgid "You need to specify username and password to login into Wok."
+msgstr "Especifique %(item)s para autenticar no Wok"
+
+msgid "The username or password you entered is incorrect. Please try again"
+msgstr ""
 
 #, python-format
 msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
@@ -123,6 +137,13 @@ msgstr "Valor inválido '%(value)s'"
 msgid "Invalid data unit '%(unit)s'"
 msgstr "Unidade inválida '%(unit)s'"
 
+msgid "WoK is going to restart. Existing WoK connections will be closed."
+msgstr ""
+
+#, python-format
+msgid "Unable to find plug-in %(name)s"
+msgstr ""
+
 #, python-format
 msgid "Successfully completed task '%(target_uri)s'"
 msgstr ""
@@ -134,6 +155,9 @@ msgstr ""
 msgid "Request made on collection"
 msgstr ""
 
+msgid "Wok reload"
+msgstr ""
+
 msgid "Request made on resource"
 msgstr ""
 
@@ -143,6 +167,14 @@ msgstr ""
 
 #, python-format
 msgid "User '%(username)s' logout"
+msgstr ""
+
+#, python-format
+msgid "Enable plug-in %(ident)s."
+msgstr ""
+
+#, python-format
+msgid "Disable plug-in %(ident)s."
 msgstr ""
 
 msgid "ERROR CODE"
@@ -180,6 +212,9 @@ msgstr "Cancelar"
 msgid "Confirm"
 msgstr "Confirmar"
 
+msgid "Action Confirmation"
+msgstr ""
+
 msgid "Loading..."
 msgstr "Carregando..."
 
@@ -194,6 +229,12 @@ msgstr "Mensagem detalhada:"
 
 msgid "Max:"
 msgstr "Máximo:"
+
+msgid "Session timeout, please re-login."
+msgstr ""
+
+msgid "Server unreachable"
+msgstr ""
 
 msgid "Application"
 msgstr ""
@@ -235,6 +276,16 @@ msgid "IP Address"
 msgstr ""
 
 msgid "Status"
+msgstr ""
+
+msgid ""
+"Plugin %1 depends on %2 which will be automatically enabled on this "
+"confirmation."
+msgstr ""
+
+msgid ""
+"Plugin %1 is dependency of %2 which will be automatically disabled on this "
+"confirmation."
 msgstr ""
 
 msgid "Your session will be expired on: %1 s. Do you want to renew it?"
@@ -295,6 +346,18 @@ msgid "Powered by"
 msgstr ""
 
 msgid "Wok Version"
+msgstr ""
+
+msgid "Plugins Management"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "No result found"
 msgstr ""
 
 msgid "User Activity Log"

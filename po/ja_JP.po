@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-05 15:36-0200\n"
+"POT-Creation-Date: 2017-03-07 11:43-0300\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #, python-format
 msgid "Delete is not allowed for %(resource)s"
-msgstr "%(resource)s の削除は許可されません"
+msgstr "%(resource)s に対して削除は許可されません"
 
 #, python-format
 msgid "%(resource)s does not implement update method"
@@ -26,7 +26,7 @@ msgstr "%(resource)s は更新メソッドを実装していません"
 
 #, python-format
 msgid "Create is not allowed for %(resource)s"
-msgstr "%(resource)s の作成は許可されません"
+msgstr "%(resource)s に対して作成は許可されません"
 
 msgid "Unable to parse JSON request"
 msgstr "JSON 要求を解析できません"
@@ -36,25 +36,26 @@ msgstr "この API は JSON のみサポートします"
 
 #, python-format
 msgid "Parameters does not match requirement in schema: %(err)s"
-msgstr ""
+msgstr "パラメーターがスキーマでの要件に適合しません: %(err)s"
 
 msgid "You don't have permission to perform this operation."
-msgstr ""
+msgstr "この操作を実行する権限がありません。"
 
 #, python-format
 msgid "Unable to find task id: %(id)s"
-msgstr ""
+msgstr "タスク ID %(id)s が見つかりません"
 
 msgid "There is no callback to execute the kill task process."
-msgstr ""
+msgstr "タスク強制終了プロセスを実行するコールバックがありません。"
 
 #, python-format
 msgid "Timeout of %(seconds)s seconds expired while running task '%(task)s."
 msgstr ""
+"タスク %(task)s の実行中に %(seconds)s 秒のタイムアウトが満了しました。"
 
 #, python-format
 msgid "Unable to kill task due error: %(err)s"
-msgstr ""
+msgstr "エラーが発生したため、タスクを強制終了できません: %(err)s"
 
 #, python-format
 msgid "Authentication failed for user '%(username)s'. [Error code: %(code)s]"
@@ -64,68 +65,100 @@ msgstr ""
 msgid "You are not authorized to access Wok. Please, login first."
 msgstr ""
 
-#, python-format
-msgid "Specify %(item)s to login into Wok."
+msgid "Specify username to login into Wok."
 msgstr "Wok にログインするには、%(item)s を指定します"
 
 #, python-format
+msgid ""
+"You have failed to login in too much attempts. Please, wait for %(seconds)s "
+"seconds to try again."
+msgstr ""
+
+#, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
+msgstr "LDAP 構成が無効です: %(item)s : %(value)s"
+
+msgid "Specify password to login into Wok."
+msgstr "Wok にログインするには、%(item)s を指定します"
+
+msgid "You need to specify username and password to login into Wok."
+msgstr "Wok にログインするには、%(item)s を指定します"
+
+msgid "The username or password you entered is incorrect. Please try again"
 msgstr ""
 
 #, python-format
 msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
 msgstr ""
+"フィルター・パラメーターが無効です。許可されているフィルター・パラメーター: "
+"%(filters)s"
 
 #, python-format
 msgid "Creation of log file failed: %(err)s"
-msgstr ""
+msgstr "ログ・ファイルを作成できませんでした: %(err)s"
 
 #, python-format
 msgid "Unable to find notification %(id)s"
-msgstr ""
+msgstr "通知 %(id)s が見つかりません"
 
 #, python-format
 msgid "Unable to delete notification %(id)s: %(message)s"
-msgstr ""
+msgstr "通知 %(id)s を削除できません: %(message)s"
 
 #, python-format
 msgid "Unable to find %(item)s in datastore"
-msgstr "%(item)s はデータ・ストアに見つかりません"
+msgstr "%(item)s がデータ・ストアに見つかりません"
 
 #, python-format
 msgid "Timeout while running command '%(cmd)s' after %(seconds)s seconds"
-msgstr ""
-"コマンド「%(cmd)s」を実行していましたが、%(seconds)s 秒を経過してタイムアウト"
-"になりました"
+msgstr "「%(cmd)s」コマンドの実行中、%(seconds)s 秒後にタイムアウトになります"
 
 #, python-format
 msgid "Invalid data value '%(value)s'"
-msgstr ""
+msgstr "データ値「%(value)s」が無効です"
 
 #, python-format
 msgid "Invalid data unit '%(unit)s'"
+msgstr "データ単位「%(unit)s」が無効です"
+
+msgid "WoK is going to restart. Existing WoK connections will be closed."
+msgstr ""
+
+#, python-format
+msgid "Unable to find plug-in %(name)s"
 msgstr ""
 
 #, python-format
 msgid "Successfully completed task '%(target_uri)s'"
-msgstr ""
+msgstr "タスク「%(target_uri)s」は正常に完了しました"
 
 #, python-format
 msgid "Failed to complete task '%(target_uri)s'"
-msgstr ""
+msgstr "タスク「%(target_uri)s」を完了できませんでした"
 
 msgid "Request made on collection"
+msgstr "コレクションに関する要求がなされました"
+
+msgid "Wok reload"
 msgstr ""
 
 msgid "Request made on resource"
-msgstr ""
+msgstr "リソースに関する要求がなされました"
 
 #, python-format
 msgid "User '%(username)s' login"
-msgstr ""
+msgstr "ユーザー「%(username)s」ログイン"
 
 #, python-format
 msgid "User '%(username)s' logout"
+msgstr "ユーザー「%(username)s」ログアウト"
+
+#, python-format
+msgid "Enable plug-in %(ident)s."
+msgstr ""
+
+#, python-format
+msgid "Disable plug-in %(ident)s."
 msgstr ""
 
 msgid "ERROR CODE"
@@ -141,10 +174,10 @@ msgid "Go to Homepage"
 msgstr "ホーム・ページに移動する"
 
 msgid "Wok"
-msgstr ""
+msgstr "Wok"
 
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 msgid "No such data available."
 msgstr "そのようなデータはありません。"
@@ -153,8 +186,9 @@ msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
 msgstr ""
-"ホスト・システムに接続できません。ホスト・システムが稼働していて、ネットワー"
-"ク接続が行われていることを確認してください。HTTP 要求応答 %1"
+"ホスト・システムに接続できません。ホスト・システムが稼働していること、および"
+"そのホスト・システムにネットワーク接続されていることを確認してください。HTTP "
+"要求応答 %1。"
 
 msgid "Cancel"
 msgstr "取消"
@@ -162,11 +196,14 @@ msgstr "取消"
 msgid "Confirm"
 msgstr "確認"
 
+msgid "Action Confirmation"
+msgstr ""
+
 msgid "Loading..."
-msgstr "ロードしています..."
+msgstr "ロード中..."
 
 msgid "An error occurred while retrieving system information."
-msgstr ""
+msgstr "システム情報の取得中にエラーが発生しました。"
 
 msgid "Retry"
 msgstr "再試行"
@@ -177,80 +214,99 @@ msgstr "詳細メッセージ:"
 msgid "Max:"
 msgstr "最大:"
 
-msgid "Application"
+msgid "Session timeout, please re-login."
 msgstr ""
+
+msgid "Server unreachable"
+msgstr ""
+
+msgid "Application"
+msgstr "アプリケーション"
 
 msgid "User"
-msgstr ""
+msgstr "ユーザー"
 
 msgid "Request"
-msgstr ""
+msgstr "要求"
 
 msgid "Date"
-msgstr ""
+msgstr "日付"
 
 msgid "Time"
-msgstr ""
+msgstr "時間"
 
 msgid "Message"
-msgstr ""
+msgstr "メッセージ"
 
 msgid "Please wait..."
-msgstr ""
+msgstr "お待ちください..."
 
 msgid "Filter"
-msgstr ""
+msgstr "フィルター"
 
 msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
 msgstr ""
+"{{ctx.total}} 個の項目のうち {{ctx.start}} 個目から {{ctx.end}} 個目までを表"
+"示しています"
 
 msgid "No results found!"
-msgstr ""
+msgstr "結果が見つかりません。"
 
 msgid "Actions"
-msgstr ""
+msgstr "アクション"
 
 msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
-msgstr ""
+msgstr "IP アドレス"
 
 msgid "Status"
+msgstr "状況"
+
+msgid ""
+"Plugin %1 depends on %2 which will be automatically enabled on this "
+"confirmation."
+msgstr ""
+
+msgid ""
+"Plugin %1 is dependency of %2 which will be automatically disabled on this "
+"confirmation."
 msgstr ""
 
 msgid "Your session will be expired on: %1 s. Do you want to renew it?"
 msgstr ""
+"ご使用のセッションは %1 に有効期限が切れます。セッションを更新しますか?"
 
 msgid "Ki"
-msgstr ""
+msgstr "Ki"
 
 msgid "Mi"
-msgstr ""
+msgstr "Mi"
 
 msgid "Gi"
-msgstr ""
+msgstr "Gi"
 
 msgid "Ti"
-msgstr ""
+msgstr "Ti"
 
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 msgid "k"
-msgstr ""
+msgstr "k"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid "G"
-msgstr ""
+msgstr "G"
 
 msgid "T"
-msgstr ""
+msgstr "T"
 
 msgid "P"
-msgstr ""
+msgstr "P"
 
 msgid "Log out"
 msgstr "ログアウト"
@@ -262,58 +318,71 @@ msgid "About"
 msgstr "製品情報"
 
 msgid "Toggle navigation"
-msgstr ""
+msgstr "ナビゲーションの切り替え"
 
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
+"ご使用のセッションは 30 秒後に有効期限が切れます。セッションを更新しますか?"
 
 msgid "Renew"
-msgstr ""
+msgstr "更新"
 
 msgid "Dismiss"
-msgstr ""
+msgstr "却下"
 
 msgid "Powered by"
-msgstr ""
+msgstr "以下の技術が採用されています"
 
 msgid "Wok Version"
+msgstr "Wok バージョン"
+
+msgid "Plugins Management"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "No result found"
 msgstr ""
 
 msgid "User Activity Log"
-msgstr ""
+msgstr "ユーザー・アクティビティー・ログ"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "拡張検索"
 
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 msgid "Refresh"
-msgstr ""
+msgstr "リフレッシュ"
 
 msgid "Search results by:"
-msgstr ""
+msgstr "検索結果の基準:"
 
 msgid "Request Type"
-msgstr ""
+msgstr "要求タイプ"
 
 msgid "All Requests"
-msgstr ""
+msgstr "すべての要求"
 
 msgid "POST"
-msgstr ""
+msgstr "POST"
 
 msgid "GET"
-msgstr ""
+msgstr "GET"
 
 msgid "PUT"
-msgstr ""
+msgstr "PUT"
 
 msgid "DELETE"
-msgstr ""
+msgstr "DELETE"
 
 msgid "User IP Address"
-msgstr ""
+msgstr "ユーザー IP アドレス"
 
 msgid "Search"
-msgstr ""
+msgstr "検索"

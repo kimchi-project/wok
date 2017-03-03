@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-05 15:36-0200\n"
+"POT-Creation-Date: 2017-03-07 11:43-0300\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #, python-format
 msgid "Delete is not allowed for %(resource)s"
-msgstr "不容許針對 %(resource)s 執行刪除"
+msgstr "不容許針對 %(resource)s 執行刪除作業"
 
 #, python-format
 msgid "%(resource)s does not implement update method"
@@ -26,7 +26,7 @@ msgstr "%(resource)s 未實作更新方法"
 
 #, python-format
 msgid "Create is not allowed for %(resource)s"
-msgstr "不容許針對 %(resource)s 執行建立"
+msgstr "不容許針對 %(resource)s 執行建立作業"
 
 msgid "Unable to parse JSON request"
 msgstr "無法剖析 JSON 要求"
@@ -36,56 +36,70 @@ msgstr "此 API 僅支援 JSON"
 
 #, python-format
 msgid "Parameters does not match requirement in schema: %(err)s"
-msgstr ""
+msgstr "參數與綱目中的需求不符：%(err)s"
 
 msgid "You don't have permission to perform this operation."
-msgstr ""
+msgstr "您無權執行這項作業。"
 
 #, python-format
 msgid "Unable to find task id: %(id)s"
-msgstr ""
+msgstr "找不到作業 ID：%(id)s"
 
 msgid "There is no callback to execute the kill task process."
-msgstr ""
+msgstr "沒有回呼以執行結束作業程序。"
 
 #, python-format
 msgid "Timeout of %(seconds)s seconds expired while running task '%(task)s."
-msgstr ""
+msgstr "執行作業 '%(task)s' 時，超過逾時值 %(seconds)s 秒。"
 
 #, python-format
 msgid "Unable to kill task due error: %(err)s"
-msgstr ""
+msgstr "由於發生錯誤，無法結束作業：%(err)s"
 
 #, python-format
 msgid "Authentication failed for user '%(username)s'. [Error code: %(code)s]"
-msgstr "使用者 '%(username)s' 的鑑別失敗。[錯誤碼：%(code)s]"
+msgstr "針對使用者 '%(username)s' 的鑑別失敗。[錯誤碼：%(code)s]"
 
 msgid "You are not authorized to access Wok. Please, login first."
 msgstr ""
 
-#, python-format
-msgid "Specify %(item)s to login into Wok."
+msgid "Specify username to login into Wok."
 msgstr "指定 %(item)s 以登入 Wok"
 
 #, python-format
+msgid ""
+"You have failed to login in too much attempts. Please, wait for %(seconds)s "
+"seconds to try again."
+msgstr ""
+
+#, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
+msgstr "LDAP 配置無效：%(item)s：%(value)s"
+
+msgid "Specify password to login into Wok."
+msgstr "指定 %(item)s 以登入 Wok"
+
+msgid "You need to specify username and password to login into Wok."
+msgstr "指定 %(item)s 以登入 Wok"
+
+msgid "The username or password you entered is incorrect. Please try again"
 msgstr ""
 
 #, python-format
 msgid "Invalid filter parameter. Filter parameters allowed: %(filters)s"
-msgstr ""
+msgstr "過濾參數無效。容許的過濾參數：%(filters)s"
 
 #, python-format
 msgid "Creation of log file failed: %(err)s"
-msgstr ""
+msgstr "建立日誌檔失敗：%(err)s"
 
 #, python-format
 msgid "Unable to find notification %(id)s"
-msgstr ""
+msgstr "找不到通知 %(id)s"
 
 #, python-format
 msgid "Unable to delete notification %(id)s: %(message)s"
-msgstr ""
+msgstr "無法刪除通知 %(id)s：%(message)s"
 
 #, python-format
 msgid "Unable to find %(item)s in datastore"
@@ -93,36 +107,54 @@ msgstr "在資料儲存庫中找不到 %(item)s"
 
 #, python-format
 msgid "Timeout while running command '%(cmd)s' after %(seconds)s seconds"
-msgstr "執行指令 '%(cmd)s' %(seconds)s 秒之後逾時"
+msgstr "執行指令 '%(cmd)s' 時，在 %(seconds)s 秒之後逾時"
 
 #, python-format
 msgid "Invalid data value '%(value)s'"
-msgstr ""
+msgstr "無效的資料值 '%(value)s'"
 
 #, python-format
 msgid "Invalid data unit '%(unit)s'"
+msgstr "無效的資料單元 '%(unit)s'"
+
+msgid "WoK is going to restart. Existing WoK connections will be closed."
+msgstr ""
+
+#, python-format
+msgid "Unable to find plug-in %(name)s"
 msgstr ""
 
 #, python-format
 msgid "Successfully completed task '%(target_uri)s'"
-msgstr ""
+msgstr "已順利完成作業 '%(target_uri)s'"
 
 #, python-format
 msgid "Failed to complete task '%(target_uri)s'"
-msgstr ""
+msgstr "無法完成作業 '%(target_uri)s'"
 
 msgid "Request made on collection"
+msgstr "已對集合發出要求"
+
+msgid "Wok reload"
 msgstr ""
 
 msgid "Request made on resource"
-msgstr ""
+msgstr "已對資源發出要求"
 
 #, python-format
 msgid "User '%(username)s' login"
-msgstr ""
+msgstr "使用者 '%(username)s' 登入"
 
 #, python-format
 msgid "User '%(username)s' logout"
+msgstr "使用者 '%(username)s' 登出"
+
+#, python-format
+msgid "Enable plug-in %(ident)s."
+msgstr ""
+
+#, python-format
+msgid "Disable plug-in %(ident)s."
 msgstr ""
 
 msgid "ERROR CODE"
@@ -138,116 +170,135 @@ msgid "Go to Homepage"
 msgstr "跳至首頁"
 
 msgid "Wok"
-msgstr ""
+msgstr "Wok"
 
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 msgid "No such data available."
-msgstr "沒有此類可用資料。"
+msgstr "沒有此類資料可用。"
 
 msgid ""
 "Can not contact the host system. Verify the host system is up and that you "
 "have network connectivity to it. HTTP request response %1. "
 msgstr ""
-"無法連接至主機系統。請驗證主機系統是否已啟動，以及您是否具有與它的連線。HTTP "
-"要求回應為 %1。"
+"無法聯絡主機系統。請驗證主機系統已啟動，並且您具有與該主機系統的網路連線。"
+"HTTP 要求回應為 %1。"
 
 msgid "Cancel"
-msgstr "取消 "
+msgstr "取消"
 
 msgid "Confirm"
 msgstr "確認"
 
+msgid "Action Confirmation"
+msgstr ""
+
 msgid "Loading..."
-msgstr "正在載入..."
+msgstr "載入中..."
 
 msgid "An error occurred while retrieving system information."
-msgstr ""
+msgstr "擷取系統資訊時發生錯誤。"
 
 msgid "Retry"
 msgstr "重試"
 
 msgid "Detailed message:"
-msgstr "詳細的訊息："
+msgstr "詳細訊息："
 
 msgid "Max:"
 msgstr "上限："
 
-msgid "Application"
+msgid "Session timeout, please re-login."
 msgstr ""
+
+msgid "Server unreachable"
+msgstr ""
+
+msgid "Application"
+msgstr "應用程式"
 
 msgid "User"
-msgstr ""
+msgstr "使用者"
 
 msgid "Request"
-msgstr ""
+msgstr "要求"
 
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 msgid "Time"
-msgstr ""
+msgstr "時間"
 
 msgid "Message"
-msgstr ""
+msgstr "訊息"
 
 msgid "Please wait..."
-msgstr ""
+msgstr "請稍候..."
 
 msgid "Filter"
-msgstr ""
+msgstr "過濾器"
 
 msgid "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"
-msgstr ""
+msgstr "顯示 {{ctx.start}} 至 {{ctx.end}} 個項目（共 {{ctx.total}} 個項目）"
 
 msgid "No results found!"
-msgstr ""
+msgstr "找不到結果！"
 
 msgid "Actions"
-msgstr ""
+msgstr "動作"
 
 msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
-msgstr ""
+msgstr "IP 位址"
 
 msgid "Status"
+msgstr "狀態"
+
+msgid ""
+"Plugin %1 depends on %2 which will be automatically enabled on this "
+"confirmation."
+msgstr ""
+
+msgid ""
+"Plugin %1 is dependency of %2 which will be automatically disabled on this "
+"confirmation."
 msgstr ""
 
 msgid "Your session will be expired on: %1 s. Do you want to renew it?"
-msgstr ""
+msgstr "您的階段作業將於 %1 後到期。您要更新該階段作業嗎？"
 
 msgid "Ki"
-msgstr ""
+msgstr "Ki"
 
 msgid "Mi"
-msgstr ""
+msgstr "Mi"
 
 msgid "Gi"
-msgstr ""
+msgstr "Gi"
 
 msgid "Ti"
-msgstr ""
+msgstr "Ti"
 
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 msgid "k"
-msgstr ""
+msgstr "k"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid "G"
-msgstr ""
+msgstr "G"
 
 msgid "T"
-msgstr ""
+msgstr "T"
 
 msgid "P"
-msgstr ""
+msgstr "P"
 
 msgid "Log out"
 msgstr "登出"
@@ -256,61 +307,73 @@ msgid "Help"
 msgstr "說明"
 
 msgid "About"
-msgstr "相關"
+msgstr "關於"
 
 msgid "Toggle navigation"
-msgstr ""
+msgstr "切換導覽"
 
 msgid "Your session will expire on: 30s. Do you want to renew it?"
-msgstr ""
+msgstr "您的階段作業將於 30 秒後到期。您要更新該階段作業嗎？"
 
 msgid "Renew"
-msgstr ""
+msgstr "更新"
 
 msgid "Dismiss"
-msgstr ""
+msgstr "跳出"
 
 msgid "Powered by"
-msgstr ""
+msgstr "採用以下技術"
 
 msgid "Wok Version"
+msgstr "Wok 版本："
+
+msgid "Plugins Management"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "No result found"
 msgstr ""
 
 msgid "User Activity Log"
-msgstr ""
+msgstr "使用者活動日誌"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "進階搜尋"
 
 msgid "Download"
-msgstr ""
+msgstr "下載"
 
 msgid "Refresh"
-msgstr ""
+msgstr "重新整理"
 
 msgid "Search results by:"
-msgstr ""
+msgstr "產生搜尋結果的依據："
 
 msgid "Request Type"
-msgstr ""
+msgstr "要求類型"
 
 msgid "All Requests"
-msgstr ""
+msgstr "所有要求"
 
 msgid "POST"
-msgstr ""
+msgstr "POST"
 
 msgid "GET"
-msgstr ""
+msgstr "GET"
 
 msgid "PUT"
-msgstr ""
+msgstr "PUT"
 
 msgid "DELETE"
-msgstr ""
+msgstr "DELETE"
 
 msgid "User IP Address"
-msgstr ""
+msgstr "使用者 IP 位址"
 
 msgid "Search"
-msgstr ""
+msgstr "搜尋"

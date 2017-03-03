@@ -101,6 +101,7 @@ class Root(Resource):
 
     @cherrypy.expose
     def default(self, page, **kwargs):
+        kwargs['scripts'] = self._get_scripts(page)
         if page.endswith('.html'):
             return template.render(page, kwargs)
         if page.endswith('.json'):
@@ -121,13 +122,7 @@ class Root(Resource):
 
         data = {}
         data['ui_dir'] = paths.ui_dir
-
-        data['scripts'] = []
-        for plugin, app in cherrypy.tree.apps.iteritems():
-                if app.root.extends is not None:
-                    scripts = app.root.extends.get(script_name, {})
-                    if page in scripts.keys():
-                        data['scripts'].append(scripts[page])
+        data['scripts'] = self._get_scripts(page)
 
         if page.endswith('.html'):
             context = template.render('/tabs/' + page, data)
@@ -135,6 +130,16 @@ class Root(Resource):
             cherrypy.response.cookie['lastPage']['path'] = '/'
             return context
         raise cherrypy.HTTPError(404)
+
+    def _get_scripts(self, page):
+        result = []
+        script_name = cherrypy.request.app.script_name or "/"
+        for plugin, app in cherrypy.tree.apps.iteritems():
+            if app.root.extends is not None:
+                scripts = app.root.extends.get(script_name, {})
+                if page in scripts.keys():
+                    result.append(scripts[page])
+        return result
 
 
 class WokRoot(Root):

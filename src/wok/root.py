@@ -34,6 +34,7 @@ from wok.control import sub_nodes
 from wok.control.base import Resource
 from wok.control.utils import parse_request, validate_params
 from wok.exception import OperationFailed, UnauthorizedError, WokException
+from wok.pushserver import send_wok_notification
 from wok.reqlogger import log_request
 
 
@@ -235,6 +236,7 @@ class WokRoot(Root):
             status = e.getHttpStatusCode()
             raise cherrypy.HTTPError(401, e.message)
         finally:
+            send_wok_notification('', 'login', 'POST')
             log_request(code, params, details, method, status)
 
         return json.dumps(user_info)
@@ -247,6 +249,7 @@ class WokRoot(Root):
 
         auth.logout()
 
+        send_wok_notification('', 'logout', 'POST')
         log_request(code, params, None, method, 200, user=params['username'])
 
         return '{}'

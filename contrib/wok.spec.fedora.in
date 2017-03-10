@@ -21,6 +21,7 @@ Requires:	fontawesome-fonts
 Requires:	open-sans-fonts
 Requires:	logrotate
 Requires:	openssl
+Requires:	python-websockify
 BuildRequires:	gettext-devel
 BuildRequires:	libxslt
 BuildRequires:	python-lxml

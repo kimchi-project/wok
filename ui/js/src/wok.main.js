@@ -29,6 +29,57 @@ wok.getConfig(function(result) {
     wok.config = {};
 });
 
+wok.notificationListeners = {};
+wok.addNotificationListener = function(msg, func) {
+    var listenerArray = wok.notificationListeners[msg];
+    if (listenerArray == undefined) {
+        listenerArray = [];
+    }
+    listenerArray.push(func);
+    wok.notificationListeners[msg] = listenerArray;
+    $(window).one("hashchange", function() {
+        var listenerArray = wok.notificationListeners[msg];
+        var del_index = listenerArray.indexOf(func);
+        listenerArray.splice(del_index, 1);
+        wok.notificationListeners[msg] = listenerArray;
+    });
+};
+
+wok.notificationsWebSocket = undefined;
+wok.startNotificationWebSocket = function () {
+    var addr = window.location.hostname + ':' + window.location.port;
+    var token = wok.urlSafeB64Encode('woknotifications').replace(/=*$/g, "");
+    var url = 'wss://' + addr + '/websockify?token=' + token;
+    wok.notificationsWebSocket = new WebSocket(url, ['base64']);
+
+    wok.notificationsWebSocket.onmessage = function(event) {
+        var buffer_rcv = window.atob(event.data);
+        var messages = buffer_rcv.split("//EOM//");
+        for (var i = 0; i < messages.length; i++) {
+            if (messages[i] === "") {
+                continue;
+	    }
+            var listenerArray = wok.notificationListeners[messages[i]];
+            if (listenerArray == undefined) {
+                continue;
+            }
+            for (var j = 0; j < listenerArray.length; j++) {
+                listenerArray[j](messages[i]);
+            }
+        }
+    };
+
+    sessionStorage.setItem('wokNotificationWebSocket', 'true');
+    var heartbeat = setInterval(function() {
+        wok.notificationsWebSocket.send(window.btoa('heartbeat'));
+    }, 30000);
+
+    wok.notificationsWebSocket.onclose = function() {
+        clearInterval(heartbeat);
+    };
+};
+
+
 wok.main = function() {
     wok.isLoggingOut = false;
     wok.popable();
@@ -395,6 +446,9 @@ wok.main = function() {
 
         // Set handler for help button
         $('#btn-help').on('click', wok.openHelp);
+
+        // start WebSocket
+        wok.startNotificationWebSocket();
     };
 
     var initUI = function() {

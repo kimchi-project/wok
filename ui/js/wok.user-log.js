@@ -153,6 +153,10 @@ wok.initUserLogContent = function() {
         $("#user-log-grid").bootgrid("search");
         wok.initUserLogConfigGridData();
     });
+
+    wok.addNotificationListener('POST:/wok/logs', function(message) {
+        $("#refresh-button").click();
+    });
 };
 
 wok.initUserLogWindow = function() {

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2016
+# Copyright IBM Corp, 2016-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -34,6 +34,7 @@ from wok.auth import USER_NAME
 from wok.config import get_log_download_path, paths
 from wok.exception import InvalidParameter, OperationFailed
 from wok.message import WokMessage
+from wok.pushserver import send_wok_notification
 from wok.stringutils import ascii_dict
 from wok.utils import remove_old_files
 
@@ -68,9 +69,11 @@ WOK_REQUEST_LOGGER = "wok_request_logger"
 # AsyncTask handling
 ASYNCTASK_REQUEST_METHOD = 'TASK'
 
+NEW_LOG_ENTRY_MESSAGE = 'new_log_entry'
+
 
 def log_request(code, params, exception, method, status, app=None, user=None,
-                ip=None):
+                ip=None, class_name=None, action_name=None):
     '''
     Add an entry to user request log
 
@@ -113,6 +116,10 @@ def log_request(code, params, exception, method, status, app=None, user=None,
         user=user,
         ip=ip
     ).log()
+
+    if class_name:
+        send_wok_notification(app, class_name, method, action_name)
+    send_wok_notification('', 'logs', 'POST')
 
     return log_id
 

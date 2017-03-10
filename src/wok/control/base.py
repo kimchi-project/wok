@@ -163,7 +163,9 @@ class Resource(object):
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
-                log_id = log_request(code, reqParams, details, method, status)
+                log_id = log_request(code, reqParams, details, method, status,
+                                     class_name=get_class_name(self),
+                                     action_name=action_name)
                 if status == 202:
                     save_request_log_id(log_id, action_result['id'])
 
@@ -218,7 +220,8 @@ class Resource(object):
             # log request
             if method not in LOG_DISABLED_METHODS and status != 202:
                 code = self.getRequestMessage(method)
-                log_request(code, self.log_args, details, method, status)
+                log_request(code, self.log_args, details, method, status,
+                            class_name=get_class_name(self))
 
         return result
 
@@ -306,7 +309,8 @@ class AsyncResource(Resource):
         code = self.getRequestMessage(method)
         reqParams = utf8_dict(self.log_args)
         log_id = log_request(code, reqParams, None, method,
-                             cherrypy.response.status)
+                             cherrypy.response.status,
+                             class_name=get_class_name(self))
         save_request_log_id(log_id, task['id'])
 
         return wok.template.render("Task", task)
@@ -458,7 +462,8 @@ class Collection(object):
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
-                log_request(code, reqParams, details, method, status)
+                log_request(code, reqParams, details, method, status,
+                            class_name=get_class_name(self))
 
 
 class AsyncCollection(Collection):
@@ -486,7 +491,8 @@ class AsyncCollection(Collection):
         code = self.getRequestMessage(method)
         reqParams = utf8_dict(self.log_args, params)
         log_id = log_request(code, reqParams, None, method,
-                             cherrypy.response.status)
+                             cherrypy.response.status,
+                             class_name=get_class_name(self))
         save_request_log_id(log_id, task['id'])
 
         return wok.template.render("Task", task)

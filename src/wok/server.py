@@ -25,13 +25,13 @@ import logging
 import logging.handlers
 import os
 
-from wok import auth
-from wok import config
+from wok import auth, config, websocket
 from wok.config import config as configParser
 from wok.config import WokConfig
 from wok.control import sub_nodes
 from wok.model import model
 from wok.proxy import check_proxy_config
+from wok.pushserver import start_push_server
 from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
 from wok.safewatchedfilehandler import SafeWatchedFileHandler
@@ -77,7 +77,8 @@ class Server(object):
             os.path.abspath(configParser.get("logging", "log_dir")),
             os.path.dirname(os.path.abspath(options.access_log)),
             os.path.dirname(os.path.abspath(options.error_log)),
-            os.path.dirname(os.path.abspath(config.get_object_store()))
+            os.path.dirname(os.path.abspath(config.get_object_store())),
+            os.path.abspath(config.get_wstokens_dir())
         ]
         for directory in make_dirs:
             if not os.path.isdir(directory):
@@ -160,8 +161,14 @@ class Server(object):
         cherrypy.tree.mount(WokRoot(model.Model(), dev_env),
                             options.server_root, self.configObj)
 
+        self._start_websocket_server()
         self._load_plugins()
         cherrypy.lib.sessions.init()
+
+    def _start_websocket_server(self):
+        start_push_server()
+        ws_proxy = websocket.new_ws_proxy()
+        cherrypy.engine.subscribe('exit', ws_proxy.terminate)
 
     def _load_plugins(self):
         for plugin_name, plugin_config in get_enabled_plugins():

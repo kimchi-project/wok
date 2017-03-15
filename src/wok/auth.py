@@ -192,7 +192,7 @@ class LDAPUser(User):
     auth_type = "ldap"
 
     def __init__(self, username):
-        super(PAMUser, self).__init__(username)
+        super(LDAPUser, self).__init__(username)
 
     @staticmethod
     def authenticate(username, password):

@@ -1,0 +1,34 @@
+Listen 8001
+Listen 8000
+
+<VirtualHost *:8001>
+	ErrorLog /var/log/apache2/error_log
+	TransferLog /var/log/apache2/access_log
+
+	Timeout 600
+	LimitRequestBody 4294967296
+
+	SSLEngine on
+	SSLCertificateFile /etc/wok/wok-cert.pem
+	SSLCertificateKeyFile /etc/wok/wok-key.pem
+	SSLOpenSSLConfCmd DHParameters	/etc/wok/dhparams.pem
+	SSLSessionCacheTimeout 600
+
+	RewriteEngine On
+	RewriteCond %{HTTP:Upgrade} =websocket [NC]
+	RewriteRule /(.*)           ws://localhost:64667/$1 [P,L]
+
+	ProxyPass /websockify http://127.0.0.1:64667/websockify
+	ProxyPassReverse /websockify http://127.0.0.1:64667/websockify
+
+	ProxyPass / http://127.0.0.1:8010/
+	ProxyPassReverse / http://127.0.0.1:8010/
+</VirtualHost>
+
+<VirtualHost *:8000>
+	ErrorLog /var/log/apache2/error_log
+	TransferLog /var/log/apache2/access_log
+
+	RewriteEngine On
+	RewriteRule ^/(.*)$           https://localhost:8001/$1 [R]
+</VirtualHost>

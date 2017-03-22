@@ -3,6 +3,8 @@ Description=Wok - Webserver Originated from Kimchi
 Documentation=https://github.com/kimchi-project/wok/wiki
 Wants=nginx.service
 After=nginx.service
+Wants=apache2.service
+After=apache2.service
 
 [Service]
 Type=simple

@@ -18,6 +18,7 @@ contrib/wok.spec.fedora.in
 contrib/wok.spec.suse.in
 contrib/wokd.logrotate.in
 contrib/wokd.service.systemd
+contrib/wok.conf.apache
 docs/API/.*.md
 docs/.*.md
 docs/wokd.8.in

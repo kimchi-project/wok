@@ -69,7 +69,6 @@ wok.startNotificationWebSocket = function () {
         }
     };
 
-    sessionStorage.setItem('wokNotificationWebSocket', 'true');
     var heartbeat = setInterval(function() {
         wok.notificationsWebSocket.send(window.btoa('heartbeat'));
     }, 30000);

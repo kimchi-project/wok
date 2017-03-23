@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2014-2016
+# Copyright IBM Corp, 2014-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -84,6 +84,9 @@ class ConfigTests(unittest.TestCase):
             '/data/logs': {
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': '%s/logs' % paths.state_dir,
+                'tools.staticdir.content_types': {
+                    'txt': 'application/x-download'
+                },
                 'tools.nocache.on': False,
                 'tools.wokauth.on': True,
             },

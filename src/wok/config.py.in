@@ -202,6 +202,9 @@ class WokConfig(dict):
         '/data/logs': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': '%s/logs' % paths.state_dir,
+            'tools.staticdir.content_types': {
+                    'txt': 'application/x-download'
+            },
             'tools.nocache.on': False,
             'tools.wokauth.on': True,
         },

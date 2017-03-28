@@ -31,3 +31,4 @@ Packages required for tests
 ---------------------------
 
     $ sudo zypper install python-pyflakes python-pep8 python-requests rpmlint
+                          python-mock

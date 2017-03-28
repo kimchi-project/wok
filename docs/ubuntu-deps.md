@@ -30,4 +30,4 @@ Packages required for UI development
 Packages required for tests
 ---------------------------
 
-    $ sudo apt-get install pep8 pyflakes python-requests
+    $ sudo apt-get install pep8 pyflakes python-requests python-mock

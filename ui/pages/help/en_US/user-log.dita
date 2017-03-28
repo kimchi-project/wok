@@ -27,12 +27,14 @@ Press the F1 key for online help on the tags and see the DITA XML Guide and Refe
 For support please see:
 https://w3.opensource.ibm.com/projects/dita-cshelp/-->
 <cshelp id="settings" xml:lang="en-us">
-<title>Settings</title>
+<title>Activity Log</title>
 <csbody>
 <dl><dlentry>
-<dt>Plugins Management</dt>
-<dd>This section displays the current plug-in status of WoK..</dd>
-<dd>In the 'Status' column it is possible to enable or disable a specific plug-in. Enabling a plug-in will enable all its dependencies (example: enabling Kimchi will enable Gingerbase as well). Likewise, disabling a plug-in will disable all plug-ins that depends on the now disabled plug-in (example: disabling Gingerbase will disable Kimchi and Ginger).</dd>
+<dt>User Activity Log</dt>
+<dd>This section displays user activity log of Wok and its plugins.</dd>
+<dd>To get any specific log result, please use the 'Advanced Search' option. You can specify a particular application (such as wok, ginger, gingerbase, gingers390x, kimchi), an user, request type or even date range.</dd>
+<dd>Select "Reset to Default" option to clear the search criteria.</dd>
+<dd>Download: Use this option to download user activity log.</dd>
 </dlentry>
 </dl><?Pub Caret 2101?>
 </csbody>

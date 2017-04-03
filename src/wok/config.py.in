@@ -159,7 +159,7 @@ class PluginPaths(Paths):
 class UIConfig(dict):
     def __init__(self, paths):
         ui_configs = {}
-        for sub_dir in ('css', 'js', 'libs', 'images'):
+        for sub_dir in ('css', 'js', 'images'):
             ui_configs['/' + sub_dir] = {
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(paths.ui_dir, sub_dir),
@@ -169,17 +169,10 @@ class UIConfig(dict):
                 ui_configs['/' + sub_dir].update({
                     'tools.expires.on': True,
                     'tools.expires.secs': CACHEEXPIRES})
-
-        for font, files in FONT_FILES.iteritems():
-            font_dir = getattr(paths, "%s_dir" % font)
-            for filename in files:
-                font_file = os.path.join(font_dir, filename)
-                if os.path.exists(font_file):
-                    ui_configs['/fonts/%s' % filename] = {
-                        'tools.staticfile.on': True,
-                        'tools.staticfile.filename': font_file,
-                        'tools.wokauth.on': False,
-                        'tools.nocache.on': False}
+            else:
+                ui_configs['/' + sub_dir].update(
+                    {'tools.staticdir.content_types':
+                        {'svg': 'image/svg+xml'}})
 
         self.update(ui_configs)
 
@@ -237,7 +230,26 @@ class WokConfig(dict):
             'tools.staticdir.dir': os.path.join(paths.ui_dir,
                                                 'pages/help')
         },
+        '/libs': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': os.path.join(paths.ui_dir, 'libs'),
+            'tools.wokauth.on': False,
+            'tools.nocache.on': False,
+            'tools.expires.on': True,
+            'tools.expires.secs': CACHEEXPIRES
+        }
     }
+
+    for font, files in FONT_FILES.iteritems():
+        font_dir = getattr(paths, "%s_dir" % font)
+        for filename in files:
+            font_file = os.path.join(font_dir, filename)
+            if os.path.exists(font_file):
+                wok_config['/fonts/%s' % filename] = {
+                    'tools.staticfile.on': True,
+                    'tools.staticfile.filename': font_file,
+                    'tools.wokauth.on': False,
+                    'tools.nocache.on': False}
 
     def __init__(self):
         super(WokConfig, self).__init__(self)
@@ -248,6 +260,7 @@ class WokConfig(dict):
 class PluginConfig(dict):
     def __init__(self, plugin_name):
         super(PluginConfig, self).__init__(self)
+        paths = PluginPaths(plugin_name)
         plugin_config = {
             '/': {
                 'tools.trailing_slash.on': False,
@@ -264,10 +277,10 @@ class PluginConfig(dict):
             '/ui/config/tab-ext.xml': {
                 'tools.staticfile.on': True,
                 'tools.staticfile.filename':
-                os.path.join(PluginPaths(plugin_name).ui_dir,
-                             'config/tab-ext.xml'),
+                os.path.join(paths.ui_dir, 'config/tab-ext.xml'),
                 'tools.nocache.on': True}}
         self.update(plugin_config)
+        self.update(UIConfig(paths))
 
 
 def _get_config():

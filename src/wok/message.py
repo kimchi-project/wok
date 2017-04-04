@@ -73,7 +73,7 @@ class WokMessage(object):
             # do translation
             domain = app.root.domain
             paths = app.root.paths
-            lang = validate_language(get_lang())
+            lang = validate_language(get_lang(), domain)
 
             try:
                 translation = gettext.translation(domain, paths.mo_dir, [lang])

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -22,10 +22,9 @@
 import cherrypy
 import errno
 import json
+import os
 import time
 from Cheetah.Template import Template
-from glob import iglob
-
 
 from wok import config as config
 from wok.config import paths
@@ -60,15 +59,10 @@ def get_accept_language():
     return langs
 
 
-def get_support_languages():
-    mopath = "%s/*" % paths.mo_dir
-    return [path.rsplit('/', 1)[1] for path in iglob(mopath)]
-
-
-def validate_language(langs):
-    supportLangs = get_support_languages()
+def validate_language(langs, domain):
     for lang in langs:
-        if lang in supportLangs:
+        filepath = os.path.join(paths.mo_dir, lang, domain + '.mo')
+        if os.path.exists(filepath):
             return lang
     return "en_US"
 
@@ -96,11 +90,12 @@ def can_accept_html():
 
 def render_cheetah_file(resource, data):
     paths = cherrypy.request.app.root.paths
+    domain = cherrypy.request.app.root.domain
     filename = paths.get_template_path(resource)
     try:
         params = {}
-        lang = validate_language(get_lang())
-        gettext_conf = {'domain': cherrypy.request.app.root.domain,
+        lang = validate_language(get_lang(), domain)
+        gettext_conf = {'domain': domain,
                         'localedir': paths.mo_dir,
                         'lang': [lang]}
         params['lang'] = gettext_conf

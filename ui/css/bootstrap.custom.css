@@ -2,7 +2,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -330,7 +330,7 @@ html {
 }
 
 body {
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 14px;
   line-height: 1.42857;
   color: #222;
@@ -3901,7 +3901,7 @@ tbody.collapse.in {
   height: 55px;
   background: transparent url("../images/wok-logo.png") no-repeat 4px 5px;
   color: #fff;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 700;
   font-size: 1.571em;
   line-height: 55px;
@@ -4157,7 +4157,7 @@ tbody.collapse.in {
   display: block;
   vertical-align: middle;
   color: #fff;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13pt;
   font-weight: normal;
   line-height: 24px;
@@ -4320,7 +4320,7 @@ tbody.collapse.in {
   padding-right: 10px;
   margin: 0;
   font-size: 12pt;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 700;
   color: #fff;
   text-decoration: none;
@@ -4370,7 +4370,7 @@ tbody.collapse.in {
 
 .navbar-default .navbar-nav > .hostname .host-location {
   display: inline-block;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   color: #fff;
   font-size: 8.5pt;
   font-weight: 300;
@@ -6033,7 +6033,7 @@ button.close {
   margin: 0;
   line-height: 23px;
   font-size: 27px;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300 !important;
 }
 
@@ -6127,7 +6127,7 @@ button.close {
 .modal label {
   color: #222;
   font-weight: 400;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 20px;
 }
 
@@ -6162,7 +6162,7 @@ button.close {
 .modal-body .nav-tabs > li > a {
   font-size: 17px;
   font-weight: 300;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   border: 0;
   border-bottom: 5px solid #eee;
   text-align: center;
@@ -6178,7 +6178,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -6312,7 +6312,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;

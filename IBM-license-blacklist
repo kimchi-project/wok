@@ -42,7 +42,6 @@ src/wok/plugins/sample/ui/pages/help/en_US/.*.html
 ui/base64/README.md
 ui/base64/jquery.base64.js
 ui/css/fontawesome/fontawesome.css
-ui/css/opensans/opensans.css
 ui/css/src/vendor/bootstrap-sass/LICENSE
 ui/css/src/vendor/bootstrap-sass/bootstrap/.*.scss
 ui/css/src/vendor/bootstrap-sass/bootstrap/mixins/.*.scss

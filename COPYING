@@ -12,10 +12,6 @@ Files: ui/css/fontawesome/fontawesome.css
 Source: http://fontawesome.io
 License: MIT
 
-Files: ui/css/opensans/opensans.css
-Source: https://fonts.google.com/specimen/Open+Sans
-License: Apache-2.0
-
 Files: ui/css/src/bootstrap.custom.scss
        ui/css/src/vendor/bootstrap-sass/bootstrap/*
 Source: https://github.com/twbs/bootstrap

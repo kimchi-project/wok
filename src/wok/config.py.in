@@ -30,29 +30,13 @@ __release__ = "@wokrelease@"
 CACHEEXPIRES = 31536000     # expires is one year.
 DEFAULT_LOG_LEVEL = "info"
 
-FONT_FILES = {'fontawesome': ['fontawesome-webfont.ttf'],
-              'opensans': ['OpenSans-ExtraBoldItalic.ttf',
-                           'OpenSans-ExtraBold.ttf',
-                           'OpenSans-LightItalic.ttf',
-                           'OpenSans-Light.ttf',
-                           'OpenSans-SemiboldItalic.ttf',
-                           'OpenSans-BoldItalic.ttf',
-                           'OpenSans-Italic.ttf',
-                           'OpenSans-Bold.ttf',
-                           'OpenSans-Semibold.ttf',
-                           'OpenSans-Regular.ttf']}
+FONT_FILES = {'fontawesome': ['fontawesome-webfont.ttf']}
 
 FONTS_PATH = {
     'fontawesome': [
         '/usr/share/fonts/fontawesome',
         '/usr/share/fonts/truetype/font-awesome',
         '/usr/share/fonts/truetype',
-        '/usr/share/fonts/TTF'
-    ],
-    'opensans': [
-        '/usr/share/fonts/open-sans',
-        '/usr/share/fonts/truetype/',
-        '/usr/share/texlive/texmf-dist/fonts/truetype/public/opensans',
         '/usr/share/fonts/TTF'
     ]
 }

@@ -61,7 +61,8 @@ def get_accept_language():
 
 def validate_language(langs, domain):
     for lang in langs:
-        filepath = os.path.join(paths.mo_dir, lang, domain + '.mo')
+        filepath = os.path.join(paths.mo_dir, lang, 'LC_MESSAGES',
+                                domain + '.mo')
         if os.path.exists(filepath):
             return lang
     return "en_US"

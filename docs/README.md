@@ -73,6 +73,10 @@ Build and Install
 
     # Optional if running from the source tree
     $ sudo make install
+    # Or, to make installable .deb packages
+    $ make deb
+    # Or, for RPM packages
+    $ make rpm
 
 Starting up Wok
 ---------------

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2016
+# Copyright IBM Corp, 2016-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -49,7 +49,7 @@ class ServerRootTests(unittest.TestCase):
         # check if server_root in config is the same used to start server
         resp = request(server_root + '/config').read()
         conf = json.loads(resp)
-        self.assertEquals(len(conf), 5)
+        self.assertEquals(len(conf), 6)
 
     def test_development_env(self):
         """
@@ -61,4 +61,4 @@ class ServerRootTests(unittest.TestCase):
         # check if server_root in config is the same used to start server
         resp = request(server_root + '/config').read()
         conf = json.loads(resp)
-        self.assertEquals(len(conf), 5)
+        self.assertEquals(len(conf), 6)

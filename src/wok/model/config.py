@@ -34,6 +34,7 @@ class ConfigModel(object):
                 'websockets_port': config.get('server', 'websockets_port'),
                 'auth': config.get('authentication', 'method'),
                 'server_root': config.get('server', 'server_root'),
+                'federation': config.get('server', 'federation'),
                 'version': get_version()}
 
     def reload(self, name):

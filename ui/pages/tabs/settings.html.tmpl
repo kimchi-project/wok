@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 <head>
   <link rel="stylesheet" type="text/css" href="$href('css/settings.css')">
   <script type="text/javascript" src="$href('js/wok.settings.js')"></script>
+  <script type="text/javascript" src="$href('js/wok.peers.js')"></script>
   <script type="text/javascript" src="$href('js/wok.bootgrid.js')"></script>
 </head>
 
@@ -34,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
   <div id="wok-root-container" class="wok">
     <div class="container">
       <div id="wokSettings" class="wok-settings">
-      <!-- Plugins Management -->
+        <!-- Plugins Management -->
         <div class="panel-group accordion" id="plugins-mgmt-accordion" role="tablist" aria-multiselectable="false">
           <h3>
             <a role="button" data-toggle="collapse" data-parent="#plugin-mgmt-accordion" href="#plugins-mgmt-content-area" aria-expanded="true" aria-controls="plugins-mgmt-content-area" class="">
@@ -59,6 +60,37 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
                 <ul class="wok-datagrid-body list" id="plugins-mgmt-body"></ul>
                 <div class="no-matching-data hidden">
                   <span role="row">$_("No result found")</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- -->
+        <!-- Peers -->
+        <div class='panel-group federation-enabled accordion hidden' id='peers-accordion' role='tablist' aria-multiselectable='true'>
+          <h3>
+            <a role='button' data-toggle='collapse' data-parent='#peers-accordion' href='#peers-content-area' aria-expanded='false' aria-controls='peers-content-area' class=''>
+              <span class='accordion-icon'></span><span class='accordion-text' id='#peers-title'>$_("Peers")</span>
+            </a>
+          </h3>
+          <div id='peers-content-area' class='panel-collapse collapse' role='tabpanel' aria-labelledby='peers-title'>
+            <div id='peers-alert-container'></div>
+            <div class='row'>
+              <div class='col-sm-12'>
+                <table id='peers-list' class='table table-striped' cellspacing='0' width='100%'>
+                  <thead>
+                    <tr>
+                      <th><span class='sr-only'>$_("Peers")</span></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+            <div class='wok-mask' role='presentation'>
+              <div class='wok-mask-loader-container'>
+                <div class='wok-mask-loading'>
+                  <div class='wok-mask-loading-icon'></div>
+                  <div class='wok-mask-loading-text'>$_("Loading...")</div>
                 </div>
               </div>
             </div>

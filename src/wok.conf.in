@@ -27,6 +27,10 @@
 # uncomment the following:
 #server_root=/wok
 
+# Federation feature: register Wok server on openSLP and discover peers
+# in the same network. Check README-federation for more details.
+#federation = off
+
 [logging]
 # Log directory
 

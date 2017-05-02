@@ -49,11 +49,15 @@ class APITests(unittest.TestCase):
     def setUp(self):
         self.request = partial(utils.request)
 
+    def test_peers(self):
+        resp = self.request('/peers').read()
+        self.assertEquals([], json.loads(resp))
+
     def test_config(self):
         resp = self.request('/config').read()
         conf = json.loads(resp)
         keys = ["auth", "proxy_port", "websockets_port", "version",
-                "server_root"]
+                "server_root", "federation"]
         self.assertEquals(sorted(keys), sorted(conf.keys()))
 
     def test_config_plugins(self):

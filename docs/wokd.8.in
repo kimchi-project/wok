@@ -7,7 +7,7 @@ wokd - Launch Wok web server
 [\fB--cherrypy_port\fP \fICHERRYPY_PORT\fP] [\fB--websockets_port\fP \fIWEBSOCKETS_PORT\fP]
 [\fB--session_timeout\fP \fISESSION_TIMEOUT\fP] [\fB--log_level\fP \fILOG_LEVEL\fP]
 [\fB--log_dir\fP \fILOG_DIR\fP] [\fB--environment\fP \fIENV\fP]
-[\fB--server_root\fP \fISERVER_ROOT\fP] [\fB--test\fP]
+[\fB--server_root\fP \fISERVER_ROOT\fP] [\fB--federation\fP \fIfederation\fP] [\fB--test\fP]
 .SH DESCRIPTION
 \fBWok\fP is a cherrypy-based web framework with HTML5 support originated from Kimchi.
 It can be extended by plugins which expose functionality through REST APIs.
@@ -54,6 +54,10 @@ Check cherrypy documentation for more details (default \fIproduction\fP).
 .TP
 \fB\-\-server_root\fP [\fISERVER_ROOT\fP]
 Relative path to Wok server. No value is specified by default, ie, Wok will run on '/'.
+.TP
+\fB\-\-federation\fP [\fIon\fP | \fIoff\fP]
+Register and discover Wok peers in the same network using OpenSLP. Check
+below the \fBREAD-federation\fP for more details (default \fIoff\fP).
 .TP
 \fB\-\-test\fP
 Run Wok on a mock version that does not affect the system. For testing proposals.

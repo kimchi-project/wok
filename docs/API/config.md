@@ -12,6 +12,8 @@ Contains information about the application environment and configuration.
     * proxy_port: SSL port to list on
     * websockets_port: Port for websocket proxy to listen on
     * auth: Authentication method used to log in to Wok
+    * server_root: Relative path to Wok server. No value is specified by default, ie, Wok will run on '/'
+    * federation: 'on' if federation feature is enabled, 'off' otherwise.
     * version: Wok version
 * **POST**: *See Task Actions*
 

@@ -71,6 +71,20 @@ var wok = {
         });
     },
 
+    getPeers: function(suc, err) {
+        wok.requestJSON({
+            url: 'peers',
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            resend: true,
+            success: suc,
+            error: err ? err : function(data) {
+                wok.message.error(data.responseJSON.reason);
+            }
+        });
+    },
+
     getNotifications: function (suc, err) {
         wok.requestJSON({
             url: 'notifications',

@@ -48,6 +48,7 @@ def main(options):
     websockets_port = config.config.get("server", "websockets_port")
     session_timeout = config.config.get("server", "session_timeout")
     runningEnv = config.config.get("server", "environment")
+    federation = config.config.get("server", "federation")
     server_root = config.config.get("server", "server_root")
     logDir = config.config.get("logging", "log_dir")
     logLevel = config.config.get("logging", "log_level")
@@ -71,6 +72,10 @@ def main(options):
                       help="Running environment of wok server")
     parser.add_option('--server_root', type="string", default=server_root,
                       help="Relative path to server")
+    parser.add_option('--federation', default=federation,
+                      help="Register and discover Wok peers in the same "
+                           "network using openSLP. Check README-federation for"
+                           " more details.")
     parser.add_option('--test', action='store_true',
                       help="Run server in mock model")
     (options, args) = parser.parse_args()

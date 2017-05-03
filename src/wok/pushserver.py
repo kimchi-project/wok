@@ -108,31 +108,27 @@ class PushServer(object):
             while self.server_running:
                 read_ready, _, _ = select.select(self.connections,
                                                  [], [], 1)
+
                 for sock in read_ready:
                     if not self.server_running:
                         break
 
                     if sock == self.server_socket:
-
                         new_socket, addr = self.server_socket.accept()
                         self.connections.append(new_socket)
                     else:
                         try:
                             data = sock.recv(4096)
+                            if not data:
+                                self.connections.remove(sock)
+                                sock.close()
                         except:
                             try:
                                 self.connections.remove(sock)
                             except ValueError:
                                 pass
-
-                            continue
-                        if data and data == 'CLOSE':
-                            sock.send('ACK')
-                            try:
-                                self.connections.remove(sock)
-                            except ValueError:
-                                pass
-                            sock.close()
+                            finally:
+                                sock.close()
 
         except Exception as e:
             raise RuntimeError('Exception ocurred in listen() of pushserver '

@@ -23,7 +23,7 @@
 import cherrypy
 import re
 import urllib2
-
+import sys
 
 import wok.template
 from wok.asynctask import save_request_log_id
@@ -63,6 +63,9 @@ class Resource(object):
       Resource.
     """
     def __init__(self, model, ident=None):
+        reload(sys)
+        sys.setdefaultencoding('utf8')
+
         self.model = model
         self.ident = ident
         self.model_args = (ident,)

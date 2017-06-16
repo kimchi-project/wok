@@ -30,7 +30,7 @@ from wok.utils import run_command, wok_log
 class PeersModel(object):
     def __init__(self, **kargs):
         # check federation feature is enabled on Wok server
-        if not config.get('server', 'federation') == 'off':
+        if not config.get('server', 'federation') == 'on':
             return
 
         # register server on openslp
@@ -56,7 +56,7 @@ class PeersModel(object):
 
     def get_list(self):
         # check federation feature is enabled on Wok server
-        if not config.get('server', 'federation') == 'off':
+        if not config.get('server', 'federation') == 'on':
             return []
 
         cmd = ["slptool", "findsrvs", "service:wokd"]

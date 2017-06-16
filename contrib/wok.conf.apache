@@ -30,5 +30,5 @@ Listen 8000
 	TransferLog /var/log/apache2/access_log
 
 	RewriteEngine On
-	RewriteRule ^/(.*)$           https://localhost:8001/$1 [R]
+	RewriteRule ^/(.*)$           https://%{SERVER_NAME}:8001/$1 [R]
 </VirtualHost>

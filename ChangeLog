@@ -1,7 +1,19 @@
 CHANGELOG
 =========
 
+#### [2.5.0] ####
+ * [313ce50] federation: fix logic in model                                                 (Cédric Bosdonnat)
+ * [4dfefc1] apache: Fix HTTP to HTTPS redirection                                          (Cédric Bosdonnat)
+ * [9769e0e] Bug fix #217: Fixing select() waking up                                        (Daniel Henrique Barboza)
+ * [42b9bba] Add federation feature to Wok                                                  (Aline Manera)
+ * [0fa827e] Add apache configuration                                                       (Cédric Bosdonnat)
+ * [c5aae16] Bug fix: Proper check mo files location                                        (Aline Manera)
+ * [f5aa7e8] Remove Open Sans font requirement                                              (Aline Manera)
+ * [4dbab0b] Bug fix #192: Check the specific domain file exists on mo directory            (Aline Manera)
+ * [9454b1d] Bug fix for Kimchi #1109: Specify Content-Type for SVG files                   (Aline Manera)
+
 #### [2.4.0] ####
+ * [cb1cfd0] Update VERSION, ChangeLog and po files for 2.4.0 release                       (Aline Manera)
  * [72addcb] Bug fix #205: adding 'user-log.dita' help page                                 (Daniel Henrique Barboza)
  * [f7141fc] python-mock not listed as dependency                                           (Ramon Medeiros)
  * [67dac4d] Removing sessionStorage call in wok.main.js                                    (Daniel Henrique Barboza)

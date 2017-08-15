@@ -30,7 +30,7 @@ wok.getConfig(function(result) {
 });
 
 wok.notificationListeners = {};
-wok.addNotificationListener = function(msg, func) {
+wok.addNotificationListener = function(msg, func, persist) {
     var listenerArray = wok.notificationListeners[msg];
     if (listenerArray == undefined) {
         listenerArray = [];
@@ -38,10 +38,13 @@ wok.addNotificationListener = function(msg, func) {
     listenerArray.push(func);
     wok.notificationListeners[msg] = listenerArray;
     $(window).one("hashchange", function() {
-        var listenerArray = wok.notificationListeners[msg];
-        var del_index = listenerArray.indexOf(func);
-        listenerArray.splice(del_index, 1);
-        wok.notificationListeners[msg] = listenerArray;
+        // Some notification may persist while switching tabs
+        if (persist == undefined) {
+            var listenerArray = wok.notificationListeners[msg];
+            var del_index = listenerArray.indexOf(func);
+            listenerArray.splice(del_index, 1);
+            wok.notificationListeners[msg] = listenerArray;
+        }
     });
 };
 
@@ -77,7 +80,6 @@ wok.startNotificationWebSocket = function () {
         clearInterval(heartbeat);
     };
 };
-
 
 wok.main = function() {
     wok.isLoggingOut = false;
@@ -513,9 +515,10 @@ wok.main = function() {
         }
     );
 
-    setTimeout(wok.notificationsLoop, wok.NOTIFICATION_INTERVAL);
+    wok.notificationsLoop();
+    wok.addNotificationListener('POST:/wok/notifications', wok.notificationsLoop, true);
+    wok.addNotificationListener('DELETE:/wok/notification', wok.notificationsLoop, true);
 };
-
 
 wok.checkHelpFile = function(path) {
     var lang = wok.lang.get();

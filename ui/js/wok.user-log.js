@@ -154,9 +154,7 @@ wok.initUserLogContent = function() {
         wok.initUserLogConfigGridData();
     });
 
-    wok.addNotificationListener('POST:/wok/logs', function(message) {
-        $("#refresh-button").click();
-    });
+    wok.addNotificationListener('POST:/wok/logs', wok.initUserLogConfigGridData);
 };
 
 wok.initUserLogWindow = function() {

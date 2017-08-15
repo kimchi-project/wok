@@ -4954,12 +4954,6 @@ a.thumbnail.active {
   border-color: #3a393b;
 }
 
-@media (min-width: 1200px) {
-  #alert-fields {
-    padding-top: 10px;
-  }
-}
-
 .alert {
   padding: 8px 15px;
   margin-bottom: 10px;

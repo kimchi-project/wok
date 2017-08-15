@@ -69,8 +69,6 @@ WOK_REQUEST_LOGGER = "wok_request_logger"
 # AsyncTask handling
 ASYNCTASK_REQUEST_METHOD = 'TASK'
 
-NEW_LOG_ENTRY_MESSAGE = 'new_log_entry'
-
 
 def log_request(code, params, exception, method, status, app=None, user=None,
                 ip=None, class_name=None, action_name=None):

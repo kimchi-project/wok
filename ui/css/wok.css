@@ -153,8 +153,10 @@ html.in-progress .disabled {
   cursor: not-allowed !important;
 }
 
-#notification-container .alert {
-  margin: 10px;
+#alert-container {
+  padding-left: 80px;
+  padding-right: 60px;
+  padding-top: 10px;
 }
 
 .session-expiring {

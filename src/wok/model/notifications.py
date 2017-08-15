@@ -21,6 +21,7 @@ from datetime import datetime
 
 from wok.exception import NotFoundError, OperationFailed
 from wok.message import WokMessage
+from wok.pushserver import send_wok_notification
 from wok.utils import wok_log
 
 
@@ -45,6 +46,8 @@ def add_notification(code, args=None, plugin_name=None):
     args.update({"_plugin_name": plugin_name, "timestamp": timestamp})
     notificationsStore[code] = args
 
+    send_wok_notification('', 'notifications', 'POST')
+
 
 def del_notification(code):
     global notificationsStore
@@ -53,6 +56,8 @@ def del_notification(code):
         del notificationsStore[str(code)]
     except Exception as e:
         raise OperationFailed("WOKNOT0002E", {'id': str(code), 'msg': e.msg()})
+
+    send_wok_notification('', 'notification', 'DELETE')
 
 
 class NotificationsModel(object):

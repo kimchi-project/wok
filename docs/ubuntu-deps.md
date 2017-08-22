@@ -18,7 +18,7 @@ Runtime Dependencies
     $ sudo apt-get install python-cherrypy3 python-cheetah python-pam \
                             python-m2crypto python-jsonschema \
                             python-psutil python-ldap python-lxml nginx \
-                            openssl fonts-font-awesome websockify
+                            openssl fonts-font-awesome websockify gettext
 
 Packages required for UI development
 ------------------------------------

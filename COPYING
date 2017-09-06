@@ -29,10 +29,6 @@ Files: ui/libs/jquery-containsNC/*
 Source: https://github.com/friedolinfoerder/jquery.containsNC
 License: MIT
 
-Files: ui/libs/jquery-i18n/jquery.i18n.min.js
-Source: https://github.com/recurser/jquery-i18n
-License: MIT
-
 The rest of this distribution is governed by the GNU Lesser General Public
 License version 2.1.
 

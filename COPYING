@@ -41,10 +41,6 @@ Files: ui/libs/es5-shim/es5-shim.min.js
 Source: https://github.com/es-shims/es5-shim
 License: MIT
 
-Files: ui/libs/jquery-bootgrid/*
-Source: http://www.jquery-bootgrid.com
-License: MIT
-
 Files: ui/libs/jquery-containsNC/*
 Source: https://github.com/friedolinfoerder/jquery.containsNC
 License: MIT

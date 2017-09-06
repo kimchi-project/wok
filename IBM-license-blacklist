@@ -78,9 +78,6 @@ ui/libs/bootstrap-switch/dist/css/bootstrap-switch.min.css
 ui/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js
 ui/libs/es5-shim/LICENSE
 ui/libs/es5-shim/es5-shim.min.js
-ui/libs/jquery-bootgrid/LICENSE
-ui/libs/jquery-bootgrid/dist/css/jquery.bootgrid.min.css
-ui/libs/jquery-bootgrid/dist/js/jquery.bootgrid.min.js
 ui/libs/jquery-i18n/LICENSE
 ui/libs/jquery-i18n/jquery.i18n.min.js
 ui/libs/jquery-ui/LICENSE

@@ -86,8 +86,6 @@ ui/libs/jquery-ui/jquery-ui.min.js
 ui/libs/jquery-ui/themes/base/jquery-ui.min.css
 ui/libs/list-js/LICENSE
 ui/libs/list-js/list.min.js
-ui/libs/typeahead/LICENSE
-ui/libs/typeahead/typeahead.bundle.min.js
 ui/robots.txt
 ui/libs/jquery-containsNC/LICENSE
 ui/libs/jquery-containsNC/jquery.containsNC.js

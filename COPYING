@@ -63,10 +63,6 @@ Files: ui/libs/list-js/list.min.js
 Source: http://listjs.com
 License: MIT
 
-Files: ui/libs/lodash/lodash.min.js
-Source: https://lodash.com
-License: MIT
-
 Files: ui/libs/typeahead/typeahead.bundle.min.js
 Source: https://twitter.github.io/typeahead.js
 License: MIT

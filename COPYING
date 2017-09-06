@@ -29,10 +29,6 @@ Files: ui/images/theme-default/spin5.svg
 Source: http://fontello.com
 License: CC-BY-3.0
 
-Files: ui/libs/bootstrap/bootstrap.min.js
-Source: http://getbootstrap.com
-License: MIT
-
 Files: ui/libs/bootstrap-editable/*
 Source: https://vitalets.github.io/bootstrap-editable
 License: MIT

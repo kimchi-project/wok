@@ -8,10 +8,6 @@ Files: ui/base64/jquery.base64.js
 Source: https://plugins.jquery.com/base64
 License: MIT
 
-Files: ui/css/fontawesome/fontawesome.css
-Source: http://fontawesome.io
-License: MIT
-
 Files: ui/css/src/bootstrap.custom.scss
        ui/css/src/vendor/bootstrap-sass/bootstrap/*
 Source: https://github.com/twbs/bootstrap

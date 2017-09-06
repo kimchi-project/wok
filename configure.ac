@@ -78,7 +78,6 @@ AC_CONFIG_FILES([
     ui/Makefile
     ui/base64/Makefile
     ui/css/Makefile
-    ui/css/fontawesome/Makefile
     ui/images/Makefile
     ui/images/theme-default/Makefile
     ui/js/Makefile

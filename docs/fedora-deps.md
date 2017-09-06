@@ -28,7 +28,7 @@ Runtime Dependencies
     $ sudo yum install python-cherrypy python-cheetah PyPAM m2crypto \
                         python-jsonschema python-psutil python-ldap \
                         python-lxml nginx openssl python-websockify \
-                        fontawesome-fonts logrotate
+                        logrotate
 
     # For RHEL systems, install the additional packages:
     $ sudo yum install python-ordereddict

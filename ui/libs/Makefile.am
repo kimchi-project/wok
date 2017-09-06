@@ -17,4 +17,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = jquery-ui bootstrap-select es5-shim jquery-i18n list-js jquery-bootgrid bootstrap-switch bootstrap-editable typeahead jquery-containsNC lodash
+SUBDIRS = jquery-ui bootstrap-select es5-shim jquery-i18n list-js jquery-bootgrid bootstrap-switch bootstrap-editable typeahead jquery-containsNC

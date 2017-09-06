@@ -100,7 +100,5 @@ ui/css/datatables.bootstrap.css
 ui/libs/datatables/LICENSE
 ui/libs/datatables/css/datatables.min.css
 ui/libs/datatables/js/datatables.min.js
-ui/libs/moment/LICENSE
-ui/libs/moment/moment-with-locales.min.js
 ui/libs/datatables/js/plugins/ip-address/LICENSE
 ui/libs/datatables/js/plugins/ip-address/ip-address.js

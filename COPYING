@@ -79,10 +79,6 @@ Files: ui/libs/lodash/lodash.min.js
 Source: https://lodash.com
 License: MIT
 
-Files: ui/libs/moment/moment-with-locales.min.js
-Source: http://momentjs.com
-License: MIT
-
 Files: ui/libs/typeahead/typeahead.bundle.min.js
 Source: https://twitter.github.io/typeahead.js
 License: MIT

@@ -76,8 +76,6 @@ ui/libs/bootstrap-select/dist/js/bootstrap-select.min.js
 ui/libs/bootstrap-switch/LICENSE
 ui/libs/bootstrap-switch/dist/css/bootstrap-switch.min.css
 ui/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js
-ui/libs/bootstrap/LICENSE
-ui/libs/bootstrap/bootstrap.min.js
 ui/libs/es5-shim/LICENSE
 ui/libs/es5-shim/es5-shim.min.js
 ui/libs/jquery-bootgrid/LICENSE

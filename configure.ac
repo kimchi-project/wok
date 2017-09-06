@@ -82,7 +82,6 @@ AC_CONFIG_FILES([
     ui/images/theme-default/Makefile
     ui/js/Makefile
     ui/libs/Makefile
-    ui/libs/bootstrap/Makefile
     ui/libs/bootstrap-select/Makefile
     ui/libs/bootstrap-select/dist/Makefile
     ui/libs/bootstrap-select/dist/js/Makefile

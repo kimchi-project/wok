@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -23,7 +23,7 @@ wok.message = function(msg, level, node, closeable, onclick, alertId) {
     var close = closeable || true;
     var container = node || $('#alert-fields');
     if($("#" + alertId).length === 0) {
-        if ($(container).size() < 1) {
+        if ($(container).length < 1) {
             container = $('<div id="alert-fields"/>').appendTo($('#alert-container'));
         }
         var message = '<div '+( alertId ? 'id="'+alertId+'"' : '')+' role="alert" class="alert ' + (level || '') + ' '+( close ? 'alert-dismissible' : '')+' fade in" style="display: none;">';

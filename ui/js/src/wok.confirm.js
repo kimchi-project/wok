@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,9 +38,9 @@
 wok.confirm = function(settings, confirmCallback, cancelCallback, closeCallback) {
     "use strict";
     var modalStr = '<div id="wok-confirm-modal" class="modal fade host-modal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true"></div>';
-    if ($('#wok-confirm-modal ').size() < 1 && $('#modalWindow').size() < 1 ) {
+    if ($('#wok-confirm-modal ').length < 1 && $('#modalWindow').length < 1 ) {
         $(document.body).append(modalStr);
-    } else if ($('#wok-confirm-modal ').size() < 1) {
+    } else if ($('#wok-confirm-modal ').length < 1) {
         $('#modalWindow').after(modalStr);
     }
 

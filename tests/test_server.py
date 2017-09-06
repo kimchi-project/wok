@@ -168,7 +168,6 @@ class ServerTests(unittest.TestCase):
         hdrs = {'AUTHORIZATION': ''}
         uris = ['/js/wok.min.js',
                 '/images/favicon.png',
-                '/libs/jquery/jquery.min.js',
                 '/login.html',
                 '/logout']
 

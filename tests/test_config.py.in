@@ -149,13 +149,6 @@ class ConfigTests(unittest.TestCase):
                 'tools.staticdir.dir': '%s/ui/images' % paths.prefix,
                 'tools.staticdir.content_types': {'svg': 'image/svg+xml'},
                 'tools.staticdir.on': True
-            },
-            '/fonts/fontawesome-webfont.ttf': {
-                'tools.wokauth.on': False,
-                'tools.nocache.on': False,
-                'tools.staticfile.on': True,
-                'tools.staticfile.filename':
-                '%s/fontawesome-webfont.ttf' % paths.fontawesome_dir
             }
         }
 

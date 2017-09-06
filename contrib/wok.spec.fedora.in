@@ -17,7 +17,6 @@ Requires:	python-lxml
 Requires:	nginx
 Requires:	python-ldap
 Requires:	python-psutil >= 0.6.0
-Requires:	fontawesome-fonts
 Requires:	logrotate
 Requires:	openssl
 Requires:	python-websockify

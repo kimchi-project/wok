@@ -18,7 +18,7 @@ Runtime Dependencies
     $ sudo zypper install python-CherryPy python-Cheetah python-pam \
                           python-M2Crypto python-jsonschema python-psutil \
                           python-ldap python-lxml python-xml nginx openssl \
-                          fontawesome-fonts logrotate python-websockify
+                          logrotate python-websockify
 
 Packages required for UI development
 ------------------------------------

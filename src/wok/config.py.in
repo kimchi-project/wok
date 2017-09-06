@@ -30,17 +30,6 @@ __release__ = "@wokrelease@"
 CACHEEXPIRES = 31536000     # expires is one year.
 DEFAULT_LOG_LEVEL = "info"
 
-FONT_FILES = {'fontawesome': ['fontawesome-webfont.ttf']}
-
-FONTS_PATH = {
-    'fontawesome': [
-        '/usr/share/fonts/fontawesome',
-        '/usr/share/fonts/truetype/font-awesome',
-        '/usr/share/fonts/truetype',
-        '/usr/share/fonts/TTF'
-    ]
-}
-
 
 def get_log_download_path():
     return os.path.join(paths.state_dir, 'logs')
@@ -88,13 +77,6 @@ class Paths(object):
             self.src_dir = self.add_prefix('src/wok')
             self.plugins_dir = self.add_prefix('src/wok/plugins')
             self.mo_dir = self.add_prefix('mo')
-
-        for font in FONT_FILES.keys():
-            paths = FONTS_PATH[font]
-            for path in paths:
-                font_file = os.path.join(path, FONT_FILES[font][0])
-                if os.path.exists(font_file):
-                    setattr(self, '%s_dir' % font, path)
 
     def get_prefix(self):
         if __file__.startswith("/"):
@@ -223,17 +205,6 @@ class WokConfig(dict):
             'tools.expires.secs': CACHEEXPIRES
         }
     }
-
-    for font, files in FONT_FILES.iteritems():
-        font_dir = getattr(paths, "%s_dir" % font)
-        for filename in files:
-            font_file = os.path.join(font_dir, filename)
-            if os.path.exists(font_file):
-                wok_config['/fonts/%s' % filename] = {
-                    'tools.staticfile.on': True,
-                    'tools.staticfile.filename': font_file,
-                    'tools.wokauth.on': False,
-                    'tools.nocache.on': False}
 
     def __init__(self):
         super(WokConfig, self).__init__(self)

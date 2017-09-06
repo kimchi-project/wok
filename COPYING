@@ -53,10 +53,6 @@ Files: ui/libs/es5-shim/es5-shim.min.js
 Source: https://github.com/es-shims/es5-shim
 License: MIT
 
-Files: ui/libs/jquery/jquery.min.js
-Source: http://jquery.com
-License: GPL-2 or MIT
-
 Files: ui/libs/jquery-bootgrid/*
 Source: http://www.jquery-bootgrid.com
 License: MIT

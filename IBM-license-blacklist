@@ -87,8 +87,6 @@ ui/libs/jquery-ui/LICENSE
 ui/libs/jquery-ui/jquery-ui-i18n.min.js
 ui/libs/jquery-ui/jquery-ui.min.js
 ui/libs/jquery-ui/themes/base/jquery-ui.min.css
-ui/libs/jquery/LICENSE
-ui/libs/jquery/jquery.min.js
 ui/libs/list-js/LICENSE
 ui/libs/list-js/list.min.js
 ui/libs/typeahead/LICENSE

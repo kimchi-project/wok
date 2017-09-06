@@ -83,7 +83,6 @@ AC_CONFIG_FILES([
     ui/js/Makefile
     ui/libs/Makefile
     ui/libs/jquery-containsNC/Makefile
-    ui/libs/jquery-i18n/Makefile
     ui/pages/Makefile
     ui/pages/help/Makefile
     ui/pages/tabs/Makefile

@@ -67,8 +67,6 @@ ui/css/src/vendor/compass-mixins/lib/compass/utilities/text/.*.scss
 ui/config/tab-ext.xml
 ui/images/.*.svg
 ui/images/theme-default/.*.svg
-ui/libs/jquery-i18n/LICENSE
-ui/libs/jquery-i18n/jquery.i18n.min.js
 ui/libs/jquery-ui/LICENSE
 ui/libs/jquery-ui/jquery-ui-i18n.min.js
 ui/libs/jquery-ui/jquery-ui.min.js

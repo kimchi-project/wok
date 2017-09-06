@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = base64 css images js libs pages config
+SUBDIRS = css images js libs pages config
 
 uidir = $(datadir)/wok/ui
 

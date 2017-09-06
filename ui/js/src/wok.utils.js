@@ -202,11 +202,11 @@ wok.escapeStr = function(str) {
 };
 
 wok.urlSafeB64Decode = function(str) {
-    return $.base64.atob(str.replace(/-/g, '+').replace(/_/g, '/'), true);
+    return atob(str.replace(/-/g, '+').replace(/_/g, '/'), true);
 }
 
 wok.urlSafeB64Encode = function(str) {
-    return $.base64.btoa(str, true).replace(/\+/g, '-').replace(/\//g, '_');
+    return btoa(str, true).replace(/\+/g, '-').replace(/\//g, '_');
 }
 
 wok.notificationsLoop = function() {

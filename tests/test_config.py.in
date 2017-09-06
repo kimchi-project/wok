@@ -96,12 +96,6 @@ class ConfigTests(unittest.TestCase):
                                              paths.ui_dir,
                 'tools.nocache.on': True
             },
-            '/base64/jquery.base64.js': {
-                'tools.staticfile.on': True,
-                'tools.staticfile.filename': '%s/base64/jquery.base64.js' %
-                                             paths.ui_dir,
-                'tools.nocache.on': True,
-            },
             '/wok-ui.html': {
                 'tools.wokauth.on': True
             },

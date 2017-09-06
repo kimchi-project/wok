@@ -76,7 +76,6 @@ AC_CONFIG_FILES([
     src/wok/xmlutils/Makefile
     src/wok/plugins/Makefile
     ui/Makefile
-    ui/base64/Makefile
     ui/css/Makefile
     ui/images/Makefile
     ui/images/theme-default/Makefile

@@ -25,10 +25,6 @@ Files: ui/images/theme-default/spin5.svg
 Source: http://fontello.com
 License: CC-BY-3.0
 
-Files: ui/libs/bootstrap-select/*
-Source: https://github.com/silviomoreto/bootstrap-select
-License: MIT
-
 Files: ui/libs/es5-shim/es5-shim.min.js
 Source: https://github.com/es-shims/es5-shim
 License: MIT

@@ -17,10 +17,6 @@ Files: ui/css/src/vendor/compass-mixins/*
 Source: https://github.com/Igosuki/compass-mixins
 License: MIT-with-addition
 
-Files: ui/css/src/datatables.bootstrap.scss
-Source: http://datatables.net
-License: MIT
-
 Files: ui/images/theme-default/edit-alt.svg
 Source: http://elusiveicons.com
 License: SIL-1.1
@@ -39,14 +35,6 @@ License: MIT
 
 Files: ui/libs/bootstrap-switch/*
 Source: http://www.bootstrap-switch.org
-License: MIT
-
-Files: ui/libs/datatables/*
-Source: http://datatables.net
-License: MIT
-
-Files: ui/libs/datatables/js/plugins/ip-address/ip-address.js
-Source: https://datatables.net/plug-ins/sorting/ip-address
 License: MIT
 
 Files: ui/libs/es5-shim/es5-shim.min.js

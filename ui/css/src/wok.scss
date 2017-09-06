@@ -195,6 +195,18 @@ html.in-progress [disabled],
   }
 }
 
+// Custom dataTable settings
+table.dataTable,
+div.dataTables_scrollHeadInner {
+    width: 100% !important;
+}
+
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after {
+    display: none;
+}
+
 // Login
 @import "modules/login";
 // Topbar and navigation

@@ -86,10 +86,6 @@ AC_CONFIG_FILES([
     ui/libs/bootstrap-select/dist/Makefile
     ui/libs/bootstrap-select/dist/js/Makefile
     ui/libs/bootstrap-select/dist/css/Makefile
-    ui/libs/bootstrap-switch/Makefile
-    ui/libs/bootstrap-switch/dist/Makefile
-    ui/libs/bootstrap-switch/dist/js/Makefile
-    ui/libs/bootstrap-switch/dist/css/Makefile
     ui/libs/jquery-containsNC/Makefile
     ui/libs/es5-shim/Makefile
     ui/libs/jquery-i18n/Makefile

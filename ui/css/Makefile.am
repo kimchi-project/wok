@@ -42,11 +42,7 @@ bootstrap-select: src/bootstrap-select.custom.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< bootstrap-select.custom.css
 
-datatables: src/datatables.bootstrap.scss
-	echo "Compiling .scss file $<"
-	sassc -s expanded $< datatables.bootstrap.css
-
-css: wok bootstrap bootstrap-select user-log settings  datatables
+css: wok bootstrap bootstrap-select user-log settings
 
 theme-default.min.css: theme-default/*.css
 	cat $^ > $@

@@ -88,7 +88,6 @@ AC_CONFIG_FILES([
     ui/libs/jquery-ui/themes/Makefile
     ui/libs/jquery-ui/themes/base/Makefile
     ui/libs/jquery-ui/themes/base/images/Makefile
-    ui/libs/list-js/Makefile
     ui/pages/Makefile
     ui/pages/help/Makefile
     ui/pages/tabs/Makefile

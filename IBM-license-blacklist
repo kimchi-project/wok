@@ -67,9 +67,6 @@ ui/css/src/vendor/compass-mixins/lib/compass/utilities/text/.*.scss
 ui/config/tab-ext.xml
 ui/images/.*.svg
 ui/images/theme-default/.*.svg
-ui/libs/bootstrap-editable/LICENSE
-ui/libs/bootstrap-editable/dist/css/bootstrap-editable.css
-ui/libs/bootstrap-editable/dist/js/bootstrap-editable.min.js
 ui/libs/bootstrap-select/LICENSE
 ui/libs/bootstrap-select/dist/css/bootstrap-select.min.css
 ui/libs/bootstrap-select/dist/js/bootstrap-select.min.js

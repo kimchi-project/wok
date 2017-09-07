@@ -84,10 +84,6 @@ AC_CONFIG_FILES([
     ui/libs/Makefile
     ui/libs/jquery-containsNC/Makefile
     ui/libs/jquery-i18n/Makefile
-    ui/libs/jquery-ui/Makefile
-    ui/libs/jquery-ui/themes/Makefile
-    ui/libs/jquery-ui/themes/base/Makefile
-    ui/libs/jquery-ui/themes/base/images/Makefile
     ui/pages/Makefile
     ui/pages/help/Makefile
     ui/pages/tabs/Makefile

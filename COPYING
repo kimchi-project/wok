@@ -33,12 +33,6 @@ Files: ui/libs/jquery-i18n/jquery.i18n.min.js
 Source: https://github.com/recurser/jquery-i18n
 License: MIT
 
-Files: ui/libs/jquery-ui/jquery-ui.min.js
-       ui/libs/jquery-ui/jquery-ui-i18n.min.js
-       ui/libs/jquery-ui/themes/base/jquery-ui.min.css
-Homepage: http://jqueryui.com/
-License: GPL-2 or MIT
-
 The rest of this distribution is governed by the GNU Lesser General Public
 License version 2.1.
 

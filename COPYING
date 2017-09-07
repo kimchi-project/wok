@@ -25,10 +25,6 @@ Files: ui/images/theme-default/spin5.svg
 Source: http://fontello.com
 License: CC-BY-3.0
 
-Files: ui/libs/es5-shim/es5-shim.min.js
-Source: https://github.com/es-shims/es5-shim
-License: MIT
-
 Files: ui/libs/jquery-containsNC/*
 Source: https://github.com/friedolinfoerder/jquery.containsNC
 License: MIT

@@ -17,4 +17,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = jquery-ui jquery-i18n list-js jquery-containsNC
+SUBDIRS = jquery-ui jquery-i18n jquery-containsNC

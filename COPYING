@@ -39,10 +39,6 @@ Files: ui/libs/jquery-ui/jquery-ui.min.js
 Homepage: http://jqueryui.com/
 License: GPL-2 or MIT
 
-Files: ui/libs/list-js/list.min.js
-Source: http://listjs.com
-License: MIT
-
 The rest of this distribution is governed by the GNU Lesser General Public
 License version 2.1.
 

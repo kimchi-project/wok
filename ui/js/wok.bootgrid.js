@@ -29,7 +29,7 @@ wok.createBootgrid = function(opts) {
   var gridloadingHtml = ['<div id="' + gridId + '-loading" class="wok-list-mask">',
     '<div class="wok-list-loader-container">',
     '<div class="wok-list-loading">',
-    '<div class="wok-list-loading-icon"></div>',
+    '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>',
     '<div class="wok-list-loading-text">' + gridMessage + '</div>',
     '</div>',
     '</div>',

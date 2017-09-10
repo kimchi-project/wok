@@ -828,10 +828,6 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-list-loading-icon-inline {
-  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
-  -webkit-animation: spin 3s infinite linear;
-  -o-animation: spin 3s infinite linear;
-  animation: spin 3s infinite linear;
   height: 16px;
   width: 16px;
   background-size: 100%;
@@ -846,8 +842,10 @@ fieldset[disabled] .btn-group > span > .btn.active {
 .generating .wok-list-loading-icon-inline {
   display: block;
   position: absolute;
-  top: 27px;
+  top: 26px;
   left: 34px;
+  font-size: 16px;
+  width: 16px;
 }
 
 .wok-list > ul {
@@ -1103,15 +1101,12 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-loading-icon {
-  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
-  -webkit-animation: spin 3s infinite linear;
-  -o-animation: spin 3s infinite linear;
-  animation: spin 3s infinite linear;
   height: 16px;
   width: 16px;
   background-size: 100%;
   display: inline-block;
   margin-right: 5px;
+  font-size: 16px;
 }
 
 .wok-mask, .wok-grid-mask, .wok-list-mask {
@@ -1142,18 +1137,13 @@ fieldset[disabled] .btn-group > span > .btn.active {
   height: 40px;
 }
 
-.wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon {
-  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
-  -webkit-animation: spin 2s infinite linear;
-  -o-animation: spin 2s infinite linear;
-  animation: spin 2s infinite linear;
-  height: 20px;
+.wok-list-loading-icon {
   width: 20px;
 }
 
 .wok-mask-loading-text, .wok-grid-loading-text, .wok-list-loading-text {
   color: #444;
-  padding-top: 40px;
+  padding-top: 15px;
   text-shadow: 0px 0px 10px #fff;
 }
 
@@ -1811,7 +1801,7 @@ span.twitter-typeahead {
   font-weight: 400;
 }
 
-.absolute-middle, .wok-mask, .wok-grid-mask, .wok-list-mask, .wok-mask-loading, .wok-grid-loading, .wok-list-loading, .wok-mask-loader-container, .wok-grid-loader-container, .wok-list-loader-container, .wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon {
+.absolute-middle, .wok-mask, .wok-grid-mask, .wok-list-mask, .wok-mask-loading, .wok-grid-loading, .wok-list-loading, .wok-mask-loader-container, .wok-grid-loader-container, .wok-list-loader-container, .wok-list-loading-icon {
   margin: auto;
   position: absolute;
   top: 0;

@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ wok.widget.List.prototype = (function() {
                     '<div class="wok-list-mask hidden">',
                         '<div class="wok-list-loader-container">',
                             '<div class="wok-list-loading">',
-                                '<div class="wok-list-loading-icon"></div>',
+                                '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>',
                                 '<div class="wok-list-loading-text">',
                                     '{loading}',
                                 '</div>',
@@ -143,7 +143,7 @@ wok.widget.List.prototype = (function() {
                             '</span></span>'
                         ].join('');
                     }
-                    columnData += (field.type === 'name') ? ('<span role="status" class="wok-list-loading-icon-inline"></span><span class="wok-list-name '+field.cssClass+'" title="'+field.label+'">'+value.toString()+'</span>') : (field.type !== 'status' ? '<span class="wok-list-description '+field.cssClass+'" title="'+field.label+'">' + value.toString() + '</span>' : '');
+                    columnData += (field.type === 'name') ? ('<i class="wok-list-loading-icon-inline fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="wok-list-name '+field.cssClass+'" title="'+field.label+'">'+value.toString()+'</span>') : (field.type !== 'status' ? '<span class="wok-list-description '+field.cssClass+'" title="'+field.label+'">' + value.toString() + '</span>' : '');
                     columnNodeHTML = [
                         '<input class="wok-checkbox" type="checkbox" name="'+checkboxName+'" id="wok-list-',i+1,'-check" />',
                             '<label for="wok-list-',i+1,'-check" class="wok-list-cell', styleClass, '">',

@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -47,7 +47,7 @@ wok.widget.Grid.prototype = (function() {
             '<div class="wok-grid-mask hidden">',
                 '<div class="wok-grid-loader-container">',
                     '<div class="wok-grid-loading">',
-                        '<div class="wok-grid-loading-icon"></div>',
+                        '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>',
                         '<div class="wok-grid-loading-text">',
                             '{loading}',
                         '</div>',

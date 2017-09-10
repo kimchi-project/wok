@@ -76,17 +76,6 @@
         & > i:before {
             line-height: 40px;
         }
-        span.edit-alt {
-            background: transparent url('#{$wok-icon-path}/edit-alt.svg') no-repeat 50% 50%;
-            background-size: 100%;
-            vertical-align: bottom;
-            width: 22px;
-            height: 40px;
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 12px;
-        }
     }
     .caret {
         position: absolute;

@@ -527,18 +527,6 @@ fieldset[disabled] .btn-group > span > .btn.active {
   line-height: 40px;
 }
 
-.menu-flat .btn span.edit-alt {
-  background: transparent url("../images/theme-default/edit-alt.svg") no-repeat 50% 50%;
-  background-size: 100%;
-  vertical-align: bottom;
-  width: 22px;
-  height: 40px;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 12px;
-}
-
 .menu-flat .caret {
   position: absolute;
   top: 0;

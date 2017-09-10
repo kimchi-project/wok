@@ -227,7 +227,7 @@ wok.widget.Grid.prototype = (function() {
             if(toolbarButtons.length > 1) {
                 dropHTML = ['<div class="dropdown menu-flat">',
                     '<button id="wok-dropdown-button-', containerID, '" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">',
-                    '<span class="edit-alt"></span>Actions<span class="caret"></span>',
+                    '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>Actions<span class="caret"></span>',
                     '</button>',
                     '<ul class="dropdown-menu"></ul>',
                     '</div>'

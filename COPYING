@@ -13,10 +13,6 @@ Files: ui/css/src/vendor/compass-mixins/*
 Source: https://github.com/Igosuki/compass-mixins
 License: MIT-with-addition
 
-Files: ui/images/theme-default/spin5.svg
-Source: http://fontello.com
-License: CC-BY-3.0
-
 Files: ui/libs/jquery-containsNC/*
 Source: https://github.com/friedolinfoerder/jquery.containsNC
 License: MIT

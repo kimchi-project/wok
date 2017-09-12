@@ -200,6 +200,11 @@ table.dataTable thead .sorting_desc::after {
   display: none;
 }
 
+.error-msg {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .login .content .container {
   width: 100% !important;
   padding-left: 0 !important;

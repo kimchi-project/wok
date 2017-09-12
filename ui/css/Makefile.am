@@ -17,8 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-EXTRA_DIST = theme-default
-
 cssdir = $(datadir)/wok/ui/css
 dist_css_DATA = $(wildcard *.css)
 
@@ -43,8 +41,3 @@ bootstrap-select: src/bootstrap-select.custom.scss
 	sassc -s expanded $< bootstrap-select.custom.css
 
 css: wok bootstrap bootstrap-select user-log settings
-
-theme-default.min.css: theme-default/*.css
-	cat $^ > $@
-
-CLEANFILES = theme-default.min.css

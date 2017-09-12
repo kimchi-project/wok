@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -19,4 +19,4 @@
 
 imagedir = $(datadir)/wok/ui/images/theme-default
 
-dist_image_DATA = *.png *.svg
+dist_image_DATA = *.png

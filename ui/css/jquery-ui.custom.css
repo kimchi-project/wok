@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -131,12 +131,6 @@
 
 .ui-menu .ui-state-disabled a {
     color: gray;
-}
-
-.ui-widget-overlay {
-    background: url("../images/theme-default/bg-mask.png") repeat scroll
-                0 0 transparent;
-    opacity: 1;
 }
 
 .ui-dialog {

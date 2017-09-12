@@ -1,7 +1,7 @@
 #*
  * Project Wok
  *
- * Copyright IBM Corp, 2013-2016
+ * Copyright IBM Corp, 2013-2017
  *
  * Code derived from Project Kimchi
  *
@@ -17,57 +17,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *#
-
-#encoding UTF-8
+#unicode UTF-8
 #import gettext
 #from wok.cachebust import href
 #silent t = gettext.translation($lang.domain, $lang.localedir, languages=$lang.lang, fallback=True)
 #silent _ = t.gettext
 #silent _t = t.gettext
-<!doctype html>
-<html class="no-js" lang=$lang.lang[0]>
+#from wok.config import get_version
+<!DOCTYPE html>
+<html lang="$lang.lang[0]">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
+    <meta charset="UTF-8">
     <title>Wok</title>
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="$href("css/theme-default.min.css")">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Wok">
+    <link href="$href('images/apple-touch-icon-57x57.png')" sizes="57x57" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-72x72.png')" sizes="72x72" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-76x76.png')" sizes="76x76" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-114x114.png')" sizes="114x114" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-144x144.png')" sizes="144x144" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-152x152.png')" sizes="152x152" rel="apple-touch-icon-precomposed">
+    <link href="$href('images/apple-touch-icon-180x180.png')" sizes="120x120" rel="apple-touch-icon-precomposed">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-36x36.png')" sizes="36x36">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-48x48.png')" sizes="48x48">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-72x72.png')" sizes="72x72">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-96x96.png')" sizes="96x96">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-144x144.png')" sizes="144x144">
+    <link rel="icon" type="image/png" href="$href('images/android-chrome-192x192.png')" sizes="192x192">
+    <link rel="icon" type="image/png" href="$href('images/favicon-16x16.png')" sizes="16x16">
+    <link rel="icon" type="image/png" href="$href('images/favicon-32x32.png')" sizes="32x32">
+    <link rel="icon" type="image/png" href="$href('images/favicon-96x96.png')" sizes="96x96">
+    <link rel="icon" type="image/png" href="$href('images/favicon-194x194.png')" sizes="194x194">
+    <link rel="mask-icon" href="$href('images/safari-pinned-tab.svg')" color="#5bbad5">
+    <meta name="application-name" content="Wok">
+    <meta name="msapplication-config" content="none" />
+    <meta name="msapplication-TileColor" content="#f73434" />
+    <meta name="msapplication-square70x70logo" content="$href('images/mstile-70x70.png')" />
+    <meta name="msapplication-square150x150logo" content="$href('images/mstile-150x150.png')" />
+    <meta name="msapplication-wide310x150logo" content="$href('images/mstile-310x310.png')" />
+    <meta name="msapplication-square310x310logo" content="$href('images/mstile-310x150.png')" />
+    <link rel="stylesheet" href="$href('css/bootstrap.custom.css')">
+    <link rel="stylesheet" href="$href('css/wok.css')">
 </head>
-
-
 <body>
-    <div class="error-background">
-        <h1 id="logo">
-            <img src="images/theme-default/logo-white.png" alt="Wok">
-        </h1>
+    <div class="topbar">
+        <nav class="navbar navbar-inverse">
+            <div class="container navbar-header">
+                <a id="logo" class="navbar-brand" href="/" title="Wok">Wok</a>
+            </div>
+        </nav>
+        <nav class="navbar navbar-default"></nav>
     </div>
-    <div class="error-msg error-icon">
-        <div class=" error-text">
-            <h4>$_("ERROR CODE")</h4>
-        </div>
-        <div class="error-text">
-            <span>$data.code</span>
-        </div>
-        <div class="error-text">
-            <h4>$_("REASON")</h4>
-        </div>
-        <div class="error-text">
-            <span>$data.reason</span>
-        </div>
+    <div class="container error-msg">
+        <p><b>$_("ERROR CODE")</b></p>
+        <p>$data.code</p>
+        <p><b>$_("REASON")</b></p>
+        <p>$data.reason</p>
         #if $varExists('data.call_stack')
-        <div class="error-text">
-            <h4>$_("STACK")</h4>
-        </div>
-        <div class="error-text">
-            <pre>$data.call_stack</pre>
-        </div>
-    </div>
-        #else
-    </div>
+        <p><b>$_("STACK")</b></p>
+        <pre>$data.call_stack</pre>
         #end if
-    <div class="error-msg">
-        <a id="btn-homepage" class="btn-normal" href="/">$_("Go to Homepage") ></a>
+        <a id="btn-homepage" class="btn btn-login" href="/"><b>$_("Go to Homepage")</b></a>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted powered hidden">$_("Powered by"):</p>
+            <ul id="plugins">
+            </ul>
+            <span class="wok-version">$_("Wok Version"): $get_version()</span>
+        </div>
+    </footer>
 </body>
 </html>

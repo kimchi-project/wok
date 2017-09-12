@@ -207,6 +207,11 @@ table.dataTable thead .sorting_desc::after {
     display: none;
 }
 
+.error-msg {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 // Login
 @import "modules/login";
 // Topbar and navigation

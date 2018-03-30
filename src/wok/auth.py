@@ -25,7 +25,7 @@ import fcntl
 import ldap
 import multiprocessing
 import os
-import PAM
+import pam
 import pty
 import re
 import termios
@@ -148,33 +148,11 @@ class PAMUser(User):
     def authenticate(username, password, service="passwd"):
         '''Returns True if authenticate is OK via PAM.'''
         def _auth(result):
-            def _pam_conv(auth, query_list, userData=None):
-                resp = []
-                for i in range(len(query_list)):
-                    query, qtype = query_list[i]
-                    if qtype == PAM.PAM_PROMPT_ECHO_ON:
-                        resp.append((username, 0))
-                    elif qtype == PAM.PAM_PROMPT_ECHO_OFF:
-                        resp.append((password, 0))
-                    elif qtype == PAM.PAM_PROMPT_ERROR_MSG:
-                        cherrypy.log.error_log.error(
-                            "PAM authenticate prompt error: %s" % query)
-                        resp.append(('', 0))
-                    elif qtype == PAM.PAM_PROMPT_TEXT_INFO:
-                        resp.append(('', 0))
-                    else:
-                        return None
-                return resp
-
-            auth = PAM.pam()
-            auth.start(service)
-            auth.set_item(PAM.PAM_USER, username)
-            auth.set_item(PAM.PAM_CONV, _pam_conv)
-            try:
-                auth.authenticate()
+            auth = pam.pam()
+            if auth.authenticate(username, password, service=service):
                 result.value = 0
-            except PAM.error, (resp, code):
-                result.value = code
+            else:
+                result.value = auth.code
 
         result = multiprocessing.Value('i', 0, lock=False)
         p = multiprocessing.Process(target=_auth, args=(result, ))

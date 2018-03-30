@@ -25,7 +25,7 @@ Build Dependencies
 Runtime Dependencies
 --------------------
 
-    $ sudo yum install python-cherrypy python-cheetah PyPAM m2crypto \
+    $ sudo yum install python-cherrypy python-cheetah python-pam m2crypto \
                         python-jsonschema python-psutil python-ldap \
                         python-lxml nginx openssl python-websockify \
                         logrotate

@@ -19,6 +19,7 @@ Requires:	python-ldap
 Requires:	python-psutil >= 0.6.0
 Requires:	logrotate
 Requires:	openssl
+Requires:	sudo
 Requires:	python-websockify
 BuildRequires:	gettext-devel
 BuildRequires:	libxslt

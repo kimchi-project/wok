@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -153,8 +153,10 @@ html.in-progress .disabled {
   cursor: not-allowed !important;
 }
 
-#notification-container .alert {
-  margin: 10px;
+#alert-container {
+  padding-left: 80px;
+  padding-right: 60px;
+  padding-top: 10px;
 }
 
 .session-expiring {
@@ -185,6 +187,22 @@ html.in-progress .disabled {
   margin: 0;
   padding: 9px;
   text-align: right;
+}
+
+table.dataTable,
+div.dataTables_scrollHeadInner {
+  width: 100% !important;
+}
+
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after {
+  display: none;
+}
+
+.error-msg {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .login .content .container {
@@ -252,7 +270,7 @@ html.in-progress .disabled {
 
 .login-area .bootstrap-select,
 .login-area .selectpicker {
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13pt;
 }
 
@@ -292,7 +310,7 @@ html.in-progress .disabled {
 }
 
 .navbar-default.toolbar .navbar-right.tools > li > a {
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   display: inline-block;
   color: #fff;
   text-decoration: none;
@@ -323,7 +341,7 @@ html.in-progress .disabled {
 }
 
 .btn {
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 13pt;
 }
 
@@ -484,7 +502,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
   background: #4d4c4e !important;
   min-width: 160px;
   border: 0 !important;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 700;
   font-size: 13.5pt;
   text-align: left;
@@ -512,18 +530,6 @@ fieldset[disabled] .btn-group > span > .btn.active {
 
 .menu-flat .btn > i:before {
   line-height: 40px;
-}
-
-.menu-flat .btn span.edit-alt {
-  background: transparent url("../images/theme-default/edit-alt.svg") no-repeat 50% 50%;
-  background-size: 100%;
-  vertical-align: bottom;
-  width: 22px;
-  height: 40px;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 12px;
 }
 
 .menu-flat .caret {
@@ -827,10 +833,6 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-list-loading-icon-inline {
-  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
-  -webkit-animation: spin 3s infinite linear;
-  -o-animation: spin 3s infinite linear;
-  animation: spin 3s infinite linear;
   height: 16px;
   width: 16px;
   background-size: 100%;
@@ -845,8 +847,10 @@ fieldset[disabled] .btn-group > span > .btn.active {
 .generating .wok-list-loading-icon-inline {
   display: block;
   position: absolute;
-  top: 27px;
+  top: 26px;
   left: 34px;
+  font-size: 16px;
+  width: 16px;
 }
 
 .wok-list > ul {
@@ -1056,7 +1060,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-datagrid > .wok-datagrid-header > span {
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
   font-size: 12.5pt;
   vertical-align: bottom;
@@ -1071,7 +1075,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-datagrid > .wok-datagrid-body > .wok-datagrid-row > span {
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
   line-height: 2.42857;
   vertical-align: top;
   font-size: 12.5pt;
@@ -1102,15 +1106,12 @@ fieldset[disabled] .btn-group > span > .btn.active {
 }
 
 .wok-loading-icon {
-  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
-  -webkit-animation: spin 3s infinite linear;
-  -o-animation: spin 3s infinite linear;
-  animation: spin 3s infinite linear;
   height: 16px;
   width: 16px;
   background-size: 100%;
   display: inline-block;
   margin-right: 5px;
+  font-size: 16px;
 }
 
 .wok-mask, .wok-grid-mask, .wok-list-mask {
@@ -1141,18 +1142,13 @@ fieldset[disabled] .btn-group > span > .btn.active {
   height: 40px;
 }
 
-.wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon {
-  background: transparent url("../images/theme-default/spin5.svg") no-repeat 50% 50%;
-  -webkit-animation: spin 2s infinite linear;
-  -o-animation: spin 2s infinite linear;
-  animation: spin 2s infinite linear;
-  height: 20px;
+.wok-list-loading-icon {
   width: 20px;
 }
 
 .wok-mask-loading-text, .wok-grid-loading-text, .wok-list-loading-text {
   color: #444;
-  padding-top: 40px;
+  padding-top: 15px;
   text-shadow: 0px 0px 10px #fff;
 }
 
@@ -1163,7 +1159,7 @@ fieldset[disabled] .btn-group > span > .btn.active {
 label {
   font-size: 1.143em;
   font-weight: 400;
-  font-family: "Open Sans", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 .form-control-feedback {
@@ -1473,7 +1469,7 @@ input[type=radio].wok-radio + label {
 /*
 * Project Wok
 *
-* Copyright IBM Corp, 2015-2016
+* Copyright IBM Corp, 2015-2017
 *
 * Code derived from Project Kimchi
 *
@@ -1810,7 +1806,7 @@ span.twitter-typeahead {
   font-weight: 400;
 }
 
-.absolute-middle, .wok-mask, .wok-grid-mask, .wok-list-mask, .wok-mask-loading, .wok-grid-loading, .wok-list-loading, .wok-mask-loader-container, .wok-grid-loader-container, .wok-list-loader-container, .wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon {
+.absolute-middle, .wok-mask, .wok-grid-mask, .wok-list-mask, .wok-mask-loading, .wok-grid-loading, .wok-list-loading, .wok-mask-loader-container, .wok-grid-loader-container, .wok-list-loader-container, .wok-list-loading-icon {
   margin: auto;
   position: absolute;
   top: 0;

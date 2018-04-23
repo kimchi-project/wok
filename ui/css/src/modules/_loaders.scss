@@ -1,7 +1,7 @@
 //
 // Project Wok
 //
-// Copyright IBM Corp, 2015-2016
+// Copyright IBM Corp, 2015-2017
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,12 @@
 //
 
 .wok-loading-icon {
-    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
-    @include animation(spin 3s infinite linear);
     height: 16px;
     width: 16px;
     background-size: 100%;
     display: inline-block;
     margin-right: 5px;
+    font-size: 16px;
 }
 
 .wok-mask, .wok-grid-mask, .wok-list-mask {
@@ -54,16 +53,13 @@
     @extend .absolute-middle;
 }
 
-.wok-mask-loading-icon, .wok-grid-loading-icon, .wok-list-loading-icon{
-    background: transparent url('#{$wok-icon-path}/spin5.svg') no-repeat 50% 50%;
-    @include animation(spin 2s infinite linear);
-    height: 20px;
+.wok-list-loading-icon{
     width: 20px;
     @extend .absolute-middle;
 }
 
 .wok-mask-loading-text, .wok-grid-loading-text, .wok-list-loading-text {
     color: $gray;
-    padding-top: 40px;
+    padding-top: 15px;
     text-shadow: 0px 0px 10px #fff;
 }

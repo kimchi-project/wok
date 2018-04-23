@@ -1,20 +1,23 @@
-Wok/Kimchi are distributed pursuant to the terms of two different licenses.
-The user interface (located in ui/ and plugins/kimchi/ui in this distribution)
-is governed by the Apache License version 2.0.
+Wok are distributed pursuant to the terms of two different licenses.
+The user interface (located in ui/ in this distribution) is governed by the
+Apache License version 2.0.
 
-Kimchi makes use of different projects and they are placed as below:
-- the code under ui/spice-html5 is imported from spice-html5 project
-(http://cgit.freedesktop.org/spice/spice-html5);
-- the code under ui/libs which is imported from JQuery UI (http://jqueryui.com);
-- the code under ui/base64 is imported from Jquery Base64 (https://plugins.jquery.com/base64/).
-- the code under ui/fontello is imported from Fontello (http://fontello.com).
+Wok makes use of different projects and they are placed as below:
+
+Files: ui/css/src/bootstrap.custom.scss
+       ui/css/src/vendor/bootstrap-sass/bootstrap/*
+Source: https://github.com/twbs/bootstrap
+License: MIT
+
+Files: ui/css/src/vendor/compass-mixins/*
+Source: https://github.com/Igosuki/compass-mixins
+License: MIT-with-addition
+
+Files: ui/libs/jquery-containsNC/*
+Source: https://github.com/friedolinfoerder/jquery.containsNC
+License: MIT
 
 The rest of this distribution is governed by the GNU Lesser General Public
 License version 2.1.
 
 See COPYING.LGPL and COPYING.ASL2.
-
-The name "Gentoo" and the "g" logo are trademarks of Gentoo Foundation, Inc.
-The content, project, site, product or any other type of item with which the
-"Gentoo" name is associated is not part of the Gentoo project and is not
-directed or managed by Gentoo Foundation, Inc.

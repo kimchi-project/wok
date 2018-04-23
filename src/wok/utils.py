@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -37,9 +37,11 @@ import xml.etree.ElementTree as ET
 from cherrypy.lib.reprconf import Parser
 from datetime import datetime, timedelta
 from multiprocessing import Process, Queue
+from optparse import Values
 from threading import Timer
 
-from wok.config import paths, PluginPaths
+from wok import config
+from wok.config import paths, PluginConfig, PluginPaths
 from wok.exception import InvalidParameter, TimeoutExpired
 from wok.stringutils import decode_value
 
@@ -57,13 +59,21 @@ def is_digit(value):
         return False
 
 
-def _load_plugin_conf(name):
+def get_plugin_config_file(name):
     plugin_conf = PluginPaths(name).conf_file
     if not os.path.exists(plugin_conf):
         cherrypy.log.error_log.error("Plugin configuration file %s"
                                      " doesn't exist." % plugin_conf)
-        return
+        return None
+    return plugin_conf
+
+
+def load_plugin_conf(name):
     try:
+        plugin_conf = get_plugin_config_file(name)
+        if not plugin_conf:
+            return None
+
         return Parser().dict_from_file(plugin_conf)
     except ValueError as e:
         cherrypy.log.error_log.error("Failed to load plugin "
@@ -71,20 +81,219 @@ def _load_plugin_conf(name):
                                      (plugin_conf, e.message))
 
 
-def get_enabled_plugins():
+def get_plugins(enabled_only=False):
     plugin_dir = paths.plugins_dir
+
     try:
         dir_contents = os.listdir(plugin_dir)
     except OSError:
         return
+
+    test_mode = config.config.get('server', 'test').lower() == 'true'
+
     for name in dir_contents:
         if os.path.isdir(os.path.join(plugin_dir, name)):
-            plugin_config = _load_plugin_conf(name)
+            if name == 'sample' and not test_mode:
+                continue
+
+            plugin_config = load_plugin_conf(name)
+            if not plugin_config:
+                continue
             try:
-                if plugin_config['wok']['enable']:
-                    yield (name, plugin_config)
+                if plugin_config['wok']['enable'] is None:
+                    continue
+
+                plugin_enabled = plugin_config['wok']['enable']
+                if enabled_only and not plugin_enabled:
+                    continue
+
+                yield (name, plugin_config)
             except (TypeError, KeyError):
                 continue
+
+
+def get_enabled_plugins():
+    return get_plugins(enabled_only=True)
+
+
+def get_plugin_app_mounted_in_cherrypy(name):
+    plugin_uri = '/plugins/' + name
+    return cherrypy.tree.apps.get(plugin_uri, None)
+
+
+def get_plugin_dependencies(name):
+    app = get_plugin_app_mounted_in_cherrypy(name)
+    if app is None or not hasattr(app.root, 'depends'):
+        return []
+    return app.root.depends
+
+
+def get_all_plugins_dependent_on(name):
+    if not cherrypy.tree.apps:
+        return []
+
+    dependencies = []
+    for plugin, app in cherrypy.tree.apps.iteritems():
+        if hasattr(app.root, 'depends') and name in app.root.depends:
+            dependencies.append(plugin.replace('/plugins/', ''))
+
+    return dependencies
+
+
+def get_all_affected_plugins_by_plugin(name):
+    dependencies = get_all_plugins_dependent_on(name)
+    if len(dependencies) == 0:
+        return []
+
+    all_affected_plugins = dependencies
+    for dep in dependencies:
+        all_affected_plugins += get_all_affected_plugins_by_plugin(dep)
+
+    return all_affected_plugins
+
+
+def disable_plugin(name):
+    plugin_deps = get_all_affected_plugins_by_plugin(name)
+
+    for dep in set(plugin_deps):
+        update_plugin_config_file(dep, False)
+        update_cherrypy_mounted_tree(dep, False)
+
+    update_plugin_config_file(name, False)
+    update_cherrypy_mounted_tree(name, False)
+
+
+def enable_plugin(name):
+    update_plugin_config_file(name, True)
+    update_cherrypy_mounted_tree(name, True)
+
+    plugin_deps = get_plugin_dependencies(name)
+
+    for dep in set(plugin_deps):
+        enable_plugin(dep)
+
+
+def set_plugin_state(name, state):
+    if state is False:
+        disable_plugin(name)
+    else:
+        enable_plugin(name)
+
+
+def update_plugin_config_file(name, state):
+    plugin_conf = get_plugin_config_file(name)
+    if not plugin_conf:
+        return
+
+    config_contents = None
+
+    with open(plugin_conf, 'r') as f:
+        config_contents = f.readlines()
+
+    wok_section_found = False
+
+    pattern = re.compile("^\s*enable\s*=\s*")
+
+    for i in range(0, len(config_contents)):
+        if config_contents[i] == '[wok]\n':
+            wok_section_found = True
+            continue
+
+        if pattern.match(config_contents[i]) and wok_section_found:
+            config_contents[i] = 'enable = %s\n' % str(state)
+            break
+
+    with open(plugin_conf, 'w') as f:
+        f.writelines(config_contents)
+
+
+def load_plugin(plugin_name, plugin_config):
+    try:
+        plugin_class = ('plugins.%s.%s' %
+                        (plugin_name,
+                         plugin_name[0].upper() + plugin_name[1:]))
+        del plugin_config['wok']
+        plugin_config.update(PluginConfig(plugin_name))
+    except KeyError:
+        return
+
+    try:
+        options = get_plugin_config_options()
+        plugin_app = import_class(plugin_class)(options)
+    except (ImportError, Exception), e:
+        cherrypy.log.error_log.error(
+            "Failed to import plugin %s, "
+            "error: %s" % (plugin_class, e.message)
+        )
+        return
+
+    # dynamically extend plugin config with custom data, if provided
+    get_custom_conf = getattr(plugin_app, "get_custom_conf", None)
+    if get_custom_conf is not None:
+        plugin_config.update(get_custom_conf())
+
+    # dynamically add tools.wokauth.on = True to extra plugin APIs
+    try:
+        sub_nodes = import_class('plugins.%s.control.sub_nodes' %
+                                 plugin_name)
+
+        urlSubNodes = {}
+        for ident, node in sub_nodes.items():
+            if node.url_auth:
+                ident = "/%s" % ident
+                urlSubNodes[ident] = {'tools.wokauth.on': True}
+
+            plugin_config.update(urlSubNodes)
+
+    except ImportError, e:
+        cherrypy.log.error_log.error(
+            "Failed to import subnodes for plugin %s, "
+            "error: %s" % (plugin_class, e.message)
+        )
+
+    cherrypy.tree.mount(plugin_app,
+                        config.get_base_plugin_uri(plugin_name),
+                        plugin_config)
+
+
+def is_plugin_mounted_in_cherrypy(plugin_uri):
+    return cherrypy.tree.apps.get(plugin_uri) is not None
+
+
+def update_cherrypy_mounted_tree(plugin, state):
+    plugin_uri = '/plugin/' + plugin
+
+    if state is False and is_plugin_mounted_in_cherrypy(plugin_uri):
+        del cherrypy.tree.apps[plugin_uri]
+
+    if state is True and not is_plugin_mounted_in_cherrypy(plugin_uri):
+        plugin_config = load_plugin_conf(plugin)
+        load_plugin(plugin, plugin_config)
+
+
+def get_plugin_config_options():
+    options = Values()
+
+    options.websockets_port = config.config.getint('server',
+                                                   'websockets_port')
+    options.cherrypy_port = config.config.getint('server',
+                                                 'cherrypy_port')
+    options.proxy_port = config.config.getint('server', 'proxy_port')
+    options.session_timeout = config.config.getint('server',
+                                                   'session_timeout')
+
+    options.test = config.config.get('server', 'test')
+    if options.test == 'None':
+        options.test = None
+
+    options.environment = config.config.get('server', 'environment')
+    options.server_root = config.config.get('server', 'server_root')
+    options.max_body_size = config.config.get('server', 'max_body_size')
+
+    options.log_dir = config.config.get('logging', 'log_dir')
+    options.log_level = config.config.get('logging', 'log_level')
+
+    return options
 
 
 def get_all_tabs():

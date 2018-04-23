@@ -18,7 +18,7 @@ Runtime Dependencies
     $ sudo apt-get install python-cherrypy3 python-cheetah python-pam \
                             python-m2crypto python-jsonschema \
                             python-psutil python-ldap python-lxml nginx \
-                            openssl fonts-font-awesome texlive-fonts-extra
+                            openssl websockify
 
 Packages required for UI development
 ------------------------------------
@@ -29,4 +29,4 @@ Packages required for UI development
 Packages required for tests
 ---------------------------
 
-    $ sudo apt-get install pep8 pyflakes python-requests
+    $ sudo apt-get install pep8 pyflakes python-requests python-mock

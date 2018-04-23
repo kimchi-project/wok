@@ -2,5 +2,28 @@
     "$schema": "http://json-schema.org/draft-03/schema#",
     "title": "Wok API",
     "description": "Json schema for Wok API",
-    "type": "object"
+    "type": "object",
+    "properties": {
+        "wokroot_login": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "description": "Username",
+                    "required": true,
+                    "type": "string",
+                    "minLength": 1,
+                    "error": "WOKAUTH0003E"
+                },
+                "password": {
+                    "description": "Password",
+                    "required": true,
+                    "type": "string",
+                    "minLength": 1,
+                    "error": "WOKAUTH0006E"
+                }
+            },
+            "additionalProperties": false,
+            "error": "WOKAUTH0007E"
+        }
+    }
 }

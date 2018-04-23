@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2016
+# Copyright IBM Corp, 2016-2017
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 
 import json
+import mock
 import time
 import unittest
 import utils
@@ -25,6 +26,8 @@ import utils
 from functools import partial
 
 from wok.asynctask import AsyncTask
+from wok.utils import set_plugin_state
+from wok.rollbackcontext import RollbackContext
 
 test_server = None
 model = None
@@ -46,12 +49,73 @@ class APITests(unittest.TestCase):
     def setUp(self):
         self.request = partial(utils.request)
 
+    def test_peers(self):
+        resp = self.request('/peers').read()
+        self.assertEquals([], json.loads(resp))
+
     def test_config(self):
         resp = self.request('/config').read()
         conf = json.loads(resp)
         keys = ["auth", "proxy_port", "websockets_port", "version",
-                "server_root"]
+                "server_root", "federation"]
         self.assertEquals(sorted(keys), sorted(conf.keys()))
+
+    def test_config_plugins(self):
+        resp = self.request('/config/plugins')
+        self.assertEquals(200, resp.status)
+
+        plugins = json.loads(resp.read())
+        if len(plugins) == 0:
+            return
+
+        plugin_name = ''
+        plugin_state = ''
+        for p in plugins:
+            if p.get('name') == 'sample':
+                plugin_name = p.get('name').encode('utf-8')
+                plugin_state = p.get('enabled')
+                break
+        else:
+            return
+
+        with RollbackContext() as rollback:
+            rollback.prependDefer(set_plugin_state, plugin_name,
+                                  plugin_state)
+
+            resp = self.request('/config/plugins/sample')
+            self.assertEquals(200, resp.status)
+
+            resp = self.request('/config/plugins/sample/enable',
+                                '{}', 'POST')
+            self.assertEquals(200, resp.status)
+
+            resp = self.request('/config/plugins')
+            self.assertEquals(200, resp.status)
+            plugins = json.loads(resp.read())
+
+            for p in plugins:
+                if p.get('name') == 'sample':
+                    plugin_state = p.get('enabled')
+                    break
+            self.assertTrue(plugin_state)
+
+            resp = self.request('/config/plugins/sample/disable',
+                                '{}', 'POST')
+            self.assertEquals(200, resp.status)
+
+            resp = self.request('/config/plugins')
+            self.assertEquals(200, resp.status)
+            plugins = json.loads(resp.read())
+
+            for p in plugins:
+                if p.get('name') == 'sample':
+                    plugin_state = p.get('enabled')
+                    break
+            self.assertFalse(plugin_state)
+
+    def test_plugins_api_404(self):
+        resp = self.request('/plugins')
+        self.assertEquals(404, resp.status)
 
     def test_user_log(self):
         # Login and logout to make sure there there are entries in user log
@@ -102,3 +166,9 @@ class APITests(unittest.TestCase):
         self.assertEquals(204, resp.status)
         task = json.loads(self.request('/tasks/%s' % taskid).read())
         self.assertEquals('killed', task['status'])
+
+    @mock.patch('cherrypy.engine.restart')
+    def test_config_reload(self, mock_restart):
+        resp = self.request('/config/reload', '{}', 'POST')
+        self.assertEquals(200, resp.status)
+        mock_restart.assert_called_once_with()

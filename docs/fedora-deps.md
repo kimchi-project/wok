@@ -20,15 +20,15 @@ Build Dependencies
 --------------------
 
     $ sudo yum install gcc make autoconf automake gettext-devel git rpm-build \
-                        libxslt firewalld
+                        libxslt
 
 Runtime Dependencies
 --------------------
 
     $ sudo yum install python-cherrypy python-cheetah PyPAM m2crypto \
                         python-jsonschema python-psutil python-ldap \
-                        python-lxml nginx openssl open-sans-fonts \
-                        fontawesome-fonts logrotate
+                        python-lxml nginx openssl python-websockify \
+                        logrotate
 
     # For RHEL systems, install the additional packages:
     $ sudo yum install python-ordereddict
@@ -42,7 +42,7 @@ Packages required for UI development
 Packages required for tests
 ---------------------------
 
-    $ sudo yum install pyflakes python-pep8 python-requests rpmlint
+    $ sudo yum install pyflakes python-pep8 python-requests rpmlint python-mock
 
     # For RHEL systems, install the additional packages:
     $ sudo yum install python-unittest2

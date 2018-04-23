@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -39,9 +39,13 @@ messages = {
     "WOKASYNC0004E": _("Unable to kill task due error: %(err)s"),
 
     "WOKAUTH0001E": _("Authentication failed for user '%(username)s'. [Error code: %(code)s]"),
-    "WOKAUTH0002E": _("You are not authorized to access Kimchi"),
-    "WOKAUTH0003E": _("Specify %(item)s to login into Kimchi"),
+    "WOKAUTH0002E": _("You are not authorized to access Wok. Please, login first."),
+    "WOKAUTH0003E": _("Specify username to login into Wok."),
+    "WOKAUTH0004E": _("You have failed to login in too much attempts. Please, wait for %(seconds)s seconds to try again."),
     "WOKAUTH0005E": _("Invalid LDAP configuration: %(item)s : %(value)s"),
+    "WOKAUTH0006E": _("Specify password to login into Wok."),
+    "WOKAUTH0007E": _("You need to specify username and password to login into Wok."),
+    "WOKAUTH0008E": _("The username or password you entered is incorrect. Please try again"),
 
     "WOKLOG0001E": _("Invalid filter parameter. Filter parameters allowed: %(filters)s"),
     "WOKLOG0002E": _("Creation of log file failed: %(err)s"),
@@ -55,11 +59,18 @@ messages = {
     "WOKUTILS0004E": _("Invalid data value '%(value)s'"),
     "WOKUTILS0005E": _("Invalid data unit '%(unit)s'"),
 
+    "WOKCONFIG0001I": _("WoK is going to restart. Existing WoK connections will be closed."),
+
+    "WOKPLUGIN0001E": _("Unable to find plug-in %(name)s"),
+
     # These messages (ending with L) are for user log purposes
     "WOKASYNC0001L": _("Successfully completed task '%(target_uri)s'"),
     "WOKASYNC0002L": _("Failed to complete task '%(target_uri)s'"),
     "WOKCOL0001L": _("Request made on collection"),
+    "WOKCONFIG0001L": _("Wok reload"),
     "WOKRES0001L": _("Request made on resource"),
     "WOKROOT0001L": _("User '%(username)s' login"),
     "WOKROOT0002L": _("User '%(username)s' logout"),
+    "WOKPLUGIN0001L": _("Enable plug-in %(ident)s."),
+    "WOKPLUGIN0002L": _("Disable plug-in %(ident)s."),
 }

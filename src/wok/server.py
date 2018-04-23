@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -25,17 +25,17 @@ import logging
 import logging.handlers
 import os
 
-from wok import auth
-from wok import config
+from wok import auth, config, websocket
 from wok.config import config as configParser
-from wok.config import PluginConfig, WokConfig
+from wok.config import WokConfig
 from wok.control import sub_nodes
 from wok.model import model
 from wok.proxy import check_proxy_config
+from wok.pushserver import start_push_server
 from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
 from wok.safewatchedfilehandler import SafeWatchedFileHandler
-from wok.utils import get_enabled_plugins, import_class
+from wok.utils import get_enabled_plugins, load_plugin
 
 
 LOGGING_LEVEL = {"debug": logging.DEBUG,
@@ -61,15 +61,24 @@ def set_no_cache():
 
 class Server(object):
     def __init__(self, options):
+        # Update config.config with the command line values
+        # So the whole application will have access to accurate values
+        for sec in config.config.sections():
+            for item in config.config.options(sec):
+                if hasattr(options, item):
+                    config.config.set(sec, item, str(getattr(options, item)))
+
         # Check proxy configuration
-        check_proxy_config()
+        if not hasattr(options, 'no_proxy') or not options.no_proxy:
+            check_proxy_config()
 
         make_dirs = [
             os.path.abspath(config.get_log_download_path()),
             os.path.abspath(configParser.get("logging", "log_dir")),
             os.path.dirname(os.path.abspath(options.access_log)),
             os.path.dirname(os.path.abspath(options.error_log)),
-            os.path.dirname(os.path.abspath(config.get_object_store()))
+            os.path.dirname(os.path.abspath(config.get_object_store())),
+            os.path.abspath(config.get_wstokens_dir())
         ]
         for directory in make_dirs:
             if not os.path.isdir(directory):
@@ -96,7 +105,7 @@ class Server(object):
         cherrypy.log.access_file = options.access_log
         cherrypy.log.error_file = options.error_log
 
-        logLevel = LOGGING_LEVEL.get(options.log_level, logging.DEBUG)
+        logLevel = LOGGING_LEVEL.get(options.log_level, logging.INFO)
         dev_env = options.environment != 'production'
 
         # Enable cherrypy screen logging if running environment
@@ -114,6 +123,10 @@ class Server(object):
         for handler in cherrypy.log.error_log.handlers[:]:
             if isinstance(handler, logging.FileHandler):
                 cherrypy.log.error_log.removeHandler(handler)
+
+        # set logLevel
+        cherrypy.log.access_log.setLevel(logLevel)
+        cherrypy.log.error_log.setLevel(logLevel)
 
         # Create handler to access log file
         h = logging.handlers.WatchedFileHandler(options.access_log, 'a',
@@ -139,70 +152,27 @@ class Server(object):
         if not dev_env:
             cherrypy.config.update({'environment': 'production'})
 
-        if hasattr(options, 'model'):
-            model_instance = options.model
-        else:
-            model_instance = model.Model()
-
         for ident, node in sub_nodes.items():
             if node.url_auth:
                 cfg = self.configObj
                 ident = "/%s" % ident
                 cfg[ident] = {'tools.wokauth.on': True}
 
-        self.app = cherrypy.tree.mount(WokRoot(model_instance, dev_env),
-                                       options.server_root, self.configObj)
+        cherrypy.tree.mount(WokRoot(model.Model(), dev_env),
+                            options.server_root, self.configObj)
 
-        self._load_plugins(options)
+        self._start_websocket_server()
+        self._load_plugins()
         cherrypy.lib.sessions.init()
 
-    def _load_plugins(self, options):
+    def _start_websocket_server(self):
+        start_push_server()
+        ws_proxy = websocket.new_ws_proxy()
+        cherrypy.engine.subscribe('exit', ws_proxy.terminate)
+
+    def _load_plugins(self):
         for plugin_name, plugin_config in get_enabled_plugins():
-            try:
-                plugin_class = ('plugins.%s.%s' %
-                                (plugin_name,
-                                 plugin_name[0].upper() + plugin_name[1:]))
-                del plugin_config['wok']
-                plugin_config.update(PluginConfig(plugin_name))
-            except KeyError:
-                continue
-
-            try:
-                plugin_app = import_class(plugin_class)(options)
-            except (ImportError, Exception), e:
-                cherrypy.log.error_log.error(
-                    "Failed to import plugin %s, "
-                    "error: %s" % (plugin_class, e.message)
-                )
-                continue
-
-            # dynamically extend plugin config with custom data, if provided
-            get_custom_conf = getattr(plugin_app, "get_custom_conf", None)
-            if get_custom_conf is not None:
-                plugin_config.update(get_custom_conf())
-
-            # dynamically add tools.wokauth.on = True to extra plugin APIs
-            try:
-                sub_nodes = import_class('plugins.%s.control.sub_nodes' %
-                                         plugin_name)
-
-                urlSubNodes = {}
-                for ident, node in sub_nodes.items():
-                    if node.url_auth:
-                        ident = "/%s" % ident
-                        urlSubNodes[ident] = {'tools.wokauth.on': True}
-
-                    plugin_config.update(urlSubNodes)
-
-            except ImportError, e:
-                cherrypy.log.error_log.error(
-                    "Failed to import subnodes for plugin %s, "
-                    "error: %s" % (plugin_class, e.message)
-                )
-
-            cherrypy.tree.mount(plugin_app,
-                                config.get_base_plugin_uri(plugin_name),
-                                plugin_config)
+            load_plugin(plugin_name, plugin_config)
 
     def start(self):
         # Subscribe to SignalHandler plugin

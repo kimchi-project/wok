@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -71,6 +71,20 @@ var wok = {
         });
     },
 
+    getPeers: function(suc, err) {
+        wok.requestJSON({
+            url: 'peers',
+            type: 'GET',
+            contentType: 'application/json',
+            dataType: 'json',
+            resend: true,
+            success: suc,
+            error: err ? err : function(data) {
+                wok.message.error(data.responseJSON.reason);
+            }
+        });
+    },
+
     getNotifications: function (suc, err) {
         wok.requestJSON({
             url: 'notifications',
@@ -111,12 +125,36 @@ var wok = {
 
     listPlugins : function(suc, err, sync) {
         wok.requestJSON({
-            url : 'plugins',
+            url : 'config/plugins',
             type : 'GET',
             contentType : 'application/json',
             dataType : 'json',
             resend: true,
             async : !sync,
+            success : suc,
+            error : err
+        });
+    },
+
+    enablePlugin : function(plugin, suc, err) {
+        wok.requestJSON({
+            url : 'config/plugins/' + encodeURIComponent(plugin) + "/enable",
+            type : 'POST',
+            contentType : 'application/json',
+            dataType : 'json',
+            resend: true,
+            success : suc,
+            error : err
+        });
+    },
+
+    disablePlugin : function(plugin, suc, err) {
+        wok.requestJSON({
+            url : 'config/plugins/' + encodeURIComponent(plugin) + "/disable",
+            type : 'POST',
+            contentType : 'application/json',
+            dataType : 'json',
+            resend: true,
             success : suc,
             error : err
         });
@@ -143,6 +181,46 @@ var wok = {
             dataType : 'json',
             success : suc,
             error : err
+        });
+    },
+
+    getUserLogs : function(suc, err) {
+        wok.requestJSON({
+            url : 'logs',
+            type : 'GET',
+            contentType : 'application/json',
+            dataType : 'json',
+            resend : true,
+            success : suc,
+            error : err || function(data) {
+                wok.message.error(data.responseJSON.reason);
+            }
+        });
+    },
+
+    getFilteredUserLogs : function(suc, err, search) {
+        wok.requestJSON({
+            url : 'logs?' + search,
+            type : 'GET',
+            contentType : 'application/json',
+            dataType : 'json',
+            success : suc,
+            error : err || function(data) {
+                wok.message.error(data.responseJSON.reason);
+            }
+        });
+    },
+
+    downloadLogs : function(suc, err, search) {
+        wok.requestJSON({
+            url : 'logs?'+search+'download=True',
+            type : 'GET',
+            contentType : 'application/json',
+            dataType : 'json',
+            success : suc,
+            error : err || function(data) {
+                wok.message.error(data.responseJSON.reason);
+            }
         });
     }
 };

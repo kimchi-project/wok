@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -17,12 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = fontawesome opensans
-
-EXTRA_DIST = theme-default
-
 cssdir = $(datadir)/wok/ui/css
-dist_css_DATA = theme-default.min.css jquery-ui.custom.css wok.css bootstrap.custom.css bootstrap-select.custom.css settings.css datatables.bootstrap.css
+dist_css_DATA = $(wildcard *.css)
 
 wok: src/wok.scss src/modules/*.scss
 	echo "Compiling .scss file $<"
@@ -32,6 +28,10 @@ bootstrap: src/bootstrap.custom.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< bootstrap.custom.css
 
+user-log: src/user-log.scss
+	echo "Compiling .scss file $<"
+	sassc -s expanded $< user-log.css
+
 settings: src/settings.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< settings.css
@@ -40,13 +40,4 @@ bootstrap-select: src/bootstrap-select.custom.scss
 	echo "Compiling .scss file $<"
 	sassc -s expanded $< bootstrap-select.custom.css
 
-datatables: src/datatables.bootstrap.scss
-	echo "Compiling .scss file $<"
-	sassc -s expanded $< datatables.bootstrap.css
-
-css: wok bootstrap bootstrap-select settings datatables
-
-theme-default.min.css: theme-default/*.css
-	cat $^ > $@
-
-CLEANFILES = theme-default.min.css
+css: wok bootstrap bootstrap-select user-log settings

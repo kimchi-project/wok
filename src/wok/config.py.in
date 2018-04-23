@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -28,34 +28,7 @@ __version__ = "@wokversion@"
 __release__ = "@wokrelease@"
 
 CACHEEXPIRES = 31536000     # expires is one year.
-DEFAULT_LOG_LEVEL = "debug"
-
-FONT_FILES = {'fontawesome': ['fontawesome-webfont.ttf'],
-              'opensans': ['OpenSans-ExtraBoldItalic.ttf',
-                           'OpenSans-ExtraBold.ttf',
-                           'OpenSans-LightItalic.ttf',
-                           'OpenSans-Light.ttf',
-                           'OpenSans-SemiboldItalic.ttf',
-                           'OpenSans-BoldItalic.ttf',
-                           'OpenSans-Italic.ttf',
-                           'OpenSans-Bold.ttf',
-                           'OpenSans-Semibold.ttf',
-                           'OpenSans-Regular.ttf']}
-
-FONTS_PATH = {
-    'fontawesome': [
-        '/usr/share/fonts/fontawesome',
-        '/usr/share/fonts/truetype/font-awesome',
-        '/usr/share/fonts/truetype',
-        '/usr/share/fonts/TTF'
-    ],
-    'opensans': [
-        '/usr/share/fonts/open-sans',
-        '/usr/share/fonts/truetype/',
-        '/usr/share/texlive/texmf-dist/fonts/truetype/public/opensans',
-        '/usr/share/fonts/TTF'
-    ]
-}
+DEFAULT_LOG_LEVEL = "info"
 
 
 def get_log_download_path():
@@ -66,8 +39,16 @@ def get_object_store():
     return os.path.join(paths.state_dir, 'objectstore')
 
 
+def get_pushserver_socket_dir():
+    return '/run/user/%s' % os.geteuid()
+
+
 def get_version():
     return "-".join([__version__, __release__])
+
+
+def get_wstokens_dir():
+    return os.path.join(paths.state_dir, 'ws-tokens')
 
 
 class Paths(object):
@@ -96,13 +77,6 @@ class Paths(object):
             self.src_dir = self.add_prefix('src/wok')
             self.plugins_dir = self.add_prefix('src/wok/plugins')
             self.mo_dir = self.add_prefix('mo')
-
-        for font in FONT_FILES.keys():
-            paths = FONTS_PATH[font]
-            for path in paths:
-                font_file = os.path.join(path, FONT_FILES[font][0])
-                if os.path.exists(font_file):
-                    setattr(self, '%s_dir' % font, path)
 
     def get_prefix(self):
         if __file__.startswith("/"):
@@ -151,7 +125,7 @@ class PluginPaths(Paths):
 class UIConfig(dict):
     def __init__(self, paths):
         ui_configs = {}
-        for sub_dir in ('css', 'js', 'libs', 'images'):
+        for sub_dir in ('css', 'js', 'images'):
             ui_configs['/' + sub_dir] = {
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(paths.ui_dir, sub_dir),
@@ -161,17 +135,10 @@ class UIConfig(dict):
                 ui_configs['/' + sub_dir].update({
                     'tools.expires.on': True,
                     'tools.expires.secs': CACHEEXPIRES})
-
-        for font, files in FONT_FILES.iteritems():
-            font_dir = getattr(paths, "%s_dir" % font)
-            for filename in files:
-                font_file = os.path.join(font_dir, filename)
-                if os.path.exists(font_file):
-                    ui_configs['/fonts/%s' % filename] = {
-                        'tools.staticfile.on': True,
-                        'tools.staticfile.filename': font_file,
-                        'tools.wokauth.on': False,
-                        'tools.nocache.on': False}
+            else:
+                ui_configs['/' + sub_dir].update(
+                    {'tools.staticdir.content_types':
+                        {'svg': 'image/svg+xml'}})
 
         self.update(ui_configs)
 
@@ -194,6 +161,9 @@ class WokConfig(dict):
         '/data/logs': {
             'tools.staticdir.on': True,
             'tools.staticdir.dir': '%s/logs' % paths.state_dir,
+            'tools.staticdir.content_types': {
+                    'txt': 'application/x-download'
+            },
             'tools.nocache.on': False,
             'tools.wokauth.on': True,
         },
@@ -202,12 +172,6 @@ class WokConfig(dict):
             'tools.staticfile.filename': os.path.join(paths.ui_dir,
                                                       'config/tab-ext.xml'),
             'tools.nocache.on': True
-        },
-        '/base64/jquery.base64.js': {
-            'tools.staticfile.on': True,
-            'tools.staticfile.filename': '%s/base64/jquery.base64.js' %
-                                         paths.ui_dir,
-            'tools.nocache.on': True,
         },
         '/wok-ui.html': {
             'tools.wokauth.on': True
@@ -226,6 +190,14 @@ class WokConfig(dict):
             'tools.staticdir.dir': os.path.join(paths.ui_dir,
                                                 'pages/help')
         },
+        '/libs': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': os.path.join(paths.ui_dir, 'libs'),
+            'tools.wokauth.on': False,
+            'tools.nocache.on': False,
+            'tools.expires.on': True,
+            'tools.expires.secs': CACHEEXPIRES
+        }
     }
 
     def __init__(self):
@@ -237,6 +209,7 @@ class WokConfig(dict):
 class PluginConfig(dict):
     def __init__(self, plugin_name):
         super(PluginConfig, self).__init__(self)
+        paths = PluginPaths(plugin_name)
         plugin_config = {
             '/': {
                 'tools.trailing_slash.on': False,
@@ -253,10 +226,10 @@ class PluginConfig(dict):
             '/ui/config/tab-ext.xml': {
                 'tools.staticfile.on': True,
                 'tools.staticfile.filename':
-                os.path.join(PluginPaths(plugin_name).ui_dir,
-                             'config/tab-ext.xml'),
+                os.path.join(paths.ui_dir, 'config/tab-ext.xml'),
                 'tools.nocache.on': True}}
         self.update(plugin_config)
+        self.update(UIConfig(paths))
 
 
 def _get_config():
@@ -269,6 +242,8 @@ def _get_config():
     config.set("server", "environment", "production")
     config.set('server', 'max_body_size', '4*1024*1024')
     config.set("server", "server_root", "")
+    config.set("server", "federation", "off")
+    config.set("server", "test", "")
     config.add_section("authentication")
     config.set("authentication", "method", "pam")
     config.set("authentication", "ldap_server", "")

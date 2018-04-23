@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -19,6 +19,10 @@
  */
 wok.login_main = function() {
     "use strict";
+    var i18n;
+    wok.getI18n(function(i18nObj){
+        i18n = i18nObj;
+     }, false, "i18n.json", true);
 
     // verify if language is available
     var selectedLanguage = wok.lang.get();
@@ -50,7 +54,8 @@ wok.login_main = function() {
     var query = window.location.search;
     var error = /.*error=(.*?)(&|$)/g.exec(query);
     if (error && error[1] === "sessionTimeout") {
-        $("#messSession").show();
+        $("#errorArea").html(i18n["WOKAUT0001E"]);
+        $("#errorArea").show();
     }
 
     var userNameBox = $('#username');
@@ -78,17 +83,17 @@ wok.login_main = function() {
                 var lastPage = wok.cookie.get('lastPage');
                 var next_url = lastPage ? lastPage.replace(/\"/g,'') : "/";
             }
-            wok.cookie.set('roles',JSON.stringify(data.roles));
+            wok.cookie.set('user_role', data.role);
             window.location.replace(window.location.pathname.replace(/\/+login.html/, '') + next_url);
         }, function(jqXHR, textStatus, errorThrown) {
             if (jqXHR.responseText == "") {
-                $("#messUserPass").hide();
-                $("#missServer").show();
-            } else {
-                $("#missServer").hide();
-                $("#messUserPass").show();
+                $("#errorArea").html(i18n["WOKAUT0002E"]);
+                $("#errorArea").show();
+            } else if ((jqXHR.responseJSON != undefined) &&
+                       ! (jqXHR.responseJSON["reason"] == undefined)) {
+                $("#errorArea").html(jqXHR.responseJSON["reason"]);
+                $("#errorArea").show();
             }
-            $("#messSession").hide();
             $("#logging").hide();
             $("#login").show();
         });

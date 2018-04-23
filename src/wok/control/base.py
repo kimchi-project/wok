@@ -2,7 +2,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -27,7 +27,7 @@ import urllib2
 
 import wok.template
 from wok.asynctask import save_request_log_id
-from wok.auth import USER_GROUPS, USER_NAME, USER_ROLES
+from wok.auth import wokauth, USER_GROUPS, USER_NAME, USER_ROLE
 from wok.control.utils import get_class_name, internal_redirect, model_fn
 from wok.control.utils import parse_request, validate_method
 from wok.control.utils import validate_params
@@ -66,7 +66,6 @@ class Resource(object):
         self.model = model
         self.ident = ident
         self.model_args = (ident,)
-        self.role_key = None
         self.admin_methods = []
         self.log_map = {}
         self.log_args = {
@@ -92,7 +91,7 @@ class Resource(object):
             raise cherrypy.HTTPRedirect(base_uri % tuple(uri_params), code)
 
     def generate_action_handler(self, action_name, action_args=None,
-                                destructive=False):
+                                destructive=False, protected=None):
         def _render_element(self, ident):
             self._redirect(ident)
             uri_params = []
@@ -105,7 +104,8 @@ class Resource(object):
 
         return self._generate_action_handler_base(action_name, _render_element,
                                                   destructive=destructive,
-                                                  action_args=action_args)
+                                                  action_args=action_args,
+                                                  protected=protected)
 
     def generate_action_handler_task(self, action_name, action_args=None):
         def _render_task(self, task):
@@ -116,15 +116,19 @@ class Resource(object):
                                                   action_args=action_args)
 
     def _generate_action_handler_base(self, action_name, render_fn,
-                                      destructive=False, action_args=None):
+                                      destructive=False, action_args=None,
+                                      protected=None):
         def wrapper(*args, **kwargs):
             # status must be always set in order to request be logged.
             # use 500 as fallback for "exception not handled" cases.
+            if protected is not None and protected:
+                wokauth()
+
             details = None
             status = 500
 
             method = 'POST'
-            validate_method((method), self.role_key, self.admin_methods)
+            validate_method((method), self.admin_methods)
             try:
                 request = parse_request()
                 validate_params(request, self, action_name)
@@ -159,7 +163,9 @@ class Resource(object):
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
-                log_id = log_request(code, reqParams, details, method, status)
+                log_id = log_request(code, reqParams, details, method, status,
+                                     class_name=get_class_name(self),
+                                     action_name=action_name)
                 if status == 202:
                     save_request_log_id(log_id, action_result['id'])
 
@@ -191,8 +197,7 @@ class Resource(object):
         details = None
         status = 500
 
-        method = validate_method(('GET', 'DELETE', 'PUT'),
-                                 self.role_key, self.admin_methods)
+        method = validate_method(('GET', 'DELETE', 'PUT'), self.admin_methods)
 
         try:
             self.lookup()
@@ -215,14 +220,15 @@ class Resource(object):
             # log request
             if method not in LOG_DISABLED_METHODS and status != 202:
                 code = self.getRequestMessage(method)
-                log_request(code, self.log_args, details, method, status)
+                log_request(code, self.log_args, details, method, status,
+                            class_name=get_class_name(self))
 
         return result
 
     def is_authorized(self):
         user_name = cherrypy.session.get(USER_NAME, '')
         user_groups = cherrypy.session.get(USER_GROUPS, [])
-        user_role = cherrypy.session.get(USER_ROLES, {}).get(self.role_key)
+        user_role = cherrypy.session.get(USER_ROLE, None)
 
         users = self.data.get("users", None)
         groups = self.data.get("groups", None)
@@ -303,7 +309,8 @@ class AsyncResource(Resource):
         code = self.getRequestMessage(method)
         reqParams = utf8_dict(self.log_args)
         log_id = log_request(code, reqParams, None, method,
-                             cherrypy.response.status)
+                             cherrypy.response.status,
+                             class_name=get_class_name(self))
         save_request_log_id(log_id, task['id'])
 
         return wok.template.render("Task", task)
@@ -331,7 +338,6 @@ class Collection(object):
         self.resource = Resource
         self.resource_args = []
         self.model_args = []
-        self.role_key = None
         self.admin_methods = []
         self.log_map = {}
         self.log_args = {}
@@ -432,8 +438,7 @@ class Collection(object):
         status = 500
 
         params = {}
-        method = validate_method(('GET', 'POST'),
-                                 self.role_key, self.admin_methods)
+        method = validate_method(('GET', 'POST'), self.admin_methods)
 
         try:
             if method == 'GET':
@@ -457,7 +462,8 @@ class Collection(object):
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
-                log_request(code, reqParams, details, method, status)
+                log_request(code, reqParams, details, method, status,
+                            class_name=get_class_name(self))
 
 
 class AsyncCollection(Collection):
@@ -485,7 +491,8 @@ class AsyncCollection(Collection):
         code = self.getRequestMessage(method)
         reqParams = utf8_dict(self.log_args, params)
         log_id = log_request(code, reqParams, None, method,
-                             cherrypy.response.status)
+                             cherrypy.response.status,
+                             class_name=get_class_name(self))
         save_request_log_id(log_id, task['id'])
 
         return wok.template.render("Task", task)

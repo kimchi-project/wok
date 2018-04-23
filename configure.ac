@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
 # Code derived from Project Kimchi
 #
@@ -61,15 +61,6 @@ if test "x$with_systemdsystemunitdir" != xno; then
     AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
 fi
 
-AC_ARG_WITH(
-    [spice-html5],
-    [AS_HELP_STRING([--with-spice-html5],
-                    [Build Kimchi with spice-html5 @<:@default=no@:>@])],
-    ,
-    [with_spice_html5="no"]
-)
-AM_CONDITIONAL([WITH_SPICE], [test "x$with_spice_html5" = xyes])
-
 AC_CONFIG_FILES([
     po/Makefile.in
     po/gen-pot
@@ -85,48 +76,12 @@ AC_CONFIG_FILES([
     src/wok/xmlutils/Makefile
     src/wok/plugins/Makefile
     ui/Makefile
-    ui/base64/Makefile
     ui/css/Makefile
-    ui/css/fontawesome/Makefile
-    ui/css/opensans/Makefile
     ui/images/Makefile
     ui/images/theme-default/Makefile
     ui/js/Makefile
     ui/libs/Makefile
-    ui/libs/bootstrap/Makefile
-    ui/libs/bootstrap-select/Makefile
-    ui/libs/bootstrap-select/dist/Makefile
-    ui/libs/bootstrap-select/dist/js/Makefile
-    ui/libs/bootstrap-select/dist/css/Makefile
-    ui/libs/jquery-bootgrid/Makefile
-    ui/libs/jquery-bootgrid/dist/Makefile
-    ui/libs/jquery-bootgrid/dist/js/Makefile
-    ui/libs/jquery-bootgrid/dist/css/Makefile
-    ui/libs/bootstrap-switch/Makefile
-    ui/libs/bootstrap-switch/dist/Makefile
-    ui/libs/bootstrap-switch/dist/js/Makefile
-    ui/libs/bootstrap-switch/dist/css/Makefile
     ui/libs/jquery-containsNC/Makefile
-    ui/libs/bootstrap-editable/Makefile
-    ui/libs/bootstrap-editable/dist/Makefile
-    ui/libs/bootstrap-editable/dist/js/Makefile
-    ui/libs/bootstrap-editable/dist/css/Makefile
-    ui/libs/es5-shim/Makefile
-    ui/libs/jquery/Makefile
-    ui/libs/jquery-i18n/Makefile
-    ui/libs/jquery-ui/Makefile
-    ui/libs/jquery-ui/themes/Makefile
-    ui/libs/jquery-ui/themes/base/Makefile
-    ui/libs/jquery-ui/themes/base/images/Makefile
-    ui/libs/list-js/Makefile
-    ui/libs/lodash/Makefile
-    ui/libs/moment/Makefile
-    ui/libs/datatables/Makefile
-    ui/libs/datatables/js/Makefile
-    ui/libs/datatables/js/plugins/Makefile
-    ui/libs/datatables/js/plugins/ip-address/Makefile
-    ui/libs/datatables/css/Makefile
-    ui/libs/typeahead/Makefile
     ui/pages/Makefile
     ui/pages/help/Makefile
     ui/pages/tabs/Makefile

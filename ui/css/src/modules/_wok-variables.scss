@@ -1,7 +1,7 @@
 //
 // Project Wok
 //
-// Copyright IBM Corp, 2015-2016
+// Copyright IBM Corp, 2015-2017
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ $bootstrap-sass-asset-helper: false !default;
 // --------------------------------------------------
 
 $wok-logo:          '../images/wok-logo.png';
-$wok-icon-path:     '../images/theme-default';
-$icon-font-path:    'css/fontawesome/fontawesome-webfont.ttf';
+$icon-font-path:    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf';
 $modal-flat-color:  #8cc63f;
 $wok-color:         #d9182d;
 
@@ -74,7 +73,7 @@ $link-hover-decoration: underline !default;
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:  'Open Sans', Helvetica, Arial, "Lucida Grande", sans-serif !default;
+$font-family-sans-serif:  Helvetica, Arial, "Lucida Grande", sans-serif !default;
 $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;

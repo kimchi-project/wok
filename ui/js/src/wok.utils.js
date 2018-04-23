@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -202,33 +202,25 @@ wok.escapeStr = function(str) {
 };
 
 wok.urlSafeB64Decode = function(str) {
-    return $.base64.atob(str.replace(/-/g, '+').replace(/_/g, '/'), true);
+    return atob(str.replace(/-/g, '+').replace(/_/g, '/'), true);
 }
 
 wok.urlSafeB64Encode = function(str) {
-    return $.base64.btoa(str, true).replace(/\+/g, '-').replace(/\//g, '_');
+    return btoa(str, true).replace(/\+/g, '-').replace(/\//g, '_');
 }
 
-wok.notificationsLoop = function notificationsLoop() {
+wok.notificationsLoop = function() {
     wok.getNotifications(
         function(notifications){
             if(notifications && notifications.length > 0) {
                 $.each(notifications, function(i, notif) {
                     // Check if notification is being displayed
-                    if (!$("#notification-container").length) {
-                        $('.navbar.toolbar').next().prepend('<div id="notification-container"></div>');
-                    }
-                    if (($("#notification-container").find("div:contains('" + notif.message + "')").length) == 0) {
-                        wok.message.notify(notif, '#notification-container');
+                    if (($("#alert-container").find("div:contains('" + notif.message + "')").length) == 0) {
+                        wok.message.notify(notif, '#alert-container');
                     }
                 });
             }
-            setTimeout(notificationsLoop, wok.NOTIFICATION_INTERVAL);
-        },
-        function(data){
-            setTimeout(notificationsLoop, wok.NOTIFICATION_INTERVAL);
-        }
-    );
+        }, undefined);
 }
 
 wok.datetimeLocaleConverter = function datetimeLocaleConverter(datetime_string, locale){

@@ -1,11 +1,11 @@
 # Spanish translations for Wok package.
-# Copyright IBM Corp, 2014-2016
+# Copyright IBM Corp, 2014-2017
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kimchi 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-29 11:57-0300\n"
+"POT-Creation-Date: 2017-06-30 10:25-0300\n"
 "PO-Revision-Date: 2013-07-11 17:32-0400\n"
 "Last-Translator: Crístian Viana <vianac@linux.vnet.ibm.com>\n"
 "Language-Team: English\n"
@@ -62,15 +62,29 @@ msgstr ""
 "La autenticación ha fallado para el usuario '%(username)s'. [Código de "
 "error: %(code)s]"
 
-msgid "You are not authorized to access Kimchi"
-msgstr "No tiene autorización para acceder a Kimchi"
+msgid "You are not authorized to access Wok. Please, login first."
+msgstr ""
+
+msgid "Specify username to login into Wok."
+msgstr "Especifique %(item)s para iniciar la sesión en Wok"
 
 #, python-format
-msgid "Specify %(item)s to login into Kimchi"
-msgstr "Especifique %(item)s para iniciar la sesión en Kimchi"
+msgid ""
+"You have failed to login in too much attempts. Please, wait for %(seconds)s "
+"seconds to try again."
+msgstr ""
 
 #, python-format
 msgid "Invalid LDAP configuration: %(item)s : %(value)s"
+msgstr ""
+
+msgid "Specify password to login into Wok."
+msgstr "Especifique %(item)s para iniciar la sesión en Wok"
+
+msgid "You need to specify username and password to login into Wok."
+msgstr "Especifique %(item)s para iniciar la sesión en Wok"
+
+msgid "The username or password you entered is incorrect. Please try again"
 msgstr ""
 
 #, python-format
@@ -107,8 +121,11 @@ msgstr ""
 msgid "Invalid data unit '%(unit)s'"
 msgstr ""
 
+msgid "WoK is going to restart. Existing WoK connections will be closed."
+msgstr ""
+
 #, python-format
-msgid "Unable to (re)start system's nginx.service. Details: '%(error)s'"
+msgid "Unable to find plug-in %(name)s"
 msgstr ""
 
 #, python-format
@@ -122,6 +139,9 @@ msgstr ""
 msgid "Request made on collection"
 msgstr ""
 
+msgid "Wok reload"
+msgstr ""
+
 msgid "Request made on resource"
 msgstr ""
 
@@ -131,6 +151,14 @@ msgstr ""
 
 #, python-format
 msgid "User '%(username)s' logout"
+msgstr ""
+
+#, python-format
+msgid "Enable plug-in %(ident)s."
+msgstr ""
+
+#, python-format
+msgid "Disable plug-in %(ident)s."
 msgstr ""
 
 msgid "ERROR CODE"
@@ -144,12 +172,6 @@ msgstr "PILA"
 
 msgid "Go to Homepage"
 msgstr "Ir a la página inicial"
-
-msgid "Host"
-msgstr ""
-
-msgid "Virtualization"
-msgstr ""
 
 msgid "Wok"
 msgstr ""
@@ -174,6 +196,9 @@ msgstr "Cancelar"
 msgid "Confirm"
 msgstr "Confirmar"
 
+msgid "Action Confirmation"
+msgstr ""
+
 msgid "Loading..."
 msgstr "Cargando..."
 
@@ -188,6 +213,12 @@ msgstr "Mensaje detallado:"
 
 msgid "Max:"
 msgstr "Máx.:"
+
+msgid "Session timeout, please re-login."
+msgstr ""
+
+msgid "Server unreachable"
+msgstr ""
 
 msgid "Application"
 msgstr ""
@@ -222,13 +253,23 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-msgid "Timezone"
+msgid "Zone"
 msgstr ""
 
 msgid "IP Address"
 msgstr ""
 
 msgid "Status"
+msgstr ""
+
+msgid ""
+"Plugin %1 depends on %2 which will be automatically enabled on this "
+"confirmation."
+msgstr ""
+
+msgid ""
+"Plugin %1 is dependency of %2 which will be automatically disabled on this "
+"confirmation."
 msgstr ""
 
 msgid "Your session will be expired on: %1 s. Do you want to renew it?"
@@ -279,7 +320,31 @@ msgstr ""
 msgid "Your session will expire on: 30s. Do you want to renew it?"
 msgstr ""
 
+msgid "Renew"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
 msgid "Powered by"
+msgstr ""
+
+msgid "Wok Version"
+msgstr ""
+
+msgid "Plugins Management"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "No result found"
+msgstr ""
+
+msgid "Peers"
 msgstr ""
 
 msgid "User Activity Log"

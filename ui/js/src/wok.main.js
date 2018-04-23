@@ -1,7 +1,7 @@
 /*
  * Project Wok
  *
- * Copyright IBM Corp, 2015-2016
+ * Copyright IBM Corp, 2015-2017
  *
  * Code derived from Project Kimchi
  *
@@ -28,6 +28,58 @@ wok.getConfig(function(result) {
 }, function() {
     wok.config = {};
 });
+
+wok.notificationListeners = {};
+wok.addNotificationListener = function(msg, func, persist) {
+    var listenerArray = wok.notificationListeners[msg];
+    if (listenerArray == undefined) {
+        listenerArray = [];
+    }
+    listenerArray.push(func);
+    wok.notificationListeners[msg] = listenerArray;
+    $(window).one("hashchange", function() {
+        // Some notification may persist while switching tabs
+        if (persist == undefined) {
+            var listenerArray = wok.notificationListeners[msg];
+            var del_index = listenerArray.indexOf(func);
+            listenerArray.splice(del_index, 1);
+            wok.notificationListeners[msg] = listenerArray;
+        }
+    });
+};
+
+wok.notificationsWebSocket = undefined;
+wok.startNotificationWebSocket = function () {
+    var addr = window.location.hostname + ':' + window.location.port;
+    var token = wok.urlSafeB64Encode('woknotifications').replace(/=*$/g, "");
+    var url = 'wss://' + addr + '/websockify?token=' + token;
+    wok.notificationsWebSocket = new WebSocket(url, ['base64']);
+
+    wok.notificationsWebSocket.onmessage = function(event) {
+        var buffer_rcv = window.atob(event.data);
+        var messages = buffer_rcv.split("//EOM//");
+        for (var i = 0; i < messages.length; i++) {
+            if (messages[i] === "") {
+                continue;
+	    }
+            var listenerArray = wok.notificationListeners[messages[i]];
+            if (listenerArray == undefined) {
+                continue;
+            }
+            for (var j = 0; j < listenerArray.length; j++) {
+                listenerArray[j](messages[i]);
+            }
+        }
+    };
+
+    var heartbeat = setInterval(function() {
+        wok.notificationsWebSocket.send(window.btoa('heartbeat'));
+    }, 30000);
+
+    wok.notificationsWebSocket.onclose = function() {
+        clearInterval(heartbeat);
+    };
+};
 
 wok.main = function() {
     wok.isLoggingOut = false;
@@ -91,12 +143,11 @@ wok.main = function() {
             var titleKey = tab.find('title').text();
             var title = i18n[titleKey] ? i18n[titleKey] : titleKey;
             var path = tab.find('path').text();
-            var roles = wok.cookie.get('roles');
+            var user_role = wok.cookie.get('user_role');
             var order = tab.find('order').text();
 
-            if (roles) {
-                var role = JSON.parse(roles)[titleKey.toLowerCase()];
-                var mode = tab.find('[role="' + role + '"]').attr('mode');
+            if (user_role) {
+                var mode = tab.find('[role=' + user_role + ']').attr('mode');
                 wok.tabMode[titleKey.toLowerCase()] = mode;
                 if (mode != 'none') {
                     tabs.push({
@@ -140,51 +191,58 @@ wok.main = function() {
     var pluginI18nUrl = 'plugins/{plugin}/i18n.json';
     var DEFAULT_HASH;
     var buildTabs = function(callback) {
+        // Make wok.plugins is ready to be used
+        if (wok.plugins == undefined) {
+            setTimeout(function() {buildTabs(callback)}, 2000);
+            return;
+        }
+
         var tabs = retrieveTabs('wok', wokConfigUrl);
-        wok.listPlugins(function(plugins) {
-            $(plugins).each(function(i, p) {
-                var url = wok.substitute(pluginConfigUrl, {
-                    plugin: p
-                });
-                var i18nUrl = wok.substitute(pluginI18nUrl, {
-                    plugin: p
-                });
-                wok.getI18n(function(i18nObj){ $.extend(i18n, i18nObj)},
-                            function(i18nObj){ //i18n is not define by plugin
-                            }, i18nUrl, true);
-                var pluginTabs = retrieveTabs(p, url);
-                if(pluginTabs.length > 0){
-                    tabs.push.apply(tabs, pluginTabs);
-                }
+        var plugins = wok.plugins;
+        $(plugins).each(function(i, p) {
+            if (p.enabled === false) {
+                return true;
+            }
+
+            var url = wok.substitute(pluginConfigUrl, {
+                plugin: p.name
             });
-
-            //sort second level tab based on their ordering number
-            var orderedTabs = tabs.slice(0);
-            orderedTabs.sort(function(a, b) {
-                return a.order - b.order;
+            var i18nUrl = wok.substitute(pluginI18nUrl, {
+                plugin: p.name
             });
-            //redirect to empty page when no plugin installed
-            if(tabs.length===0){
-                DEFAULT_HASH = 'wok-empty';
-            } else {
-                var defaultTab = orderedTabs[0]
-                var defaultTabPath = defaultTab && defaultTab['path']
+            wok.getI18n(function(i18nObj){ $.extend(i18n, i18nObj)},
+                        function(i18nObj){ //i18n is not define by plugin
+                        }, i18nUrl, true);
+            var pluginTabs = retrieveTabs(p.name, url);
+            if(pluginTabs.length > 0){
+                tabs.push.apply(tabs, pluginTabs);
+            }
+        });
 
-                // Remove file extension from 'defaultTabPath'
-                DEFAULT_HASH = defaultTabPath &&
-                    defaultTabPath.substring(0, defaultTabPath.lastIndexOf('.'))
-                }
+        //sort second level tab based on their ordering number
+        var orderedTabs = tabs.slice(0);
+        orderedTabs.sort(function(a, b) {
+            return a.order - b.order;
+        });
+        //redirect to empty page when no plugin installed
+        if(tabs.length===0){
+            DEFAULT_HASH = 'wok-empty';
+        } else {
+            var defaultTab = orderedTabs[0]
+            var defaultTabPath = defaultTab && defaultTab['path']
 
-                genTabs(orderedTabs);
-                wok.getHostname();
-                wok.logos('ul#plugins',true);
-                wok.logos('ul#wok-about',false);
+            // Remove file extension from 'defaultTabPath'
+            DEFAULT_HASH = defaultTabPath &&
+                defaultTabPath.substring(0, defaultTabPath.lastIndexOf('.'))
+        }
 
-                callback && callback();
-            }, function(data) {
-               wok.message.error(data.responseJSON.reason);
-            }, true);
-    };
+        genTabs(orderedTabs);
+        wok.getHostname();
+        wok.logos('ul#plugins',true);
+        wok.logos('ul#wok-about',false);
+
+        callback && callback();
+    }
 
     var onLanguageChanged = function(lang) {
         wok.lang.set(lang);
@@ -389,6 +447,9 @@ wok.main = function() {
 
         // Set handler for help button
         $('#btn-help').on('click', wok.openHelp);
+
+        // start WebSocket
+        wok.startNotificationWebSocket();
     };
 
     var initUI = function() {
@@ -454,9 +515,10 @@ wok.main = function() {
         }
     );
 
-    setTimeout(wok.notificationsLoop, wok.NOTIFICATION_INTERVAL);
+    wok.notificationsLoop();
+    wok.addNotificationListener('POST:/wok/notifications', wok.notificationsLoop, true);
+    wok.addNotificationListener('DELETE:/wok/notification', wok.notificationsLoop, true);
 };
-
 
 wok.checkHelpFile = function(path) {
     var lang = wok.lang.get();

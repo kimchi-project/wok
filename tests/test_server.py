@@ -1,9 +1,9 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
-# Code delivered from Project Kimchi
+# Code derived from Project Kimchi
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -167,9 +167,7 @@ class ServerTests(unittest.TestCase):
     def test_auth_unprotected(self):
         hdrs = {'AUTHORIZATION': ''}
         uris = ['/js/wok.min.js',
-                '/css/theme-default.min.css',
                 '/images/favicon.png',
-                '/libs/jquery/jquery.min.js',
                 '/login.html',
                 '/logout']
 
@@ -198,7 +196,7 @@ class ServerTests(unittest.TestCase):
         self.assertEquals(401, resp.status)
 
     def test_auth_browser_no_httpba(self):
-        # Kimchi detects REST requests from the browser by looking for a
+        # Wok detects REST requests from the browser by looking for a
         # specific header
         hdrs = {"X-Requested-With": "XMLHttpRequest"}
 
@@ -224,10 +222,9 @@ class ServerTests(unittest.TestCase):
 
         user_info = json.loads(resp.read())
         self.assertEquals(sorted(user_info.keys()),
-                          ['groups', 'roles', 'username'])
-        roles = user_info['roles']
-        for tab, role in roles.iteritems():
-            self.assertEquals(role, u'admin')
+                          ['groups', 'role', 'username'])
+        role = user_info['role']
+        self.assertEquals(role, u'admin')
 
         cookie = resp.getheader('set-cookie')
         hdrs['Cookie'] = cookie

@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2015-2016
+# Copyright IBM Corp, 2015-2017
 #
 # Code derived from Project Kimchi
 #
@@ -21,7 +21,9 @@
 
 import cherrypy
 import json
+import re
 import os
+import time
 from distutils.version import LooseVersion
 
 from wok import auth
@@ -30,8 +32,9 @@ from wok.i18n import messages
 from wok.config import paths as wok_paths
 from wok.control import sub_nodes
 from wok.control.base import Resource
-from wok.control.utils import parse_request
-from wok.exception import MissingParameter
+from wok.control.utils import parse_request, validate_params
+from wok.exception import OperationFailed, UnauthorizedError, WokException
+from wok.pushserver import send_wok_notification
 from wok.reqlogger import log_request
 
 
@@ -48,7 +51,8 @@ class Root(Resource):
         super(Root, self).__init__(model)
         self._handled_error = ['error_page.400', 'error_page.404',
                                'error_page.405', 'error_page.406',
-                               'error_page.415', 'error_page.500']
+                               'error_page.415', 'error_page.500',
+                               'error_page.403', 'error_page.401']
 
         if not dev_env:
             self._cp_config = dict([(key, self.error_production_handler)
@@ -98,6 +102,7 @@ class Root(Resource):
 
     @cherrypy.expose
     def default(self, page, **kwargs):
+        kwargs['scripts'] = self._get_scripts(page)
         if page.endswith('.html'):
             return template.render(page, kwargs)
         if page.endswith('.json'):
@@ -113,18 +118,12 @@ class Root(Resource):
         # template to save the delay of the extra get to the guest page
         # For that, the tab template needs to know the correct path to ui files
         paths = cherrypy.request.app.root.paths
-        script_name = cherrypy.request.app.script_name
-        last_page = script_name.lstrip("/") + "/tabs/" + page[:-5]
+        script_name = cherrypy.request.app.script_name or "/"
+        last_page = os.path.join(script_name, "tabs/", page[:-5]).lstrip("/")
 
         data = {}
         data['ui_dir'] = paths.ui_dir
-
-        data['scripts'] = []
-        for plugin, app in cherrypy.tree.apps.iteritems():
-                if app.root.extends is not None:
-                    scripts = app.root.extends.get(script_name, {})
-                    if page in scripts.keys():
-                        data['scripts'].append(scripts[page])
+        data['scripts'] = self._get_scripts(page)
 
         if page.endswith('.html'):
             context = template.render('/tabs/' + page, data)
@@ -132,6 +131,16 @@ class Root(Resource):
             cherrypy.response.cookie['lastPage']['path'] = '/'
             return context
         raise cherrypy.HTTPError(404)
+
+    def _get_scripts(self, page):
+        result = []
+        script_name = cherrypy.request.app.script_name or "/"
+        for plugin, app in cherrypy.tree.apps.iteritems():
+            if app.root.extends is not None:
+                scripts = app.root.extends.get(script_name, {})
+                if page in scripts.keys():
+                    result.append(scripts[page])
+        return result
 
 
 class WokRoot(Root):
@@ -146,6 +155,7 @@ class WokRoot(Root):
         self.domain = 'wok'
         self.messages = messages
         self.extends = None
+        self.failed_logins = {}
 
         # set user log messages and make sure all parameters are present
         self.log_map = ROOT_REQUESTS
@@ -153,26 +163,80 @@ class WokRoot(Root):
 
     @cherrypy.expose
     def login(self, *args):
+        def _raise_timeout(user_id):
+            length = self.failed_logins[user_ip_sid]["count"]
+            timeout = (length - 2) * 30
+            details = e = UnauthorizedError("WOKAUTH0004E",
+                                            {"seconds": timeout})
+            log_request(code, params, details, method, 403)
+            raise cherrypy.HTTPError(403, e.message)
+
         details = None
         method = 'POST'
         code = self.getRequestMessage(method, 'login')
 
         try:
             params = parse_request()
+            validate_params(params, self, "login")
             username = params['username']
             password = params['password']
-        except KeyError, item:
-            details = e = MissingParameter('WOKAUTH0003E', {'item': str(item)})
+        except WokException, e:
+            details = e = OperationFailed("WOKAUTH0007E")
+            status = e.getHttpStatusCode()
             log_request(code, params, details, method, 400)
             raise cherrypy.HTTPError(400, e.message)
+
+        # get authentication info
+        remote_ip = cherrypy.request.remote.ip
+        session_id = str(cherrypy.session.originalid)
+        user_ip_sid = re.escape(username + remote_ip + session_id)
+
+        # check for repetly
+        count = self.failed_logins.get(user_ip_sid, {"count": 0}).get("count")
+        if count >= 3:
+
+                # verify if timeout is still valid
+                last_try = self.failed_logins[user_ip_sid]["time"]
+                if time.time() < (last_try + ((count - 2) * 30)):
+                    _raise_timeout(user_ip_sid)
+                else:
+                    self.failed_logins.pop(user_ip_sid)
 
         try:
             status = 200
             user_info = auth.login(username, password)
+
+            # user logged sucessfuly: reset counters
+            if self.failed_logins.get(user_ip_sid) is not None:
+                self.failed_logins.pop(user_ip_sid)
         except cherrypy.HTTPError, e:
-            status = e.status
-            raise
+
+            # store time and prevent too much tries
+            if self.failed_logins.get(user_ip_sid) is None:
+                self.failed_logins[user_ip_sid] = {"time": time.time(),
+                                                   "ip": remote_ip,
+                                                   "session_id": session_id,
+                                                   "username": username,
+                                                   "count": 1}
+            else:
+                # tries take more than 30 seconds between each one: do not
+                # increase count
+                if (time.time() -
+                        self.failed_logins[user_ip_sid]["time"]) < 30:
+
+                    self.failed_logins[user_ip_sid]["time"] = time.time()
+                    self.failed_logins[user_ip_sid]["count"] += 1
+
+            # more than 3 fails: raise error
+            if self.failed_logins[user_ip_sid]["count"] >= 3:
+                _raise_timeout(user_ip_sid)
+
+            # return same error message to frontend
+            details = e = OperationFailed("WOKAUTH0008E")
+            status = e.getHttpStatusCode()
+            raise cherrypy.HTTPError(401, e.message)
         finally:
+            send_wok_notification('', 'login', 'POST')
             log_request(code, params, details, method, status)
 
         return json.dumps(user_info)
@@ -185,6 +249,7 @@ class WokRoot(Root):
 
         auth.logout()
 
+        send_wok_notification('', 'logout', 'POST')
         log_request(code, params, None, method, 200, user=params['username'])
 
         return '{}'

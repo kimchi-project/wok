@@ -17,15 +17,12 @@ Requires:	python-lxml
 Requires:	nginx
 Requires:	python-ldap
 Requires:	python-psutil >= 0.6.0
-Requires:	fontawesome-fonts
-Requires:	open-sans-fonts
 Requires:	logrotate
 Requires:	openssl
 Requires:	sudo
-BuildRequires:  firewalld
+Requires:	python-websockify
 BuildRequires:	gettext-devel
 BuildRequires:	libxslt
-BuildRequires:	openssl
 BuildRequires:	python-lxml
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
@@ -40,7 +37,6 @@ BuildRequires:    python-unittest2
 
 %if 0%{?with_systemd}
 Requires:	systemd
-Requires:	firewalld
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
@@ -78,10 +74,15 @@ install -Dm 0755 contrib/wokd.sysvinit %{buildroot}%{_initrddir}/wokd
 
 %post
 if [ $1 -eq 1 ] ; then
+    if [ ! -e /etc/wok/dhparams.pem ]; then
+        openssl dhparam -dsaparam -out /etc/wok/dhparams.pem 2048 >/dev/null 2>&1 || :
+    fi
+    if [ ! -e /etc/wok/wok-key.pem ] || [ ! -e /etc/wok/wok-cert.pem ]; then
+        openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
+    fi
     # Initial installation
     /bin/systemctl enable wokd.service >/dev/null 2>&1 || :
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-    openssl req -x509 -newkey rsa:4096 -keyout /etc/wok/wok-key.pem -out /etc/wok/wok-cert.pem -days 365 -nodes -subj "/C=US/CN=wok/O=kimchi-project.org" >/dev/null 2>&1 || :
 fi
 
 %preun
@@ -116,6 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/wok/plugins/*.py*
 %{python_sitelib}/wok/
 %{_prefix}/share/locale/*/LC_MESSAGES/wok.mo
+%{_prefix}/lib/firewalld/services/wokd.xml
 %{_datadir}/wok/ui/
 %{_datadir}/wok
 %{_sysconfdir}/wok/wok.conf
@@ -129,7 +131,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_localstatedir}/log/wok/*
 %{_localstatedir}/log/wok/
 %{_unitdir}/wokd.service
-%{_prefix}/lib/firewalld/services/wokd.xml
 %endif
 %if 0%{?rhel} == 6
 /etc/init/wokd.conf

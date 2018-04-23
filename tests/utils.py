@@ -1,9 +1,9 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2013-2016
+# Copyright IBM Corp, 2013-2017
 #
-# Code delivered from Project Kimchi
+# Code derived from Project Kimchi
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -34,15 +34,16 @@ import unittest
 
 import wok.server
 
-from wok.auth import User, USER_NAME, USER_GROUPS, USER_ROLES, tabs
+from wok.auth import User
 from wok.config import config
 from wok.exception import NotFoundError, OperationFailed
 from wok.utils import wok_log
 
 HOST = '0.0.0.0'
+PORT = 8010
 PROXY_PORT = 8001
 
-fake_user = {'root': 'letmein!'}
+fake_user = {'admin': 'letmein!', 'user': 'letmein!'}
 
 
 def get_fake_user():
@@ -88,17 +89,15 @@ if sys.version_info[:2] == (2, 6):
     unittest.TestCase.assertNotIn = assertNotIn
 
 
-def run_server(test_mode, model=None, environment='dev', server_root=''):
+def run_server(test_mode, environment='dev', server_root='', no_proxy=True):
 
+    port = PORT if no_proxy else PROXY_PORT
     args = type('_', (object,),
-                {'cherrypy_port': 8010, 'max_body_size': '4*1024',
+                {'cherrypy_port': port, 'max_body_size': '4*1024',
                  'test': test_mode, 'access_log': '/dev/null',
                  'error_log': '/dev/null', 'environment': environment,
                  'log_level': 'debug', 'session_timeout': 10,
-                 'server_root': server_root})()
-
-    if model is not None:
-        setattr(args, 'model', model)
+                 'server_root': server_root, 'no_proxy': no_proxy})()
 
     s = wok.server.Server(args)
     t = threading.Thread(target=s.start)
@@ -112,49 +111,45 @@ def running_as_root():
     return os.geteuid() == 0
 
 
-def _request(conn, path, data, method, headers):
+def _request(conn, path, data, method, headers, user):
     if headers is None:
         headers = {'Content-Type': 'application/json',
                    'Accept': 'application/json'}
     if 'AUTHORIZATION' not in headers.keys():
-        user, pw = fake_user.items()[0]
+        user, pw = user, fake_user[user]
         hdr = "Basic " + base64.b64encode("%s:%s" % (user, pw))
         headers['AUTHORIZATION'] = hdr
     conn.request(method, path, data, headers)
     return conn.getresponse()
 
 
-def request(path, data=None, method='GET', headers=None):
-    # verify if HTTPSConnection has context parameter
+def requestHttps(path, data=None, method='GET', headers=None, user='admin'):
+    # To work, this requires run_server() to be called with no_proxy=False.
     if "context" in inspect.getargspec(httplib.HTTPSConnection.__init__).args:
         context = ssl._create_unverified_context()
         conn = httplib.HTTPSConnection(HOST, PROXY_PORT, context=context)
     else:
         conn = httplib.HTTPSConnection(HOST, PROXY_PORT)
 
-    return _request(conn, path, data, method, headers)
+    return _request(conn, path, data, method, headers, user)
+
+
+def request(path, data=None, method='GET', headers=None, user='admin'):
+    conn = httplib.HTTPConnection(HOST, PORT)
+    return _request(conn, path, data, method, headers, user)
 
 
 class FakeUser(User):
     auth_type = "fake"
-    sudo = True
 
     def __init__(self, username):
-        self.user = {}
-        self.user[USER_NAME] = username
-        self.user[USER_GROUPS] = None
-        self.user[USER_ROLES] = dict.fromkeys(tabs, 'user')
+        super(FakeUser, self).__init__(username)
 
-    def get_groups(self):
+    def _get_groups(self):
         return sorted([group.gr_name for group in grp.getgrall()])[0:3]
 
-    def get_roles(self):
-        if self.sudo:
-            self.user[USER_ROLES] = dict.fromkeys(tabs, 'admin')
-        return self.user[USER_ROLES]
-
-    def get_user(self):
-        return self.user
+    def _get_role(self):
+        return self.name
 
     @staticmethod
     def authenticate(username, password, service="passwd"):
@@ -165,13 +160,12 @@ class FakeUser(User):
                                                    'code': e.message})
 
 
-def patch_auth(sudo=True):
+def patch_auth():
     """
     Override the authenticate function with a simple test against an
     internal dict of users and passwords.
     """
     config.set("authentication", "method", "fake")
-    FakeUser.sudo = sudo
 
 
 def wait_task(task_lookup, taskid, timeout=10):

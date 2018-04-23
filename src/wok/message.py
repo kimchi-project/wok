@@ -1,7 +1,7 @@
 #
 # Project Wok
 #
-# Copyright IBM Corp, 2016
+# Copyright IBM Corp, 2016-2017
 #
 # Code derived from Project Kimchi
 #
@@ -73,7 +73,7 @@ class WokMessage(object):
             # do translation
             domain = app.root.domain
             paths = app.root.paths
-            lang = validate_language(get_lang())
+            lang = validate_language(get_lang(), domain)
 
             try:
                 translation = gettext.translation(domain, paths.mo_dir, [lang])
@@ -86,7 +86,16 @@ class WokMessage(object):
 
     def get_text(self, prepend_code=True, translate=True):
         msg = self._get_text(translate)
-        msg = decode_value(msg) % self.args
+
+        try:
+            msg = decode_value(msg) % self.args
+        except KeyError, e:
+            # When new args are added to existing log messages, old entries in
+            # log for the same message would fail due to lack of that new arg.
+            # This avoids whole log functionality to break due to that, while
+            # registers the problem.
+            msg = decode_value(msg)
+            cherrypy.log.error_log.error("KeyError: %s - %s" % (str(e), msg))
 
         if prepend_code:
             return "%s: %s" % (self.code, msg)

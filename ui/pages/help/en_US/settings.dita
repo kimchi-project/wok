@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Project Wok
-Copyright IBM Corp, 2016
+Copyright IBM Corp, 2017
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -30,11 +30,9 @@ https://w3.opensource.ibm.com/projects/dita-cshelp/-->
 <title>Settings</title>
 <csbody>
 <dl><dlentry>
-<dt>User Activity Log</dt>
-<dd>This section displays user activity log of Wok and its plugins.</dd>
-<dd>To get any specific log result, please use the 'Advanced Search' option. You can specify a particular application (such as wok, ginger, gingerbase, gingers390x, kimchi), an user, request type or even date range.</dd>
-<dd>Select "Reset to Default" option to clear the search criteria.</dd>
-<dd>Download: Use this option to download user activity log.</dd>
+<dt>Plugins Management</dt>
+<dd>This section displays the current plug-in status of WoK..</dd>
+<dd>In the 'Status' column it is possible to enable or disable a specific plug-in. Enabling a plug-in will enable all its dependencies (example: enabling Kimchi will enable Gingerbase as well). Likewise, disabling a plug-in will disable all plug-ins that depends on the now disabled plug-in (example: disabling Gingerbase will disable Kimchi and Ginger).</dd>
 </dlentry>
 </dl><?Pub Caret 2101?>
 </csbody>

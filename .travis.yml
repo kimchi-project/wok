@@ -13,5 +13,7 @@ install: make
 
 before_script: cd tests
 
-script: make check-local
+script: 
+  - make check-local
+  - make check
 

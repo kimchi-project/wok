@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kimchi-project/wok.svg?branch=master)](https://travis-ci.org/ramonmedeiros/wok)
+[![Build Status](https://travis-ci.org/kimchi-project/wok.svg?branch=master)](https://travis-ci.org/kimchi-project/wok)
 
 * [What is Wok?](#what-is-wok)
 * [Browser Support](#browser-support)

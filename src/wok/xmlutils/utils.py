@@ -67,7 +67,7 @@ def xml_item_remove(xml, xpath):
 
 
 def dictize(xmlstr):
-    root = objectify.fromstring(xmlstr)
+    root = objectify.fromstring(xmlstr.decode('utf-8','ignore').encode("utf-8"))
     return {root.tag: _dictize(root)}
 
 

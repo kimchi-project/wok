@@ -91,7 +91,7 @@ class Server(object):
         # thus it is safe to unsubscribe.
         try:
             cherrypy.engine.timeout_monitor.unsubscribe()
-        except(AssertionError):
+        except(AttributeError):
             pass
 
         cherrypy.tools.nocache = cherrypy.Tool('on_end_resource', set_no_cache)

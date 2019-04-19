@@ -89,7 +89,11 @@ class Server(object):
         # nginx timeout (= 10 minutes). This monitor isn't involved
         # in anything other than monitor the timeout of the connection,
         # thus it is safe to unsubscribe.
-        cherrypy.engine.timeout_monitor.unsubscribe()
+        try:
+            cherrypy.engine.timeout_monitor.unsubscribe()
+        except(AttributeError):
+            pass
+
         cherrypy.tools.nocache = cherrypy.Tool('on_end_resource', set_no_cache)
         cherrypy.tools.wokauth = cherrypy.Tool('before_handler', auth.wokauth)
 

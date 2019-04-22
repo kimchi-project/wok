@@ -145,7 +145,7 @@ class PAMUser(User):
             debug("User %s is not allowed to run sudo" % self.name)
 
     @staticmethod
-    def authenticate(username, password, service="passwd"):
+    def authenticate(username, password, service="system-auth"):
         '''Returns True if authenticate is OK via PAM.'''
         def _auth(result):
             def _pam_conv(auth, query_list, userData=None):

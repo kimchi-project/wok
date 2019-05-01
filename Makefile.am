@@ -66,8 +66,6 @@ check-local:
 		git grep --cached -Il '' |                                  \
 			grep -v '^ui/css/src/vendor/\|^ui/libs/' | xargs egrep '.* +$$' 	\
 			&& echo "ERROR: Whitespaces found" || echo "Ok";     	\
-		echo "Check IBM license header and copyright date ..." ;    \
-		/bin/bash check-IBM-license-header.sh ;						\
 		fi;
 		@if [ -f $(RPMLINT) ]; then 								\
 			./check_spec_errors.sh; 								\

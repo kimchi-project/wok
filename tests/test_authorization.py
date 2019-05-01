@@ -16,12 +16,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import unittest
 from functools import partial
 
 from tests.utils import patch_auth
-from tests.utils import request, run_server
+from tests.utils import request
+from tests.utils import run_server
 
 test_server = None
 
@@ -44,14 +44,14 @@ class AuthorizationTests(unittest.TestCase):
     def test_nonroot_access(self):
         # Non-root users can not reload wok config
         resp = self.request('/config', '{}', 'GET')
-        self.assertEquals(200, resp.status)
+        self.assertEqual(200, resp.status)
         resp = self.request('/config/reload', '{}', 'POST')
-        self.assertEquals(403, resp.status)
+        self.assertEqual(403, resp.status)
 
         # Non-root users can not enable/disable a plugin
         resp = self.request('/config/plugins/sample', '{}', 'GET')
-        self.assertEquals(200, resp.status)
+        self.assertEqual(200, resp.status)
         resp = self.request('/config/plugins/sample/enable', '{}', 'POST')
-        self.assertEquals(403, resp.status)
+        self.assertEqual(403, resp.status)
         resp = self.request('/config/plugins/sample/disable', '{}', 'POST')
-        self.assertEquals(403, resp.status)
+        self.assertEqual(403, resp.status)

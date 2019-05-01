@@ -16,11 +16,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import json
 import unittest
 
-from utils import patch_auth, request, run_server
+from tests.utils import patch_auth
+from tests.utils import request
+from tests.utils import run_server
 
 
 test_server = None
@@ -31,8 +32,9 @@ def setup_server(environment='development', server_root=''):
     global test_server, model
 
     patch_auth()
-    test_server = run_server(test_mode=True, environment=environment,
-                             server_root=server_root)
+    test_server = run_server(
+        test_mode=True, environment=environment, server_root=server_root
+    )
 
 
 class ServerRootTests(unittest.TestCase):
@@ -49,7 +51,7 @@ class ServerRootTests(unittest.TestCase):
         # check if server_root in config is the same used to start server
         resp = request(server_root + '/config').read()
         conf = json.loads(resp)
-        self.assertEquals(len(conf), 6)
+        self.assertEqual(len(conf), 6)
 
     def test_development_env(self):
         """
@@ -61,4 +63,4 @@ class ServerRootTests(unittest.TestCase):
         # check if server_root in config is the same used to start server
         resp = request(server_root + '/config').read()
         conf = json.loads(resp)
-        self.assertEquals(len(conf), 6)
+        self.assertEqual(len(conf), 6)

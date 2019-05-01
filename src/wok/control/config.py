@@ -16,30 +16,22 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-from wok.control.base import Collection, Resource
+from wok.control.base import Collection
+from wok.control.base import Resource
 from wok.control.utils import UrlSubNode
 
 
-CONFIG_REQUESTS = {
-    'POST': {
-        'reload': "WOKCONFIG0001L",
-    },
-}
+CONFIG_REQUESTS = {'POST': {'reload': 'WOKCONFIG0001L'}}
 
 
 PLUGIN_REQUESTS = {
-    'POST': {
-        'enable': "WOKPLUGIN0001L",
-        'disable': "WOKPLUGIN0002L",
-    },
-}
+    'POST': {'enable': 'WOKPLUGIN0001L', 'disable': 'WOKPLUGIN0002L'}}
 
 
-@UrlSubNode("config")
+@UrlSubNode('config')
 class Config(Resource):
-    def __init__(self, model, id=None):
-        super(Config, self).__init__(model, id)
+    def __init__(self, model, _id=None):
+        super(Config, self).__init__(model, _id)
         self.uri_fmt = '/config/%s'
         self.admin_methods = ['POST']
         self.plugins = Plugins(self.model)
@@ -62,7 +54,7 @@ class Plugin(Resource):
         super(Plugin, self).__init__(model, ident)
         self.ident = ident
         self.admin_methods = ['POST']
-        self.uri_fmt = "/config/plugins/%s"
+        self.uri_fmt = '/config/plugins/%s'
         self.log_map = PLUGIN_REQUESTS
         self.enable = self.generate_action_handler('enable', protected=True)
         self.disable = self.generate_action_handler('disable', protected=True)

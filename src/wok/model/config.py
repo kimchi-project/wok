@@ -16,11 +16,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-import cherrypy
 import time
 
-from wok.config import config, get_version
+import cherrypy
+from wok.config import config
+from wok.config import get_version
 from wok.model.notifications import add_notification
 from wok.utils import wok_log
 

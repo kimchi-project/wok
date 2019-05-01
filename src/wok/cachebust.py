@@ -18,20 +18,19 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import os
 
-
-from wok.config import paths, PluginPaths
+from wok.config import paths
+from wok.config import PluginPaths
 
 
 def href(url, plugin=None):
     if plugin is None:
-        basePath = paths.ui_dir
+        base_path = paths.ui_dir
     else:
-        basePath = PluginPaths(plugin).ui_dir
+        base_path = PluginPaths(plugin).ui_dir
 
     # for error.html, url is absolute path
-    f = os.path.join(basePath, url.lstrip("/"))
+    f = os.path.join(base_path, url.lstrip('/'))
     mtime = os.path.getmtime(f)
-    return "%s?cacheBust=%s" % (url, mtime)
+    return f'{url}?cacheBust={mtime}'

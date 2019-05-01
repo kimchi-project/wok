@@ -18,23 +18,23 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import base64
-import cherrypy
 import fcntl
-import ldap
 import multiprocessing
 import os
-import PAM
 import pty
 import re
 import termios
 import time
-import urllib2
+import urllib.parse
 
+import cherrypy
+import ldap
+import PAM
 from wok import template
 from wok.config import config
-from wok.exception import InvalidOperation, OperationFailed
+from wok.exception import InvalidOperation
+from wok.exception import OperationFailed
 from wok.utils import run_command
 
 USER_NAME = 'username'
@@ -43,18 +43,17 @@ USER_GROUPS = 'groups'
 
 
 def redirect_login():
-    url = "/login.html"
-    if cherrypy.request.path_info.endswith(".html"):
+    url = '/login.html'
+    if cherrypy.request.path_info.endswith('.html'):
         next_url = cherrypy.serving.request.request_line.split()[1]
-        next_url = urllib2.quote(next_url.encode('utf-8'), safe="")
-        url = "/login.html?next=%s" % next_url
+        next_url = urllib.parse.quote(next_url.encode('utf-8'), safe='')
+        url = f'/login.html?next={next_url}'
 
     raise cherrypy.HTTPRedirect(url, 303)
 
 
 def debug(msg):
     pass
-    # cherrypy.log.error(msg)
 
 
 class User(object):
@@ -79,15 +78,15 @@ class User(object):
             if auth_type == klass.auth_type:
                 try:
                     if not klass.authenticate(**auth_args):
-                        debug("cannot verify user with the given password")
+                        debug('cannot verify user with the given password')
                         return None
-                except OperationFailed, e:
-                    raise cherrypy.HTTPError(401, e.message)
+                except OperationFailed as e:
+                    raise cherrypy.HTTPError(401, str(e))
                 return klass(auth_args['username'])
 
 
 class PAMUser(User):
-    auth_type = "pam"
+    auth_type = 'pam'
 
     def __init__(self, username):
         super(PAMUser, self).__init__(username)
@@ -95,7 +94,7 @@ class PAMUser(User):
     def _get_groups(self):
         out, err, rc = run_command(['id', '-Gn', self.name])
         if rc == 0:
-            return out.rstrip().split(" ")
+            return out.rstrip().split(' ')
 
         return None
 
@@ -123,30 +122,27 @@ class PAMUser(User):
         os.setsid()
         fcntl.ioctl(slave, termios.TIOCSCTTY, 0)
 
-        out, err, exit = run_command(['sudo', '-l', '-U', self.name,
-                                      'sudo'])
+        out, err, exit = run_command(['sudo', '-l', '-U', self.name, 'sudo'])
         if exit == 0:
-            debug("User %s is allowed to run sudo" % self.name)
+            debug(f'User {self.name} is allowed to run sudo')
             # sudo allows a wide range of configurations, such as controlling
             # which binaries the user can execute with sudo.
             # For now, we will just check whether the user is allowed to run
             # any command with sudo.
-            out, err, exit = run_command(['sudo', '-l', '-U',
-                                          self.name])
+            out, err, exit = run_command(['sudo', '-l', '-U', self.name])
             for line in out.split('\n'):
-                if line and re.search("(ALL)", line):
+                if line and re.search('(ALL)', line):
                     result.value = True
-                    debug("User %s can run any command with sudo" %
-                          result.value)
+                    debug(f'User {result.value} can run any command with sudo')
                     return
-            debug("User %s can only run some commands with sudo" %
-                  self.name)
+            debug(f'User {self.name} can only run some commands with sudo')
         else:
-            debug("User %s is not allowed to run sudo" % self.name)
+            debug(f'User {self.name} is not allowed to run sudo')
 
     @staticmethod
-    def authenticate(username, password, service="system-auth"):
-        '''Returns True if authenticate is OK via PAM.'''
+    def authenticate(username, password, service='system-auth'):
+        """Returns True if authenticate is OK via PAM."""
+
         def _auth(result):
             def _pam_conv(auth, query_list, userData=None):
                 resp = []
@@ -158,7 +154,8 @@ class PAMUser(User):
                         resp.append((password, 0))
                     elif qtype == PAM.PAM_PROMPT_ERROR_MSG:
                         cherrypy.log.error_log.error(
-                            "PAM authenticate prompt error: %s" % query)
+                            f'PAM authenticate prompt error: {query}'
+                        )
                         resp.append(('', 0))
                     elif qtype == PAM.PAM_PROMPT_TEXT_INFO:
                         resp.append(('', 0))
@@ -173,64 +170,69 @@ class PAMUser(User):
             try:
                 auth.authenticate()
                 result.value = 0
-            except PAM.error, (resp, code):
-                result.value = code
+            except PAM.error as e:
+                result.value = e.args[1]
 
         result = multiprocessing.Value('i', 0, lock=False)
-        p = multiprocessing.Process(target=_auth, args=(result, ))
+        p = multiprocessing.Process(target=_auth, args=(result,))
         p.start()
         p.join()
 
         if result.value != 0:
             msg_args = {'username': username, 'code': result.value}
-            raise OperationFailed("WOKAUTH0001E", msg_args)
+            raise OperationFailed('WOKAUTH0001E', msg_args)
 
         return True
 
 
 class LDAPUser(User):
-    auth_type = "ldap"
+    auth_type = 'ldap'
 
     def __init__(self, username):
         super(LDAPUser, self).__init__(username)
 
     @staticmethod
     def authenticate(username, password):
-        ldap_server = config.get("authentication", "ldap_server").strip('"')
+        ldap_server = config.get('authentication', 'ldap_server').strip('"')
         ldap_search_base = config.get(
-            "authentication", "ldap_search_base").strip('"')
+            'authentication', 'ldap_search_base').strip('"')
         ldap_search_filter = config.get(
-            "authentication", "ldap_search_filter",
-            vars={"username": username.encode("utf-8")}).strip('"')
+            'authentication',
+            'ldap_search_filter',
+            vars={'username': username.encode('utf-8')},
+        ).strip('"')
 
         connect = ldap.open(ldap_server)
         try:
             result = connect.search_s(
-                ldap_search_base, ldap.SCOPE_SUBTREE, ldap_search_filter)
+                ldap_search_base, ldap.SCOPE_SUBTREE, ldap_search_filter
+            )
             if len(result) == 0:
                 entity = ldap_search_filter % {'username': username}
-                raise ldap.LDAPError("Invalid ldap entity:%s" % entity)
+                raise ldap.LDAPError(f'Invalid ldap entity: {entity}')
 
             connect.bind_s(result[0][0], password)
             connect.unbind_s()
             return True
         except ldap.INVALID_CREDENTIALS:
-                # invalid user password
-            raise OperationFailed("WOKAUTH0002E")
+            # invalid user password
+            raise OperationFailed('WOKAUTH0002E')
         except ldap.NO_SUCH_OBJECT:
             # ldap search base specified wrongly.
-            raise OperationFailed("WOKAUTH0005E", {"item": 'ldap_search_base',
-                                                   "value": ldap_search_base})
-        except ldap.LDAPError, e:
-            arg = {"username": username, "code": e.message}
-            raise OperationFailed("WOKAUTH0001E", arg)
+            raise OperationFailed(
+                'WOKAUTH0005E', {'item': 'ldap_search_base',
+                                 'value': ldap_search_base}
+            )
+        except ldap.LDAPError as e:
+            arg = {'username': username, 'code': str(e)}
+            raise OperationFailed('WOKAUTH0001E', arg)
 
     def _get_groups(self):
         return None
 
     def _get_role(self):
         admin_ids = config.get(
-            "authentication", "ldap_admin_id").strip('"').split(',')
+            'authentication', 'ldap_admin_id').strip('"').split(',')
         for admin_id in admin_ids:
             if self.name == admin_id.strip():
                 return 'admin'
@@ -241,8 +243,8 @@ def from_browser():
     # Enable Basic Authentication for REST tools.
     # Ajax request sent from jQuery in browser will have "X-Requested-With"
     # header. We will check it to determine whether enable BA.
-    requestHeader = cherrypy.request.headers.get("X-Requested-With", None)
-    return (requestHeader == "XMLHttpRequest")
+    requestHeader = cherrypy.request.headers.get('X-Requested-With', None)
+    return requestHeader == 'XMLHttpRequest'
 
 
 def check_auth_session():
@@ -254,19 +256,21 @@ def check_auth_session():
     session = cherrypy.session.get(USER_NAME, None)
     cherrypy.session.release_lock()
     if session is not None:
-        debug("Session authenticated for user %s" % session)
+        debug(f'Session authenticated for user {session}')
         wokRobot = cherrypy.request.headers.get('Wok-Robot')
-        if wokRobot == "wok-robot":
-            if (time.time() - cherrypy.session[template.REFRESH] >
-                    int(config.get('server', 'session_timeout')) * 60):
+        if wokRobot == 'wok-robot':
+            if (
+                time.time() - cherrypy.session[template.REFRESH]
+                > int(config.get('server', 'session_timeout')) * 60
+            ):
                 cherrypy.session[USER_NAME] = None
                 cherrypy.lib.sessions.expire()
-                raise cherrypy.HTTPError(401, "sessionTimeout")
+                raise cherrypy.HTTPError(401, 'sessionTimeout')
         else:
             cherrypy.session[template.REFRESH] = time.time()
         return True
 
-    debug("Session not found")
+    debug('Session not found')
     return False
 
 
@@ -281,30 +285,32 @@ def check_auth_httpba():
 
     authheader = cherrypy.request.headers.get('AUTHORIZATION')
     if not authheader:
-        debug("No authentication headers found")
+        debug('No authentication headers found')
         return False
 
-    debug("Authheader: %s" % authheader)
+    debug(f'Authheader: {authheader}')
     # TODO: what happens if you get an auth header that doesn't use basic auth?
-    b64data = re.sub("Basic ", "", authheader)
-    decodeddata = base64.b64decode(b64data.encode("ASCII"))
+    b64data = re.sub('Basic ', '', authheader)
+    decodeddata = base64.b64decode(b64data.encode('ASCII'))
     # TODO: test how this handles ':' characters in username/passphrase.
-    username, password = decodeddata.decode().split(":", 1)
+    username, password = decodeddata.decode().split(':', 1)
 
     return login(username, password)
 
 
 def login(username, password, **kwargs):
-    auth_args = {'auth_type': config.get("authentication", "method"),
-                 'username': username.encode('utf-8'),
-                 'password': password.encode('utf-8')}
+    auth_args = {
+        'auth_type': config.get('authentication', 'method'),
+        'username': username,
+        'password': password,
+    }
 
     user = User.get(auth_args)
     if not user:
-        debug("User cannot be verified with the supplied password")
+        debug('User cannot be verified with the supplied password')
         return None
 
-    debug("User verified, establishing session")
+    debug('User verified, establishing session')
     cherrypy.session.acquire_lock()
     cherrypy.session.regenerate()
     cherrypy.session[USER_NAME] = username
@@ -312,8 +318,11 @@ def login(username, password, **kwargs):
     cherrypy.session[USER_ROLE] = user.role
     cherrypy.session[template.REFRESH] = time.time()
     cherrypy.session.release_lock()
-    return {USER_NAME: user.name, USER_GROUPS: user.groups,
-            USER_ROLE: user.role}
+    return {
+        USER_NAME: user.name,
+        USER_GROUPS: user.groups,
+        USER_ROLE: user.role
+    }
 
 
 def logout():
@@ -325,7 +334,7 @@ def logout():
 
 
 def wokauth():
-    debug("Entering wokauth...")
+    debug('Entering wokauth...')
     session_missing = cherrypy.session.missing
     if check_auth_session():
         return
@@ -334,16 +343,17 @@ def wokauth():
         return
 
     # not a REST full request, redirect login page directly
-    if ("Accept" in cherrypy.request.headers and
-       not template.can_accept('application/json')):
+    if 'Accept' in cherrypy.request.headers and not template.can_accept(
+        'application/json'
+    ):
         redirect_login()
 
     # from browser, and it stays on one page.
-    if session_missing and cherrypy.request.cookie.get("lastPage") is not None:
-        raise cherrypy.HTTPError(401, "sessionTimeout")
+    if session_missing and cherrypy.request.cookie.get('lastPage') is not None:
+        raise cherrypy.HTTPError(401, 'sessionTimeout')
 
     if not from_browser():
         cherrypy.response.headers['WWW-Authenticate'] = 'Basic realm=wok'
 
     e = InvalidOperation('WOKAUTH0002E')
-    raise cherrypy.HTTPError(401, e.message.encode('utf-8'))
+    raise cherrypy.HTTPError(401, str(e))

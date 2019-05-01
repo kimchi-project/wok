@@ -19,14 +19,17 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
+import json
 
 import cherrypy
-import json
-from jsonschema import Draft3Validator, ValidationError, FormatChecker
-
+from jsonschema import Draft7Validator
+from jsonschema import FormatChecker
+from jsonschema.exceptions import ValidationError
 from wok.auth import USER_ROLE
-from wok.exception import InvalidParameter, OperationFailed
-from wok.utils import import_module, listPathModules
+from wok.exception import InvalidParameter
+from wok.exception import OperationFailed
+from wok.utils import import_module
+from wok.utils import list_path_modules
 
 
 def get_class_name(cls):
@@ -38,7 +41,7 @@ def get_class_name(cls):
 
 
 def model_fn(cls, fn_name):
-    return '%s_%s' % (get_class_name(cls), fn_name)
+    return f'{get_class_name(cls)}_{fn_name}'
 
 
 def validate_method(allowed, admin_methods):
@@ -81,16 +84,16 @@ def parse_request():
             return json.loads(rawbody)
         except ValueError:
             e = OperationFailed('WOKAPI0006E')
-            raise cherrypy.HTTPError(400, e.message)
+            raise cherrypy.HTTPError(400, str(e))
     elif mime_in_header('Content-Type', 'multipart/form-data'):
         return cherrypy.request.params
     else:
         e = OperationFailed('WOKAPI0007E')
-        raise cherrypy.HTTPError(415, e.message)
+        raise cherrypy.HTTPError(415, str(e))
 
 
 def internal_redirect(url):
-    raise cherrypy.InternalRedirect(url.encode("utf-8"))
+    raise cherrypy.InternalRedirect(url)
 
 
 def validate_params(params, instance, action):
@@ -102,21 +105,20 @@ def validate_params(params, instance, action):
         return
 
     operation = model_fn(instance, action)
-    validator = Draft3Validator(api_schema, format_checker=FormatChecker())
+    validator = Draft7Validator(api_schema, format_checker=FormatChecker())
     request = {operation: params}
 
     try:
         validator.validate(request)
-    except ValidationError, e:
+    except ValidationError as e:
         if e.schema.get('error'):
-            raise InvalidParameter(e.schema['error'], {'value':
-                                                       str(e.instance)})
+            raise InvalidParameter(e.schema['error'], {
+                                   'value': str(e.instance)})
         else:
-            raise InvalidParameter("WOKAPI0008E", {"err": str(e.message)})
+            raise InvalidParameter('WOKAPI0008E', {'err': str(e)})
 
 
 class UrlSubNode(object):
-
     def __init__(self, name, auth=False):
         """
         admin_methods must be None, or a list containing zero or more of the
@@ -126,15 +128,15 @@ class UrlSubNode(object):
         self.auth = auth
 
     def __call__(self, fun):
-        fun._url_sub_node_name = {"name": self.name}
+        fun._url_sub_node_name = {'name': self.name}
         fun.url_auth = self.auth
         return fun
 
 
-def load_url_sub_node(path, package_name, expect_attr="_url_sub_node_name"):
+def load_url_sub_node(path, package_name, expect_attr='_url_sub_node_name'):
     sub_nodes = {}
-    for mod_name in listPathModules(path):
-        if mod_name.startswith("_"):
+    for mod_name in list_path_modules(path):
+        if mod_name.startswith('_'):
             continue
 
         module = import_module(package_name + '.' + mod_name)
@@ -142,7 +144,7 @@ def load_url_sub_node(path, package_name, expect_attr="_url_sub_node_name"):
         for node in [getattr(module, x) for x in dir(module)]:
             if not hasattr(node, expect_attr):
                 continue
-            name = getattr(node, expect_attr)["name"]
+            name = getattr(node, expect_attr)['name']
             sub_nodes.update({name: node})
 
     return sub_nodes

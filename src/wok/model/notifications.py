@@ -16,10 +16,10 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 from datetime import datetime
 
-from wok.exception import NotFoundError, OperationFailed
+from wok.exception import NotFoundError
+from wok.exception import OperationFailed
 from wok.message import WokMessage
 from wok.pushserver import send_wok_notification
 from wok.utils import wok_log
@@ -32,18 +32,23 @@ def add_notification(code, args=None, plugin_name=None):
     if args is None:
         args = {}
     if not code:
-        wok_log.error("Unable to add notification: invalid code '%(code)s'" %
-                      {'code': str(code)})
+        wok_log.error(
+            "Unable to add notification: invalid code '%(code)s'" % {
+                'code': str(code)}
+        )
         return
 
     global notificationsStore
     notification = notificationsStore.get(code)
 
     # do not update timestamp if notification already exists
-    timestamp = datetime.now().isoformat() if notification is None else \
-        notification['timestamp']
+    timestamp = (
+        datetime.now().isoformat()
+        if notification is None
+        else notification['timestamp']
+    )
 
-    args.update({"_plugin_name": plugin_name, "timestamp": timestamp})
+    args.update({'_plugin_name': plugin_name, 'timestamp': timestamp})
     notificationsStore[code] = args
 
     send_wok_notification('', 'notifications', 'POST')
@@ -55,7 +60,7 @@ def del_notification(code):
     try:
         del notificationsStore[str(code)]
     except Exception as e:
-        raise OperationFailed("WOKNOT0002E", {'id': str(code), 'msg': e.msg()})
+        raise OperationFailed('WOKNOT0002E', {'id': str(code), 'msg': e.msg()})
 
     send_wok_notification('', 'notification', 'DELETE')
 
@@ -73,18 +78,18 @@ class NotificationModel(object):
     def __init__(self, **kargs):
         pass
 
-    def lookup(self, id):
+    def lookup(self, _id):
         global notificationsStore
-        notification = notificationsStore.get(str(id))
+        notification = notificationsStore.get(str(_id))
 
         # use WokMessage to translate the notification
         if notification:
             timestamp = notification.get('timestamp', None)
             plugin = notification.get('_plugin_name', None)
-            message = WokMessage(str(id), notification, plugin).get_text()
-            return {"code": id, "message": message, "timestamp": timestamp}
+            message = WokMessage(str(_id), notification, plugin).get_text()
+            return {'code': _id, 'message': message, 'timestamp': timestamp}
 
-        raise NotFoundError("WOKNOT0001E", {'id': str(id)})
+        raise NotFoundError('WOKNOT0001E', {'id': str(_id)})
 
-    def delete(self, id):
-        del_notification(id)
+    def delete(self, _id):
+        del_notification(_id)

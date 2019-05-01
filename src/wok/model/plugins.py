@@ -18,11 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-
 from wok.exception import NotFoundError
 from wok.utils import get_all_affected_plugins_by_plugin
-from wok.utils import get_plugin_dependencies, get_plugins, load_plugin_conf
+from wok.utils import get_plugin_dependencies
+from wok.utils import get_plugins
+from wok.utils import load_plugin_conf
 from wok.utils import set_plugin_state
 
 
@@ -39,22 +39,22 @@ class PluginModel(object):
         pass
 
     def lookup(self, name):
-        name = name.encode('utf-8')
-
         plugin_conf = load_plugin_conf(name)
         if not plugin_conf:
-            raise NotFoundError("WOKPLUGIN0001E", {'name': name})
+            raise NotFoundError('WOKPLUGIN0001E', {'name': name})
 
         depends = get_plugin_dependencies(name)
         is_dependency_of = get_all_affected_plugins_by_plugin(name)
 
-        return {"name": name, "enabled": plugin_conf['wok']['enable'],
-                "depends": depends, "is_dependency_of": is_dependency_of}
+        return {
+            'name': name,
+            'enabled': plugin_conf['wok']['enable'],
+            'depends': depends,
+            'is_dependency_of': is_dependency_of,
+        }
 
     def enable(self, name):
-        name = name.encode('utf-8')
         set_plugin_state(name, True)
 
     def disable(self, name):
-        name = name.encode('utf-8')
         set_plugin_state(name, False)

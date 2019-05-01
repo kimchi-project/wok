@@ -7,13 +7,12 @@ git:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y gcc make autoconf automake gettext git pkgconf xsltproc logrotate python-cherrypy3 python-cheetah python-pam python-m2crypto python-jsonschema python-psutil python-ldap python-lxml nginx openssl websockify gettext pep8 pyflakes python-requests python-mock
-  - ./autogen.sh --system 
+  - ./autogen.sh --system
 
 install: make
 
 before_script: cd tests
 
-script: 
+script:
   - make check-local
   - make check
-

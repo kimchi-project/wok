@@ -19,12 +19,11 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
-
 import sys
 
 
 class RollbackContext(object):
-    '''
+    """
     A context manager for recording and playing rollback.
     The first exception will be remembered and re-raised after rollback
 
@@ -35,7 +34,8 @@ class RollbackContext(object):
         def undoStep2(arg): pass
         step2()
         rollback.prependDefer(undoStep2, arg)
-    '''
+    """
+
     def __init__(self, *args):
         self._finally = []
 
@@ -59,7 +59,7 @@ class RollbackContext(object):
                     undoExcInfo = sys.exc_info()
 
         if exc_type is None and undoExcInfo is not None:
-            raise undoExcInfo[0], undoExcInfo[1], undoExcInfo[2]
+            raise undoExcInfo[0](undoExcInfo[1]).with_traceback(undoExcInfo[2])
 
     def defer(self, func, *args, **kwargs):
         self._finally.append((func, args, kwargs))

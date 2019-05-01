@@ -17,22 +17,21 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
-
-import cherrypy
 import glob
 import json
-import logging
 import logging.handlers
 import os.path
 import time
 import uuid
-
-from cherrypy.process.plugins import BackgroundTask
 from tempfile import NamedTemporaryFile
 
+import cherrypy
+from cherrypy.process.plugins import BackgroundTask
 from wok.auth import USER_NAME
-from wok.config import get_log_download_path, paths
-from wok.exception import InvalidParameter, OperationFailed
+from wok.config import get_log_download_path
+from wok.config import paths
+from wok.exception import InvalidParameter
+from wok.exception import OperationFailed
 from wok.message import WokMessage
 from wok.pushserver import send_wok_notification
 from wok.stringutils import ascii_dict
@@ -41,10 +40,12 @@ from wok.utils import remove_old_files
 
 # Log search setup
 FILTER_FIELDS = ['app', 'date', 'ip', 'req', 'status', 'user', 'time']
-LOG_DOWNLOAD_URI = "data/logs/%s"
+LOG_DOWNLOAD_URI = 'data/logs/%s'
 LOG_DOWNLOAD_TIMEOUT = 6
-LOG_FORMAT = "[%(date)s %(time)s %(zone)s] %(req)-6s %(status)s %(app)-11s " \
-             "%(ip)-15s %(user)s: %(message)s\n"
+LOG_FORMAT = (
+    '[%(date)s %(time)s %(zone)s] %(req)-6s %(status)s %(app)-11s '
+    '%(ip)-15s %(user)s: %(message)s\n'
+)
 RECORD_TEMPLATE_DICT = {
     'date': '',
     'time': '',
@@ -57,22 +58,32 @@ RECORD_TEMPLATE_DICT = {
     'message': '',
 }
 SECONDS_PER_HOUR = 360
-TS_DATE_FORMAT = "%Y-%m-%d"
-TS_TIME_FORMAT = "%H:%M:%S"
-TS_ZONE_FORMAT = "%Z"
+TS_DATE_FORMAT = '%Y-%m-%d'
+TS_TIME_FORMAT = '%H:%M:%S'
+TS_ZONE_FORMAT = '%Z'
 UNSAFE_REQUEST_PARAMETERS = ['password', 'passwd']
 
 # Log handler setup
-REQUEST_LOG_FILE = "user-requests.data"
-WOK_REQUEST_LOGGER = "wok_request_logger"
+REQUEST_LOG_FILE = 'user-requests.data'
+WOK_REQUEST_LOGGER = 'wok_request_logger'
 
 # AsyncTask handling
 ASYNCTASK_REQUEST_METHOD = 'TASK'
 
 
-def log_request(code, params, exception, method, status, app=None, user=None,
-                ip=None, class_name=None, action_name=None):
-    '''
+def log_request(
+    code,
+    params,
+    exception,
+    method,
+    status,
+    app=None,
+    user=None,
+    ip=None,
+    class_name=None,
+    action_name=None,
+):
+    """
     Add an entry to user request log
 
     @param settings
@@ -95,7 +106,7 @@ def log_request(code, params, exception, method, status, app=None, user=None,
         cherrypy request remote IP address
 
     @returns ID of log entry
-    '''
+    """
     if app is None:
         app = cherrypy.request.app.script_name
 
@@ -112,7 +123,7 @@ def log_request(code, params, exception, method, status, app=None, user=None,
         req=method,
         status=status,
         user=user,
-        ip=ip
+        ip=ip,
     ).log()
 
     if class_name:
@@ -134,11 +145,11 @@ class RequestLogger(object):
 
         # start request log's downloadable temporary files removal task
         interval = LOG_DOWNLOAD_TIMEOUT * SECONDS_PER_HOUR
-        self.clean_task = BackgroundTask(interval, self.cleanLogFiles)
+        self.clean_task = BackgroundTask(interval, self.clean_log_files)
         self.clean_task.start()
 
-    def cleanLogFiles(self):
-        globexpr = "%s/*.txt" % get_log_download_path()
+    def clean_log_files(self):
+        globexpr = f'{get_log_download_path()}/*.txt'
         remove_old_files(globexpr, LOG_DOWNLOAD_TIMEOUT)
 
 
@@ -148,7 +159,7 @@ class RequestParser(object):
         self.baseFile = logger.handlers[0].baseFilename
         self.downloadDir = get_log_download_path()
 
-    def generateLogFile(self, records):
+    def generate_log_file(self, records):
         """
         Generates a log-format text file with lines for each record specified.
         Returns a download URI for the generated file.
@@ -158,8 +169,9 @@ class RequestParser(object):
             sortedList = sorted(records, key=lambda k: k['date'] + k['time'])
 
             # generate log file
-            fd = NamedTemporaryFile(mode='w', dir=self.downloadDir,
-                                    suffix='.txt', delete=False)
+            fd = NamedTemporaryFile(
+                mode='w', dir=self.downloadDir, suffix='.txt', delete=False
+            )
 
             with fd:
                 for record in sortedList:
@@ -169,11 +181,11 @@ class RequestParser(object):
 
                 fd.close()
         except IOError as e:
-            raise OperationFailed("WOKLOG0002E", {'err': str(e)})
+            raise OperationFailed('WOKLOG0002E', {'err': str(e)})
 
         return LOG_DOWNLOAD_URI % os.path.basename(fd.name)
 
-    def getTranslatedMessage(self, message, error, app_root):
+    def get_translated_message(self, message, error, app_root):
         code = message.get('code', '')
         params = message.get('params', {})
         msg = WokMessage(code, params, app_root)
@@ -183,15 +195,15 @@ class RequestParser(object):
             code = error.get('code', '')
             params = error.get('params', {})
             msg = WokMessage(code, params, app_root)
-            text += ' (%s)' % msg.get_text(prepend_code=True, translate=True)
+            text += f' ({msg.get_text(prepend_code=True, translate=True)})'
 
         return text
 
-    def getRecords(self):
-        records = self.getRecordsFromFile(self.baseFile)
+    def get_records(self):
+        records = self.get_records_from_file(self.baseFile)
 
-        for filename in glob.glob(self.baseFile + "-*[!.gz]"):
-            records.extend(self.getRecordsFromFile(filename))
+        for filename in glob.glob(self.baseFile + '-*[!.gz]'):
+            records.extend(self.get_records_from_file(filename))
 
         # normalize entries
         normalized = {}
@@ -208,7 +220,7 @@ class RequestParser(object):
             message = record.pop('message')
             error = record.pop('error', None)
             uri = record['info']['app']
-            text = self.getTranslatedMessage(message, error, uri)
+            text = self.get_translated_message(message, error, uri)
             record['info']['message'] = text
 
             # get user-friendly app name
@@ -232,10 +244,13 @@ class RequestParser(object):
                 normalized[id]['status'] = record['info']['status']
 
         # return results in chronological reverse order
-        return sorted(normalized.values(), key=lambda k: k['date'] + k['time'],
-                      reverse=True)
+        return sorted(
+            normalized.values(),
+            key=lambda k: k['date'] + k['time'],
+            reverse=True
+        )
 
-    def getRecordsFromFile(self, filename):
+    def get_records_from_file(self, filename):
         """
         Returns a list of dict, where each dict corresponds to a request
         record.
@@ -248,42 +263,44 @@ class RequestParser(object):
         try:
             with open(filename) as f:
                 line = f.readline()
-                while line != "":
+                while line != '':
                     record = json.JSONDecoder().decode(line)
                     records.append(record)
                     line = f.readline()
 
-            f. close()
+            f.close()
         except IOError as e:
-            raise OperationFailed("WOKLOG0002E", {'err': str(e)})
+            raise OperationFailed('WOKLOG0002E', {'err': str(e)})
 
         return records
 
-    def getFilteredRecords(self, filter_params):
+    def get_filtered_records(self, filter_params):
         """
         Returns a dict containing the filtered list of request log entries
         (dicts), and an optional uri for downloading results in a text file.
         """
         uri = None
         results = []
-        records = self.getRecords()
+        records = self.get_records()
         download = filter_params.pop('download', False)
 
         # fail for unrecognized filter options
         for key in filter_params.keys():
             if key not in FILTER_FIELDS:
-                filters = ", ".join(FILTER_FIELDS)
-                raise InvalidParameter("WOKLOG0001E", {"filters": filters})
+                filters = ', '.join(FILTER_FIELDS)
+                raise InvalidParameter('WOKLOG0001E', {'filters': filters})
 
         # filter records according to parameters
         for record in records:
-            if all(key in record and record[key] == val
-                   for key, val in filter_params.iteritems()):
+            if all(
+                key in record and record[key] == val
+                for key, val in filter_params.items()
+            ):
                 results.append(record)
 
         # download option active: generate text file and provide donwload uri
         if download and len(results) > 0:
-            uri = self.generateLogFile(results)
+            uri = self.generate_log_file(results)
 
         return {'uri': uri, 'records': results}
 
@@ -293,16 +310,13 @@ class RequestRecord(object):
         # data for message translation
         self.message = {
             'code': message['code'],
-            'params': self.getSafeReqParams(message['params']),
+            'params': self.get_safe_req_params(message['params']),
         }
 
         # data for error translation (WokException)
         self.error = None
         if error:
-            self.error = {
-                'code': error.code,
-                'params': error.params,
-            }
+            self.error = {'code': error.code, 'params': error.params}
 
         # log entry info
         self.id = id or str(uuid.uuid4())
@@ -310,13 +324,15 @@ class RequestRecord(object):
 
         # generate timestamp
         timestamp = time.localtime()
-        self.info.update({
-            'date': time.strftime(TS_DATE_FORMAT, timestamp),
-            'time': time.strftime(TS_TIME_FORMAT, timestamp),
-            'zone': time.strftime(TS_ZONE_FORMAT, timestamp),
-        })
+        self.info.update(
+            {
+                'date': time.strftime(TS_DATE_FORMAT, timestamp),
+                'time': time.strftime(TS_TIME_FORMAT, timestamp),
+                'zone': time.strftime(TS_ZONE_FORMAT, timestamp),
+            }
+        )
 
-    def getSafeReqParams(self, params):
+    def get_safe_req_params(self, params):
         result = params.copy()
         for param in UNSAFE_REQUEST_PARAMETERS:
             result.pop(param, None)
@@ -324,10 +340,10 @@ class RequestRecord(object):
 
     def __str__(self):
         entry = {
-            "id": self.id,
-            "message": self.message,
-            "error": self.error,
-            "info": self.info,
+            'id': self.id,
+            'message': self.message,
+            'error': self.error,
+            'info': self.info,
         }
 
         return json.JSONEncoder().encode(entry)

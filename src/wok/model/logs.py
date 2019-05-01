@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 from wok.reqlogger import RequestParser
 
 
@@ -26,6 +25,6 @@ class LogsModel(object):
 
     def get_list(self, filter_params):
         if filter_params:
-            return RequestParser().getFilteredRecords(filter_params)
+            return RequestParser().get_filtered_records(filter_params)
 
-        return RequestParser().getRecords()
+        return RequestParser().get_records()

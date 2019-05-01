@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import lxml.etree as ET
 from lxml import objectify
 
@@ -28,9 +27,7 @@ def xpath_get_text(xml, expr):
 
     res = []
     for x in doc.xpath(expr):
-        if isinstance(x, unicode):
-            x = x.encode('utf-8')
-        elif not isinstance(x, str):
+        if not isinstance(x, str):
             x = x.text
         res.append(x)
     return res
@@ -42,7 +39,7 @@ def xml_item_insert(xml, xpath, item_xml):
     element = root.find(xpath)
     element.insert(0, ET.fromstring(item_xml))
 
-    return ET.tostring(root, encoding="utf-8")
+    return ET.tostring(root, encoding='utf-8').decode('utf-8')
 
 
 def xml_item_update(xml, xpath, value, attr=None):
@@ -52,22 +49,22 @@ def xml_item_update(xml, xpath, value, attr=None):
         item.text = value
     else:
         item.set(attr, value)
-    return ET.tostring(root, encoding="utf-8")
+    return ET.tostring(root, encoding='utf-8').decode('utf-8')
 
 
 def xml_item_remove(xml, xpath):
     root = ET.fromstring(xml)
 
     element = root.find(xpath)
-    parent = root.find(xpath + "/..")
+    parent = root.find(xpath + '/..')
     if parent is not None:
         parent.remove(element)
 
-    return ET.tostring(root, encoding="utf-8")
+    return ET.tostring(root, encoding='utf-8').decode('utf-8')
 
 
 def dictize(xmlstr):
-    root = objectify.fromstring(xmlstr.decode('utf-8','ignore').encode("utf-8"))
+    root = objectify.fromstring(xmlstr)
     return {root.tag: _dictize(root)}
 
 
@@ -82,8 +79,8 @@ def _dictize(e):
         if child.tag in d:
             continue
         if len(child) > 1:
-            d[child.tag] = [
-                _dictize(same_tag_child) for same_tag_child in child]
+            d[child.tag] = [_dictize(same_tag_child)
+                            for same_tag_child in child]
         else:
             d[child.tag] = _dictize(child)
     return d

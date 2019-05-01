@@ -17,13 +17,12 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
-
-import cherrypy
 import os
 import select
 import socket
 import threading
 
+import cherrypy
 import wok.websocket as websocket
 from wok.config import get_pushserver_socket_dir
 from wok.utils import wok_log
@@ -55,33 +54,35 @@ def send_wok_notification(uri, entity, method, action_name=None):
     if app:
         app_name = app.root.domain
 
-    source = '/%s/%s' % (app_name, entity)
+    source = f'/{app_name}/{entity}'
     if action_name:
-        source = '%s/%s' % (source, action_name)
-    message = '%s:%s' % (method, source)
+        source = f'{source}/{action_name}'
+
+    message = f'{method}:{source}'
     send_websocket_notification(message)
 
 
 class PushServer(object):
-
     def set_socket_file(self):
         if not os.path.isdir(BASE_DIRECTORY):
             try:
                 os.mkdir(BASE_DIRECTORY)
             except OSError:
-                raise RuntimeError('PushServer base UNIX socket dir %s '
-                                   'not found.' % BASE_DIRECTORY)
-
-        self.server_addr = os.path.join(BASE_DIRECTORY, TOKEN_NAME)
+                raise RuntimeError(
+                    f'PushServer base UNIX socket dir {BASE_DIRECTORY} \
+                    not found.'
+                )
 
         if os.path.exists(self.server_addr):
             try:
                 os.remove(self.server_addr)
-            except:
-                raise RuntimeError('There is an existing connection in %s' %
-                                   self.server_addr)
+            except Exception:
+                raise RuntimeError(
+                    f'There is an existing connection in {self.server_addr}'
+                )
 
     def __init__(self):
+        self.server_addr = os.path.join(BASE_DIRECTORY, TOKEN_NAME)
         self.set_socket_file()
 
         websocket.add_proxy_token(TOKEN_NAME, self.server_addr, True)
@@ -90,11 +91,11 @@ class PushServer(object):
 
         self.server_running = True
         self.server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self.server_socket.setsockopt(socket.SOL_SOCKET,
-                                      socket.SO_REUSEADDR, 1)
+        self.server_socket.setsockopt(
+            socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server_socket.bind(self.server_addr)
         self.server_socket.listen(10)
-        wok_log.info('Push server created on address %s' % self.server_addr)
+        wok_log.info(f'Push server created on address {self.server_addr}')
 
         self.connections.append(self.server_socket)
         cherrypy.engine.subscribe('stop', self.close_server, 1)
@@ -106,8 +107,7 @@ class PushServer(object):
     def listen(self):
         try:
             while self.server_running:
-                read_ready, _, _ = select.select(self.connections,
-                                                 [], [], 1)
+                read_ready, _, _ = select.select(self.connections, [], [], 1)
 
                 for sock in read_ready:
                     if not self.server_running:
@@ -122,7 +122,7 @@ class PushServer(object):
                             if not data:
                                 self.connections.remove(sock)
                                 sock.close()
-                        except:
+                        except Exception:
                             try:
                                 self.connections.remove(sock)
                             except ValueError:
@@ -131,15 +131,16 @@ class PushServer(object):
                                 sock.close()
 
         except Exception as e:
-            raise RuntimeError('Exception ocurred in listen() of pushserver '
-                               'module: %s' % e.message)
+            raise RuntimeError(
+                f'Exception ocurred in listen() of pushserver module: {str(e)}'
+            )
 
     def send_notification(self, message):
         message += END_OF_MESSAGE_MARKER
         for sock in self.connections:
             if sock != self.server_socket:
                 try:
-                    sock.send(message)
+                    sock.send(message.encode('utf-8'))
                 except IOError as e:
                     if 'Broken pipe' in str(e):
                         sock.close()
@@ -154,7 +155,7 @@ class PushServer(object):
             self.server_socket.shutdown(socket.SHUT_RDWR)
             self.server_socket.close()
             os.remove(self.server_addr)
-        except:
+        except Exception:
             pass
         finally:
             cherrypy.engine.unsubscribe('stop', self.close_server)

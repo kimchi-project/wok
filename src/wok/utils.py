@@ -19,13 +19,10 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
-
-import cherrypy
 import glob
 import grp
 import inspect
 import os
-import psutil
 import pwd
 import re
 import sqlite3
@@ -33,26 +30,40 @@ import subprocess
 import sys
 import traceback
 import xml.etree.ElementTree as ET
-
-from cherrypy.lib.reprconf import Parser
-from datetime import datetime, timedelta
-from multiprocessing import Process, Queue
+from datetime import datetime
+from datetime import timedelta
+from multiprocessing import Process
+from multiprocessing import Queue
 from optparse import Values
 from threading import Timer
 
+import cherrypy
+import psutil
+from cherrypy.lib.reprconf import Parser
 from wok import config
-from wok.config import paths, PluginConfig, PluginPaths
-from wok.exception import InvalidParameter, TimeoutExpired
+from wok.config import paths
+from wok.config import PluginConfig
+from wok.config import PluginPaths
+from wok.exception import InvalidParameter
+from wok.exception import TimeoutExpired
 from wok.stringutils import decode_value
 
-
 wok_log = cherrypy.log.error_log
+
+SI_PREFIXES = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
+# The IEC prefixes are the equivalent SI prefixes + 'i'
+# but, exceptionally, 'k' becomes 'Ki' instead of 'ki'.
+IEC_PREFIXES = ['Ki' if p == 'k' else p + 'i' for p in SI_PREFIXES]
+PREFIXES_BY_BASE = {1000: SI_PREFIXES, 1024: IEC_PREFIXES}
+
+SUFFIXES_WITH_MULT = {'b': 1, 'B': 8}
+DEFAULT_SUFFIX = 'B'
 
 
 def is_digit(value):
     if isinstance(value, int):
         return True
-    elif isinstance(value, basestring):
+    elif isinstance(value, str):
         value = value.strip()
         return value.isdigit()
     else:
@@ -62,8 +73,9 @@ def is_digit(value):
 def get_plugin_config_file(name):
     plugin_conf = PluginPaths(name).conf_file
     if not os.path.exists(plugin_conf):
-        cherrypy.log.error_log.error("Plugin configuration file %s"
-                                     " doesn't exist." % plugin_conf)
+        cherrypy.log.error_log.error(
+            f"Plugin configuration file {plugin_conf} doesn't exist."
+        )
         return None
     return plugin_conf
 
@@ -76,9 +88,9 @@ def load_plugin_conf(name):
 
         return Parser().dict_from_file(plugin_conf)
     except ValueError as e:
-        cherrypy.log.error_log.error("Failed to load plugin "
-                                     "conf from %s: %s" %
-                                     (plugin_conf, e.message))
+        cherrypy.log.error_log.error(
+            f'Failed to load plugin conf from {plugin_conf}: {e}'
+        )
 
 
 def get_plugins(enabled_only=False):
@@ -133,7 +145,7 @@ def get_all_plugins_dependent_on(name):
         return []
 
     dependencies = []
-    for plugin, app in cherrypy.tree.apps.iteritems():
+    for plugin, app in cherrypy.tree.apps.items():
         if hasattr(app.root, 'depends') and name in app.root.depends:
             dependencies.append(plugin.replace('/plugins/', ''))
 
@@ -185,14 +197,12 @@ def update_plugin_config_file(name, state):
     if not plugin_conf:
         return
 
-    config_contents = None
-
     with open(plugin_conf, 'r') as f:
         config_contents = f.readlines()
 
     wok_section_found = False
 
-    pattern = re.compile("^\s*enable\s*=\s*")
+    pattern = re.compile('^\\s*enable\\s*=\\s*')
 
     for i in range(0, len(config_contents)):
         if config_contents[i] == '[wok]\n':
@@ -200,7 +210,7 @@ def update_plugin_config_file(name, state):
             continue
 
         if pattern.match(config_contents[i]) and wok_section_found:
-            config_contents[i] = 'enable = %s\n' % str(state)
+            config_contents[i] = f'enable = {str(state)}\n'
             break
 
     with open(plugin_conf, 'w') as f:
@@ -209,9 +219,8 @@ def update_plugin_config_file(name, state):
 
 def load_plugin(plugin_name, plugin_config):
     try:
-        plugin_class = ('plugins.%s.%s' %
-                        (plugin_name,
-                         plugin_name[0].upper() + plugin_name[1:]))
+        class_name = f'{plugin_name[0].upper() + plugin_name[1:]}'
+        plugin_class = f'wok.plugins.{plugin_name}.{class_name}'
         del plugin_config['wok']
         plugin_config.update(PluginConfig(plugin_name))
     except KeyError:
@@ -220,40 +229,38 @@ def load_plugin(plugin_name, plugin_config):
     try:
         options = get_plugin_config_options()
         plugin_app = import_class(plugin_class)(options)
-    except (ImportError, Exception), e:
+    except (ImportError, Exception) as e:
         cherrypy.log.error_log.error(
-            "Failed to import plugin %s, "
-            "error: %s" % (plugin_class, e.message)
+            f'Failed to import plugin {plugin_class}, error: {str(e)}'
         )
         return
 
     # dynamically extend plugin config with custom data, if provided
-    get_custom_conf = getattr(plugin_app, "get_custom_conf", None)
+    get_custom_conf = getattr(plugin_app, 'get_custom_conf', None)
     if get_custom_conf is not None:
         plugin_config.update(get_custom_conf())
 
     # dynamically add tools.wokauth.on = True to extra plugin APIs
     try:
-        sub_nodes = import_class('plugins.%s.control.sub_nodes' %
-                                 plugin_name)
+        sub_nodes = import_class(
+            f'wok.plugins.{plugin_name}.control.sub_nodes')
 
         urlSubNodes = {}
         for ident, node in sub_nodes.items():
             if node.url_auth:
-                ident = "/%s" % ident
+                ident = f'/{ident}'
                 urlSubNodes[ident] = {'tools.wokauth.on': True}
 
             plugin_config.update(urlSubNodes)
 
-    except ImportError, e:
-        cherrypy.log.error_log.error(
-            "Failed to import subnodes for plugin %s, "
-            "error: %s" % (plugin_class, e.message)
-        )
+    except ImportError as e:
+        msg = f'Failed to import subnodes for plugin {plugin_class}'
+        msg += f'Error: {str(e)}'
+        cherrypy.log.error_log.error(msg)
 
-    cherrypy.tree.mount(plugin_app,
-                        config.get_base_plugin_uri(plugin_name),
-                        plugin_config)
+    cherrypy.tree.mount(
+        plugin_app, config.get_base_plugin_uri(plugin_name), plugin_config
+    )
 
 
 def is_plugin_mounted_in_cherrypy(plugin_uri):
@@ -274,13 +281,10 @@ def update_cherrypy_mounted_tree(plugin, state):
 def get_plugin_config_options():
     options = Values()
 
-    options.websockets_port = config.config.getint('server',
-                                                   'websockets_port')
-    options.cherrypy_port = config.config.getint('server',
-                                                 'cherrypy_port')
+    options.websockets_port = config.config.getint('server', 'websockets_port')
+    options.cherrypy_port = config.config.getint('server', 'cherrypy_port')
     options.proxy_port = config.config.getint('server', 'proxy_port')
-    options.session_timeout = config.config.getint('server',
-                                                   'session_timeout')
+    options.session_timeout = config.config.getint('server', 'session_timeout')
 
     options.test = config.config.get('server', 'test')
     if options.test == 'None':
@@ -300,15 +304,15 @@ def get_all_tabs():
     files = [os.path.join(paths.ui_dir, 'config/tab-ext.xml')]
 
     for plugin, _ in get_enabled_plugins():
-        files.append(os.path.join(PluginPaths(plugin).ui_dir,
-                     'config/tab-ext.xml'))
+        files.append(os.path.join(PluginPaths(
+            plugin).ui_dir, 'config/tab-ext.xml'))
 
     tabs = []
     for f in files:
         try:
             root = ET.parse(f)
         except (IOError):
-            wok_log.debug("Unable to load %s", f)
+            wok_log.debug(f'Unable to load {f}')
             continue
         tabs.extend([t.text.lower() for t in root.getiterator('title')])
 
@@ -320,15 +324,60 @@ def import_class(class_path):
     try:
         mod = import_module(module_name, class_name)
         return getattr(mod, class_name)
-    except (ImportError, AttributeError), e:
+    except (ImportError, AttributeError) as e:
         raise ImportError(
-            'Class %s can not be imported, '
-            'error: %s' % (class_path, e.message)
-        )
+            f'Class {class_path} can not be imported, error: {str(e)}')
 
 
 def import_module(module_name, class_name=''):
     return __import__(module_name, globals(), locals(), [class_name])
+
+
+def _set_timer(proc, timeout, timeout_flag):
+    # subprocess.kill() can leave descendants running
+    # and halting the execution. Using psutil to
+    # get all descendants from the subprocess and
+    # kill them recursively.
+    def kill_proc(proc, timeout_flag):
+        try:
+            parent = psutil.Process(proc.pid)
+            for child in parent.get_children(recursive=True):
+                child.kill()
+            # kill the process after no children is left
+            proc.kill()
+        except OSError:
+            pass
+        else:
+            timeout_flag[0] = True
+
+    timer = Timer(timeout, kill_proc, [proc, timeout_flag])
+    timer.setDaemon(True)
+    timer.start()
+
+    return timer
+
+
+def _get_cmd_output(proc, out_cb):
+    output = []
+    while True:
+        line = ''
+        try:
+            line = proc.stdout.readline()
+            line = line.decode('utf_8')
+        except Exception:
+            type, e, tb = sys.exc_info()
+            wok_log.error(e)
+            msg = f'The output of the command could not be decoded as utf-8.'
+            msg += f'\nIgnored line: {repr(line)}'
+            wok_log.error(msg)
+            pass
+
+        output.append(line)
+        if not line:
+            break
+        out_cb(''.join(output))
+
+    return output
 
 
 def run_command(cmd, timeout=None, silent=False, out_cb=None, env_vars=None):
@@ -347,22 +396,6 @@ def run_command(cmd, timeout=None, silent=False, out_cb=None, env_vars=None):
     error is an error message if applicable
     returncode is an integer equal to the result of command execution
     """
-    # subprocess.kill() can leave descendants running
-    # and halting the execution. Using psutil to
-    # get all descendants from the subprocess and
-    # kill them recursively.
-    def kill_proc(proc, timeout_flag):
-        try:
-            parent = psutil.Process(proc.pid)
-            for child in parent.get_children(recursive=True):
-                child.kill()
-            # kill the process after no children is left
-            proc.kill()
-        except OSError:
-            pass
-        else:
-            timeout_flag[0] = True
-
     proc = None
     timer = None
     timeout_flag = [False]
@@ -374,47 +407,30 @@ def run_command(cmd, timeout=None, silent=False, out_cb=None, env_vars=None):
         env_vars['LC_ALL'] = 'en_US.UTF-8'
 
     try:
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE, env=env_vars)
+        proc = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env_vars
+        )
         if timeout is not None:
-            timer = Timer(timeout, kill_proc, [proc, timeout_flag])
-            timer.setDaemon(True)
-            timer.start()
+            timer = _set_timer(proc, timeout, timeout_flag)
 
-        wok_log.debug("Run command: '%s'", " ".join(cmd))
+        wok_log.debug(f"Run command: {' '.join(cmd)}")
         if out_cb is not None:
-            output = []
-            while True:
-                line = ""
-                try:
-                    line = proc.stdout.readline()
-                    line = line.decode('utf_8')
-                except Exception:
-                    type, e, tb = sys.exc_info()
-                    wok_log.error(e)
-                    wok_log.error("The output of the command could not be "
-                                  "decoded as %s\ncmd: %s\n line ignored: %s" %
-                                  ('utf_8', cmd, repr(line)))
-                    pass
-
-                output.append(line)
-                if not line:
-                    break
-                out_cb(''.join(output))
+            output = _get_cmd_output(proc, out_cb)
             out = ''.join(output)
             error = proc.stderr.read()
             returncode = proc.poll()
         else:
             out, error = proc.communicate()
+            returncode = proc.returncode
 
         if out:
-            wok_log.debug("out:\n%s", out)
+            wok_log.debug(f'out:\n{out}')
 
-        returncode = proc.returncode
         if returncode != 0:
-            msg = "rc: %s error: %s returned from cmd: %s" %\
-                  (returncode, decode_value(error),
-                   decode_value(' '.join(cmd)))
+            msg = (
+                f'rc: {returncode} error: {decode_value(error)} returned '
+                f"from cmd: {decode_value(' '.join(cmd))}"
+            )
 
             if silent:
                 wok_log.debug(msg)
@@ -424,32 +440,36 @@ def run_command(cmd, timeout=None, silent=False, out_cb=None, env_vars=None):
                 if out_cb is not None:
                     out_cb(msg)
         elif error:
-            wok_log.debug("error: %s returned from cmd: %s",
-                          decode_value(error), decode_value(' '.join(cmd)))
+            wok_log.debug(
+                f'error: {decode_value(error)} returned from cmd: '
+                f"{decode_value(' '.join(cmd))}"
+            )
 
         if timeout_flag[0]:
-            msg = ("subprocess is killed by signal.SIGKILL for "
-                   "timeout %s seconds" % timeout)
+            msg = (
+                f'subprocess is killed by signal.SIGKILL for '
+                f'timeout {timeout} seconds'
+            )
             wok_log.error(msg)
 
-            msg_args = {'cmd': " ".join(cmd), 'seconds': str(timeout)}
-            raise TimeoutExpired("WOKUTILS0002E", msg_args)
+            msg_args = {'cmd': ' '.join(cmd), 'seconds': str(timeout)}
+            raise TimeoutExpired('WOKUTILS0002E', msg_args)
 
-        return out, error, returncode
+        return out.decode('utf-8'), error, returncode
     except TimeoutExpired:
         raise
     except OSError as e:
-        msg = "Impossible to execute '%s'" % ' '.join(cmd)
-        wok_log.debug("%s", msg)
+        msg = f"Impossible to execute {' '.join(cmd)}"
+        wok_log.debug(msg)
 
-        return None, "%s %s" % (msg, e), -1
+        return None, f'{msg} {e}', -1
     except Exception as e:
-        msg = "Failed to run command: %s." % " ".join(cmd)
-        msg = msg if proc is None else msg + "\n  error code: %s."
-        wok_log.error("%s %s", msg, e)
+        msg = f"Failed to run command: {b' '.join(cmd)}."
+        msg = msg if proc is None else msg + f'\n  error code: {e}.'
+        wok_log.error(msg)
 
         if proc:
-            return out, error, proc.returncode
+            return out.decode('utf-8'), error, proc.returncode
         else:
             return None, msg, -1
     finally:
@@ -459,19 +479,20 @@ def run_command(cmd, timeout=None, silent=False, out_cb=None, env_vars=None):
 
 def parse_cmd_output(output, output_items):
     res = []
-    for line in output.split("\n"):
+    for line in output.split('\n'):
         if line:
             res.append(dict(zip(output_items, line.split())))
     return res
 
 
 def patch_find_nfs_target(nfs_server):
-    cmd = ["showmount", "--no-headers", "--exports", nfs_server]
+    cmd = ['showmount', '--no-headers', '--exports', nfs_server]
     try:
         out = run_command(cmd, 10)[0]
     except TimeoutExpired:
-        wok_log.warning("server %s query timeout, may not have any path "
-                        "exported", nfs_server)
+        msg = f'server {nfs_server} query timeout.'
+        msg += ' may not have any path exported'
+        wok_log.warning(msg)
         return list()
 
     targets = parse_cmd_output(out, output_items=['target'])
@@ -481,7 +502,7 @@ def patch_find_nfs_target(nfs_server):
     return targets
 
 
-def listPathModules(path):
+def list_path_modules(path):
     modules = set()
     for f in os.listdir(path):
         base, ext = os.path.splitext(f)
@@ -496,13 +517,12 @@ def get_model_instances(module_name):
     members = inspect.getmembers(module, inspect.isclass)
     for cls_name, instance in members:
         if inspect.getmodule(instance) == module and \
-           cls_name.endswith('Model'):
+                cls_name.endswith('Model'):
             instances.append(instance)
     return instances
 
 
-def get_all_model_instances(root_model_name, root_model_file,
-                            kwargs):
+def get_all_model_instances(root_model_name, root_model_file, kwargs):
     """Function that returns all model instances from all modules
     found on the same dir as root_model_name module.
 
@@ -538,8 +558,8 @@ def get_all_model_instances(root_model_name, root_model_file,
 
     package_namespace = root_model_name.rsplit('.', 1)[0]
 
-    for mod_name in listPathModules(os.path.dirname(root_model_file)):
-        if mod_name.startswith("_") or mod_name == ignore_mod:
+    for mod_name in list_path_modules(os.path.dirname(root_model_file)):
+        if mod_name.startswith('_') or mod_name == ignore_mod:
             continue
 
         instances = get_model_instances(package_namespace + '.' + mod_name)
@@ -552,8 +572,8 @@ def get_all_model_instances(root_model_name, root_model_file,
     return models
 
 
-def run_setfacl_set_attr(path, attr="r", user=""):
-    set_user = ["setfacl", "--modify", "user:%s:%s" % (user, attr), path]
+def run_setfacl_set_attr(path, attr='r', user=''):
+    set_user = ['setfacl', '--modify', f'user:{user}:{attr}', path]
     out, error, ret = run_command(set_user)
     return ret == 0
 
@@ -619,7 +639,7 @@ def get_unique_file_name(all_names, name):
 
     re_group_num = 'num'
 
-    re_expr = u'%s \((?P<%s>\d+)\)' % (name, re_group_num)
+    re_expr = f'{name} \\((?P<{re_group_num}>\\d+)\\)'
 
     max_num = 0
     re_compiled = re.compile(re_expr)
@@ -629,16 +649,52 @@ def get_unique_file_name(all_names, name):
         if match is not None:
             max_num = max(max_num, int(match.group(re_group_num)))
 
-    return u'%s (%d)' % (name, max_num + 1)
+    return f'{name} ({max_num + 1})'
 
 
 def servermethod(f):
     def wrapper(*args, **kwargs):
         server_state = str(cherrypy.engine.state)
-        if server_state not in ["states.STARTED", "states.STARTING"]:
+        if server_state not in ['states.STARTED', 'states.STARTING']:
             return False
         return f(*args, **kwargs)
+
     return wrapper
+
+
+def _validate_convert_data(value, from_unit, to_unit):
+    if not from_unit:
+        raise InvalidParameter('WOKUTILS0005E', {'unit': from_unit})
+    if not to_unit:
+        raise InvalidParameter('WOKUTILS0005E', {'unit': to_unit})
+
+    # set the default suffix
+    if from_unit[-1] not in SUFFIXES_WITH_MULT:
+        from_unit += DEFAULT_SUFFIX
+    if to_unit[-1] not in SUFFIXES_WITH_MULT:
+        to_unit += DEFAULT_SUFFIX
+
+    # split prefix and suffix for better parsing
+    from_p = from_unit[:-1]
+    from_s = from_unit[-1]
+    to_p = to_unit[:-1]
+    to_s = to_unit[-1]
+
+    # validate parameters
+    try:
+        value = float(value)
+    except TypeError:
+        raise InvalidParameter('WOKUTILS0004E', {'value': value})
+    if from_p != '' and from_p not in (SI_PREFIXES + IEC_PREFIXES):
+        raise InvalidParameter('WOKUTILS0005E', {'unit': from_unit})
+    if from_s not in SUFFIXES_WITH_MULT:
+        raise InvalidParameter('WOKUTILS0005E', {'unit': from_unit})
+    if to_p != '' and to_p not in (SI_PREFIXES + IEC_PREFIXES):
+        raise InvalidParameter('WOKUTILS0005E', {'unit': to_unit})
+    if to_s not in SUFFIXES_WITH_MULT:
+        raise InvalidParameter('WOKUTILS0005E', {'unit': to_unit})
+
+    return value, from_unit, to_unit
 
 
 def convert_data_size(value, from_unit, to_unit='B'):
@@ -707,27 +763,12 @@ def convert_data_size(value, from_unit, to_unit='B'):
     A float number representing 'value' (in 'from_unit') converted
     to 'to_unit'.
     """
-    SI_PREFIXES = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
-    # The IEC prefixes are the equivalent SI prefixes + 'i'
-    # but, exceptionally, 'k' becomes 'Ki' instead of 'ki'.
-    IEC_PREFIXES = map(lambda p: 'Ki' if p == 'k' else p + 'i', SI_PREFIXES)
-    PREFIXES_BY_BASE = {1000: SI_PREFIXES,
-                        1024: IEC_PREFIXES}
 
-    SUFFIXES_WITH_MULT = {'b': 1,
-                          'B': 8}
-    DEFAULT_SUFFIX = 'B'
-
-    if not from_unit:
-        raise InvalidParameter('WOKUTILS0005E', {'unit': from_unit})
-    if not to_unit:
-        raise InvalidParameter('WOKUTILS0005E', {'unit': to_unit})
-
-    # set the default suffix
-    if from_unit[-1] not in SUFFIXES_WITH_MULT:
-        from_unit += DEFAULT_SUFFIX
-    if to_unit[-1] not in SUFFIXES_WITH_MULT:
-        to_unit += DEFAULT_SUFFIX
+    value, from_unit, to_unit = _validate_convert_data(
+        value, from_unit, to_unit)
+    # if the units are the same, return the input value
+    if from_unit == to_unit:
+        return value
 
     # split prefix and suffix for better parsing
     from_p = from_unit[:-1]
@@ -735,52 +776,34 @@ def convert_data_size(value, from_unit, to_unit='B'):
     to_p = to_unit[:-1]
     to_s = to_unit[-1]
 
-    # validate parameters
-    try:
-        value = float(value)
-    except TypeError:
-        raise InvalidParameter('WOKUTILS0004E', {'value': value})
-    if from_p != '' and from_p not in (SI_PREFIXES + IEC_PREFIXES):
-        raise InvalidParameter('WOKUTILS0005E', {'unit': from_unit})
-    if from_s not in SUFFIXES_WITH_MULT:
-        raise InvalidParameter('WOKUTILS0005E', {'unit': from_unit})
-    if to_p != '' and to_p not in (SI_PREFIXES + IEC_PREFIXES):
-        raise InvalidParameter('WOKUTILS0005E', {'unit': to_unit})
-    if to_s not in SUFFIXES_WITH_MULT:
-        raise InvalidParameter('WOKUTILS0005E', {'unit': to_unit})
-
-    # if the units are the same, return the input value
-    if from_unit == to_unit:
-        return value
-
     # convert 'value' to the most basic unit (bits)...
     bits = value
 
-    for suffix, mult in SUFFIXES_WITH_MULT.iteritems():
+    for suffix, mult in SUFFIXES_WITH_MULT.items():
         if from_s == suffix:
             bits *= mult
             break
 
     if from_p != '':
-        for base, prefixes in PREFIXES_BY_BASE.iteritems():
+        for base, prefixes in PREFIXES_BY_BASE.items():
             for i, p in enumerate(prefixes):
                 if from_p == p:
-                    bits *= base**(i + 1)
+                    bits *= base ** (i + 1)
                     break
 
     # ...then convert the value in bits to the destination unit
     ret = bits
 
-    for suffix, mult in SUFFIXES_WITH_MULT.iteritems():
+    for suffix, mult in SUFFIXES_WITH_MULT.items():
         if to_s == suffix:
             ret /= float(mult)
             break
 
     if to_p != '':
-        for base, prefixes in PREFIXES_BY_BASE.iteritems():
+        for base, prefixes in PREFIXES_BY_BASE.items():
             for i, p in enumerate(prefixes):
                 if to_p == p:
-                    ret /= float(base)**(i + 1)
+                    ret /= float(base) ** (i + 1)
                     break
 
     return ret
@@ -791,7 +814,7 @@ def get_objectstore_fields(objstore=None):
         Return a list with all fields from the objectstore.
     """
     if objstore is None:
-        wok_log.error("No objectstore set up.")
+        wok_log.error('No objectstore set up.')
         return None
     conn = sqlite3.connect(objstore, timeout=10)
     cursor = conn.cursor()
@@ -808,7 +831,7 @@ def upgrade_objectstore_schema(objstore=None, field=None):
         Add a new column (of type TEXT) in the objectstore schema.
     """
     if (field or objstore) is None:
-        wok_log.error("Cannot upgrade objectstore schema.")
+        wok_log.error('Cannot upgrade objectstore schema.')
         return False
 
     if field in get_objectstore_fields(objstore):
@@ -817,14 +840,14 @@ def upgrade_objectstore_schema(objstore=None, field=None):
     try:
         conn = sqlite3.connect(objstore, timeout=10)
         cursor = conn.cursor()
-        sql = "ALTER TABLE objects ADD COLUMN %s TEXT" % field
+        sql = f'ALTER TABLE objects ADD COLUMN {field} TEXT'
         cursor.execute(sql)
-        wok_log.info("Objectstore schema sucessfully upgraded: %s" % objstore)
+        wok_log.info(f'Objectstore schema sucessfully upgraded: {objstore}')
         conn.close()
-    except sqlite3.Error, e:
+    except sqlite3.Error as e:
         if conn:
             conn.rollback()
             conn.close()
-        wok_log.error("Cannot upgrade objectstore schema: %s" % e.args[0])
+        wok_log.error(f'Cannot upgrade objectstore schema: {e.args[0]}')
         return False
     return True

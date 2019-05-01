@@ -18,9 +18,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 from wok.basemodel import BaseModel
-from wok.exception import InvalidOperation, NotFoundError
+from wok.exception import InvalidOperation
+from wok.exception import NotFoundError
 
 
 class ConfigModel(object):
@@ -38,7 +38,7 @@ class CirclesModel(object):
     def create(self, params):
         name = params['name']
         if name in self._circles:
-            raise InvalidOperation("SPCIRCLE0001E", {'name': name})
+            raise InvalidOperation('SPCIRCLE0001E', {'name': name})
         self._circles[name] = Circle(params['radius'])
         return name
 
@@ -55,12 +55,12 @@ class CircleModel(object):
         try:
             circle = self._circles[name]
         except KeyError:
-            raise NotFoundError("SPCIRC0002E", {'name': name})
+            raise NotFoundError('SPCIRC0002E', {'name': name})
         return {'radius': circle.radius}
 
     def update(self, name, params):
         if name not in self._circles:
-            raise NotFoundError("SPCIRC0002E", {'name': name})
+            raise NotFoundError('SPCIRC0002E', {'name': name})
         self._circles[name].radius = params['radius']
         return name
 
@@ -78,7 +78,7 @@ class RectanglesModel(object):
     def create(self, params):
         name = params['name']
         if name in self._rectangles:
-            raise InvalidOperation("SPRET0001E", {'name': name})
+            raise InvalidOperation('SPRET0001E', {'name': name})
         self._rectangles[name] = Rectangle(params['length'], params['width'])
         return name
 
@@ -94,12 +94,12 @@ class RectangleModel(object):
         try:
             rectangle = self._rectangles[name]
         except KeyError:
-            raise NotFoundError("SPRET0002E", {'name': name})
+            raise NotFoundError('SPRET0002E', {'name': name})
         return {'length': rectangle.length, 'width': rectangle.width}
 
     def update(self, name, params):
         if name not in self._rectangles:
-            raise NotFoundError("SPRET0002E", {'name': name})
+            raise NotFoundError('SPRET0002E', {'name': name})
         try:
             self._rectangles[name].length = params['length']
         except KeyError:
@@ -132,6 +132,8 @@ class Circle(object):
 """
 All model instances must be grouped into one Model class as below.
 """
+
+
 class Model(BaseModel):
     def __init__(self):
         config = ConfigModel()

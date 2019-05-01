@@ -15,15 +15,15 @@ Build Dependencies
 Runtime Dependencies
 --------------------
 
-    $ sudo apt-get install python-cherrypy3 python-cheetah python-pam \
-                            python-m2crypto python-jsonschema \
-                            python-psutil python-ldap python-lxml nginx \
-                            openssl websockify gettext
+    $ sudo apt-get install python3-cherrypy3 python-cheetah python3-pam \
+                            python3-openssl python3-jsonschema \
+                            python3-psutil python3-ldap python3-lxml nginx \
+                            openssl python3-websockify gettext
 
 Packages required for UI development
 ------------------------------------
 
-    $ sudo apt-get install g++ python-dev python-pip
+    $ sudo apt-get install g++ python3-dev python3-pip
     $ sudo pip install cython libsass
 
 Packages required for tests

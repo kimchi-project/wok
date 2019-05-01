@@ -19,13 +19,15 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 #
-
-import cherrypy
-import logging
 import logging.handlers
 import os
+from time import gmtime
+from time import strftime
 
-from wok import auth, config, websocket
+import cherrypy
+from wok import auth
+from wok import config
+from wok import websocket
 from wok.config import config as configParser
 from wok.config import WokConfig
 from wok.control import sub_nodes
@@ -35,23 +37,30 @@ from wok.pushserver import start_push_server
 from wok.reqlogger import RequestLogger
 from wok.root import WokRoot
 from wok.safewatchedfilehandler import SafeWatchedFileHandler
-from wok.utils import get_enabled_plugins, load_plugin
+from wok.utils import get_enabled_plugins
+from wok.utils import load_plugin
 
 
-LOGGING_LEVEL = {"debug": logging.DEBUG,
-                 "info": logging.INFO,
-                 "warning": logging.WARNING,
-                 "error": logging.ERROR,
-                 "critical": logging.CRITICAL}
+LOGGING_LEVEL = {
+    'debug': logging.DEBUG,
+    'info': logging.INFO,
+    'warning': logging.WARNING,
+    'error': logging.ERROR,
+    'critical': logging.CRITICAL,
+}
 
 
 def set_no_cache():
-    from time import strftime, gmtime
-    h = [('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT'),
-         ('Cache-Control',
-          'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'),
-         ('Pragma', 'no-cache'),
-         ('Last-Modified', strftime("%a, %d %b %Y %H:%M:%S GMT", gmtime()))]
+    last_modified = strftime('%a, %d %b %Y %H:%M:%S GMT', gmtime())
+    h = [
+        (b'Expires', b'Mon, 26 Jul 1997 05:00:00 GMT'),
+        (
+            b'Cache-Control',
+            b'no-store, no-cache, must-revalidate, post-check=0, pre-check=0',
+        ),
+        (b'Pragma', b'no-cache'),
+        (b'Last-Modified', last_modified.encode('utf-8')),
+    ]
     hList = cherrypy.response.header_list
     if isinstance(hList, list):
         hList.extend(h)
@@ -74,11 +83,11 @@ class Server(object):
 
         make_dirs = [
             os.path.abspath(config.get_log_download_path()),
-            os.path.abspath(configParser.get("logging", "log_dir")),
+            os.path.abspath(configParser.get('logging', 'log_dir')),
             os.path.dirname(os.path.abspath(options.access_log)),
             os.path.dirname(os.path.abspath(options.error_log)),
             os.path.dirname(os.path.abspath(config.get_object_store())),
-            os.path.abspath(config.get_wstokens_dir())
+            os.path.abspath(config.get_wstokens_dir()),
         ]
         for directory in make_dirs:
             if not os.path.isdir(directory):
@@ -91,7 +100,7 @@ class Server(object):
         # thus it is safe to unsubscribe.
         try:
             cherrypy.engine.timeout_monitor.unsubscribe()
-        except(AttributeError):
+        except AttributeError:
             pass
 
         cherrypy.tools.nocache = cherrypy.Tool('on_end_resource', set_no_cache)
@@ -133,8 +142,8 @@ class Server(object):
         cherrypy.log.error_log.setLevel(logLevel)
 
         # Create handler to access log file
-        h = logging.handlers.WatchedFileHandler(options.access_log, 'a',
-                                                delay=1)
+        h = logging.handlers.WatchedFileHandler(
+            options.access_log, 'a', delay=1)
         h.setLevel(logLevel)
         h.setFormatter(cherrypy._cplogging.logfmt)
 
@@ -159,11 +168,14 @@ class Server(object):
         for ident, node in sub_nodes.items():
             if node.url_auth:
                 cfg = self.configObj
-                ident = "/%s" % ident
+                ident = f'/{ident}'
                 cfg[ident] = {'tools.wokauth.on': True}
 
-        cherrypy.tree.mount(WokRoot(model.Model(), dev_env),
-                            options.server_root, self.configObj)
+        cherrypy.tree.mount(
+            WokRoot(model.Model(), dev_env),
+            options.server_root,
+            self.configObj
+        )
 
         self._start_websocket_server()
         self._load_plugins()

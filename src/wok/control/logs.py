@@ -16,15 +16,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import wok.template
-
 from wok.control.base import SimpleCollection
-from wok.control.utils import get_class_name, model_fn
+from wok.control.utils import get_class_name
+from wok.control.utils import model_fn
 from wok.control.utils import UrlSubNode
 
 
-@UrlSubNode("logs", True)
+@UrlSubNode('logs', True)
 class Logs(SimpleCollection):
     def __init__(self, model):
         super(Logs, self).__init__(model)

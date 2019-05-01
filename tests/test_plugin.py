@@ -18,14 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import json
 import unittest
 from functools import partial
 
-from wok.utils import get_enabled_plugins
-
 import utils
+from wok.utils import get_enabled_plugins
 
 
 test_server = None
@@ -45,9 +43,9 @@ def tearDownModule():
 
 @unittest.skipUnless(
     'sample' in [plugin for plugin, _config in get_enabled_plugins()],
-    'sample plugin is not enabled, skip this test!')
+    'sample plugin is not enabled, skip this test!',
+)
 class PluginTests(unittest.TestCase):
-
     def setUp(self):
         self.request = partial(utils.request)
 
@@ -57,17 +55,17 @@ class PluginTests(unittest.TestCase):
         return resp
 
     def _get_rectangle(self, name):
-        resp = self.request('/plugins/sample/rectangles/%s' % name)
+        resp = self.request(f'/plugins/sample/rectangles/{name}')
         return json.loads(resp.read())
 
     def _create_rectangle_and_assert(self, name, length, width):
         resp = self._create_rectangle(name, length, width)
-        self.assertEquals(201, resp.status)
+        self.assertEqual(201, resp.status)
 
         rectangle = self._get_rectangle(name)
-        self.assertEquals(rectangle['name'], name)
-        self.assertEquals(rectangle['length'], length)
-        self.assertEquals(rectangle['width'], width)
+        self.assertEqual(rectangle['name'], name)
+        self.assertEqual(rectangle['length'], length)
+        self.assertEqual(rectangle['width'], width)
 
     def _get_rectangles_list(self):
         resp = self.request('/plugins/sample/rectangles')
@@ -88,29 +86,29 @@ class PluginTests(unittest.TestCase):
         # Update the big rectangle.
         req = json.dumps({'length': 40, 'width': 30})
         resp = self.request('/plugins/sample/rectangles/big', req, 'PUT')
-        self.assertEquals(200, resp.status)
+        self.assertEqual(200, resp.status)
         big = self._get_rectangle('big')
-        self.assertEquals(big['length'], 40)
-        self.assertEquals(big['width'], 30)
+        self.assertEqual(big['length'], 40)
+        self.assertEqual(big['width'], 30)
 
         # Delete two rectangles
         resp = self.request('/plugins/sample/rectangles/big', '{}', 'DELETE')
-        self.assertEquals(204, resp.status)
+        self.assertEqual(204, resp.status)
         resp = self.request('/plugins/sample/rectangles/small', '{}', 'DELETE')
-        self.assertEquals(204, resp.status)
+        self.assertEqual(204, resp.status)
         name_list = self._get_rectangles_list()
-        self.assertEquals([], name_list)
+        self.assertEqual([], name_list)
 
     def test_bad_params(self):
         # Bad name
         resp = self._create_rectangle(1.0, 30, 40)
-        self.assertEquals(400, resp.status)
+        self.assertEqual(400, resp.status)
 
         # Bad length value
         resp = self._create_rectangle('test', -10.0, 40)
-        self.assertEquals(400, resp.status)
+        self.assertEqual(400, resp.status)
 
         # Missing param for width
         req = json.dumps({'name': 'nowidth', 'length': 40})
         resp = self.request('/plugins/sample/rectangles', req, 'POST')
-        self.assertEquals(400, resp.status)
+        self.assertEqual(400, resp.status)

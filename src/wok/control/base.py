@@ -19,27 +19,33 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+import re
+import urllib.parse
 
 import cherrypy
-import re
-import urllib2
-
-
 import wok.template
 from wok.asynctask import save_request_log_id
-from wok.auth import wokauth, USER_GROUPS, USER_NAME, USER_ROLE
-from wok.control.utils import get_class_name, internal_redirect, model_fn
-from wok.control.utils import parse_request, validate_method
+from wok.auth import USER_GROUPS
+from wok.auth import USER_NAME
+from wok.auth import USER_ROLE
+from wok.auth import wokauth
+from wok.control.utils import get_class_name
+from wok.control.utils import internal_redirect
+from wok.control.utils import model_fn
+from wok.control.utils import parse_request
+from wok.control.utils import validate_method
 from wok.control.utils import validate_params
-from wok.exception import InvalidOperation, UnauthorizedError, WokException
+from wok.exception import InvalidOperation
+from wok.exception import UnauthorizedError
+from wok.exception import WokException
 from wok.reqlogger import log_request
-from wok.stringutils import encode_value, utf8_dict
+from wok.stringutils import encode_value
+from wok.stringutils import utf8_dict
 from wok.utils import wok_log
 
-
 # Default request log messages
-COLLECTION_DEFAULT_LOG = "WOKCOL0001L"
-RESOURCE_DEFAULT_LOG = "WOKRES0001L"
+COLLECTION_DEFAULT_LOG = 'WOKCOL0001L'
+RESOURCE_DEFAULT_LOG = 'WOKRES0001L'
 
 LOG_DISABLED_METHODS = ['GET']
 
@@ -62,17 +68,17 @@ class Resource(object):
     - Set the 'data' property to a JSON-serializable representation of the
       Resource.
     """
+
     def __init__(self, model, ident=None):
+        self.uri_fmt = ''
+        self.info = {}
         self.model = model
-        self.ident = ident
-        self.model_args = (ident,)
+        self.ident = ident.decode(
+            'utf-8') if isinstance(ident, bytes) else ident
+        self.model_args = (self.ident,)
         self.admin_methods = []
         self.log_map = {}
-        self.log_args = {
-            'ident': self.ident.encode('utf-8')
-            if isinstance(self.ident, unicode)
-            else self.ident if self.ident else '',
-        }
+        self.log_args = {'ident': self.ident if self.ident else ''}
 
     def _redirect(self, action_result, code=303):
         uri_params = []
@@ -80,44 +86,52 @@ class Resource(object):
             for arg in action_result:
                 if arg is None:
                     arg = ''
-                uri_params.append(urllib2.quote(arg.encode('utf-8'), safe=""))
+                uri_params.append(urllib.parse.quote(arg, safe=''))
         elif action_result is not None and action_result != self.ident:
             uri_params = list(self.model_args[:-1])
-            uri_params += [urllib2.quote(action_result.encode('utf-8'),
-                           safe="")]
+            uri_params += [urllib.parse.quote(action_result, safe='')]
 
         if uri_params:
             base_uri = cherrypy.request.app.script_name + self.uri_fmt
             raise cherrypy.HTTPRedirect(base_uri % tuple(uri_params), code)
 
-    def generate_action_handler(self, action_name, action_args=None,
-                                destructive=False, protected=None):
+    def generate_action_handler(
+        self, action_name, action_args=None, destructive=False, protected=None
+    ):
         def _render_element(self, ident):
             self._redirect(ident)
             uri_params = []
             for arg in self.model_args:
                 if arg is None:
                     arg = ''
-                uri_params.append(urllib2.quote(arg.encode('utf-8'),
-                                  safe=""))
+                uri_params.append(urllib.parse.quote(arg, safe=''))
             raise internal_redirect(self.uri_fmt % tuple(uri_params))
 
-        return self._generate_action_handler_base(action_name, _render_element,
-                                                  destructive=destructive,
-                                                  action_args=action_args,
-                                                  protected=protected)
+        return self._generate_action_handler_base(
+            action_name,
+            _render_element,
+            destructive=destructive,
+            action_args=action_args,
+            protected=protected,
+        )
 
     def generate_action_handler_task(self, action_name, action_args=None):
         def _render_task(self, task):
             cherrypy.response.status = 202
             return wok.template.render('Task', task)
 
-        return self._generate_action_handler_base(action_name, _render_task,
-                                                  action_args=action_args)
+        return self._generate_action_handler_base(
+            action_name, _render_task, action_args=action_args
+        )
 
-    def _generate_action_handler_base(self, action_name, render_fn,
-                                      destructive=False, action_args=None,
-                                      protected=None):
+    def _generate_action_handler_base(
+        self,
+        action_name,
+        render_fn,
+        destructive=False,
+        action_args=None,
+        protected=None,
+    ):
         def wrapper(*args, **kwargs):
             # status must be always set in order to request be logged.
             # use 500 as fallback for "exception not handled" cases.
@@ -128,11 +142,10 @@ class Resource(object):
             status = 500
 
             method = 'POST'
-            validate_method((method), self.admin_methods)
+            validate_method(method, self.admin_methods)
             try:
                 request = parse_request()
                 validate_params(request, self, action_name)
-
                 self.lookup()
                 if not self.is_authorized():
                     raise UnauthorizedError('WOKAPI0009E')
@@ -148,24 +161,31 @@ class Resource(object):
                 action_result = action_fn(*model_args)
                 status = 200
 
-                if destructive is False or \
-                    ('persistent' in self.info.keys() and
-                     self.info['persistent'] is True):
+                if destructive is False or (
+                    'persistent' in self.info.keys(
+                    ) and self.info['persistent'] is True
+                ):
                     result = render_fn(self, action_result)
                     status = cherrypy.response.status
 
                     return result
-            except WokException, e:
+            except WokException as e:
                 details = e
                 status = e.getHttpStatusCode()
-                raise cherrypy.HTTPError(status, e.message)
+                raise cherrypy.HTTPError(status, str(e))
             finally:
                 # log request
                 code = self.getRequestMessage(method, action_name)
                 reqParams = utf8_dict(self.log_args, request)
-                log_id = log_request(code, reqParams, details, method, status,
-                                     class_name=get_class_name(self),
-                                     action_name=action_name)
+                log_id = log_request(
+                    code,
+                    reqParams,
+                    details,
+                    method,
+                    status,
+                    class_name=get_class_name(self),
+                    action_name=action_name,
+                )
                 if status == 202:
                     save_request_log_id(log_id, action_result['id'])
 
@@ -186,9 +206,9 @@ class Resource(object):
             fn(*self.model_args)
             cherrypy.response.status = 204
         except AttributeError:
-            e = InvalidOperation('WOKAPI0002E', {'resource':
-                                                 get_class_name(self)})
-            raise cherrypy.HTTPError(405, e.message)
+            e = InvalidOperation(
+                'WOKAPI0002E', {'resource': get_class_name(self)})
+            raise cherrypy.HTTPError(405, str(e))
 
     @cherrypy.expose
     def index(self, *args, **kargs):
@@ -204,24 +224,32 @@ class Resource(object):
             if not self.is_authorized():
                 raise UnauthorizedError('WOKAPI0009E')
 
-            result = {'GET': self.get,
-                      'DELETE': self.delete,
-                      'PUT': self.update}[method](*args, **kargs)
+            result = {
+                'GET': self.get,
+                'DELETE': self.delete,
+                'PUT': self.update
+            }[method](*args, **kargs)
 
             status = cherrypy.response.status
-        except WokException, e:
+        except WokException as e:
             details = e
             status = e.getHttpStatusCode()
-            raise cherrypy.HTTPError(status, e.message)
-        except cherrypy.HTTPError, e:
+            raise cherrypy.HTTPError(status, str(e))
+        except cherrypy.HTTPError as e:
             status = e.status
             raise
         finally:
             # log request
             if method not in LOG_DISABLED_METHODS and status != 202:
                 code = self.getRequestMessage(method)
-                log_request(code, self.log_args, details, method, status,
-                            class_name=get_class_name(self))
+                log_request(
+                    code,
+                    self.log_args,
+                    details,
+                    method,
+                    status,
+                    class_name=get_class_name(self),
+                )
 
         return result
 
@@ -230,8 +258,8 @@ class Resource(object):
         user_groups = cherrypy.session.get(USER_GROUPS, [])
         user_role = cherrypy.session.get(USER_ROLE, None)
 
-        users = self.data.get("users", None)
-        groups = self.data.get("groups", None)
+        users = self.data.get('users', None)
+        groups = self.data.get('groups', None)
 
         if (users is None and groups is None) or user_role == 'admin':
             return True
@@ -244,9 +272,9 @@ class Resource(object):
         try:
             update = getattr(self.model, model_fn(self, 'update'))
         except AttributeError:
-            e = InvalidOperation('WOKAPI0003E', {'resource':
-                                                 get_class_name(self)})
-            raise cherrypy.HTTPError(405, e.message)
+            e = InvalidOperation(
+                'WOKAPI0003E', {'resource': get_class_name(self)})
+            raise cherrypy.HTTPError(405, str(e))
 
         validate_params(params, self, 'update')
 
@@ -280,6 +308,7 @@ class AsyncResource(Resource):
     """
     AsyncResource is a specialized Resource to handle async task.
     """
+
     def __init__(self, model, ident=None):
         super(AsyncResource, self).__init__(model, ident)
 
@@ -298,9 +327,9 @@ class AsyncResource(Resource):
             fn = getattr(self.model, model_fn(self, 'delete'))
             task = fn(*self.model_args)
         except AttributeError:
-            e = InvalidOperation('WOKAPI0002E', {'resource':
-                                                 get_class_name(self)})
-            raise cherrypy.HTTPError(405, e.message)
+            e = InvalidOperation(
+                'WOKAPI0002E', {'resource': get_class_name(self)})
+            raise cherrypy.HTTPError(405, str(e))
 
         cherrypy.response.status = 202
 
@@ -308,12 +337,17 @@ class AsyncResource(Resource):
         method = 'DELETE'
         code = self.getRequestMessage(method)
         reqParams = utf8_dict(self.log_args)
-        log_id = log_request(code, reqParams, None, method,
-                             cherrypy.response.status,
-                             class_name=get_class_name(self))
+        log_id = log_request(
+            code,
+            reqParams,
+            None,
+            method,
+            cherrypy.response.status,
+            class_name=get_class_name(self),
+        )
         save_request_log_id(log_id, task['id'])
 
-        return wok.template.render("Task", task)
+        return wok.template.render('Task', task)
 
 
 class Collection(object):
@@ -333,6 +367,7 @@ class Collection(object):
 
     - Implement the base operations of 'create' and 'get_list' in the model.
     """
+
     def __init__(self, model):
         self.model = model
         self.resource = Resource
@@ -346,9 +381,9 @@ class Collection(object):
         try:
             create = getattr(self.model, model_fn(self, 'create'))
         except AttributeError:
-            e = InvalidOperation('WOKAPI0005E', {'resource':
-                                                 get_class_name(self)})
-            raise cherrypy.HTTPError(405, e.message)
+            e = InvalidOperation(
+                'WOKAPI0005E', {'resource': get_class_name(self)})
+            raise cherrypy.HTTPError(405, str(e))
 
         validate_params(params, self, 'create')
         args = self.model_args + [params]
@@ -377,9 +412,10 @@ class Collection(object):
                     # This has to be done to avoid unicode error,
                     # as combination of encoded and unicode value results into
                     # unicode error.
-                    wok_log.error("Problem in lookup of resource '%s'. "
-                                  "Detail: %s" % (ident,
-                                                  encode_value(e.message)))
+                    wok_log.error(
+                        f"Problem in lookup of resource '{ident}'. "
+                        f'Detail: {encode_value(str(e))}'
+                    )
                     continue
                 res_list.append(res)
             return res_list
@@ -389,9 +425,9 @@ class Collection(object):
     def _cp_dispatch(self, vpath):
         if vpath:
             ident = vpath.pop(0)
-            ident = urllib2.unquote(ident)
-            # incoming text, from URL, is not unicode, need decode
-            args = self.resource_args + [ident.decode("utf-8")]
+            ident = urllib.parse.unquote(ident)
+            # incoming text, from URL, is not unicode, need encode
+            args = self.resource_args + [ident]
             return self.resource(self.model, *args)
 
     def filter_data(self, resources, fields_filter):
@@ -400,18 +436,22 @@ class Collection(object):
             if not res.is_authorized():
                 continue
 
-            if all(key in res.data and
-                   (res.data[key] == val or
+            if all(
+                key in res.data and
+                (
+                    res.data[key] == val or
                     re.match(str(val), res.data[key]) or
-                    (isinstance(val, list) and res.data[key] in val))
-                   for key, val in fields_filter.iteritems()):
+                    (isinstance(val, list) and res.data[key] in val)
+                )
+                for key, val in fields_filter.items()
+            ):
                 data.append(res.data)
         return data
 
     def get(self, filter_params):
         def _split_filter(params):
             flag_filter = dict()
-            fields_filter = params
+            fields_filter = dict(params)
             for key, val in params.items():
                 if key.startswith('_'):
                     flag_filter[key] = fields_filter.pop(key)
@@ -427,8 +467,8 @@ class Collection(object):
         Provide customized user activity log message in inherited classes
         through log_map attribute.
         """
-        return self.log_map.get(method, {}).get('default',
-                                                COLLECTION_DEFAULT_LOG)
+        log = self.log_map.get(method, {})
+        return log.get('default', COLLECTION_DEFAULT_LOG)
 
     @cherrypy.expose
     def index(self, *args, **kwargs):
@@ -450,11 +490,11 @@ class Collection(object):
                 result = self.create(params, *args)
                 status = cherrypy.response.status
                 return result
-        except WokException, e:
+        except WokException as e:
             details = e
             status = e.getHttpStatusCode()
-            raise cherrypy.HTTPError(status, e.message)
-        except cherrypy.HTTPError, e:
+            raise cherrypy.HTTPError(status, str(e))
+        except cherrypy.HTTPError as e:
             status = e.status
             raise
         finally:
@@ -462,14 +502,21 @@ class Collection(object):
                 # log request
                 code = self.getRequestMessage(method)
                 reqParams = utf8_dict(self.log_args, params)
-                log_request(code, reqParams, details, method, status,
-                            class_name=get_class_name(self))
+                log_request(
+                    code,
+                    reqParams,
+                    details,
+                    method,
+                    status,
+                    class_name=get_class_name(self),
+                )
 
 
 class AsyncCollection(Collection):
     """
     A Collection to create it's resource by asynchronous task
     """
+
     def __init__(self, model):
         super(AsyncCollection, self).__init__(model)
 
@@ -477,9 +524,9 @@ class AsyncCollection(Collection):
         try:
             create = getattr(self.model, model_fn(self, 'create'))
         except AttributeError:
-            e = InvalidOperation('WOKAPI0005E', {'resource':
-                                                 get_class_name(self)})
-            raise cherrypy.HTTPError(405, e.message)
+            e = InvalidOperation(
+                'WOKAPI0005E', {'resource': get_class_name(self)})
+            raise cherrypy.HTTPError(405, str(e))
 
         validate_params(params, self, 'create')
         args = self.model_args + [params]
@@ -490,18 +537,24 @@ class AsyncCollection(Collection):
         method = 'POST'
         code = self.getRequestMessage(method)
         reqParams = utf8_dict(self.log_args, params)
-        log_id = log_request(code, reqParams, None, method,
-                             cherrypy.response.status,
-                             class_name=get_class_name(self))
+        log_id = log_request(
+            code,
+            reqParams,
+            None,
+            method,
+            cherrypy.response.status,
+            class_name=get_class_name(self),
+        )
         save_request_log_id(log_id, task['id'])
 
-        return wok.template.render("Task", task)
+        return wok.template.render('Task', task)
 
 
 class SimpleCollection(Collection):
     """
     A Collection without Resource definition
     """
+
     def __init__(self, model):
         super(SimpleCollection, self).__init__(model)
 

@@ -19,7 +19,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import os
 import tempfile
 import threading
@@ -58,29 +57,27 @@ class ObjectStoreTests(unittest.TestCase):
 
             # Test get
             item = session.get('fǒǒ', 'těst1')
-            self.assertEquals(1, item[u'α'])
+            self.assertEqual(1, item[u'α'])
 
             # Test delete
             session.delete('fǒǒ', 'těst2')
-            self.assertEquals(1, len(session.get_list('fǒǒ')))
+            self.assertEqual(1, len(session.get_list('fǒǒ')))
 
             # Test get non-existent item
 
-            self.assertRaises(NotFoundError, session.get,
-                              'α', 'β')
+            self.assertRaises(NotFoundError, session.get, 'α', 'β')
 
             # Test delete non-existent item
-            self.assertRaises(NotFoundError, session.delete,
-                              'fǒǒ', 'těst2')
+            self.assertRaises(NotFoundError, session.delete, 'fǒǒ', 'těst2')
 
             # Test refresh existing item
             session.store('fǒǒ', 'těst1', {'α': 2})
             item = session.get('fǒǒ', 'těst1')
-            self.assertEquals(2, item[u'α'])
+            self.assertEqual(2, item[u'α'])
 
             # Test get version of object
             item = session.get_object_version('fǒǒ', 'těst1')
-            self.assertEquals(get_version().split('-')[0], item[0])
+            self.assertEqual(get_version().split('-')[0], item[0])
 
     def test_object_store_threaded(self):
         def worker(ident):
@@ -90,7 +87,7 @@ class ObjectStoreTests(unittest.TestCase):
         store = objectstore.ObjectStore(tmpfile)
 
         threads = []
-        for i in xrange(50):
+        for i in range(50):
             t = threading.Thread(target=worker, args=(i,), name=str(i))
             t.setDaemon(True)
             t.start()
@@ -100,5 +97,5 @@ class ObjectStoreTests(unittest.TestCase):
             t.join()
 
         with store as session:
-            self.assertEquals(50, len(session.get_list('foo')))
-            self.assertEquals(10, len(store._connections.keys()))
+            self.assertEqual(50, len(session.get_list('foo')))
+            self.assertEqual(10, len(store._connections.keys()))

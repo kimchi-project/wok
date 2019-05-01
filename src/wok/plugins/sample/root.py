@@ -18,12 +18,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import json
 import os
 
-from wok.config import CACHEEXPIRES, PluginConfig, PluginPaths
-from wok.control.base import Collection, Resource
+from wok.config import CACHEEXPIRES
+from wok.config import PluginConfig
+from wok.config import PluginPaths
+from wok.control.base import Collection
+from wok.control.base import Resource
 from wok.control.utils import UrlSubNode
 from wok.plugins.sample.i18n import messages
 from wok.plugins.sample.model import Model
@@ -51,6 +53,8 @@ The messages used on UI are placed at ui/pages/i18n.json.tmpl
 self.api_schema is the JSON Schema document necessary to validate each REST API
 created by the plugin.
 """
+
+
 class Sample(WokRoot):
     def __init__(self, wok_options):
         self.model = Model()
@@ -66,11 +70,11 @@ class Sample(WokRoot):
         self.api_schema = json.load(open(os.path.join(os.path.dirname(
                                     os.path.abspath(__file__)), 'API.json')))
 
-
     """
     Re-write get_custom_conf() to expose static directories and files.
     It is for those APIs which do not rely on any backend logic to exist.
     """
+
     def get_custom_conf(self):
         return SampleConfig()
 
@@ -80,11 +84,13 @@ Static directories and files configuration for Sample plugin.
 
 The configuration is a dictionary supported by cherrypy.
 """
+
+
 class SampleConfig(PluginConfig):
     def __init__(self):
         super(SampleConfig, self).__init__('sample')
 
-        custom_config ={
+        custom_config = {
             '/js': {
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': os.path.join(samplePaths.ui_dir, 'js'),
@@ -109,10 +115,11 @@ class SampleConfig(PluginConfig):
         self.update(custom_config)
 
 
-
 """
 All the classes below correspond to a REST API.
 """
+
+
 class Config(Resource):
     def __init__(self, model):
         super(Config, self).__init__(model)
@@ -120,7 +127,6 @@ class Config(Resource):
     @property
     def data(self):
         return self.info
-
 
 
 class Description(Resource):

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 #
 # Project Wok
 #
@@ -19,26 +19,26 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import base64
 import errno
 import os
-
 from multiprocessing import Process
-from websockify import WebSocketProxy
 
-from config import config, get_wstokens_dir
+from websockify import WebSocketProxy
+from wok.config import config
+from wok.config import get_wstokens_dir
 
 
 try:
     from websockify.token_plugins import TokenFile
+
     tokenFile = True
 except ImportError:
     tokenFile = False
 
 try:
     from websockify import ProxyRequestHandler as request_proxy
-except:
+except Exception:
     from websockify import WebSocketProxy as request_proxy
 
 
@@ -46,37 +46,37 @@ WS_TOKENS_DIR = get_wstokens_dir()
 
 
 class CustomHandler(request_proxy):
-
     def get_target(self, target_plugin, path):
         if issubclass(CustomHandler, object):
-            target = super(CustomHandler, self).get_target(target_plugin,
-                                                           path)
+            target = super(CustomHandler, self).get_target(target_plugin, path)
         else:
             target = request_proxy.get_target(self, target_plugin, path)
 
         if target[0] == 'unix_socket':
             try:
                 self.server.unix_target = target[1]
-            except:
+            except Exception:
                 self.unix_target = target[1]
         else:
             try:
                 self.server.unix_target = None
-            except:
+            except Exception:
                 self.unix_target = None
         return target
 
 
 def new_ws_proxy():
     try:
-        os.makedirs(WS_TOKENS_DIR, mode=0755)
+        os.makedirs(WS_TOKENS_DIR, mode=0o755)
     except OSError as e:
         if e.errno == errno.EEXIST:
             pass
 
-    params = {'listen_host': '127.0.0.1',
-              'listen_port': config.get('server', 'websockets_port'),
-              'ssl_only': False}
+    params = {
+        'listen_host': '127.0.0.1',
+        'listen_port': config.get('server', 'websockets_port'),
+        'ssl_only': False,
+    }
 
     # old websockify: do not use TokenFile
     if not tokenFile:
@@ -88,8 +88,8 @@ def new_ws_proxy():
 
     def start_proxy():
         try:
-            server = WebSocketProxy(RequestHandlerClass=CustomHandler,
-                                    **params)
+            server = WebSocketProxy(
+                RequestHandlerClass=CustomHandler, **params)
         except TypeError:
             server = CustomHandler(**params)
 
@@ -109,11 +109,12 @@ def add_proxy_token(name, port, is_unix_socket=False):
         contain = which is not safe in a URL query component.
         So remove it when needed as base64 can work well without it.
         """
-        name = base64.urlsafe_b64encode(name).rstrip('=')
+        name = base64.urlsafe_b64encode(name.encode('utf-8')).decode('utf-8')
+        name = name.rstrip('=')
         if is_unix_socket:
-            f.write('%s: unix_socket:%s' % (name.encode('utf-8'), port))
+            f.write(f'{name}: unix_socket:{port}')
         else:
-            f.write('%s: localhost:%s' % (name.encode('utf-8'), port))
+            f.write(f'{name}: localhost:{port}')
 
 
 def remove_proxy_token(name):

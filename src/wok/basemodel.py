@@ -21,29 +21,31 @@
 
 
 class BaseModel(object):
-    '''
+    """
     This model squashes all sub-model's public callable methods to itself.
 
     Model methods are not limited to get_list, create, lookup, update, delete.
     Controller can call generate_action_handler to generate new actions, which
     call the related model methods. So all public callable methods of a
     sub-model should be mapped to this model.
-    '''
+    """
+
     def __init__(self, model_instances):
         for model_instance in model_instances:
             cls_name = model_instance.__class__.__name__
             if cls_name.endswith('Model'):
-                method_prefix = cls_name[:-len('Model')].lower()
+                method_prefix = cls_name[: -len('Model')].lower()
             else:
                 method_prefix = cls_name.lower()
 
             callables = [m for m in dir(model_instance)
                          if not m.startswith('_') and
-                         callable(getattr(model_instance, m))]
+                         callable(getattr(model_instance, m))
+                         ]
 
             for member_name in callables:
                 m = getattr(model_instance, member_name, None)
-                setattr(self, '%s_%s' % (method_prefix, member_name), m)
+                setattr(self, f'{method_prefix}_{member_name}', m)
 
 
 class Singleton(type):

@@ -16,14 +16,14 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import time
 import unittest
 
-from utils import wait_task
-
-from wok.asynctask import AsyncTask, tasks_queue
+from wok.asynctask import AsyncTask
+from wok.asynctask import tasks_queue
 from wok.model import model
+
+from tests.utils import wait_task
 
 
 class AsyncTaskTests(unittest.TestCase):
@@ -35,18 +35,20 @@ class AsyncTaskTests(unittest.TestCase):
         cb(params.get('message', ''), params.get('result', False))
 
     def _continuous_ops(self, cb, params):
-        cb("step 1 OK")
+        cb('step 1 OK')
         time.sleep(2)
-        cb("step 2 OK")
+        cb('step 2 OK')
         time.sleep(2)
-        cb("step 3 OK", params.get('result', True))
+        cb('step 3 OK', params.get('result', True))
 
     def _task_lookup(self, id):
         task = tasks_queue[id]
-        return {'id': id,
-                'status': task.status,
-                'message': task.message,
-                'target_uri': task.target_uri}
+        return {
+            'id': id,
+            'status': task.status,
+            'message': task.message,
+            'target_uri': task.target_uri,
+        }
 
     def test_async_tasks(self):
         class task_except(Exception):
@@ -55,35 +57,37 @@ class AsyncTaskTests(unittest.TestCase):
         def abnormal_op(cb, params):
             try:
                 raise task_except
-            except:
-                cb("Exception raised", False)
+            except Exception:
+                cb('Exception raised', False)
 
         taskid = AsyncTask('', self._quick_op, 'Hello').id
         wait_task(self._task_lookup, taskid)
-        self.assertEquals('finished', self._task_lookup(taskid)['status'])
-        self.assertEquals('Hello', self._task_lookup(taskid)['message'])
+        self.assertEqual('finished', self._task_lookup(taskid)['status'])
+        self.assertEqual('Hello', self._task_lookup(taskid)['message'])
 
         params = {'delay': 3, 'result': False,
                   'message': 'It was not meant to be'}
         taskid = AsyncTask('', self._long_op, params).id
-        self.assertEquals('running', self._task_lookup(taskid)['status'])
-        self.assertEquals('The request is being processing.',
-                          self._task_lookup(taskid)['message'])
+        self.assertEqual('running', self._task_lookup(taskid)['status'])
+        self.assertEqual(
+            'The request is being processing.', self._task_lookup(taskid)[
+                'message']
+        )
         wait_task(self._task_lookup, taskid)
-        self.assertEquals('failed', self._task_lookup(taskid)['status'])
-        self.assertEquals('It was not meant to be',
-                          self._task_lookup(taskid)['message'])
+        self.assertEqual('failed', self._task_lookup(taskid)['status'])
+        self.assertEqual('It was not meant to be',
+                         self._task_lookup(taskid)['message'])
 
         taskid = AsyncTask('', abnormal_op, {}).id
         wait_task(self._task_lookup, taskid)
-        self.assertEquals('Exception raised',
-                          self._task_lookup(taskid)['message'])
-        self.assertEquals('failed', self._task_lookup(taskid)['status'])
+        self.assertEqual('Exception raised',
+                         self._task_lookup(taskid)['message'])
+        self.assertEqual('failed', self._task_lookup(taskid)['status'])
 
         taskid = AsyncTask('', self._continuous_ops, {'result': True}).id
-        self.assertEquals('running', self._task_lookup(taskid)['status'])
+        self.assertEqual('running', self._task_lookup(taskid)['status'])
         wait_task(self._task_lookup, taskid, timeout=10)
-        self.assertEquals('finished', self._task_lookup(taskid)['status'])
+        self.assertEqual('finished', self._task_lookup(taskid)['status'])
 
     def test_async_tasks_model(self):
         class task_except(Exception):
@@ -92,50 +96,52 @@ class AsyncTaskTests(unittest.TestCase):
         def abnormal_op(cb, params):
             try:
                 raise task_except
-            except:
-                cb("Exception raised", False)
+            except Exception:
+                cb('Exception raised', False)
 
         inst = model.Model()
         taskid = AsyncTask('', self._quick_op, 'Hello').id
         inst.task_wait(taskid)
-        self.assertEquals('finished', inst.task_lookup(taskid)['status'])
-        self.assertEquals('Hello', inst.task_lookup(taskid)['message'])
+        self.assertEqual('finished', inst.task_lookup(taskid)['status'])
+        self.assertEqual('Hello', inst.task_lookup(taskid)['message'])
 
         params = {'delay': 3, 'result': False,
                   'message': 'It was not meant to be'}
         taskid = AsyncTask('', self._long_op, params).id
-        self.assertEquals('running', inst.task_lookup(taskid)['status'])
-        self.assertEquals('The request is being processing.',
-                          inst.task_lookup(taskid)['message'])
+        self.assertEqual('running', inst.task_lookup(taskid)['status'])
+        self.assertEqual(
+            'The request is being processing.', inst.task_lookup(taskid)[
+                'message']
+        )
         inst.task_wait(taskid)
-        self.assertEquals('failed', inst.task_lookup(taskid)['status'])
-        self.assertEquals('It was not meant to be',
-                          inst.task_lookup(taskid)['message'])
+        self.assertEqual('failed', inst.task_lookup(taskid)['status'])
+        self.assertEqual('It was not meant to be',
+                         inst.task_lookup(taskid)['message'])
 
         taskid = AsyncTask('', abnormal_op, {}).id
         inst.task_wait(taskid)
-        self.assertEquals('Exception raised',
-                          inst.task_lookup(taskid)['message'])
-        self.assertEquals('failed', inst.task_lookup(taskid)['status'])
+        self.assertEqual('Exception raised',
+                         inst.task_lookup(taskid)['message'])
+        self.assertEqual('failed', inst.task_lookup(taskid)['status'])
 
         taskid = AsyncTask('', self._continuous_ops, {'result': True}).id
-        self.assertEquals('running', inst.task_lookup(taskid)['status'])
+        self.assertEqual('running', inst.task_lookup(taskid)['status'])
         inst.task_wait(taskid, timeout=10)
-        self.assertEquals('finished', inst.task_lookup(taskid)['status'])
+        self.assertEqual('finished', inst.task_lookup(taskid)['status'])
 
     def test_kill_async_task(self):
         def continuous_ops(cb, params):
             for i in range(30):
-                cb("...step %s OK" % i)
+                cb(f'...step {i} OK')
                 time.sleep(2)
-            cb("FINAL step OK", params.get('result', True))
+            cb('FINAL step OK', params.get('result', True))
 
         def kill_function():
-            print "... killing task...... BUUUUUUM"
+            print('... killing task...... BUUUUUUM')
 
-        taskid = AsyncTask('', continuous_ops, {'result': True},
-                           kill_function).id
-        self.assertEquals('running', self._task_lookup(taskid)['status'])
+        taskid = AsyncTask('', continuous_ops, {
+                           'result': True}, kill_function).id
+        self.assertEqual('running', self._task_lookup(taskid)['status'])
         time.sleep(10)
         tasks_queue[taskid].kill()
-        self.assertEquals('killed', self._task_lookup(taskid)['status'])
+        self.assertEqual('killed', self._task_lookup(taskid)['status'])

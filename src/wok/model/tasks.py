@@ -18,12 +18,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-
 import time
 
 from wok.asynctask import tasks_queue
-from wok.exception import NotFoundError, TimeoutExpired
+from wok.exception import NotFoundError
+from wok.exception import TimeoutExpired
 
 
 class TasksModel(object):
@@ -38,16 +37,18 @@ class TaskModel(object):
     def __init__(self, **kargs):
         self.objstore = kargs['objstore']
 
-    def lookup(self, id):
-        if id not in tasks_queue.keys():
-            raise NotFoundError('WOKASYNC0001E', {'id': id})
-        task = tasks_queue[id]
-        return {'id': id,
-                'status': task.status,
-                'message': task.message,
-                'target_uri': task.target_uri}
+    def lookup(self, _id):
+        if _id not in tasks_queue.keys():
+            raise NotFoundError('WOKASYNC0001E', {'id': _id})
+        task = tasks_queue[_id]
+        return {
+            'id': _id,
+            'status': task.status,
+            'message': task.message,
+            'target_uri': task.target_uri,
+        }
 
-    def wait(self, id, timeout=10):
+    def wait(self, _id, timeout=10):
         """Wait for a task until it stops running (successfully or due to
         an error). If the Task finishes its execution before <timeout>, this
         function returns normally; otherwise an exception is raised.
@@ -59,25 +60,26 @@ class TaskModel(object):
             "TimeoutExpired" is raised.
         """
         for i in range(0, timeout):
-            task = tasks_queue[id]
+            task = tasks_queue[_id]
 
             if task.status != 'running':
                 return
 
             time.sleep(1)
 
-        raise TimeoutExpired('WOKASYNC0003E', {'seconds': timeout,
-                                               'task': task.target_uri})
+        raise TimeoutExpired(
+            'WOKASYNC0003E', {'seconds': timeout, 'task': task.target_uri}
+        )
 
-    def delete(self, id):
+    def delete(self, _id):
         """
         'Stops' an AsyncTask, by executing the kill callback provided by user
         when created the task. Task's status will be changed to 'killed'.
         """
         try:
-            task = tasks_queue[id]
+            task = tasks_queue[_id]
         except KeyError:
-            raise NotFoundError("WOKASYNC0001E", {'id': id})
+            raise NotFoundError('WOKASYNC0001E', {'id': _id})
 
-        if task.status is 'running':
+        if task.status == 'running':
             task.kill()

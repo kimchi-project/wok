@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 from wok.basemodel import BaseModel
 from wok.objectstore import ObjectStore
 from wok.utils import get_all_model_instances
@@ -30,4 +29,4 @@ class Model(BaseModel):
         self.objstore = ObjectStore(objstore_loc)
         kargs = {'objstore': self.objstore}
         models = get_all_model_instances(__name__, __file__, kargs)
-        return super(Model, self).__init__(models)
+        super(Model, self).__init__(models)

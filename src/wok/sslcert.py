@@ -22,9 +22,9 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import time
-from M2Crypto import ASN1, EVP, RSA, X509
+
+from OpenSSL import crypto
 
 
 class SSLCert(object):
@@ -32,60 +32,44 @@ class SSLCert(object):
         self._gen()
 
     def _gen(self):
-        def keygen_cb(*args):
-            pass
+        self.ca_key = crypto.PKey()
+        self.ca_key.generate_key(crypto.TYPE_RSA, 2048)
 
-        def passphrase_cb(*args):
-            return ''
-
-        self.cert = X509.X509()
-        pubkey = EVP.PKey()
-        rsa = RSA.gen_key(2048, 65537, keygen_cb)
-        pubkey.assign_rsa(rsa)
-        self._key = rsa.as_pem(None, callback=passphrase_cb)
-        rsa = None
-
+        self.ca_cert = crypto.X509()
+        self.ca_cert.set_version(2)
         # Set a serial number that is unlikely to repeat
-        sn = int(time.time()) % (2 ** 32 - 1)
-        self.cert.set_serial_number(sn)
-        self.cert.set_version(2)
+        self.ca_cert.set_serial_number(int(time.time()) % (2 ** 32 - 1))
 
-        subject = self.cert.get_subject()
-        subject.C = 'US'
-        subject.CN = 'kimchi'
-        subject.O = 'kimchi-project.org'
+        ca_subj = self.ca_cert.get_subject()
+        ca_subj.C = 'US'
+        ca_subj.CN = 'kimchi'
+        ca_subj.O = 'kimchi-project.org'
 
-        t = long(time.time()) + time.timezone
-        now = ASN1.ASN1_UTCTIME()
-        now.set_time(t)
-        nowPlusYear = ASN1.ASN1_UTCTIME()
-        nowPlusYear.set_time(t + 60 * 60 * 24 * 365)
-        self.cert.set_not_before(now)
-        self.cert.set_not_after(nowPlusYear)
+        self.ca_cert.set_issuer(ca_subj)
+        self.ca_cert.set_pubkey(self.ca_key)
 
-        issuer = X509.X509_Name()
-        issuer.CN = 'wok'
-        issuer.O = 'kimchi-project.org'
-        self.cert.set_issuer(issuer)
+        t = int(time.time() + time.timezone)
+        self.ca_cert.gmtime_adj_notBefore(t)
+        self.ca_cert.gmtime_adj_notAfter(t + 60 * 60 * 24 * 365)
 
-        self.cert.set_pubkey(pubkey)
-        self.cert.sign(pubkey, 'sha1')
+        self.ca_cert.sign(self.ca_key, 'sha1')
 
     def cert_text(self):
-        return self.cert.as_text()
+        return crypto.dump_certificate(crypto.FILETYPE_TEXT, self.ca_cert)
 
     def cert_pem(self):
-        return self.cert.as_pem()
+        return crypto.dump_certificate(crypto.FILETYPE_PEM, self.ca_cert)
 
     def key_pem(self):
-        return self._key
+        return crypto.dump_privatekey(crypto.FILETYPE_PEM, self.ca_key)
 
 
 def main():
     c = SSLCert()
-    print c.cert_text()
-    print c.cert_pem()
-    print c.key_pem()
+    print(c.cert_text())
+    print(c.cert_pem())
+    print(c.key_pem())
+
 
 if __name__ == '__main__':
     main()

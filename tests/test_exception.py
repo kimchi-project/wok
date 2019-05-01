@@ -18,11 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import json
 import unittest
 
-from utils import patch_auth, request, run_server
+from tests.utils import patch_auth
+from tests.utils import request
+from tests.utils import run_server
 
 
 test_server = None
@@ -48,28 +49,27 @@ class ExceptionTests(unittest.TestCase):
 
         # test 404
         resp = json.loads(request('/tasks/blah').read())
-        self.assertEquals('404 Not Found', resp.get('code'))
+        self.assertEqual('404 Not Found', resp.get('code'))
 
         # test 405 wrong method
         resp = json.loads(request('/', None, 'DELETE').read())
         msg = u'WOKAPI0002E: Delete is not allowed for wokroot'
-        self.assertEquals('405 Method Not Allowed', resp.get('code'))
-        self.assertEquals(msg, resp.get('reason'))
+        self.assertEqual('405 Method Not Allowed', resp.get('code'))
+        self.assertEqual(msg, resp.get('reason'))
 
         # test 400 parse error
-        resp = json.loads(request('/tasks', '{',
-                                  'POST').read())
+        resp = json.loads(request('/tasks', '{', 'POST').read())
         msg = u'WOKAPI0006E: Unable to parse JSON request'
-        self.assertEquals('400 Bad Request', resp.get('code'))
-        self.assertEquals(msg, resp.get('reason'))
+        self.assertEqual('400 Bad Request', resp.get('code'))
+        self.assertEqual(msg, resp.get('reason'))
         self.assertNotIn('call_stack', resp)
 
         # test 405 method not allowed
         req = json.dumps({})
         resp = json.loads(request('/tasks', req, 'POST').read())
-        m = u"WOKAPI0005E: Create is not allowed for tasks"
-        self.assertEquals('405 Method Not Allowed', resp.get('code'))
-        self.assertEquals(m, resp.get('reason'))
+        m = u'WOKAPI0005E: Create is not allowed for tasks'
+        self.assertEqual('405 Method Not Allowed', resp.get('code'))
+        self.assertEqual(m, resp.get('reason'))
 
     def test_development_env(self):
         """
@@ -78,25 +78,25 @@ class ExceptionTests(unittest.TestCase):
         setup_server()
         # test 404
         resp = json.loads(request('/tasks/blah').read())
-        self.assertEquals('404 Not Found', resp.get('code'))
+        self.assertEqual('404 Not Found', resp.get('code'))
 
         # test 405 wrong method
         resp = json.loads(request('/', None, 'DELETE').read())
         msg = u'WOKAPI0002E: Delete is not allowed for wokroot'
-        self.assertEquals('405 Method Not Allowed', resp.get('code'))
-        self.assertEquals(msg, resp.get('reason'))
+        self.assertEqual('405 Method Not Allowed', resp.get('code'))
+        self.assertEqual(msg, resp.get('reason'))
 
         # test 400 parse error
         resp = json.loads(request('/tasks', '{', 'POST').read())
         msg = u'WOKAPI0006E: Unable to parse JSON request'
-        self.assertEquals('400 Bad Request', resp.get('code'))
-        self.assertEquals(msg, resp.get('reason'))
+        self.assertEqual('400 Bad Request', resp.get('code'))
+        self.assertEqual(msg, resp.get('reason'))
         self.assertIn('call_stack', resp)
 
         # test 405 method not allowed
         req = json.dumps({})
         resp = json.loads(request('/tasks', req, 'POST').read())
-        m = u"WOKAPI0005E: Create is not allowed for tasks"
-        self.assertEquals('405 Method Not Allowed', resp.get('code'))
-        self.assertEquals(m, resp.get('reason'))
+        m = u'WOKAPI0005E: Create is not allowed for tasks'
+        self.assertEqual('405 Method Not Allowed', resp.get('code'))
+        self.assertEqual(m, resp.get('reason'))
         self.assertIn('call_stack', resp)

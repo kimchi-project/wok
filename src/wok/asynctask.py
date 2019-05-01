@@ -18,16 +18,17 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-import cherrypy
 import threading
 import time
 import traceback
 import uuid
 
-from wok.exception import InvalidOperation, OperationFailed, WokException
-from wok.reqlogger import ASYNCTASK_REQUEST_METHOD, log_request
-
+import cherrypy
+from wok.exception import InvalidOperation
+from wok.exception import OperationFailed
+from wok.exception import WokException
+from wok.reqlogger import ASYNCTASK_REQUEST_METHOD
+from wok.reqlogger import log_request
 
 MSG_FAILED = 'WOKASYNC0002L'
 MSG_SUCCESS = 'WOKASYNC0001L'
@@ -40,8 +41,8 @@ def clean_old_tasks():
     current status equal do finished or failed.
     """
     for id, task in tasks_queue.items():
-        if (task.timestamp < (time.time()-43200)):
-            if (task.status is 'finished') or (task.status is 'failed'):
+        if task.timestamp < (time.time() - 43200):
+            if (task.status == 'finished') or (task.status == 'failed'):
                 task.remove()
 
 
@@ -68,8 +69,9 @@ class AsyncTask(object):
         self.status = 'running'
         self.message = 'The request is being processing.'
         self._cp_request = cherrypy.serving.request
-        self.thread = threading.Thread(target=self._run_helper,
-                                       args=(opaque, self._status_cb))
+        self.thread = threading.Thread(
+            target=self._run_helper, args=(opaque, self._status_cb)
+        )
         self.thread.setDaemon(True)
         self.thread.start()
 
@@ -86,7 +88,7 @@ class AsyncTask(object):
             status,
             app=self.app,
             user='',
-            ip=''
+            ip='',
         )
 
     def _status_cb(self, message, success=None, exception=None):
@@ -105,21 +107,21 @@ class AsyncTask(object):
         cherrypy.serving.request = self._cp_request
         try:
             self.fn(cb, opaque)
-        except WokException, e:
-            cherrypy.log.error_log.error("Error in async_task %s " % self.id)
+        except WokException as e:
+            cherrypy.log.error_log.error(f'Error in async_task {self.id}')
             cherrypy.log.error_log.error(traceback.format_exc())
-            cb(e.message, success=False, exception=e)
-        except Exception, e:
-            cherrypy.log.error_log.error("Error in async_task %s " % self.id)
+            cb(str(e), success=False, exception=e)
+        except Exception as e:
+            cherrypy.log.error_log.error(f'Error in async_task {self.id}')
             cherrypy.log.error_log.error(traceback.format_exc())
-            cb(e.message, success=False)
+            cb(str(e), success=False)
 
     def remove(self):
         try:
             del tasks_queue[self.id]
         except KeyError:
-            msg = "There's no task_id %s in tasks_queue. Nothing changed."
-            cherrypy.log.error_log.error(msg % self.id)
+            msg = f"There's no task_id {self.id} in tasks_queue."
+            cherrypy.log.error_log.error(msg)
 
     def kill(self):
         if self.kill_cb is None:
@@ -129,6 +131,6 @@ class AsyncTask(object):
             self.kill_cb()
             self.status = 'killed'
             self.message = 'Task killed by user.'
-        except Exception, e:
-            self.message = e.message
-            raise OperationFailed('WOKASYNC0004E', {'err': e.message})
+        except Exception as e:
+            self.message = str(e)
+            raise OperationFailed('WOKASYNC0004E', {'err': str(e)})

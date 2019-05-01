@@ -40,7 +40,7 @@ class ConfigTests(unittest.TestCase):
             usr_local = '/usr/local'
             if not expected.startswith('/usr'):
                 expected = usr_local + expected
-        self.assertEquals(actual, expected)
+        self.assertEqual(actual, expected)
 
     def test_installed_paths(self):
         Paths.get_prefix = lambda self: '@datadir@/wok'
@@ -56,13 +56,13 @@ class ConfigTests(unittest.TestCase):
     def test_uninstalled_paths(self):
         Paths.get_prefix = lambda self: '/home/user/wok'
         paths = Paths()
-        self.assertEquals(paths.state_dir, '/home/user/wok/data')
-        self.assertEquals(paths.log_dir, '/home/user/wok/data/logs')
-        self.assertEquals(paths.conf_dir, '/home/user/wok/src')
-        self.assertEquals(paths.src_dir, '/home/user/wok/src/wok')
-        self.assertEquals(paths.plugins_dir, '/home/user/wok/src/wok/plugins')
-        self.assertEquals(paths.ui_dir, '/home/user/wok/ui')
-        self.assertEquals(paths.mo_dir, '/home/user/wok/mo')
+        self.assertEqual(paths.state_dir, '/home/user/wok/data')
+        self.assertEqual(paths.log_dir, '/home/user/wok/data/logs')
+        self.assertEqual(paths.conf_dir, '/home/user/wok/src')
+        self.assertEqual(paths.src_dir, '/home/user/wok/src/wok')
+        self.assertEqual(paths.plugins_dir, '/home/user/wok/src/wok/plugins')
+        self.assertEqual(paths.ui_dir, '/home/user/wok/ui')
+        self.assertEqual(paths.mo_dir, '/home/user/wok/mo')
 
     def test_wok_config(self):
         Paths.get_prefix = get_prefix
@@ -83,7 +83,7 @@ class ConfigTests(unittest.TestCase):
             },
             '/data/logs': {
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': '%s/logs' % paths.state_dir,
+                'tools.staticdir.dir': f'{paths.state_dir}/logs',
                 'tools.staticdir.content_types': {
                     'txt': 'application/x-download'
                 },
@@ -92,8 +92,8 @@ class ConfigTests(unittest.TestCase):
             },
             '/ui/config/tab-ext.xml': {
                 'tools.staticfile.on': True,
-                'tools.staticfile.filename': '%s/config/tab-ext.xml' %
-                                             paths.ui_dir,
+                'tools.staticfile.filename':
+                f'{paths.ui_dir}/config/tab-ext.xml',
                 'tools.nocache.on': True
             },
             '/wok-ui.html': {
@@ -101,22 +101,21 @@ class ConfigTests(unittest.TestCase):
             },
             '/favicon.ico': {
                 'tools.staticfile.on': True,
-                'tools.staticfile.filename': '%s/images/logo.ico' %
-                                             paths.ui_dir
+                'tools.staticfile.filename': f'{paths.ui_dir}/images/logo.ico'
             },
             '/robots.txt': {
                 'tools.staticfile.on': True,
-                'tools.staticfile.filename': '%s/robots.txt' % paths.ui_dir
+                'tools.staticfile.filename': f'{paths.ui_dir}/robots.txt'
             },
             '/help': {
                 'tools.staticdir.on': True,
                 'tools.nocache.on': True,
-                'tools.staticdir.dir': '%s/pages/help' % paths.ui_dir
+                'tools.staticdir.dir': f'{paths.ui_dir}/pages/help'
             },
             '/libs': {
                 'tools.wokauth.on': False,
                 'tools.nocache.on': False,
-                'tools.staticdir.dir': '%s/ui/libs' % paths.prefix,
+                'tools.staticdir.dir': f'{paths.prefix}/ui/libs',
                 'tools.expires.on': True,
                 'tools.expires.secs': CACHEEXPIRES,
                 'tools.staticdir.on': True
@@ -124,7 +123,7 @@ class ConfigTests(unittest.TestCase):
             '/css': {
                 'tools.wokauth.on': False,
                 'tools.nocache.on': False,
-                'tools.staticdir.dir': '%s/ui/css' % paths.prefix,
+                'tools.staticdir.dir': f'{paths.prefix}/ui/css',
                 'tools.expires.on': True,
                 'tools.expires.secs': CACHEEXPIRES,
                 'tools.staticdir.on': True
@@ -132,7 +131,7 @@ class ConfigTests(unittest.TestCase):
             '/js': {
                 'tools.wokauth.on': False,
                 'tools.nocache.on': False,
-                'tools.staticdir.dir': '%s/ui/js' % paths.prefix,
+                'tools.staticdir.dir': f'{paths.prefix}/ui/js',
                 'tools.expires.on': True,
                 'tools.expires.secs': CACHEEXPIRES,
                 'tools.staticdir.on': True
@@ -140,11 +139,11 @@ class ConfigTests(unittest.TestCase):
             '/images': {
                 'tools.wokauth.on': False,
                 'tools.nocache.on': False,
-                'tools.staticdir.dir': '%s/ui/images' % paths.prefix,
+                'tools.staticdir.dir': f'{paths.prefix}/ui/images',
                 'tools.staticdir.content_types': {'svg': 'image/svg+xml'},
                 'tools.staticdir.on': True
             }
         }
 
         wok_config = WokConfig()
-        self.assertEquals(wok_config, configObj)
+        self.assertEqual(wok_config, configObj)

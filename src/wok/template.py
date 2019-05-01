@@ -18,14 +18,13 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-import cherrypy
 import errno
 import json
 import os
 import time
-from Cheetah.Template import Template
 
+import cherrypy
+from Cheetah.Template import Template
 from wok import config as config
 from wok.config import paths
 
@@ -35,8 +34,8 @@ REFRESH = 'robot-refresh'
 
 def get_lang():
     cookie = cherrypy.request.cookie
-    if "wokLang" in cookie.keys():
-        return [cookie["wokLang"].value]
+    if 'wokLang' in cookie.keys():
+        return [cookie['wokLang'].value]
 
     langs = get_accept_language()
 
@@ -44,7 +43,7 @@ def get_lang():
 
 
 def get_accept_language():
-    lang = cherrypy.request.headers.get("Accept-Language", "en_US")
+    lang = cherrypy.request.headers.get('Accept-Language', 'en_US')
 
     if lang and lang.find(';') != -1:
         lang, _ = lang.split(';', 1)
@@ -52,20 +51,20 @@ def get_accept_language():
     # convert it into en_US
     langs = lang.split(',')
     for idx, val in enumerate(langs):
-        if "-" in val:
+        if '-' in val:
             langCountry = val.split('-')
             langCountry[1] = langCountry[1].upper()
-            langs[idx] = "_".join(langCountry)
+            langs[idx] = '_'.join(langCountry)
     return langs
 
 
 def validate_language(langs, domain):
     for lang in langs:
-        filepath = os.path.join(paths.mo_dir, lang, 'LC_MESSAGES',
-                                domain + '.mo')
+        filepath = os.path.join(
+            paths.mo_dir, lang, 'LC_MESSAGES', domain + '.mo')
         if os.path.exists(filepath):
             return lang
-    return "en_US"
+    return 'en_US'
 
 
 def can_accept(mime):
@@ -84,9 +83,11 @@ def can_accept(mime):
 
 
 def can_accept_html():
-    return can_accept('text/html') or \
-        can_accept('application/xaml+xml') or \
-        can_accept('*/*')
+    return (
+        can_accept('text/html')
+        or can_accept('application/xaml+xml')
+        or can_accept('*/*')
+    )
 
 
 def render_cheetah_file(resource, data):
@@ -97,12 +98,11 @@ def render_cheetah_file(resource, data):
         params = {}
         lang = validate_language(get_lang(), domain)
         gettext_conf = {'domain': domain,
-                        'localedir': paths.mo_dir,
-                        'lang': [lang]}
+                        'localedir': paths.mo_dir, 'lang': [lang]}
         params['lang'] = gettext_conf
         params['data'] = data
         return Template(file=filename, searchList=params).respond()
-    except OSError, e:
+    except OSError as e:
         if e.errno == errno.ENOENT:
             raise cherrypy.HTTPError(404)
         else:
@@ -111,7 +111,7 @@ def render_cheetah_file(resource, data):
 
 def render(resource, data):
     # get timeout and last refresh
-    s_timeout = float(config.config.get("server", "session_timeout"))
+    s_timeout = float(config.config.get('server', 'session_timeout'))
     cherrypy.session.acquire_lock()
     last_req = cherrypy.session.get(REFRESH)
     cherrypy.session.release_lock()
@@ -122,10 +122,12 @@ def render(resource, data):
         cherrypy.response.headers[EXPIRES_ON] = session_expires
 
     if can_accept('application/json'):
-        cherrypy.response.headers['Content-Type'] = \
-            'application/json;charset=utf-8'
-        return json.dumps(data, indent=2, separators=(',', ':'))
+        content_type = 'application/json;charset=utf-8'
+        cherrypy.response.headers['Content-Type'] = content_type
+        response = json.dumps(data, indent=2, separators=(',', ':'))
+        return response.encode('utf-8')
     elif can_accept_html():
-        return render_cheetah_file(resource, data)
+        content = render_cheetah_file(resource, data)
+        return content.encode('utf-8')
     else:
         raise cherrypy.HTTPError(406)

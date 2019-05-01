@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
 import copy
 import locale
 
@@ -25,7 +24,7 @@ def ascii_dict(base, overlay=None):
     result = copy.deepcopy(base)
     result.update(overlay or {})
 
-    for key, value in result.iteritems():
+    for key, value in result.items():
         result[key] = encode_value(value)
 
     return result
@@ -35,7 +34,7 @@ def utf8_dict(base, overlay=None):
     result = copy.deepcopy(base)
     result.update(overlay or {})
 
-    for key, value in result.iteritems():
+    for key, value in result.items():
         result[key] = decode_value(value)
 
     return result
@@ -46,7 +45,7 @@ def encode_value(val):
         Convert the value to string.
         If its unicode, use encode otherwise str.
     """
-    if isinstance(val, unicode):
+    if isinstance(val, str):
         return val.encode('utf-8')
     return str(val)
 
@@ -58,15 +57,13 @@ def decode_value(val):
         For doing so convert the val to string,
         if its not instance of basestring.
     """
-    if not isinstance(val, basestring):
-        val = str(val)
-    if not isinstance(val, unicode):
+    if isinstance(val, bytes):
         val = val.decode('utf-8')
     return val
 
 
-def formatMeasurement(number, settings):
-    '''
+def format_measurement(number, settings):
+    """
     Refer to "Units of information" (
     http://en.wikipedia.org/wiki/Units_of_information
     ) for more information about measurement units.
@@ -82,19 +79,25 @@ def formatMeasurement(number, settings):
        v The number part of the measurement.
        s The suffix part of the measurement including multiple and unit.
           e.g., kB/s means 1000B/s, KiB/s for 1024B/s.
-    '''
-    unitBaseMapping = {2: [{"us": 'Ki', "v": 1024},
-                           {"us": 'Mi', "v": 1048576},
-                           {"us": 'Gi', "v": 1073741824},
-                           {"us": 'Ti', "v": 1099511627776},
-                           {"us": 'Pi', "v": 1125899906842624}],
-                       10: [{"us": 'k', "v": 1000},
-                            {"us": 'M', "v": 1000000},
-                            {"us": 'G', "v": 1000000000},
-                            {"us": 'T', "v": 1000000000000},
-                            {"us": 'P', "v": 1000000000000000}]}
+    """
+    unitBaseMapping = {
+        2: [
+            {'us': 'Ki', 'v': 1024},
+            {'us': 'Mi', 'v': 1048576},
+            {'us': 'Gi', 'v': 1073741824},
+            {'us': 'Ti', 'v': 1099511627776},
+            {'us': 'Pi', 'v': 1125899906842624},
+        ],
+        10: [
+            {'us': 'k', 'v': 1000},
+            {'us': 'M', 'v': 1000000},
+            {'us': 'G', 'v': 1000000000},
+            {'us': 'T', 'v': 1000000000000},
+            {'us': 'P', 'v': 1000000000000000},
+        ],
+    }
 
-    if(not number):
+    if not number:
         return number
     settings = settings or {}
     unit = settings['unit'] if 'unit' in settings else 'B'
@@ -102,7 +105,7 @@ def formatMeasurement(number, settings):
 
     new_locale = settings['locale'] if 'locale' in settings else ''
 
-    if(base != 2 and base != 10):
+    if base != 2 and base != 10:
         return encode_value(number) + unit
 
     fixed = settings['fixed']
@@ -111,21 +114,21 @@ def formatMeasurement(number, settings):
     for mapping in reversed(unitMapping):
         suffix = mapping['us']
         startingValue = mapping['v']
-        if(number < startingValue):
+        if number < startingValue:
             continue
 
         formatted = float(number) / startingValue
-        formatted = formatNumber(formatted, fixed, new_locale)
+        formatted = format_number(formatted, fixed, new_locale)
         return formatted + suffix + unit
 
-    formatted_number = formatNumber(number, fixed, new_locale)
-    return formatted_number+unit
+    formatted_number = format_number(number, fixed, new_locale)
+    return formatted_number + unit
 
 
-def formatNumber(number, fixed, format_locale):
-    '''
+def format_number(number, fixed, format_locale):
+    """
     Format the number based on format_locale passed.
-    '''
+    """
 
     # get the current locale
     current_locale = locale.getlocale()
@@ -143,10 +146,10 @@ def formatNumber(number, fixed, format_locale):
     if isinstance(number, int):
         formatted = locale.format('%d', number, True)
     # After formatting is done as per locale, reset the locale if changed.
-    if (new_locale and not current_locale[0] and not current_locale[1]):
+    if new_locale and not current_locale[0] and not current_locale[1]:
         locale.setlocale(locale.LC_ALL, 'C')
-    elif (new_locale):
-        locale.setlocale(locale.LC_ALL, current_locale[0] + "." +
-                         current_locale[1])
+    elif new_locale:
+        locale.setlocale(
+            locale.LC_ALL, current_locale[0] + '.' + current_locale[1])
 
     return formatted

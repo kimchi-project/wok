@@ -18,12 +18,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
-
-import cherrypy
 import gettext
 
+import cherrypy
 from wok.stringutils import decode_value
-from wok.template import get_lang, validate_language
+from wok.template import get_lang
+from wok.template import validate_language
 
 
 class WokMessage(object):
@@ -31,8 +31,8 @@ class WokMessage(object):
         if args is None:
             args = {}
         # make all args unicode
-        for key, value in args.iteritems():
-            if isinstance(value, unicode):
+        for key, value in args.items():
+            if isinstance(value, str):
                 continue
 
             try:
@@ -41,7 +41,7 @@ class WokMessage(object):
             except UnicodeEncodeError:
                 # In case the value is a WokException or it formats
                 # itself to a unicode string.
-                args[key] = unicode(value)
+                args[key] = str(value)
 
         self.code = code
         self.args = args
@@ -77,7 +77,7 @@ class WokMessage(object):
 
             try:
                 translation = gettext.translation(domain, paths.mo_dir, [lang])
-            except:
+            except Exception:
                 translation = gettext
 
             return translation.gettext(text)
@@ -89,15 +89,15 @@ class WokMessage(object):
 
         try:
             msg = decode_value(msg) % self.args
-        except KeyError, e:
+        except KeyError as e:
             # When new args are added to existing log messages, old entries in
             # log for the same message would fail due to lack of that new arg.
             # This avoids whole log functionality to break due to that, while
             # registers the problem.
             msg = decode_value(msg)
-            cherrypy.log.error_log.error("KeyError: %s - %s" % (str(e), msg))
+            cherrypy.log.error_log.error(f'KeyError: {str(e)} - {msg}')
 
         if prepend_code:
-            return "%s: %s" % (self.code, msg)
+            return f'{self.code}: {msg}'
 
         return msg

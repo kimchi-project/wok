@@ -18,24 +18,24 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-
 import unittest
 
 from wok.rollbackcontext import RollbackContext
 
 
 class FirstError(Exception):
-    '''A hypothetical exception to be raise in the test firstly.'''
+    """A hypothetical exception to be raise in the test firstly."""
+
     pass
 
 
 class SecondError(Exception):
-    '''A hypothetical exception to be raise in the test secondly.'''
+    """A hypothetical exception to be raise in the test secondly."""
+
     pass
 
 
 class RollbackContextTests(unittest.TestCase):
-
     def setUp(self):
         self._counter = 0
 
@@ -49,7 +49,7 @@ class RollbackContextTests(unittest.TestCase):
         with RollbackContext() as rollback:
             rollback.prependDefer(self._inc_counter)
             rollback.prependDefer(self._inc_counter)
-        self.assertEquals(self._counter, 2)
+        self.assertEqual(self._counter, 2)
 
     def test_raise(self):
         try:
@@ -60,7 +60,7 @@ class RollbackContextTests(unittest.TestCase):
                 rollback.prependDefer(self._inc_counter)
         except FirstError:
             # All undo before the FirstError should be run
-            self.assertEquals(self._counter, 2)
+            self.assertEqual(self._counter, 2)
         else:
             self.fail('Should have raised FirstError')
 
@@ -72,7 +72,7 @@ class RollbackContextTests(unittest.TestCase):
                 rollback.prependDefer(self._inc_counter)
         except FirstError:
             # All undo should be run
-            self.assertEquals(self._counter, 2)
+            self.assertEqual(self._counter, 2)
         else:
             self.fail('Should have raised FirstError')
 

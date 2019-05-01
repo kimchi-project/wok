@@ -20,10 +20,8 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA  02110-1301  USA
-
 # This module contains functions that the manipulate
 # and configure the Nginx proxy.
-
 import os
 
 from wok import sslcert
@@ -31,7 +29,7 @@ from wok.config import paths
 from wok.utils import run_command
 
 
-DH_COMMAND = "openssl dhparam -dsaparam -out %s 2048"
+DH_COMMAND = 'openssl dhparam -dsaparam -out %s 2048'
 
 
 def check_proxy_config():
@@ -70,9 +68,9 @@ def check_proxy_config():
 
     if not os.path.exists(cert) or not os.path.exists(key):
         ssl_gen = sslcert.SSLCert()
-        with open(cert, "w") as f:
+        with open(cert, 'w') as f:
             f.write(ssl_gen.cert_pem())
-        with open(key, "w") as f:
+        with open(key, 'w') as f:
             f.write(ssl_gen.key_pem())
 
     # Reload nginx configuration.

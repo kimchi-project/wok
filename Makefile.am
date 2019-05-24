@@ -105,11 +105,10 @@ deb: contrib/make-deb.sh
 	$(top_srcdir)/contrib/make-deb.sh
 
 wok.spec: contrib/wok.spec.fedora contrib/wok.spec.suse
-	@if test -e /etc/redhat-release; then                   \
+    OS_DISTRO=`sed -n -e '/^ID=/p' /etc/os-release  | sed 's/ID=//g; s|["'\'']||g'`
+	@if [[ $OS_DISTRO == "fedora" ]]; then                   \
 		ln -sf contrib/wok.spec.fedora $@ ;              \
-        elif test -e /etc/system-release; then			\
-		ln -sf contrib/wok.spec.fedora $@ ;		\
-	elif test -e /etc/SuSE-release; then                    \
+    elif [[ $OS_DISTRO == "opensuse-leap" ]]; then            \
 		ln -sf contrib/wok.spec.suse $@ ;                \
 	else                                                    \
 		echo "Unable to select a spec file for RPM build" ; \

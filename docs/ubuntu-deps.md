@@ -1,32 +1,16 @@
-Ubuntu dependencies for Wok
+UBUNTU dependencies for Wok
 ================================
 
-* [Build Dependencies](#build-dependencies)
+* [Build Dependencies](#development-dependencies)
 * [Runtime Dependencies](#runtime-dependencies)
-* [Packages required for UI development](#packages-required-for-ui-development)
-* [Packages required for tests](#packages-required-for-tests)
 
-Build Dependencies
+Development Dependencies
 --------------------
 
-    $ sudo apt-get install gcc make autoconf automake gettext git pkgconf \
-                           xsltproc logrotate
+    $ sudo -H pip3 install -r requirements-dev.txt
+    $ sudo apt install -y gcc make autoconf automake git python3-pip python3-requests python3-mock gettext pkgconf xsltproc python3-dev pep8 pyflakes python3-yaml
 
 Runtime Dependencies
 --------------------
 
-    $ sudo apt-get install python3-cherrypy3 python-cheetah python3-pam \
-                            python3-openssl python3-jsonschema \
-                            python3-psutil python3-ldap python3-lxml nginx \
-                            openssl python3-websockify gettext
-
-Packages required for UI development
-------------------------------------
-
-    $ sudo apt-get install g++ python3-dev python3-pip
-    $ sudo pip install cython libsass
-
-Packages required for tests
----------------------------
-
-    $ sudo apt-get install pep8 pyflakes python-requests python-mock
+    $ sudo apt install -y systemd logrotate python3-jsonschema python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-cherrypy3 python-cheetah python3-pam python-m2crypto gettext python3-openssl

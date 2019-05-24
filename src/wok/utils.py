@@ -29,7 +29,6 @@ import sqlite3
 import subprocess
 import sys
 import traceback
-import xml.etree.ElementTree as ET
 from datetime import datetime
 from datetime import timedelta
 from multiprocessing import Process
@@ -38,6 +37,7 @@ from optparse import Values
 from threading import Timer
 
 import cherrypy
+import lxml.etree as ET
 import psutil
 from cherrypy.lib.reprconf import Parser
 from wok import config

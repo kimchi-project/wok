@@ -7,43 +7,10 @@ BuildArch:	noarch
 Group:		System Environment/Base
 License:	LGPL/ASL2
 Source0:	%{name}-%{version}.tar.gz
-Requires:	gettext
-Requires:	python-cherrypy >= 3.2.0
-Requires:	python-cheetah
-Requires:	m2crypto
-Requires:	PyPAM
-Requires:	python-jsonschema >= 1.3.0
-Requires:	python-lxml
-Requires:	nginx
-Requires:	python-ldap
-Requires:	python-psutil >= 0.6.0
-Requires:	logrotate
-Requires:	openssl
-Requires:	python-websockify
-Requires:	sudo
-BuildRequires:	gettext-devel
-BuildRequires:	libxslt
-BuildRequires:	python-lxml
+@FEDORA_DEPS@
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %global with_systemd 1
-%endif
-
-%if 0%{?rhel} == 6
-Requires:	python-ordereddict
-Requires:	python-imaging
-BuildRequires:    python-unittest2
-%endif
-
-%if 0%{?with_systemd}
-Requires:	systemd
-Requires(post): systemd
-Requires(preun): systemd
-Requires(postun): systemd
-%endif
-
-%if 0%{?with_systemd}
-BuildRequires: systemd-units
 %endif
 
 %description

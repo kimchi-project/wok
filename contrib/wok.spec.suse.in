@@ -7,28 +7,7 @@ BuildArch:	noarch
 Group:		System Environment/Base
 License:	LGPL/ASL2
 Source0:	%{name}-%{version}.tar.gz
-Requires:	gettext-tools
-Requires:	python-CherryPy >= 3.2.0
-Requires:	python-Cheetah
-Requires:	python-M2Crypto
-Requires:	python-pam
-Requires:	python-jsonschema >= 1.3.0
-Requires:	python-ldap
-Requires:	python-lxml
-Requires:	python-xml
-Requires:	nginx
-Requires:	python-psutil >= 0.6.0
-Requires:	logrotate
-Requires:	openssl
-Requires:	python-websockify
-Requires:	sudo
-BuildRequires:	gettext-tools
-BuildRequires:	libxslt-tools
-BuildRequires:	python-lxml
-
-%if 0%{?suse_version} == 1100
-Requires:       python-ordereddict
-%endif
+@SUSE_DEPS@
 
 %if 0%{?suse_version} > 1140
 %global with_systemd 1

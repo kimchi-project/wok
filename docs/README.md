@@ -65,7 +65,7 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 * [RHEL/Fedora systems](/docs/fedora-deps.md)
 * [Debian/Ubuntu systems](/docs/ubuntu-deps.md)
-* [openSUSE systems](/docs/opensuse-deps.md)
+* [openSUSE systems](/docs/opensuse-leap-deps.md)
 
 Build and Install
 -----------------

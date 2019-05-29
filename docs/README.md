@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/kimchi-project/wok.svg?branch=master)](https://travis-ci.org/kimchi-project/wok)
-
 * [What is Wok?](#what-is-wok)
 * [Browser Support](#browser-support)
     * [Desktop Browser Support](#desktop-browser-support)

@@ -68,9 +68,9 @@ def check_proxy_config():
 
     if not os.path.exists(cert) or not os.path.exists(key):
         ssl_gen = sslcert.SSLCert()
-        with open(cert, 'w') as f:
+        with open(cert, 'wb') as f:
             f.write(ssl_gen.cert_pem())
-        with open(key, 'w') as f:
+        with open(key, 'wb') as f:
             f.write(ssl_gen.key_pem())
 
     # Reload nginx configuration.

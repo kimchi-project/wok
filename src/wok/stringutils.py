@@ -46,7 +46,7 @@ def encode_value(val):
         If its unicode, use encode otherwise str.
     """
     if isinstance(val, str):
-        return val.encode('utf-8')
+        return val
     return str(val)
 
 

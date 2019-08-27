@@ -30,7 +30,11 @@ import urllib.parse
 
 import cherrypy
 import ldap
-import PAM
+try:
+    import PAM
+except ModuleNotFoundError:
+    import pam as PAM
+
 from wok import template
 from wok.config import config
 from wok.exception import InvalidOperation

@@ -81,7 +81,7 @@ Build and Install
 Starting up Wok
 ---------------
 
-    $ sudo python src/wokd
+    $ sudo python3 src/wokd
 
 To access Wok, please, connect your browser to https://localhost:8001.
 

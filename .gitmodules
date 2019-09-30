@@ -10,6 +10,6 @@
 	branch = master
 [submodule "src/wok/plugins/gingerbase"]
 	path = src/wok/plugins/gingerbase
-	url = https://github.com/kimchi-project/gingerbase
+	url = https://github.com/kimchi-project/gingerbase.git
 	ignore = all
 	branch = master

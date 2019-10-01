@@ -8,8 +8,8 @@
 	url = https://github.com/kimchi-project/ginger.git
 	ignore = all
 	branch = master
-[submodule "src/wok/plugins/gingerbase"]
-	path = src/wok/plugins/gingerbase
-	url = https://github.com/kimchi-project/gingerbase.git
-	ignore = all
-	branch = master
+#[submodule "src/wok/plugins/gingerbase"]
+#	path = src/wok/plugins/gingerbase
+#	url = https://github.com/kimchi-project/gingerbase.git
+#	ignore = all
+#	branch = master

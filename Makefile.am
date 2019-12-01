@@ -34,6 +34,12 @@ EXTRA_DIST = \
 	COPYING.LGPL \
 	CONTRIBUTE.md \
 	VERSION \
+	fedora-dev-deps.list \
+	fedora-runtime-deps.list \
+	opensuse-leap-dev-deps.list \
+	opensuse-leap-runtime-deps.list \
+	ubuntu-dev-deps.list \
+	ubuntu-runtime-deps.list \
 	build-aux/pkg-version \
 	check_ui_code_errors.sh \
 	check_spec_errors.sh \
@@ -43,6 +49,8 @@ EXTRA_DIST = \
 PEP8_BLACKLIST = *src/wok/plugins,*src/wok/config.py,*src/wok/i18n.py,*tests/test_config.py
 
 SKIP_PYFLAKES_ERR = "\./src/wok/websocket\.py"
+
+OS_DISTRO=$(shell sed -n -e '/^ID=/p' /etc/os-release  | sed 's/ID=//g; s|["'\'']||g')
 
 I18N_FILES = src/wok/i18n.py $(NULL)
 
@@ -105,12 +113,11 @@ deb: contrib/make-deb.sh
 	$(top_srcdir)/contrib/make-deb.sh
 
 wok.spec: contrib/wok.spec.fedora contrib/wok.spec.suse
-    OS_DISTRO=`sed -n -e '/^ID=/p' /etc/os-release  | sed 's/ID=//g; s|["'\'']||g'`
-	@if [[ $OS_DISTRO == "fedora" ]]; then                   \
+	@if [[ $(OS_DISTRO) == "fedora" ]]; then             \
 		ln -sf contrib/wok.spec.fedora $@ ;              \
-    elif [[ $OS_DISTRO == "opensuse-leap" ]]; then            \
+	elif [[ $(OS_DISTRO) == "opensuse-leap" ]]; then     \
 		ln -sf contrib/wok.spec.suse $@ ;                \
-	else                                                    \
+	else                                                 \
 		echo "Unable to select a spec file for RPM build" ; \
 		/bin/false ;                                        \
 	fi

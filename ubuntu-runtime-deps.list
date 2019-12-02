@@ -11,7 +11,7 @@ python3-websockify
 openssl
 nginx
 python3-cherrypy3
-python-cheetah
+python3-cheetah
 python3-pam
 python-m2crypto
 gettext

@@ -51,7 +51,7 @@ runtime-deps:
     - nginx
   ubuntu:
     - python3-cherrypy3
-    - python-cheetah
+    - python3-cheetah
     - python3-pam
     - python-m2crypto
     - gettext

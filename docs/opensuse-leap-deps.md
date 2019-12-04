@@ -13,4 +13,5 @@ Development Dependencies
 Runtime Dependencies
 --------------------
 
-    $ sudo zypper install -y systemd logrotate python3-jsonschema python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-CherryPy python3-Cheetah3 python3-python-pam python3-M2Crypto gettext-tools python3-distro
+    $ sudo -H pip3 install -r requirements-OPENSUSE-LEAP.txt
+    $ sudo zypper install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-jsonschema python3-CherryPy python3-Cheetah3 python3-python-pam python3-M2Crypto gettext-tools python3-distro

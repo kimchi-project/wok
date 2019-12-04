@@ -13,4 +13,5 @@ Development Dependencies
 Runtime Dependencies
 --------------------
 
-    $ sudo dnf install -y systemd logrotate python3-jsonschema python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-cherrypy python3-cheetah python3-pam python3-m2crypto gettext-devel
+    $ sudo -H pip3 install -r requirements-FEDORA.txt
+    $ sudo dnf install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-jsonschema python3-cherrypy python3-cheetah python3-pam python3-m2crypto gettext-devel

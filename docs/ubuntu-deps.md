@@ -13,4 +13,5 @@ Development Dependencies
 Runtime Dependencies
 --------------------
 
-    $ sudo apt install -y systemd logrotate python3-jsonschema python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-cherrypy3 python3-cheetah python3-pam python-m2crypto gettext python3-openssl
+    $ sudo -H pip3 install -r requirements-UBUNTU.txt
+    $ sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-cherrypy3 python3-cheetah python3-pam python-m2crypto gettext python3-openssl

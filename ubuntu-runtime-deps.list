@@ -3,7 +3,6 @@
 #
 systemd
 logrotate
-python3-jsonschema
 python3-psutil
 python3-ldap
 python3-lxml

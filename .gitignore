@@ -43,3 +43,4 @@ po/gen-pot
 *.orig
 *.rej
 *.pem
+.env

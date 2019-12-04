@@ -1,0 +1,15 @@
+jsonschema
+psutil
+python-ldap
+lxml
+websockify
+m2crypto
+cheetah3
+CherryPy
+python-pam
+pyOpenSSL
+requests
+mock
+pyyaml
+pep8
+pyflakes

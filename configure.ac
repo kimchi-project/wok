@@ -29,6 +29,9 @@ AC_SUBST([PACKAGE_RELEASE],
 
 AC_CONFIG_COMMANDS([generate_deps], [./build-aux/generateDepsFiles.py])
 
+AC_SUBST_FILE([DEBIAN_DEPS])
+DEBIAN_DEPS=./build-aux/debian-pkg-deps
+
 AC_SUBST_FILE([UBUNTU_DEPS])
 UBUNTU_DEPS=./build-aux/ubuntu-pkg-deps
 
@@ -102,7 +105,8 @@ AC_CONFIG_FILES([
     ui/config/Makefile
     contrib/Makefile
     contrib/DEBIAN/Makefile
-    contrib/DEBIAN/control
+    contrib/DEBIAN/control.debian
+    contrib/DEBIAN/control.ubuntu
     contrib/wok.spec.fedora
     contrib/wok.spec.suse
     tests/Makefile

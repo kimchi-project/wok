@@ -20,7 +20,7 @@ build-aux/*-pkg-deps
 configure
 config.log
 config.status
-contrib/DEBIAN/control
+contrib/DEBIAN/control.*
 contrib/wok.spec.fedora
 contrib/wok.spec.suse
 contrib/make-deb.sh

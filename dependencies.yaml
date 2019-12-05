@@ -48,6 +48,13 @@ runtime-deps:
     - python3-websockify
     - openssl
     - nginx
+  debian:
+    - python3-cherrypy3
+    - python3-cheetah
+    - python3-pampy
+    - python-m2crypto
+    - gettext
+    - python3-openssl
   ubuntu:
     - python3-cherrypy3
     - python3-cheetah

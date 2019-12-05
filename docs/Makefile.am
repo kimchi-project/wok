@@ -29,6 +29,8 @@ EXTRA_DIST = \
 
 FEDORA_DEV_DEPS=$(shell grep "^[^\#;]" ../fedora-dev-deps.list)
 FEDORA_RUNTIME_DEPS=$(shell grep "^[^\#;]" ../fedora-runtime-deps.list)
+DEBIAN_DEV_DEPS=$(shell grep "^[^\#;]" ../debian-dev-deps.list)
+DEBIAN_RUNTIME_DEPS=$(shell grep "^[^\#;]" ../debian-runtime-deps.list)
 UBUNTU_DEV_DEPS=$(shell grep "^[^\#;]" ../ubuntu-dev-deps.list)
 UBUNTU_RUNTIME_DEPS=$(shell grep "^[^\#;]" ../ubuntu-runtime-deps.list)
 OPENSUSE_DEV_DEPS=$(shell grep "^[^\#;]" ../opensuse-leap-dev-deps.list)
@@ -37,6 +39,8 @@ OPENSUSE_RUNTIME_DEPS=$(shell grep "^[^\#;]" ../opensuse-leap-runtime-deps.list)
 all:
 	sed -e "s|[@]FEDORA_DEV_DEPS[@]|$(FEDORA_DEV_DEPS)|g" \
 		-e "s|[@]FEDORA_RUNTIME_DEPS[@]|$(FEDORA_RUNTIME_DEPS)|g" \
+		-e "s|[@]DEBIAN_DEV_DEPS[@]|`echo $(DEBIAN_DEV_DEPS)`|g" \
+		-e "s|[@]DEBIAN_RUNTIME_DEPS[@]|`echo $(DEBIAN_RUNTIME_DEPS)`|g" \
 		-e "s|[@]UBUNTU_DEV_DEPS[@]|`echo $(UBUNTU_DEV_DEPS)`|g" \
 		-e "s|[@]UBUNTU_RUNTIME_DEPS[@]|`echo $(UBUNTU_RUNTIME_DEPS)`|g" \
 		-e "s|[@]OPENSUSE_DEV_DEPS[@]|`echo $(OPENSUSE_DEV_DEPS)`|g" \

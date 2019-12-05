@@ -69,6 +69,18 @@ all the dependencies installed before building Wok or starting up the wokd servi
     sudo -H pip3 install -r requirements-FEDORA.txt
     sudo dnf install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-jsonschema python3-cherrypy python3-cheetah python3-pam python3-m2crypto gettext-devel
 
+## Debian
+
+**Development Dependencies**
+
+    sudo -H pip3 install -r requirements-dev.txt
+    sudo apt install -y gcc make autoconf automake git python3-pip python3-requests python3-mock
+
+**Runtime Dependencies**
+
+    sudo -H pip3 install -r requirements-DEBIAN.txt
+    sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify openssl nginx python3-cherrypy3 python3-cheetah python3-pampy python-m2crypto gettext python3-openssl
+
 ## Ubuntu
 
 **Development Dependencies**

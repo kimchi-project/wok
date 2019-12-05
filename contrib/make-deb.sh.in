@@ -28,8 +28,11 @@ if [ ! -f configure ]; then
     exit 1
 fi
 
-TMPDIR=`mktemp -d`
-
-make DESTDIR=$TMPDIR install-deb
-dpkg-deb -b $TMPDIR wok-${VERSION}-${RELEASE}.noarch.deb
-rm -rf $TMPDIR
+for DISTRO in debian ubuntu
+do
+    TMPDIR=`mktemp -d`
+    make DESTDIR=$TMPDIR install-deb
+    mv $TMPDIR/DEBIAN/control.$DISTRO $TMPDIR/DEBIAN/control
+    dpkg-deb -b $TMPDIR wok-${VERSION}-${RELEASE}.$DISTRO.noarch.deb
+    rm -rf $TMPDIR
+done

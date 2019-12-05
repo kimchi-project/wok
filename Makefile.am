@@ -38,6 +38,8 @@ EXTRA_DIST = \
 	fedora-runtime-deps.list \
 	opensuse-leap-dev-deps.list \
 	opensuse-leap-runtime-deps.list \
+	debian-dev-deps.list \
+	debian-runtime-deps.list \
 	ubuntu-dev-deps.list \
 	ubuntu-runtime-deps.list \
 	build-aux/pkg-version \

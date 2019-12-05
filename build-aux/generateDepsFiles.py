@@ -21,7 +21,7 @@ def generate_files(os_distro):
     runtime_deps = content.get('runtime-deps', {})
     runtime_deps = runtime_deps.get('common', []) + runtime_deps.get(os_distro, [])
 
-    if os_distro == 'ubuntu':
+    if os_distro in ['debian', 'ubuntu']:
         pkg_deps = 'Depends: ' + ',\n\t'.join(runtime_deps)
         pkg_deps += '\nBuild-Depends: ' + ',\n\t'.join(dev_deps)
 
@@ -43,7 +43,7 @@ def generate_files(os_distro):
 
 
 if __name__ == '__main__':
-    for os_distro in ['ubuntu', 'fedora', 'opensuse-leap']:
+    for os_distro in ['debian', 'ubuntu', 'fedora', 'opensuse-leap']:
         try:
             generate_files(os_distro)
         except Exception:

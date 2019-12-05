@@ -1,0 +1,8 @@
+Package: @PACKAGE_NAME@
+Version: @PACKAGE_VERSION@
+Section: base
+Priority: optional
+Architecture: all
+@DEBIAN_DEPS@
+Maintainer: Aline Manera <aline.manera@gmail.com>
+Description: Wok - Webserver Originated from Kimchi

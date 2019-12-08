@@ -1,0 +1,25 @@
+name: wok-CI
+on: ["push"]
+
+jobs:
+  build-and-test-wok:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: setup deps and make
+        run: |
+          bash .github/scripts/setup_wok_ubuntu.sh
+        shell: bash
+
+      - name: run tests
+        working-directory: ./tests
+        run: |
+          sudo make check-local
+          sudo make check
+        shell: bash

@@ -46,6 +46,7 @@ runtime-deps:
     - python3-ldap
     - python3-lxml
     - python3-websockify
+    - python3-jsonschema
     - openssl
     - nginx
   debian:
@@ -63,14 +64,12 @@ runtime-deps:
     - gettext
     - python3-openssl
   fedora:
-    - python3-jsonschema
     - python3-cherrypy
     - python3-cheetah
     - python3-pam
     - python3-m2crypto
     - gettext-devel
   opensuse-leap:
-    - python3-jsonschema
     - python3-CherryPy
     - python3-Cheetah3
     - python3-python-pam

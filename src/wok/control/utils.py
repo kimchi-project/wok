@@ -22,7 +22,7 @@
 import json
 
 import cherrypy
-from jsonschema import Draft7Validator
+from jsonschema import Draft3Validator
 from jsonschema import FormatChecker
 from jsonschema.exceptions import ValidationError
 from wok.auth import USER_ROLE
@@ -105,7 +105,7 @@ def validate_params(params, instance, action):
         return
 
     operation = model_fn(instance, action)
-    validator = Draft7Validator(api_schema, format_checker=FormatChecker())
+    validator = Draft3Validator(api_schema, format_checker=FormatChecker())
     request = {operation: params}
 
     try:

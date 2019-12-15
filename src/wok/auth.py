@@ -168,12 +168,16 @@ class PAMUser(User):
                 return resp
 
             auth = PAM.pam()
-            auth.start(service)
-            auth.set_item(PAM.PAM_USER, username)
-            auth.set_item(PAM.PAM_CONV, _pam_conv)
             try:
+                auth.start(service)
+                auth.set_item(PAM.PAM_USER, username)
+                auth.set_item(PAM.PAM_CONV, _pam_conv)
                 auth.authenticate()
                 result.value = 0
+            # Debian 10: handle differences on pam module
+            except AttributeError:
+                result.value = 0 if auth.authenticate(
+                    username=username, password=password, service=service) else 1
             except PAM.error as e:
                 result.value = e.args[1]
 
@@ -264,8 +268,8 @@ def check_auth_session():
         wokRobot = cherrypy.request.headers.get('Wok-Robot')
         if wokRobot == 'wok-robot':
             if (
-                time.time() - cherrypy.session[template.REFRESH]
-                > int(config.get('server', 'session_timeout')) * 60
+                time.time() - cherrypy.session[template.REFRESH] >
+                int(config.get('server', 'session_timeout')) * 60
             ):
                 cherrypy.session[USER_NAME] = None
                 cherrypy.lib.sessions.expire()

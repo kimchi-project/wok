@@ -59,6 +59,10 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 ### Fedora
 
+First of all, install `python3-pip`
+
+    sudo dnf install -y python3-pip
+
 **Development Dependencies**
 
     sudo -H pip3 install -r requirements-dev.txt
@@ -66,10 +70,13 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-FEDORA.txt
     sudo dnf install -y @FEDORA_RUNTIME_DEPS@
 
 ## Debian
+
+First of all, install `python3-pip`
+
+    sudo apt install -y python3-pip
 
 **Development Dependencies**
 
@@ -78,10 +85,13 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-DEBIAN.txt
     sudo apt install -y @DEBIAN_RUNTIME_DEPS@
 
 ## Ubuntu
+
+First of all, install `python3-pip`
+
+    sudo apt install -y python3-pip
 
 **Development Dependencies**
 
@@ -90,10 +100,13 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-UBUNTU.txt
     sudo apt install -y @UBUNTU_RUNTIME_DEPS@
 
 ## openSUSE LEAP
+
+First of all, install `python3-pip`
+
+    sudo zypper install -y python3-pip
 
 **Development Dependencies**
 
@@ -102,7 +115,6 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-OPENSUSE-LEAP.txt
     sudo zypper install -y @OPENSUSE_RUNTIME_DEPS@
 
 ## Build and Install

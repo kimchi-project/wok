@@ -59,6 +59,10 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 ### Fedora
 
+First of all, install `python3-pip`
+
+    sudo dnf install -y python3-pip
+
 **Development Dependencies**
 
     sudo -H pip3 install -r requirements-dev.txt
@@ -66,10 +70,13 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-FEDORA.txt
     sudo dnf install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy python3-cheetah python3-pam python3-m2crypto gettext-devel
 
 ## Debian
+
+First of all, install `python3-pip`
+
+    sudo apt install -y python3-pip
 
 **Development Dependencies**
 
@@ -78,10 +85,13 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-DEBIAN.txt
     sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy3 python3-cheetah python3-pampy python-m2crypto gettext python3-openssl
 
 ## Ubuntu
+
+First of all, install `python3-pip`
+
+    sudo apt install -y python3-pip
 
 **Development Dependencies**
 
@@ -90,10 +100,13 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-UBUNTU.txt
     sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy3 python3-cheetah python3-pam python-m2crypto gettext python3-openssl
 
 ## openSUSE LEAP
+
+First of all, install `python3-pip`
+
+    sudo zypper install -y python3-pip
 
 **Development Dependencies**
 
@@ -102,7 +115,6 @@ all the dependencies installed before building Wok or starting up the wokd servi
 
 **Runtime Dependencies**
 
-    sudo -H pip3 install -r requirements-OPENSUSE-LEAP.txt
     sudo zypper install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-CherryPy python3-Cheetah3 python3-python-pam python3-M2Crypto gettext-tools python3-distro
 
 ## Build and Install

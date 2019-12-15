@@ -81,7 +81,7 @@ First of all, install `python3-pip`
 **Development Dependencies**
 
     sudo -H pip3 install -r requirements-dev.txt
-    sudo apt install -y gcc make autoconf automake git python3-pip python3-requests python3-mock
+    sudo apt install -y gcc make autoconf automake git python3-pip python3-requests python3-mock gettext pkgconf xsltproc python3-dev pep8 pyflakes python3-yaml
 
 **Runtime Dependencies**
 

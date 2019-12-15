@@ -8,6 +8,14 @@ development-deps:
     - python3-pip
     - python3-requests
     - python3-mock
+  debian:
+    - gettext
+    - pkgconf
+    - xsltproc
+    - python3-dev
+    - pep8
+    - pyflakes
+    - python3-yaml
   ubuntu:
     - gettext
     - pkgconf

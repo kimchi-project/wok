@@ -119,7 +119,7 @@ First of all, install `python3-pip`
 
 ## Build and Install
 
-    ./autogen.sh --system
+    sudo ./autogen.sh --system
     make
 
     # Optional if running from the source tree

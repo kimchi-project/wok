@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e o pipefail
+set -euxo pipefail
 
 
 function get_deps() {
@@ -9,8 +9,8 @@ function get_deps() {
 
 
 # install pyyaml and its dependencies
-sudo apt install python3-setuptools python3-dev
-pip3 install pyyaml
+sudo apt install -y python3-setuptools python3-dev python3-pip
+pip3 install PyYAML==5.2
 
 # install deps
 sudo apt update
@@ -20,7 +20,7 @@ sudo apt install -y $(get_deps development-deps ubuntu)
 sudo apt install -y $(get_deps runtime-deps common)
 sudo apt install -y $(get_deps runtime-deps ubuntu | sed 's/python3-cheetah//')
 
-pip3 install -r requirements-UBUNTU.txt
+pip3 install -r requirements-dev.txt
 pip3 install -r requirements-CI.txt
 
 # autogen and make

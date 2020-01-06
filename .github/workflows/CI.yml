@@ -3,11 +3,14 @@ on: ["push", "pull_request"]
 
 jobs:
   build-and-test-wok:
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        container: ["ubuntu:bionic", "fedora:31", "opensuse/leap:42.3", "centos8"]
 
-    runs-on: ${{ matrix.os }}
+    container:
+      image: ${{ matrix.container }}
     steps:
       - name: checkout
         uses: actions/checkout@v1

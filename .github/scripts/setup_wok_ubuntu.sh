@@ -8,6 +8,10 @@ function get_deps() {
 }
 
 
+# install sudo for containers
+apt update
+apt install -y sudo
+
 # install pyyaml and its dependencies
 sudo apt install -y python3-setuptools python3-dev python3-pip
 pip3 install PyYAML==5.2

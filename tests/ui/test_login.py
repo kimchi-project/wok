@@ -1,15 +1,13 @@
-import utils
+import pytest
+
 from pages.login import KimchiLoginPage
+from utils import getBrowser
 
-import logging as log
+@pytest.fixture
+def browser():
+    browser = getBrowser()
+    yield browser
+    browser.quit()
 
-class TestWokLogin():
-
-    def setup(self):
-        self.browser = utils.getBrowser()
-
-    def test_login(self):
-        assert KimchiLoginPage(self.browser).login(), "Cannot login to Kimchi"
-
-    def tearDown(self):
-        self.browser.close()
+def test_login(browser):
+    assert KimchiLoginPage(browser).login(), "Cannot login to Kimchi"

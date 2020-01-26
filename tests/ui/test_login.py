@@ -1,6 +1,6 @@
 import pytest
 
-from pages.login import KimchiLoginPage
+from pages.login import WokLoginPage
 from utils import getBrowser
 
 @pytest.fixture
@@ -10,4 +10,4 @@ def browser():
     browser.quit()
 
 def test_login(browser):
-    assert KimchiLoginPage(browser).login(), "Cannot login to Kimchi"
+    assert WokLoginPage(browser).login(), "Cannot login to Wok"

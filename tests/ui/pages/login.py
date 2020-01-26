@@ -19,15 +19,15 @@ ENV_PORT = "PORT"
 ENV_HOST = "HOST"
 
 
-class KimchiLoginPage():
+class WokLoginPage():
     """
     Page object to Login
 
     Expect environment variables:
-    KIMCHI_USERNAME: username for the host
-    KIMCHI_PASSWORD: password for the host
-    KIMCHI_HOST: host for kimchi
-    KIMCHI_PORT: port for kimchi
+    USERNAME: username for the host
+    PASSWORD: password for the host
+    HOST: host for Wok
+    PORT: port for Wok
     """
 
     def __init__(self, browser):
@@ -48,7 +48,7 @@ class KimchiLoginPage():
             url = f"https://{self.host}:{self.port}/login.html"
             self.browser.get(url)
         except TimeoutException as e:
-            logging.error(f"Cannot reach kimchi at {url}")
+            logging.error(f"Cannot reach wok server at {url}")
             return False
 
         # fill user and password

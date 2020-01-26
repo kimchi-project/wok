@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 ```
 
 ### Run in headless mode
-The script expect some environment variables to run kimchi-project tests, which are:
+The script expect some environment variables to run wok tests, which are:
 
 ```
 Expect environment variables:

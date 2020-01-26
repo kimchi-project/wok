@@ -7,7 +7,7 @@ $ cd tests/ui
 
 ## How to run
 
-First you need to install all dependencies to run the tests
+First you need to install all dependencies, start Wok server and run the tests
 
 ### Optional: install a virtual environment
 
@@ -19,6 +19,16 @@ $ source .env/bin/activate
 ### Install deps
 ```
 $ pip install -r requirements.txt
+```
+
+### Install Browser
+
+This tests expect Google Chrome installed. Visit https://www.google.com/chrome/ for info
+
+### Start wok server
+
+```
+$ python src/wokd
 ```
 
 ### Run in headless mode

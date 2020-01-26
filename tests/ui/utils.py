@@ -24,7 +24,12 @@ def getBrowser(headless=True):
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-gpu')
 
-    driver = webdriver.Chrome(options=options)
+    # error: googlechrome not found
+    try:
+        driver = webdriver.Chrome(options=options)
+    except Exception as e:
+        logging.info(f"Google Chrome not found: {e}")
+
     driver.set_page_load_timeout(WAIT * 2)
     return driver
 

@@ -1,11 +1,13 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.wait import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
+from pygeckodriver import geckodriver_path
+from chromedriver_binary import chromedriver_filename
 
-import chromedriver_binary
 import logging as log
 import os
 
@@ -14,21 +16,32 @@ logging = log.getLogger(__name__)
 WAIT = 10
 
 def getBrowser(headless=True):
-    if os.environ.get("DEBUG") is not None:
-        logging.info("Headless mode deactivated")
-        headless = False
-
-    options = Options()
-    if headless is True:
-        options.add_argument('--headless')
+    # chrome: set browser class and options
+    if os.environ.get("BROWSER").upper() == "CHROME":
+        options = ChromeOptions()
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-gpu')
+        browser = webdriver.Chrome
+        path = chromedriver_filename
 
-    # error: googlechrome not found
+    # firefox: set browser class and options
+    elif os.environ.get("BROWSER").upper() == "FIREFOX":
+        options = FirefoxOptions()
+        browser = webdriver.Firefox
+        path = geckodriver_path
+
+    # headless
+    if "DEBUG" not in os.environ:
+        options.add_argument('--headless')
+        #options.headless = True
+    else:
+        logging.info("Headless mode deactivated")
+
+    # error: browser not found
     try:
-        driver = webdriver.Chrome(options=options)
+        driver = browser(options=options, executable_path=path)
     except Exception as e:
-        logging.info(f"Google Chrome not found: {e}")
+        logging.info(f"Browser or driver not found: {e}")
 
     driver.set_page_load_timeout(WAIT * 2)
     return driver

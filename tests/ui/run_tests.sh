@@ -3,6 +3,7 @@
 HOST=${HOST:-localhost}
 PORT=${PORT:-8001}
 USERNAME=${USERNAME:-root}
+BROWSER=${BROWSER:-CHROME}
 
 # ask for password if not passed
 if [ -z $PASSWORD ]; then
@@ -10,4 +11,5 @@ if [ -z $PASSWORD ]; then
     read -s PASSWORD
 fi
 
-HOST=${HOST} PASSWORD=${PASSWORD} USERNAME=${USERNAME} PORT=${PORT} python3 -m pytest
+echo "Running on browser ${BROWSER}"
+HOST=${HOST} PASSWORD=${PASSWORD} USERNAME=${USERNAME} PORT=${PORT} BROWSER=${BROWSER} python3 -m pytest 

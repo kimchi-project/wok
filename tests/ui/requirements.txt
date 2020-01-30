@@ -17,6 +17,7 @@ pluggy==0.13.1
 prompt-toolkit==3.0.2
 ptyprocess==0.6.0
 py==1.8.1
+pygeckodriver==0.26.0
 Pygments==2.5.2
 pyparsing==2.4.6
 pytest==5.3.2

@@ -31,7 +31,7 @@ This tests expect Google Chrome installed. Visit https://www.google.com/chrome/ 
 $ python src/wokd
 ```
 
-### Run in headless mode
+### Parameters for run
 The script expect some environment variables to run wok tests, which are:
 
 ```
@@ -40,6 +40,7 @@ USERNAME: username for the host   default: root
 PASSWORD: password for the host
 HOST: host for wok             default: localhost
 PORT: port for wok             default: 8001
+BROWSER: browser to run        default: CHROME   possible: [CHROME, FIREFOX]
 ```
 
 So, if you are running against a remote host:

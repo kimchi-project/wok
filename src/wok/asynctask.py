@@ -40,7 +40,7 @@ def clean_old_tasks():
     Remove from tasks_queue any task that started before 12 hours ago and has
     current status equal do finished or failed.
     """
-    for id, task in tasks_queue.items():
+    for id, task in tasks_queue.copy().items():
         if task.timestamp < (time.time() - 43200):
             if (task.status == 'finished') or (task.status == 'failed'):
                 task.remove()

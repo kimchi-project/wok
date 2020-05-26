@@ -68,7 +68,7 @@ runtime-deps:
     - python3-cherrypy3
     - python3-cheetah
     - python3-pam
-    - python-m2crypto
+    - python3-m2crypto
     - gettext
     - python3-openssl
   fedora:

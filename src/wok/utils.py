@@ -29,6 +29,7 @@ import sqlite3
 import subprocess
 import sys
 import traceback
+from configparser import SafeConfigParser
 from datetime import datetime
 from datetime import timedelta
 from multiprocessing import Process
@@ -39,7 +40,6 @@ from threading import Timer
 import cherrypy
 import lxml.etree as ET
 import psutil
-from cherrypy.lib.reprconf import Parser
 from wok import config
 from wok.config import paths
 from wok.config import PluginConfig
@@ -86,7 +86,14 @@ def load_plugin_conf(name):
         if not plugin_conf:
             return None
 
-        return Parser().dict_from_file(plugin_conf)
+        config = SafeConfigParser()
+        config.read(plugin_conf)
+        config_as_dict = dict()
+        for section in config.sections():
+            config_as_dict[section] = {option: config.get(
+                section, option) for option in config.options(section)}
+
+        return config_as_dict
     except ValueError as e:
         cherrypy.log.error_log.error(
             f'Failed to load plugin conf from {plugin_conf}: {e}'

@@ -85,7 +85,7 @@ First of all, install `python3-pip`
 
 **Runtime Dependencies**
 
-    sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy3 python3-cheetah python3-pampy python-m2crypto gettext python3-openssl
+    sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy3 python3-cheetah python3-pampy python3-m2crypto gettext python3-openssl
 
 ## Ubuntu
 
@@ -100,7 +100,7 @@ First of all, install `python3-pip`
 
 **Runtime Dependencies**
 
-    sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy3 python3-cheetah python3-pam python-m2crypto gettext python3-openssl
+    sudo apt install -y systemd logrotate python3-psutil python3-ldap python3-lxml python3-websockify python3-jsonschema openssl nginx python3-cherrypy3 python3-cheetah python3-pam python3-m2crypto gettext python3-openssl
 
 ## openSUSE LEAP
 

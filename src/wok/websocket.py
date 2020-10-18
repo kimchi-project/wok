@@ -46,11 +46,11 @@ WS_TOKENS_DIR = get_wstokens_dir()
 
 
 class CustomHandler(request_proxy):
-    def get_target(self, target_plugin, path):
+    def get_target(self, target_plugin):
         if issubclass(CustomHandler, object):
-            target = super(CustomHandler, self).get_target(target_plugin, path)
+            target = super(CustomHandler, self).get_target(target_plugin)
         else:
-            target = request_proxy.get_target(self, target_plugin, path)
+            target = request_proxy.get_target(self, target_plugin)
 
         if target[0] == 'unix_socket':
             try:
@@ -88,8 +88,7 @@ def new_ws_proxy():
 
     def start_proxy():
         try:
-            server = WebSocketProxy(
-                RequestHandlerClass=CustomHandler, **params)
+            server = WebSocketProxy(RequestHandlerClass=CustomHandler, **params)
         except TypeError:
             server = CustomHandler(**params)
 

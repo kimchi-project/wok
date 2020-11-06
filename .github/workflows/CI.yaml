@@ -1,0 +1,68 @@
+name: wok-build-test
+on: ["push"]
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: setup deps and make
+        run: |
+          bash .github/scripts/setup_wok.sh ubuntu
+        shell: bash
+
+      - name: run tests
+        working-directory: ./tests
+        run: |
+          sudo make check-local
+          sudo make check
+        shell: bash
+
+  debian:
+    env:
+      VM_NAME: debian-${{ github.sha }}
+      ZONE: us-central1-a
+      PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+      WOK_DIR: wok
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+            version: '270.0.0'
+            service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+            service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - run: gcloud config set project $PROJECT_ID
+
+      - uses: actions/checkout@v2-beta
+
+      - name: create instance
+        run: bash .github/scripts/setup_instance.sh $VM_NAME debian-cloud debian-10
+        shell: bash
+
+      - name: checkout repos
+        run: |
+          gcloud compute ssh $VM_NAME --zone=$ZONE --command "sudo apt update -y; sudo apt install git -y"
+          gcloud compute ssh $VM_NAME --zone=$ZONE --command "git clone https://github.com/$GITHUB_REPOSITORY"
+          gcloud compute ssh $VM_NAME --zone=$ZONE --command "cd $WOK_DIR; git checkout $GITHUB_SHA"
+        shell: bash
+
+      - name: setup wok deps
+        run: |
+          gcloud compute ssh $VM_NAME --zone=$ZONE --command "cd $WOK_DIR; bash .github/scripts/setup_wok.sh debian"
+        shell: bash
+
+      - name: run tests
+        run: gcloud compute ssh $VM_NAME --zone=$ZONE --command "cd $WOK_DIR; sudo make check-local; sudo make check"
+        shell: bash
+
+      - name: Cleanup instance
+        if: always()
+        run: |
+          gcloud compute instances delete ${VM_NAME} --delete-disks=all --zone=$ZONE -q || true
+          gcloud compute images delete ${VM_NAME}-image -q || true
+          gcloud compute disks delete ${VM_NAME}-disk --zone=$ZONE -q || true
+        shell: bash

@@ -22,18 +22,14 @@ HAVE_UNITTEST=@HAVE_PYMOD_UNITTEST@
 PYTHON_VER=@PYTHON_VERSION@
 
 if [ "$1" = "-v" ]; then
-    OPTS="-v"
+    # p ./test*.py means the pattern for 
+    # discover is local file starting with test
+    OPTS="-v -p ./test*.py"
     shift
 else
     OPTS=""
 fi
 
-if [ $# -ne 0 ]; then
-    ARGS="$@"
-else
-    ARGS=`find -name "test_*.py" | xargs -I @ basename @ .py`
-fi
-
 CMD="python3 -m unittest"
 
-PYTHONPATH=../src:../ $CMD $OPTS $ARGS
+PYTHONPATH=../src:../ $CMD $OPTS
